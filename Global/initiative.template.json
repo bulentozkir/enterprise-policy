@@ -330,15 +330,15 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2020-09-01",
-      "name": "global-r06-r06-subscription-classification-tag",
+      "name": "global-r06-r06-audit-mandatory-tags-subscriptions",
       "properties": {
-        "displayName": "Require tag name and a value from a set on Subscriptions",
-        "description": "Require tag name where value is from a set (parameter allowedTagValues) on Subscriptions.",
+        "displayName": "Audit mandatory tags on Subscriptions",
+        "description": "Audits subscriptions to ensure they have required tags based on tag array.",
         "mode": "All",
         "metadata": {
           "category": "Tags",
-          "source": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Tags/required-tag-and-value-set-on-subscriptions/azurepolicy.json",
-          "sourcePolicyId": "ce5c3d48-6096-4ed7-b2ae-a1b730f5f49d",
+          "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Audit-Tags-Mandatory.json",
+          "sourcePolicyId": "Audit-Tags-Mandatory-Subscriptions",
           "catalogRow": "R06",
           "packageSet": "Global"
         },
@@ -356,266 +356,42 @@
             ],
             "defaultValue": "Audit"
           },
-          "tagName": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Tag Name",
-              "description": "Name of the tag, such as 'CostCenter'"
-            }
-          },
-          "allowedTagValues": {
+          "mandatoryTags": {
             "type": "Array",
             "metadata": {
-              "displayName": "Allowable values for tag",
-              "description": "List of allowed values for this tag."
-            }
-          },
-          "evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+              "displayName": "Array of mandatory tags",
+              "description": "Array of mandatory tag names that must be present on the subscription, for example [\"owner\", \"costcenter\"]."
             },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
+            "defaultValue": [
+              "owner",
+              "costcenter"
+            ]
           }
         },
         "policyRule": {
           "if": {
             "allOf": [
               {
-                "count": {
-                  "value": "[[parameters('evaluationScope').includedResourceIdPatterns]",
-                  "name": "evaluationScopeIncludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeIncludedPattern')]"
-                  }
-                },
-                "greater": 0
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions"
               },
               {
-                "count": {
-                  "value": "[[parameters('evaluationScope').excludedResourceIdPatterns]",
-                  "name": "evaluationScopeExcludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeExcludedPattern')]"
-                  }
-                },
-                "equals": 0
-              },
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.Resources/subscriptions"
+                "not": {
+                  "count": {
+                    "value": "[[parameters('mandatoryTags')]",
+                    "name": "tagcount",
+                    "where": {
+                      "field": "tags",
+                      "containsKey": "[[current('tagcount')]"
+                    }
                   },
-                  {
-                    "anyOf": [
-                      {
-                        "field": "[[concat('tags[', parameters('tagName'), ']')]",
-                        "exists": "false"
-                      },
-                      {
-                        "field": "[[concat('tags[', parameters('tagName'), ']')]",
-                        "notIn": "[[parameters('allowedTagValues')]"
-                      }
-                    ]
-                  }
-                ]
+                  "equals": "[[length(parameters('mandatoryTags'))]"
+                }
               }
             ]
           },
           "then": {
             "effect": "[[parameters('effect')]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "global-r07-r07-audit-category-resource-logs",
-      "properties": {
-        "displayName": "Resource logs should be enabled for Audit on supported resources",
-        "description": "Resource logs should be enabled to track activities and events that take place on your resources and give you visibility and insights into any changes that occur. The existence of a diagnostic setting for category group Audit on the selected resource types ensures that these logs are enabled and captured. Applicable resource types are those that support the \"Audit\" category group.",
-        "mode": "Indexed",
-        "metadata": {
-          "category": "Monitoring",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/DiagnosticSettingsExistsAudit_Audit.json",
-          "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/187242f4-89c6-4c43-9a4e-188c0efacc5f",
-          "catalogRow": "R07",
-          "packageSet": "Global"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists"
-          },
-          "requiredLogLevel": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Required Log Level",
-              "description": "Granularity of logging required to be enabled on a resource to meet compliance. Audit will check that the resource has a diagnostic setting enabled for categoryGroup audit or allLogs. Any will only check that a diagnostic setting exists for the resource."
-            },
-            "allowedValues": [
-              "Audit",
-              "Any"
-            ],
-            "defaultValue": "Audit"
-          },
-          "resourceTypeList": {
-            "type": "Array",
-            "metadata": {
-              "displayName": "Resource Types",
-              "description": "List of Resource Types to be evaluated for diagnostic setting existence."
-            },
-            "allowedValues": [
-              "microsoft.agfoodplatform/farmbeats",
-              "microsoft.apimanagement/service",
-              "microsoft.appconfiguration/configurationstores",
-              "microsoft.attestation/attestationproviders",
-              "microsoft.automation/automationaccounts",
-              "microsoft.avs/privateclouds",
-              "microsoft.cache/redis",
-              "microsoft.cdn/profiles",
-              "microsoft.cognitiveservices/accounts",
-              "microsoft.containerregistry/registries",
-              "microsoft.devices/iothubs",
-              "microsoft.eventgrid/topics",
-              "microsoft.eventgrid/domains",
-              "microsoft.eventgrid/partnernamespaces",
-              "microsoft.eventhub/namespaces",
-              "microsoft.keyvault/vaults",
-              "microsoft.keyvault/managedhsms",
-              "microsoft.machinelearningservices/workspaces",
-              "microsoft.media/mediaservices",
-              "microsoft.media/videoanalyzers",
-              "microsoft.netapp/netappaccounts/capacitypools/volumes",
-              "microsoft.network/publicipaddresses",
-              "microsoft.network/virtualnetworkgateways",
-              "microsoft.network/p2svpngateways",
-              "microsoft.network/frontdoors",
-              "microsoft.network/bastionhosts",
-              "microsoft.operationalinsights/workspaces",
-              "microsoft.purview/accounts",
-              "microsoft.servicebus/namespaces",
-              "microsoft.signalrservice/signalr",
-              "microsoft.signalrservice/webpubsub",
-              "microsoft.sql/servers/databases",
-              "microsoft.sql/managedinstances"
-            ],
-            "defaultValue": [
-              "microsoft.agfoodplatform/farmbeats",
-              "microsoft.apimanagement/service",
-              "microsoft.appconfiguration/configurationstores",
-              "microsoft.attestation/attestationproviders",
-              "microsoft.automation/automationaccounts",
-              "microsoft.avs/privateclouds",
-              "microsoft.cache/redis",
-              "microsoft.cdn/profiles",
-              "microsoft.cognitiveservices/accounts",
-              "microsoft.containerregistry/registries",
-              "microsoft.devices/iothubs",
-              "microsoft.eventgrid/topics",
-              "microsoft.eventgrid/domains",
-              "microsoft.eventgrid/partnernamespaces",
-              "microsoft.eventhub/namespaces",
-              "microsoft.keyvault/vaults",
-              "microsoft.keyvault/managedhsms",
-              "microsoft.machinelearningservices/workspaces",
-              "microsoft.media/mediaservices",
-              "microsoft.media/videoanalyzers",
-              "microsoft.netapp/netappaccounts/capacitypools/volumes",
-              "microsoft.network/publicipaddresses",
-              "microsoft.network/virtualnetworkgateways",
-              "microsoft.network/p2svpngateways",
-              "microsoft.network/frontdoors",
-              "microsoft.network/bastionhosts",
-              "microsoft.operationalinsights/workspaces",
-              "microsoft.purview/accounts",
-              "microsoft.servicebus/namespaces",
-              "microsoft.signalrservice/signalr",
-              "microsoft.signalrservice/webpubsub",
-              "microsoft.sql/servers/databases",
-              "microsoft.sql/managedinstances"
-            ]
-          }
-        },
-        "policyRule": {
-          "if": {
-            "field": "type",
-            "in": "[[parameters('resourceTypeList')]"
-          },
-          "then": {
-            "effect": "[[parameters('effect')]",
-            "details": {
-              "type": "Microsoft.Insights/diagnosticSettings",
-              "existenceCondition": {
-                "count": {
-                  "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
-                  "where": {
-                    "allOf": [
-                      {
-                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
-                        "equals": "true"
-                      },
-                      {
-                        "anyOf": [
-                          {
-                            "value": "[[parameters('requiredLogLevel')]",
-                            "equals": "any"
-                          },
-                          {
-                            "field": "microsoft.insights/diagnosticSettings/logs[*].categoryGroup",
-                            "equals": "audit"
-                          },
-                          {
-                            "field": "microsoft.insights/diagnosticSettings/logs[*].categoryGroup",
-                            "equals": "allLogs"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                },
-                "greater": 0
-              }
-            }
           }
         }
       }
@@ -742,15 +518,14 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2020-09-01",
-      "name": "global-r10-r10-no-anonymous-blob-access",
+      "name": "global-r10-r10-storage-trusted-services-access",
       "properties": {
-        "displayName": "Storage account public access should be disallowed",
-        "description": "Anonymous public read access to containers and blobs in Azure Storage is a convenient way to share data but might present security risks. To prevent data breaches caused by undesired anonymous access, Microsoft recommends preventing public access to a storage account unless your scenario requires it.",
+        "displayName": "Storage account public access should allow trusted services",
+        "description": "Audits storage accounts whose network rules do not allow Azure services on the trusted services list to access the storage account (the AzureServices network-rule exception).",
         "mode": "Indexed",
         "metadata": {
           "category": "Storage",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Storage/ASC_Storage_DisallowPublicBlobAccess_Audit.json",
-          "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/4fa4b6c0-31ca-4c0d-b10d-24b96f62a751",
+          "source": "https://learn.microsoft.com/azure/storage/common/storage-network-security-manage-exceptions",
           "catalogRow": "R10",
           "packageSet": "Global"
         },
@@ -777,32 +552,12 @@
                 "equals": "Microsoft.Storage/storageAccounts"
               },
               {
-                "not": {
-                  "allOf": [
-                    {
-                      "field": "id",
-                      "contains": "/resourceGroups/aro-"
-                    },
-                    {
-                      "anyOf": [
-                        {
-                          "field": "name",
-                          "like": "cluster*"
-                        },
-                        {
-                          "field": "name",
-                          "like": "imageregistry*"
-                        }
-                      ]
-                    }
-                  ]
-                }
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+                "exists": true
               },
               {
-                "not": {
-                  "field": "Microsoft.Storage/storageAccounts/allowBlobPublicAccess",
-                  "equals": "false"
-                }
+                "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+                "notContains": "AzureServices"
               }
             ]
           },
@@ -1750,8 +1505,8 @@
       "apiVersion": "2020-09-01",
       "name": "global-r24-subscription-activity-log-export",
       "properties": {
-        "displayName": "Check subscription Activity Log categories and destination",
-        "description": "Check subscription Activity Log categories and destination. Read-only custom check with required approved applicability inputs.",
+        "displayName": "Audit subscription all Activity Log categories sent to Log Analytics",
+        "description": "Audit subscription all Activity Log categories sent to Log Analytics. Read-only custom check with required approved applicability inputs.",
         "mode": "All",
         "metadata": {
           "category": "Monitoring",
@@ -1782,8 +1537,7 @@
               "type": "object",
               "required": [
                 "resourceIds",
-                "workspaceId",
-                "requiredCategories"
+                "workspaceId"
               ],
               "additionalProperties": false,
               "properties": {
@@ -1799,15 +1553,6 @@
                 "workspaceId": {
                   "type": "string",
                   "minLength": 1
-                },
-                "requiredCategories": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
                 }
               }
             }
@@ -1838,161 +1583,21 @@
                   },
                   {
                     "count": {
-                      "value": "[[parameters('profile').requiredCategories]",
-                      "name": "requiredCategory",
-                      "where": {
-                        "count": {
-                          "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
-                          "where": {
-                            "allOf": [
-                              {
-                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
-                                "equals": true
-                              },
-                              {
-                                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
-                                "equals": "[[current('requiredCategory')]"
-                              }
-                            ]
-                          }
-                        },
-                        "greater": 0
-                      }
-                    },
-                    "equals": "[[length(parameters('profile').requiredCategories)]"
-                  }
-                ]
-              },
-              "existenceScope": "Subscription"
-            }
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "global-r25-service-health-readiness",
-      "properties": {
-        "displayName": "Check Service Health alert category, scope and required action groups",
-        "description": "Check Service Health alert category, scope and required action groups. Read-only custom check with required approved applicability inputs.",
-        "mode": "All",
-        "metadata": {
-          "category": "Monitoring",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
-          "catalogRow": "R25",
-          "packageSet": "Global"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Effect"
-            },
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists"
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "actionGroupIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "actionGroupIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                }
-              }
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "field": "type",
-                "equals": "Microsoft.Resources/subscriptions"
-              },
-              {
-                "field": "id",
-                "in": "[[parameters('profile').resourceIds]"
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]",
-            "details": {
-              "type": "Microsoft.Insights/ActivityLogAlerts",
-              "existenceCondition": {
-                "allOf": [
-                  {
-                    "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
-                    "equals": true
-                  },
-                  {
-                    "field": "Microsoft.Insights/ActivityLogAlerts/scopes",
-                    "contains": "[[field('id')]"
-                  },
-                  {
-                    "count": {
-                      "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                      "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
                       "where": {
                         "allOf": [
                           {
-                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
-                            "equals": "category"
+                            "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                            "equals": true
                           },
                           {
-                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
-                            "equals": "ServiceHealth"
+                            "field": "Microsoft.Insights/diagnosticSettings/logs[*].categoryGroup",
+                            "equals": "allLogs"
                           }
                         ]
                       }
                     },
                     "greater": 0
-                  },
-                  {
-                    "count": {
-                      "value": "[[parameters('profile').actionGroupIds]",
-                      "name": "requiredGroup",
-                      "where": {
-                        "count": {
-                          "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*]",
-                          "where": {
-                            "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                            "equals": "[[current('requiredGroup')]"
-                          }
-                        },
-                        "greater": 0
-                      }
-                    },
-                    "equals": "[[length(parameters('profile').actionGroupIds)]"
                   }
                 ]
               },
@@ -3280,10 +2885,10 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2020-09-01",
-      "name": "global-r35-subscription-budget-readiness",
+      "name": "global-r35-subscription-budget-alert-rules",
       "properties": {
-        "displayName": "Check subscription budget existence, amount and period",
-        "description": "Check subscription budget existence, amount and period. Read-only custom check with required approved applicability inputs.",
+        "displayName": "Audit subscriptions have budget alert rules defined",
+        "description": "Audits subscriptions that do not have a Cost Management budget with alert rules (notifications) defined. Read-only check; it does not create budgets or alert rules.",
         "mode": "All",
         "metadata": {
           "category": "Cost Management",
@@ -3303,64 +2908,12 @@
               "Disabled"
             ],
             "defaultValue": "AuditIfNotExists"
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "budgetName",
-                "amount",
-                "timeGrain"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "budgetName": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "amount": {
-                  "type": "number",
-                  "exclusiveMinimum": 0
-                },
-                "timeGrain": {
-                  "type": "string",
-                  "enum": [
-                    "Monthly",
-                    "Quarterly",
-                    "Annually"
-                  ]
-                }
-              }
-            }
           }
         },
         "policyRule": {
           "if": {
-            "allOf": [
-              {
-                "field": "type",
-                "equals": "Microsoft.Resources/subscriptions"
-              },
-              {
-                "field": "id",
-                "in": "[[parameters('profile').resourceIds]"
-              }
-            ]
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
           },
           "then": {
             "effect": "[[parameters('effect')]",
@@ -3373,104 +2926,13 @@
                     "equals": "Cost"
                   },
                   {
-                    "field": "Microsoft.Consumption/budgets/amount",
-                    "equals": "[[parameters('profile').amount]"
-                  },
-                  {
-                    "field": "Microsoft.Consumption/budgets/timeGrain",
-                    "equals": "[[parameters('profile').timeGrain]"
+                    "field": "Microsoft.Consumption/budgets/notifications",
+                    "exists": true
                   }
                 ]
               },
-              "name": "[[parameters('profile').budgetName]",
               "existenceScope": "Subscription"
             }
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "global-r35-budget-notification-readiness",
-      "properties": {
-        "displayName": "Audit budget notification dictionary against the approved configuration",
-        "description": "Audit budget notification dictionary against the approved configuration. Read-only custom check with required approved applicability inputs.",
-        "mode": "All",
-        "metadata": {
-          "category": "Cost Management",
-          "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Budget.json",
-          "catalogRow": "R35",
-          "packageSet": "Global"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Effect"
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "notifications"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "notifications": {
-                  "type": "object",
-                  "minProperties": 1
-                }
-              }
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.Consumption/budgets"
-                  },
-                  {
-                    "field": "id",
-                    "in": "[[parameters('profile').resourceIds]"
-                  }
-                ]
-              },
-              {
-                "value": "[[equals(field('Microsoft.Consumption/budgets/notifications'), parameters('profile').notifications)]",
-                "equals": false
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]"
           }
         }
       }
@@ -3573,15 +3035,15 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2020-09-01",
-      "name": "global-r14-arm-key-expiration",
+      "name": "global-r25-service-health-alert-service-issues",
       "properties": {
-        "displayName": "Audit ARM-managed Key Vault key expiry metadata",
-        "description": "Audit ARM-managed Key Vault key expiry metadata. Read-only custom check with required approved applicability inputs.",
+        "displayName": "Audit subscription Service Health alerts are enabled for Service Issues",
+        "description": "Audit subscription Service Health alerts are enabled for Service Issues. Read-only custom check with required approved applicability inputs.",
         "mode": "All",
         "metadata": {
-          "category": "Key Vault",
-          "source": "https://policyalias.mats.codes/Microsoft.KeyVault/vaults-keys/",
-          "catalogRow": "R14",
+          "category": "Monitoring",
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
+          "catalogRow": "R25",
           "packageSet": "Global"
         },
         "parameters": {
@@ -3592,189 +3054,10 @@
               "description": "Effect"
             },
             "allowedValues": [
-              "Audit",
-              "Deny",
+              "AuditIfNotExists",
               "Disabled"
             ],
-            "defaultValue": "Audit"
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                }
-              }
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.KeyVault/vaults/keys"
-                  },
-                  {
-                    "field": "id",
-                    "in": "[[parameters('profile').resourceIds]"
-                  }
-                ]
-              },
-              {
-                "anyOf": [
-                  {
-                    "field": "Microsoft.KeyVault/vaults/keys/attributes.exp",
-                    "exists": false
-                  },
-                  {
-                    "field": "Microsoft.KeyVault/vaults/keys/attributes.exp",
-                    "lessOrEquals": 0
-                  }
-                ]
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "global-r15-arm-secret-expiration",
-      "properties": {
-        "displayName": "Audit ARM-managed Key Vault secret expiry metadata",
-        "description": "Audit ARM-managed Key Vault secret expiry metadata. Read-only custom check with required approved applicability inputs.",
-        "mode": "All",
-        "metadata": {
-          "category": "Key Vault",
-          "source": "https://policyalias.mats.codes/Microsoft.KeyVault/vaults-secrets/",
-          "catalogRow": "R15",
-          "packageSet": "Global"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Effect"
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                }
-              }
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.KeyVault/vaults/secrets"
-                  },
-                  {
-                    "field": "id",
-                    "in": "[[parameters('profile').resourceIds]"
-                  }
-                ]
-              },
-              {
-                "anyOf": [
-                  {
-                    "field": "Microsoft.KeyVault/vaults/secrets/attributes.exp",
-                    "exists": false
-                  },
-                  {
-                    "field": "Microsoft.KeyVault/vaults/secrets/attributes.exp",
-                    "lessOrEquals": 0
-                  }
-                ]
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "global-r16-arm-key-rotation-profile",
-      "properties": {
-        "displayName": "Audit ARM-managed Key Vault key rotation action and approved trigger",
-        "description": "Audit ARM-managed Key Vault key rotation action and approved trigger. Read-only custom check with required approved applicability inputs.",
-        "mode": "All",
-        "metadata": {
-          "category": "Key Vault",
-          "source": "https://policyalias.mats.codes/Microsoft.KeyVault/vaults-keys/",
-          "catalogRow": "R16",
-          "packageSet": "Global"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Effect"
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
+            "defaultValue": "AuditIfNotExists"
           },
           "profile": {
             "type": "Object",
@@ -3786,7 +3069,7 @@
               "type": "object",
               "required": [
                 "resourceIds",
-                "approvedRotationIntervals"
+                "actionGroupIds"
               ],
               "additionalProperties": false,
               "properties": {
@@ -3799,7 +3082,7 @@
                     "minLength": 1
                   }
                 },
-                "approvedRotationIntervals": {
+                "actionGroupIds": {
                   "type": "array",
                   "minItems": 1,
                   "uniqueItems": true,
@@ -3816,39 +3099,547 @@
           "if": {
             "allOf": [
               {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.KeyVault/vaults/keys"
-                  },
-                  {
-                    "field": "id",
-                    "in": "[[parameters('profile').resourceIds]"
-                  }
-                ]
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions"
               },
               {
-                "count": {
-                  "field": "Microsoft.KeyVault/vaults/keys/rotationPolicy.lifetimeActions[*]",
-                  "where": {
-                    "allOf": [
-                      {
-                        "field": "Microsoft.KeyVault/vaults/keys/rotationPolicy.lifetimeActions[*].action.type",
-                        "equals": "Rotate"
-                      },
-                      {
-                        "field": "Microsoft.KeyVault/vaults/keys/rotationPolicy.lifetimeActions[*].trigger.timeAfterCreate",
-                        "in": "[[parameters('profile').approvedRotationIntervals]"
-                      }
-                    ]
-                  }
-                },
-                "equals": 0
+                "field": "id",
+                "in": "[[parameters('profile').resourceIds]"
               }
             ]
           },
           "then": {
-            "effect": "[[parameters('effect')]"
+            "effect": "[[parameters('effect')]",
+            "details": {
+              "type": "Microsoft.Insights/ActivityLogAlerts",
+              "existenceCondition": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
+                    "equals": true
+                  },
+                  {
+                    "field": "Microsoft.Insights/ActivityLogAlerts/scopes",
+                    "contains": "[[field('id')]"
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                      "where": {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "category"
+                          },
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                            "equals": "ServiceHealth"
+                          }
+                        ]
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                      "where": {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "properties.incidentType"
+                          },
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                            "equals": "Incident"
+                          }
+                        ]
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "value": "[[parameters('profile').actionGroupIds]",
+                      "name": "requiredGroup",
+                      "where": {
+                        "count": {
+                          "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*]",
+                          "where": {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
+                            "equals": "[[current('requiredGroup')]"
+                          }
+                        },
+                        "greater": 0
+                      }
+                    },
+                    "equals": "[[length(parameters('profile').actionGroupIds)]"
+                  }
+                ]
+              },
+              "existenceScope": "Subscription"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "apiVersion": "2020-09-01",
+      "name": "global-r25-service-health-alert-planned-maintenance",
+      "properties": {
+        "displayName": "Audit subscription Service Health alerts are enabled for Planned maintenance",
+        "description": "Audit subscription Service Health alerts are enabled for Planned maintenance. Read-only custom check with required approved applicability inputs.",
+        "mode": "All",
+        "metadata": {
+          "category": "Monitoring",
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
+          "catalogRow": "R25",
+          "packageSet": "Global"
+        },
+        "parameters": {
+          "effect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Effect",
+              "description": "Effect"
+            },
+            "allowedValues": [
+              "AuditIfNotExists",
+              "Disabled"
+            ],
+            "defaultValue": "AuditIfNotExists"
+          },
+          "profile": {
+            "type": "Object",
+            "metadata": {
+              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "resourceIds",
+                "actionGroupIds"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "resourceIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "actionGroupIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "policyRule": {
+          "if": {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions"
+              },
+              {
+                "field": "id",
+                "in": "[[parameters('profile').resourceIds]"
+              }
+            ]
+          },
+          "then": {
+            "effect": "[[parameters('effect')]",
+            "details": {
+              "type": "Microsoft.Insights/ActivityLogAlerts",
+              "existenceCondition": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
+                    "equals": true
+                  },
+                  {
+                    "field": "Microsoft.Insights/ActivityLogAlerts/scopes",
+                    "contains": "[[field('id')]"
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                      "where": {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "category"
+                          },
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                            "equals": "ServiceHealth"
+                          }
+                        ]
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                      "where": {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "properties.incidentType"
+                          },
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                            "equals": "Maintenance"
+                          }
+                        ]
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "value": "[[parameters('profile').actionGroupIds]",
+                      "name": "requiredGroup",
+                      "where": {
+                        "count": {
+                          "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*]",
+                          "where": {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
+                            "equals": "[[current('requiredGroup')]"
+                          }
+                        },
+                        "greater": 0
+                      }
+                    },
+                    "equals": "[[length(parameters('profile').actionGroupIds)]"
+                  }
+                ]
+              },
+              "existenceScope": "Subscription"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "apiVersion": "2020-09-01",
+      "name": "global-r25-service-health-alert-health-advisories",
+      "properties": {
+        "displayName": "Audit subscription Service Health alerts are enabled for Health advisories",
+        "description": "Audit subscription Service Health alerts are enabled for Health advisories. Read-only custom check with required approved applicability inputs.",
+        "mode": "All",
+        "metadata": {
+          "category": "Monitoring",
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
+          "catalogRow": "R25",
+          "packageSet": "Global"
+        },
+        "parameters": {
+          "effect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Effect",
+              "description": "Effect"
+            },
+            "allowedValues": [
+              "AuditIfNotExists",
+              "Disabled"
+            ],
+            "defaultValue": "AuditIfNotExists"
+          },
+          "profile": {
+            "type": "Object",
+            "metadata": {
+              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "resourceIds",
+                "actionGroupIds"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "resourceIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "actionGroupIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "policyRule": {
+          "if": {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions"
+              },
+              {
+                "field": "id",
+                "in": "[[parameters('profile').resourceIds]"
+              }
+            ]
+          },
+          "then": {
+            "effect": "[[parameters('effect')]",
+            "details": {
+              "type": "Microsoft.Insights/ActivityLogAlerts",
+              "existenceCondition": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
+                    "equals": true
+                  },
+                  {
+                    "field": "Microsoft.Insights/ActivityLogAlerts/scopes",
+                    "contains": "[[field('id')]"
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                      "where": {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "category"
+                          },
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                            "equals": "ServiceHealth"
+                          }
+                        ]
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                      "where": {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "properties.incidentType"
+                          },
+                          {
+                            "anyOf": [
+                              {
+                                "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                                "equals": "ActionRequired"
+                              },
+                              {
+                                "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                                "equals": "Informational"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "value": "[[parameters('profile').actionGroupIds]",
+                      "name": "requiredGroup",
+                      "where": {
+                        "count": {
+                          "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*]",
+                          "where": {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
+                            "equals": "[[current('requiredGroup')]"
+                          }
+                        },
+                        "greater": 0
+                      }
+                    },
+                    "equals": "[[length(parameters('profile').actionGroupIds)]"
+                  }
+                ]
+              },
+              "existenceScope": "Subscription"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "apiVersion": "2020-09-01",
+      "name": "global-r25-service-health-alert-security-advisories",
+      "properties": {
+        "displayName": "Audit subscription Service Health alerts are enabled for Security advisories",
+        "description": "Audit subscription Service Health alerts are enabled for Security advisories. Read-only custom check with required approved applicability inputs.",
+        "mode": "All",
+        "metadata": {
+          "category": "Monitoring",
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
+          "catalogRow": "R25",
+          "packageSet": "Global"
+        },
+        "parameters": {
+          "effect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Effect",
+              "description": "Effect"
+            },
+            "allowedValues": [
+              "AuditIfNotExists",
+              "Disabled"
+            ],
+            "defaultValue": "AuditIfNotExists"
+          },
+          "profile": {
+            "type": "Object",
+            "metadata": {
+              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "resourceIds",
+                "actionGroupIds"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "resourceIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "actionGroupIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "policyRule": {
+          "if": {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Resources/subscriptions"
+              },
+              {
+                "field": "id",
+                "in": "[[parameters('profile').resourceIds]"
+              }
+            ]
+          },
+          "then": {
+            "effect": "[[parameters('effect')]",
+            "details": {
+              "type": "Microsoft.Insights/ActivityLogAlerts",
+              "existenceCondition": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
+                    "equals": true
+                  },
+                  {
+                    "field": "Microsoft.Insights/ActivityLogAlerts/scopes",
+                    "contains": "[[field('id')]"
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                      "where": {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "category"
+                          },
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                            "equals": "ServiceHealth"
+                          }
+                        ]
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                      "where": {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "properties.incidentType"
+                          },
+                          {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                            "equals": "Security"
+                          }
+                        ]
+                      }
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "value": "[[parameters('profile').actionGroupIds]",
+                      "name": "requiredGroup",
+                      "where": {
+                        "count": {
+                          "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*]",
+                          "where": {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
+                            "equals": "[[current('requiredGroup')]"
+                          }
+                        },
+                        "greater": 0
+                      }
+                    },
+                    "equals": "[[length(parameters('profile').actionGroupIds)]"
+                  }
+                ]
+              },
+              "existenceScope": "Subscription"
+            }
           }
         }
       }
@@ -3863,11 +3654,10 @@
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r03-r03-unapproved-or-retired-resource-types')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r04-r04-required-resource-tags')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r05-r05-required-resource-group-tags')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r06-r06-subscription-classification-tag')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r07-r07-audit-category-resource-logs')]",
+        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r06-r06-audit-mandatory-tags-subscriptions')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r08-r08-storage-secure-transfer')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r09-r09-storage-minimum-tls')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r10-r10-no-anonymous-blob-access')]",
+        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r10-r10-storage-trusted-services-access')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r11-r11-key-vault-soft-delete')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r12-r12-key-vault-purge-protection')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r13-r13-key-vault-rbac-authorization')]",
@@ -3878,7 +3668,6 @@
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r22-r22-defender-for-key-vault-coverage')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r23-r23-defender-for-azure-sql-coverage')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r24-subscription-activity-log-export')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r25-service-health-readiness')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r26-r26-vm-approved-license')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r26-r26-vmss-approved-license')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r27-r27-vm-approved-license')]",
@@ -3893,12 +3682,12 @@
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r32-ama-machines')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r33-required-dcr-association')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r34-defender-endpoint-integration')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r35-subscription-budget-readiness')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r35-budget-notification-readiness')]",
+        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r35-subscription-budget-alert-rules')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r36-resource-parent-tag-consistency')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r14-arm-key-expiration')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r15-arm-secret-expiration')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r16-arm-key-rotation-profile')]"
+        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r25-service-health-alert-service-issues')]",
+        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r25-service-health-alert-planned-maintenance')]",
+        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r25-service-health-alert-health-advisories')]",
+        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r25-service-health-alert-security-advisories')]"
       ],
       "properties": {
         "displayName": "ALZ Global - custom audit policies",
@@ -4032,153 +3821,15 @@
             ],
             "defaultValue": "Audit"
           },
-          "r06_tagName": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Tag Name",
-              "description": "Name of the tag, such as 'CostCenter'"
-            }
-          },
-          "r06_allowedTagValues": {
+          "r06_mandatoryTags": {
             "type": "Array",
             "metadata": {
-              "displayName": "Allowable values for tag",
-              "description": "List of allowed values for this tag."
-            }
-          },
-          "r06_evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+              "displayName": "Array of mandatory tags",
+              "description": "Array of mandatory tag names that must be present on the subscription, for example [\"owner\", \"costcenter\"]."
             },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          },
-          "r07_effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists"
-          },
-          "r07_requiredLogLevel": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Required Log Level",
-              "description": "Granularity of logging required to be enabled on a resource to meet compliance. Audit will check that the resource has a diagnostic setting enabled for categoryGroup audit or allLogs. Any will only check that a diagnostic setting exists for the resource."
-            },
-            "allowedValues": [
-              "Audit",
-              "Any"
-            ],
-            "defaultValue": "Audit"
-          },
-          "r07_resourceTypeList": {
-            "type": "Array",
-            "metadata": {
-              "displayName": "Resource Types",
-              "description": "List of Resource Types to be evaluated for diagnostic setting existence."
-            },
-            "allowedValues": [
-              "microsoft.agfoodplatform/farmbeats",
-              "microsoft.apimanagement/service",
-              "microsoft.appconfiguration/configurationstores",
-              "microsoft.attestation/attestationproviders",
-              "microsoft.automation/automationaccounts",
-              "microsoft.avs/privateclouds",
-              "microsoft.cache/redis",
-              "microsoft.cdn/profiles",
-              "microsoft.cognitiveservices/accounts",
-              "microsoft.containerregistry/registries",
-              "microsoft.devices/iothubs",
-              "microsoft.eventgrid/topics",
-              "microsoft.eventgrid/domains",
-              "microsoft.eventgrid/partnernamespaces",
-              "microsoft.eventhub/namespaces",
-              "microsoft.keyvault/vaults",
-              "microsoft.keyvault/managedhsms",
-              "microsoft.machinelearningservices/workspaces",
-              "microsoft.media/mediaservices",
-              "microsoft.media/videoanalyzers",
-              "microsoft.netapp/netappaccounts/capacitypools/volumes",
-              "microsoft.network/publicipaddresses",
-              "microsoft.network/virtualnetworkgateways",
-              "microsoft.network/p2svpngateways",
-              "microsoft.network/frontdoors",
-              "microsoft.network/bastionhosts",
-              "microsoft.operationalinsights/workspaces",
-              "microsoft.purview/accounts",
-              "microsoft.servicebus/namespaces",
-              "microsoft.signalrservice/signalr",
-              "microsoft.signalrservice/webpubsub",
-              "microsoft.sql/servers/databases",
-              "microsoft.sql/managedinstances"
-            ],
             "defaultValue": [
-              "microsoft.agfoodplatform/farmbeats",
-              "microsoft.apimanagement/service",
-              "microsoft.appconfiguration/configurationstores",
-              "microsoft.attestation/attestationproviders",
-              "microsoft.automation/automationaccounts",
-              "microsoft.avs/privateclouds",
-              "microsoft.cache/redis",
-              "microsoft.cdn/profiles",
-              "microsoft.cognitiveservices/accounts",
-              "microsoft.containerregistry/registries",
-              "microsoft.devices/iothubs",
-              "microsoft.eventgrid/topics",
-              "microsoft.eventgrid/domains",
-              "microsoft.eventgrid/partnernamespaces",
-              "microsoft.eventhub/namespaces",
-              "microsoft.keyvault/vaults",
-              "microsoft.keyvault/managedhsms",
-              "microsoft.machinelearningservices/workspaces",
-              "microsoft.media/mediaservices",
-              "microsoft.media/videoanalyzers",
-              "microsoft.netapp/netappaccounts/capacitypools/volumes",
-              "microsoft.network/publicipaddresses",
-              "microsoft.network/virtualnetworkgateways",
-              "microsoft.network/p2svpngateways",
-              "microsoft.network/frontdoors",
-              "microsoft.network/bastionhosts",
-              "microsoft.operationalinsights/workspaces",
-              "microsoft.purview/accounts",
-              "microsoft.servicebus/namespaces",
-              "microsoft.signalrservice/signalr",
-              "microsoft.signalrservice/webpubsub",
-              "microsoft.sql/servers/databases",
-              "microsoft.sql/managedinstances"
+              "owner",
+              "costcenter"
             ]
           },
           "r08_effect": {
@@ -4589,8 +4240,7 @@
               "type": "object",
               "required": [
                 "resourceIds",
-                "workspaceId",
-                "requiredCategories"
+                "workspaceId"
               ],
               "additionalProperties": false,
               "properties": {
@@ -4606,62 +4256,6 @@
                 "workspaceId": {
                   "type": "string",
                   "minLength": 1
-                },
-                "requiredCategories": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                }
-              }
-            }
-          },
-          "r25_effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Effect"
-            },
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists"
-          },
-          "r25_profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "actionGroupIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "actionGroupIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
                 }
               }
             }
@@ -5269,93 +4863,6 @@
             ],
             "defaultValue": "AuditIfNotExists"
           },
-          "r35_profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "budgetName",
-                "amount",
-                "timeGrain"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "budgetName": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "amount": {
-                  "type": "number",
-                  "exclusiveMinimum": 0
-                },
-                "timeGrain": {
-                  "type": "string",
-                  "enum": [
-                    "Monthly",
-                    "Quarterly",
-                    "Annually"
-                  ]
-                }
-              }
-            }
-          },
-          "r35_effect_b41d4d5": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Effect"
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "r35_profile_b41d4d5": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "notifications"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "notifications": {
-                  "type": "object",
-                  "minProperties": 1
-                }
-              }
-            }
-          },
           "r36_effect": {
             "type": "String",
             "metadata": {
@@ -5401,96 +4908,19 @@
               "description": "Reviewed inherited tag name"
             }
           },
-          "r14_effect": {
+          "r25_effect": {
             "type": "String",
             "metadata": {
               "displayName": "Effect",
               "description": "Effect"
             },
             "allowedValues": [
-              "Audit",
-              "Deny",
+              "AuditIfNotExists",
               "Disabled"
             ],
-            "defaultValue": "Audit"
+            "defaultValue": "AuditIfNotExists"
           },
-          "r14_profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                }
-              }
-            }
-          },
-          "r15_effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Effect"
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "r15_profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                }
-              }
-            }
-          },
-          "r16_effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Effect"
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "r16_profile": {
+          "r25_profile": {
             "type": "Object",
             "metadata": {
               "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
@@ -5500,7 +4930,7 @@
               "type": "object",
               "required": [
                 "resourceIds",
-                "approvedRotationIntervals"
+                "actionGroupIds"
               ],
               "additionalProperties": false,
               "properties": {
@@ -5513,7 +4943,148 @@
                     "minLength": 1
                   }
                 },
-                "approvedRotationIntervals": {
+                "actionGroupIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "r25_effect_1ed4de2": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Effect",
+              "description": "Effect"
+            },
+            "allowedValues": [
+              "AuditIfNotExists",
+              "Disabled"
+            ],
+            "defaultValue": "AuditIfNotExists"
+          },
+          "r25_profile_1ed4de2": {
+            "type": "Object",
+            "metadata": {
+              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "resourceIds",
+                "actionGroupIds"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "resourceIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "actionGroupIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "r25_effect_6730d27": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Effect",
+              "description": "Effect"
+            },
+            "allowedValues": [
+              "AuditIfNotExists",
+              "Disabled"
+            ],
+            "defaultValue": "AuditIfNotExists"
+          },
+          "r25_profile_6730d27": {
+            "type": "Object",
+            "metadata": {
+              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "resourceIds",
+                "actionGroupIds"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "resourceIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "actionGroupIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "r25_effect_c3c3bc1": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Effect",
+              "description": "Effect"
+            },
+            "allowedValues": [
+              "AuditIfNotExists",
+              "Disabled"
+            ],
+            "defaultValue": "AuditIfNotExists"
+          },
+          "r25_profile_c3c3bc1": {
+            "type": "Object",
+            "metadata": {
+              "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+              "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "resourceIds",
+                "actionGroupIds"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "resourceIds": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "actionGroupIds": {
                   "type": "array",
                   "minItems": 1,
                   "uniqueItems": true,
@@ -5588,35 +5159,14 @@
             }
           },
           {
-            "policyDefinitionReferenceId": "global-r06-r06-subscription-classification-tag",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r06-r06-subscription-classification-tag')]",
+            "policyDefinitionReferenceId": "global-r06-r06-audit-mandatory-tags-subscriptions",
+            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r06-r06-audit-mandatory-tags-subscriptions')]",
             "parameters": {
               "effect": {
                 "value": "[[parameters('r06_effect')]"
               },
-              "tagName": {
-                "value": "[[parameters('r06_tagName')]"
-              },
-              "allowedTagValues": {
-                "value": "[[parameters('r06_allowedTagValues')]"
-              },
-              "evaluationScope": {
-                "value": "[[parameters('r06_evaluationScope')]"
-              }
-            }
-          },
-          {
-            "policyDefinitionReferenceId": "global-r07-r07-audit-category-resource-logs",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r07-r07-audit-category-resource-logs')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('r07_effect')]"
-              },
-              "requiredLogLevel": {
-                "value": "[[parameters('r07_requiredLogLevel')]"
-              },
-              "resourceTypeList": {
-                "value": "[[parameters('r07_resourceTypeList')]"
+              "mandatoryTags": {
+                "value": "[[parameters('r06_mandatoryTags')]"
               }
             }
           },
@@ -5642,8 +5192,8 @@
             }
           },
           {
-            "policyDefinitionReferenceId": "global-r10-r10-no-anonymous-blob-access",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r10-r10-no-anonymous-blob-access')]",
+            "policyDefinitionReferenceId": "global-r10-r10-storage-trusted-services-access",
+            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r10-r10-storage-trusted-services-access')]",
             "parameters": {
               "effect": {
                 "value": "[[parameters('r10_effect')]"
@@ -5761,18 +5311,6 @@
               },
               "profile": {
                 "value": "[[parameters('r24_profile')]"
-              }
-            }
-          },
-          {
-            "policyDefinitionReferenceId": "global-r25-service-health-readiness",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r25-service-health-readiness')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('r25_effect')]"
-              },
-              "profile": {
-                "value": "[[parameters('r25_profile')]"
               }
             }
           },
@@ -5945,26 +5483,11 @@
             }
           },
           {
-            "policyDefinitionReferenceId": "global-r35-subscription-budget-readiness",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r35-subscription-budget-readiness')]",
+            "policyDefinitionReferenceId": "global-r35-subscription-budget-alert-rules",
+            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r35-subscription-budget-alert-rules')]",
             "parameters": {
               "effect": {
                 "value": "[[parameters('r35_effect')]"
-              },
-              "profile": {
-                "value": "[[parameters('r35_profile')]"
-              }
-            }
-          },
-          {
-            "policyDefinitionReferenceId": "global-r35-budget-notification-readiness",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r35-budget-notification-readiness')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('r35_effect_b41d4d5')]"
-              },
-              "profile": {
-                "value": "[[parameters('r35_profile_b41d4d5')]"
               }
             }
           },
@@ -5984,38 +5507,50 @@
             }
           },
           {
-            "policyDefinitionReferenceId": "global-r14-arm-key-expiration",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r14-arm-key-expiration')]",
+            "policyDefinitionReferenceId": "global-r25-service-health-alert-service-issues",
+            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r25-service-health-alert-service-issues')]",
             "parameters": {
               "effect": {
-                "value": "[[parameters('r14_effect')]"
+                "value": "[[parameters('r25_effect')]"
               },
               "profile": {
-                "value": "[[parameters('r14_profile')]"
+                "value": "[[parameters('r25_profile')]"
               }
             }
           },
           {
-            "policyDefinitionReferenceId": "global-r15-arm-secret-expiration",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r15-arm-secret-expiration')]",
+            "policyDefinitionReferenceId": "global-r25-service-health-alert-planned-maintenance",
+            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r25-service-health-alert-planned-maintenance')]",
             "parameters": {
               "effect": {
-                "value": "[[parameters('r15_effect')]"
+                "value": "[[parameters('r25_effect_1ed4de2')]"
               },
               "profile": {
-                "value": "[[parameters('r15_profile')]"
+                "value": "[[parameters('r25_profile_1ed4de2')]"
               }
             }
           },
           {
-            "policyDefinitionReferenceId": "global-r16-arm-key-rotation-profile",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r16-arm-key-rotation-profile')]",
+            "policyDefinitionReferenceId": "global-r25-service-health-alert-health-advisories",
+            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r25-service-health-alert-health-advisories')]",
             "parameters": {
               "effect": {
-                "value": "[[parameters('r16_effect')]"
+                "value": "[[parameters('r25_effect_6730d27')]"
               },
               "profile": {
-                "value": "[[parameters('r16_profile')]"
+                "value": "[[parameters('r25_profile_6730d27')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionReferenceId": "global-r25-service-health-alert-security-advisories",
+            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'global-r25-service-health-alert-security-advisories')]",
+            "parameters": {
+              "effect": {
+                "value": "[[parameters('r25_effect_c3c3bc1')]"
+              },
+              "profile": {
+                "value": "[[parameters('r25_profile_c3c3bc1')]"
               }
             }
           }

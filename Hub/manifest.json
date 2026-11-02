@@ -1,10 +1,10 @@
 {
   "set": "Hub",
-  "catalogRows": 25,
-  "customDefinitions": 25,
-  "publishableDefinitions": 25,
+  "catalogRows": 16,
+  "customDefinitions": 16,
+  "publishableDefinitions": 16,
   "referenceOnlyDefinitions": 0,
-  "initiativeParameters": 50,
+  "initiativeParameters": 34,
   "coverageGaps": [],
   "policies": [
     {
@@ -69,142 +69,6 @@
       "file": "policies/hub-h01-h01-firewall-policy-threat-intelligence.json",
       "defaultEffect": "Audit",
       "customDefinitionSha256": "517252bcca4c9c2fc27bb51fa67f36d560fec8bda356574c31ee0c97d1c0e1d3",
-      "requiredParameters": []
-    },
-    {
-      "set": "Hub",
-      "rowKey": "H02",
-      "key": "h02-transitional-classic-rule-threat-intelligence",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/AzureFirewallClassicRulesPolicy_StandardAzureFirewall_EnableThreatIntelligence_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/7c591a93-c34c-464c-94ac-8f9f9a46e3d6",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "Platform/Connectivity; existing Standard Azure Firewalls while classic rules remain.",
-        "caveats": "Classic Azure Firewall rules are not Azure classic deployment-model resources. Applies to Standard firewalls with threatIntelMode=Off; retire this transitional member after migration. No Premium SKU requirement."
-      },
-      "limitations": [
-        "Classic Azure Firewall rules are not Azure classic deployment-model resources. Applies to Standard firewalls with threatIntelMode=Off; retire this transitional member after migration. No Premium SKU requirement.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "Azure Firewall Standard - Classic Rules should enable Threat Intelligence",
-      "applicability": "Conditional",
-      "name": "hub-h02-h02-transitional-classic-rule-threat-intelligence",
-      "file": "policies/hub-h02-h02-transitional-classic-rule-threat-intelligence.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "02d5416dde99350c3823138d84220ca874fe98c9db33f9f4ea1ee810044fabd4",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "Hub",
-      "rowKey": "H03",
-      "key": "h03-central-firewall-policy-association",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/AzureFirewallClassicRules_MigrateToAzureFirewallPolicy_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/794d77cc-fe65-4801-8514-230c0be387a8",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Baseline",
-        "scope": "Platform/Connectivity; Azure Firewall resource groups.",
-        "caveats": "Checks that an association exists, not that it points to an approved policy ID or that its rules are secure. An existing firewalled hub remains operational; no migration is performed."
-      },
-      "limitations": [
-        "Checks that an association exists, not that it points to an approved policy ID or that its rules are secure. An existing firewalled hub remains operational; no migration is performed.",
-        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        }
-      ],
-      "catalogName": "Azure Firewall Classic Rules should be migrated to Firewall Policy",
-      "applicability": "Baseline",
-      "name": "hub-h03-h03-central-firewall-policy-association",
-      "file": "policies/hub-h03-h03-central-firewall-policy-association.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "0b9b300e1959eaf058c48567a27dc921089c0e8fe9acd1bfafae9d20536c1277",
       "requiredParameters": []
     },
     {
@@ -281,78 +145,6 @@
     },
     {
       "set": "Hub",
-      "rowKey": "H06",
-      "key": "h06-premium-firewall-where-risk-justified",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/AzureFirewall_UpgradeStandardToPremiumForNextGenProtection_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/8c19196d-7fd7-45b2-a9b4-7288f47c769a",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "Platform/Connectivity; only firewall resource groups or explicitly selected firewalls with approved Premium capability requirements.",
-        "caveats": "Premium has additional cost; never impose on every hub. This rule flags Standard tier only and does not prove IDPS/TLS inspection is enabled, nor reject every other tier. Audit performs no SKU upgrade."
-      },
-      "limitations": [
-        "Premium has additional cost; never impose on every hub. This rule flags Standard tier only and does not prove IDPS/TLS inspection is enabled, nor reject every other tier. Audit performs no SKU upgrade.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "Azure Firewall Standard should be upgraded to Premium for next generation protection",
-      "applicability": "Conditional",
-      "name": "hub-h06-h06-premium-firewall-where-risk-justified",
-      "file": "policies/hub-h06-h06-premium-firewall-where-risk-justified.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "e7d576ea7e6b4e1e9877d9db8e74e760dcddd5fd0072082b9f220dd1b5d2f60c",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "Hub",
       "rowKey": "H08",
       "key": "h08-firewall-association-on-secured-virtual-hubs",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/VirtualHubs_DeployedWithAzureFirewall_Audit.json",
@@ -422,70 +214,6 @@
       "requiredParameters": [
         "evaluationScope"
       ]
-    },
-    {
-      "set": "Hub",
-      "rowKey": "H09",
-      "key": "h09-non-basic-vpn-gateway-sku",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/VPNGateways_BasicSKU_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/e345b6c3-24bd-4c93-9bbb-7e5e49a17b78",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Baseline",
-        "scope": "Platform/Connectivity; Microsoft.Network/virtualNetworkGateways with gatewayType=Vpn.",
-        "caveats": "No Deny is supported. Excludes ExpressRoute gateways via gatewayType check. Upgrades can have cost and migration impacts; Audit does not perform them or mandate a particular paid target SKU."
-      },
-      "limitations": [
-        "No Deny is supported. Excludes ExpressRoute gateways via gatewayType check. Upgrades can have cost and migration impacts; Audit does not perform them or mandate a particular paid target SKU.",
-        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        }
-      ],
-      "catalogName": "Azure VPN gateways should not use 'basic' SKU",
-      "applicability": "Baseline",
-      "name": "hub-h09-h09-non-basic-vpn-gateway-sku",
-      "file": "policies/hub-h09-h09-non-basic-vpn-gateway-sku.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "b095900b12f83ffe844c2f2bba2fbcaf9def7c2bf5690dcea72e3cd0247aea58",
-      "requiredParameters": []
     },
     {
       "set": "Hub",
@@ -696,78 +424,6 @@
       "defaultEffect": "Audit",
       "customDefinitionSha256": "2096e7997fd913300e0d25195220f5842c400e37436ba22ecc8b6794dca474f6",
       "requiredParameters": []
-    },
-    {
-      "set": "Hub",
-      "rowKey": "H13",
-      "key": "h13-traffic-analytics-on-selected-vnet-flow-logs",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/NetworkWatcher_FlowLog_TrafficAnalytics_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/2f080164-9f4d-497e-9db6-416dc9f7b48a",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "Platform/Connectivity; existing Network Watcher VNet flow-log resources selected for Traffic Analytics.",
-        "caveats": "Not generic resource diagnostic settings and not a flow-log existence check. Traffic Analytics, storage and ingestion have cost. Do not create NSG flow logs: new NSG flow-log creation ended June 30, 2025 and retirement is September 30, 2027; use VNet flow logs. No Deny supported; this rule does not validate destination workspace or retention."
-      },
-      "limitations": [
-        "Not generic resource diagnostic settings and not a flow-log existence check. Traffic Analytics, storage and ingestion have cost. Do not create NSG flow logs: new NSG flow-log creation ended June 30, 2025 and retirement is September 30, 2027; use VNet flow logs. No Deny supported; this rule does not validate destination workspace or retention.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "Network Watcher flow logs should have traffic analytics enabled",
-      "applicability": "Conditional",
-      "name": "hub-h13-h13-traffic-analytics-on-selected-vnet-flow-logs",
-      "file": "policies/hub-h13-h13-traffic-analytics-on-selected-vnet-flow-logs.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "b9b20d66ae505d783029bc72d22576424c3a9d02de75d61c7f4ffb831f00b521",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
     },
     {
       "set": "Hub",
@@ -1279,14 +935,19 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/displayName",
+          "reason": "User-requested rename from 'Deny change of retention days in Log Analytics workspace' to 'Audit change of retention days in Log Analytics workspace', with the description reworded to match. The definition identity, parameters and rule logic are unchanged: the effect already defaults to Audit and Deny stays available as a later enforcement option.",
+          "category": "user-requested-redesign"
         }
       ],
-      "catalogName": "Deny change of retention days in Log Analytics workspace",
+      "catalogName": "Audit change of retention days in Log Analytics workspace",
       "applicability": "Conditional",
       "name": "hub-h20-h20-approved-central-workspace-retention-floor",
       "file": "policies/hub-h20-h20-approved-central-workspace-retention-floor.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "64f19d7be2a77e9ff1ad01c8d5d2fb6aada9b464aaff3f22a0a0242eba7f99ed",
+      "customDefinitionSha256": "7052aa24e61fefb5c81241ac27d0ec21473f5a0331c1ce313c17d2eaf7efb3ef",
       "requiredParameters": [
         "evaluationScope"
       ]
@@ -1355,136 +1016,6 @@
       "file": "policies/hub-h21-premium-firewall-idps.json",
       "defaultEffect": "Audit",
       "customDefinitionSha256": "2f7c6fcfbef527bd96d60d83afe365cf8d09b99cdf0f8df6d50b02c7d725af74",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Hub",
-      "rowKey": "H22",
-      "key": "connectivity-amba-metric-profile",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/services/Network/virtualNetworks/templates/policy/IfUnderDDoSAttack_72dea6f4-858c-423f-8189-406aac7d20ac.json",
-      "limitations": [
-        "One required static, dimension-free metric profile per assignment/reference; this is not the complete AMBA catalog, dynamic thresholds, or a multidimensional alert implementation.",
-        "Exactly one criterion and one resource scope are required, so extra AND conditions cannot weaken the approved detector. Multi-resource metric alerts are deliberately outside coverage.",
-        "Finds alert resources across resource groups only within the evaluated resource's subscription. Cross-subscription alert storage is unsupported.",
-        "Does not prove metric emission, valid service-specific threshold selection, action-group receiver configuration, alert-processing-rule behavior, delivery, or incident handling."
-      ],
-      "scopeNotes": "Platform/Connectivity partition only. Assign at subscription or higher for Subscription existenceScope. No resourceGroupName is combined with Subscription scope. Required object schema rejects empty targets/types/action groups and missing thresholds; choose a supported metric/time-window combination.",
-      "transformations": [
-        {
-          "category": "azure-array-count-contract",
-          "path": "/then/details/existenceCondition/allOf/8/count/field",
-          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
-          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
-          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
-        },
-        {
-          "category": "azure-array-count-contract",
-          "path": "/then/details/existenceCondition/allOf/9/count/where/count/field",
-          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
-          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
-          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
-        }
-      ],
-      "publishable": true,
-      "name": "hub-h22-connectivity-amba-metric-profile",
-      "file": "policies/hub-h22-connectivity-amba-metric-profile.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "24b5560aadeea8920781b0746693dad8bd214beede51ad67571d89f08ca0a5b0",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Hub",
-      "rowKey": "H23",
-      "key": "management-amba-metric-profile",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/services/Network/virtualNetworks/templates/policy/IfUnderDDoSAttack_72dea6f4-858c-423f-8189-406aac7d20ac.json",
-      "limitations": [
-        "Reusable per-metric template, not every AMBA Management policy. Only static, dimension-free, single-resource and exactly one-condition alerts qualify.",
-        "The related alert can be in a central RG but must be in the target resource's subscription; no cross-subscription search.",
-        "Does not verify metric emission, receivers, delivery, processing-rule suppression, incident response, or service-specific correctness of supplied inputs."
-      ],
-      "scopeNotes": "Platform/Management only, with subscription-or-higher assignment and explicit approved Management resource IDs/types. No subscription IDs, metric thresholds, or action-group IDs are invented. The required object schema rejects empty lists.",
-      "transformations": [
-        {
-          "category": "azure-array-count-contract",
-          "path": "/then/details/existenceCondition/allOf/8/count/field",
-          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
-          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
-          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
-        },
-        {
-          "category": "azure-array-count-contract",
-          "path": "/then/details/existenceCondition/allOf/9/count/where/count/field",
-          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
-          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
-          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
-        }
-      ],
-      "publishable": true,
-      "name": "hub-h23-management-amba-metric-profile",
-      "file": "policies/hub-h23-management-amba-metric-profile.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "915de456d2bf7be00a73c700235622178c8d8084e1ceebd65b401202f782b502",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Hub",
-      "rowKey": "H24",
-      "key": "identity-amba-metric-profile",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/services/Network/virtualNetworks/templates/policy/IfUnderDDoSAttack_72dea6f4-858c-423f-8189-406aac7d20ac.json",
-      "limitations": [
-        "Covers selected ARM Azure resources, not tenant-wide Entra sign-in logs, identity protection, Conditional Access, or directory administration.",
-        "Only one required static, dimension-free metric profile per reference; requires one scope and one criterion to prevent extra conjunctions weakening detection.",
-        "Same-subscription alert existence only; delivery, receiver health, metric emission, processing rules, and response remain unproven."
-      ],
-      "scopeNotes": "Platform/Identity Azure resources only. Assign at subscription or higher; central alert RGs in that subscription are searched. A required nonempty profile supplies targets and action groups; no tenant or subscription inventory is assumed.",
-      "transformations": [
-        {
-          "category": "azure-array-count-contract",
-          "path": "/then/details/existenceCondition/allOf/8/count/field",
-          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
-          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
-          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
-        },
-        {
-          "category": "azure-array-count-contract",
-          "path": "/then/details/existenceCondition/allOf/9/count/where/count/field",
-          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
-          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
-          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
-        }
-      ],
-      "publishable": true,
-      "name": "hub-h24-identity-amba-metric-profile",
-      "file": "policies/hub-h24-identity-amba-metric-profile.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "d20ffec7dcdf8c02ff244f1b249324d885b69ccaeb64d22328d110d098fead81",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Hub",
-      "rowKey": "H25",
-      "key": "hub-vnet-flow-log-coverage",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/VirtualNetwork_FlowLog_DINE.json",
-      "limitations": [
-        "Checks VNet flow logs only; does not onboard retired NSG-flow-log functionality or accept an NSG target as VNet coverage.",
-        "Subscription search finds regional Network Watcher RGs but cannot find a flow log in another subscription; location must match the VNet.",
-        "Strict explicit enabled finite-retention profile: disabled retention or zero/infinite retention is not accepted as equivalent.",
-        "Does not prove log ingestion, storage access, storage lifecycle effective retention, traffic completeness, analytics, or downstream alerting."
-      ],
-      "scopeNotes": "Platform/Connectivity hub VNet IDs only. Assign at subscription or higher. Missing related resources are noncompliant. Storage selection, regional prerequisites, and finite retention minimum are organization-supplied required inputs.",
-      "publishable": true,
-      "name": "hub-h25-hub-vnet-flow-log-coverage",
-      "file": "policies/hub-h25-hub-vnet-flow-log-coverage.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "8c7114c5d2c2ee1d843f79cb96492d0bfef5af7936bb568037458637a4a029dd",
       "requiredParameters": [
         "profile"
       ]

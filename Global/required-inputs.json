@@ -24,30 +24,6 @@
     "allowedValues": null
   },
   {
-    "parameter": "r06_tagName",
-    "policy": "global-r06-r06-subscription-classification-tag",
-    "row": "R06",
-    "type": "String",
-    "description": "Name of the tag, such as 'CostCenter'",
-    "allowedValues": null
-  },
-  {
-    "parameter": "r06_allowedTagValues",
-    "policy": "global-r06-r06-subscription-classification-tag",
-    "row": "R06",
-    "type": "Array",
-    "description": "List of allowed values for this tag.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "r06_evaluationScope",
-    "policy": "global-r06-r06-subscription-classification-tag",
-    "row": "R06",
-    "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
-    "allowedValues": null
-  },
-  {
     "parameter": "r18_operationName",
     "policy": "global-r18-r18-administrative-operation-alerts",
     "row": "R18",
@@ -118,14 +94,6 @@
     "parameter": "r24_profile",
     "policy": "global-r24-subscription-activity-log-export",
     "row": "R24",
-    "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "r25_profile",
-    "policy": "global-r25-service-health-readiness",
-    "row": "R25",
     "type": "Object",
     "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
     "allowedValues": null
@@ -243,22 +211,6 @@
     "allowedValues": null
   },
   {
-    "parameter": "r35_profile",
-    "policy": "global-r35-subscription-budget-readiness",
-    "row": "R35",
-    "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "r35_profile_b41d4d5",
-    "policy": "global-r35-budget-notification-readiness",
-    "row": "R35",
-    "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-    "allowedValues": null
-  },
-  {
     "parameter": "r36_profile",
     "policy": "global-r36-resource-parent-tag-consistency",
     "row": "R36",
@@ -275,25 +227,33 @@
     "allowedValues": null
   },
   {
-    "parameter": "r14_profile",
-    "policy": "global-r14-arm-key-expiration",
-    "row": "R14",
+    "parameter": "r25_profile",
+    "policy": "global-r25-service-health-alert-service-issues",
+    "row": "R25",
     "type": "Object",
     "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
     "allowedValues": null
   },
   {
-    "parameter": "r15_profile",
-    "policy": "global-r15-arm-secret-expiration",
-    "row": "R15",
+    "parameter": "r25_profile_1ed4de2",
+    "policy": "global-r25-service-health-alert-planned-maintenance",
+    "row": "R25",
     "type": "Object",
     "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
     "allowedValues": null
   },
   {
-    "parameter": "r16_profile",
-    "policy": "global-r16-arm-key-rotation-profile",
-    "row": "R16",
+    "parameter": "r25_profile_6730d27",
+    "policy": "global-r25-service-health-alert-health-advisories",
+    "row": "R25",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r25_profile_c3c3bc1",
+    "policy": "global-r25-service-health-alert-security-advisories",
+    "row": "R25",
     "type": "Object",
     "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
     "allowedValues": null

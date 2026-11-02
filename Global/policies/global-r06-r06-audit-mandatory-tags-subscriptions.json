@@ -1,0 +1,68 @@
+{
+  "name": "global-r06-r06-audit-mandatory-tags-subscriptions",
+  "properties": {
+    "displayName": "Audit mandatory tags on Subscriptions",
+    "description": "Audits subscriptions to ensure they have required tags based on tag array.",
+    "mode": "All",
+    "metadata": {
+      "category": "Tags",
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Audit-Tags-Mandatory.json",
+      "sourcePolicyId": "Audit-Tags-Mandatory-Subscriptions",
+      "catalogRow": "R06",
+      "packageSet": "Global"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "mandatoryTags": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Array of mandatory tags",
+          "description": "Array of mandatory tag names that must be present on the subscription, for example [\"owner\", \"costcenter\"]."
+        },
+        "defaultValue": [
+          "owner",
+          "costcenter"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
+          },
+          {
+            "not": {
+              "count": {
+                "value": "[parameters('mandatoryTags')]",
+                "name": "tagcount",
+                "where": {
+                  "field": "tags",
+                  "containsKey": "[current('tagcount')]"
+                }
+              },
+              "equals": "[length(parameters('mandatoryTags'))]"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "policyType": "Custom"
+  }
+}

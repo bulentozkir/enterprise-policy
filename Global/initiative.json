@@ -133,153 +133,15 @@
         ],
         "defaultValue": "Audit"
       },
-      "r06_tagName": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Tag Name",
-          "description": "Name of the tag, such as 'CostCenter'"
-        }
-      },
-      "r06_allowedTagValues": {
+      "r06_mandatoryTags": {
         "type": "Array",
         "metadata": {
-          "displayName": "Allowable values for tag",
-          "description": "List of allowed values for this tag."
-        }
-      },
-      "r06_evaluationScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Array of mandatory tags",
+          "description": "Array of mandatory tag names that must be present on the subscription, for example [\"owner\", \"costcenter\"]."
         },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "r07_effect": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Effect",
-          "description": "Start in audit mode. Only effects supported by the source definition are available."
-        },
-        "allowedValues": [
-          "AuditIfNotExists",
-          "Disabled"
-        ],
-        "defaultValue": "AuditIfNotExists"
-      },
-      "r07_requiredLogLevel": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Required Log Level",
-          "description": "Granularity of logging required to be enabled on a resource to meet compliance. Audit will check that the resource has a diagnostic setting enabled for categoryGroup audit or allLogs. Any will only check that a diagnostic setting exists for the resource."
-        },
-        "allowedValues": [
-          "Audit",
-          "Any"
-        ],
-        "defaultValue": "Audit"
-      },
-      "r07_resourceTypeList": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Resource Types",
-          "description": "List of Resource Types to be evaluated for diagnostic setting existence."
-        },
-        "allowedValues": [
-          "microsoft.agfoodplatform/farmbeats",
-          "microsoft.apimanagement/service",
-          "microsoft.appconfiguration/configurationstores",
-          "microsoft.attestation/attestationproviders",
-          "microsoft.automation/automationaccounts",
-          "microsoft.avs/privateclouds",
-          "microsoft.cache/redis",
-          "microsoft.cdn/profiles",
-          "microsoft.cognitiveservices/accounts",
-          "microsoft.containerregistry/registries",
-          "microsoft.devices/iothubs",
-          "microsoft.eventgrid/topics",
-          "microsoft.eventgrid/domains",
-          "microsoft.eventgrid/partnernamespaces",
-          "microsoft.eventhub/namespaces",
-          "microsoft.keyvault/vaults",
-          "microsoft.keyvault/managedhsms",
-          "microsoft.machinelearningservices/workspaces",
-          "microsoft.media/mediaservices",
-          "microsoft.media/videoanalyzers",
-          "microsoft.netapp/netappaccounts/capacitypools/volumes",
-          "microsoft.network/publicipaddresses",
-          "microsoft.network/virtualnetworkgateways",
-          "microsoft.network/p2svpngateways",
-          "microsoft.network/frontdoors",
-          "microsoft.network/bastionhosts",
-          "microsoft.operationalinsights/workspaces",
-          "microsoft.purview/accounts",
-          "microsoft.servicebus/namespaces",
-          "microsoft.signalrservice/signalr",
-          "microsoft.signalrservice/webpubsub",
-          "microsoft.sql/servers/databases",
-          "microsoft.sql/managedinstances"
-        ],
         "defaultValue": [
-          "microsoft.agfoodplatform/farmbeats",
-          "microsoft.apimanagement/service",
-          "microsoft.appconfiguration/configurationstores",
-          "microsoft.attestation/attestationproviders",
-          "microsoft.automation/automationaccounts",
-          "microsoft.avs/privateclouds",
-          "microsoft.cache/redis",
-          "microsoft.cdn/profiles",
-          "microsoft.cognitiveservices/accounts",
-          "microsoft.containerregistry/registries",
-          "microsoft.devices/iothubs",
-          "microsoft.eventgrid/topics",
-          "microsoft.eventgrid/domains",
-          "microsoft.eventgrid/partnernamespaces",
-          "microsoft.eventhub/namespaces",
-          "microsoft.keyvault/vaults",
-          "microsoft.keyvault/managedhsms",
-          "microsoft.machinelearningservices/workspaces",
-          "microsoft.media/mediaservices",
-          "microsoft.media/videoanalyzers",
-          "microsoft.netapp/netappaccounts/capacitypools/volumes",
-          "microsoft.network/publicipaddresses",
-          "microsoft.network/virtualnetworkgateways",
-          "microsoft.network/p2svpngateways",
-          "microsoft.network/frontdoors",
-          "microsoft.network/bastionhosts",
-          "microsoft.operationalinsights/workspaces",
-          "microsoft.purview/accounts",
-          "microsoft.servicebus/namespaces",
-          "microsoft.signalrservice/signalr",
-          "microsoft.signalrservice/webpubsub",
-          "microsoft.sql/servers/databases",
-          "microsoft.sql/managedinstances"
+          "owner",
+          "costcenter"
         ]
       },
       "r08_effect": {
@@ -690,8 +552,7 @@
           "type": "object",
           "required": [
             "resourceIds",
-            "workspaceId",
-            "requiredCategories"
+            "workspaceId"
           ],
           "additionalProperties": false,
           "properties": {
@@ -707,62 +568,6 @@
             "workspaceId": {
               "type": "string",
               "minLength": 1
-            },
-            "requiredCategories": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            }
-          }
-        }
-      },
-      "r25_effect": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
-        },
-        "allowedValues": [
-          "AuditIfNotExists",
-          "Disabled"
-        ],
-        "defaultValue": "AuditIfNotExists"
-      },
-      "r25_profile": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-        },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds",
-            "actionGroupIds"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            },
-            "actionGroupIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
             }
           }
         }
@@ -1370,93 +1175,6 @@
         ],
         "defaultValue": "AuditIfNotExists"
       },
-      "r35_profile": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-        },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds",
-            "budgetName",
-            "amount",
-            "timeGrain"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            },
-            "budgetName": {
-              "type": "string",
-              "minLength": 1
-            },
-            "amount": {
-              "type": "number",
-              "exclusiveMinimum": 0
-            },
-            "timeGrain": {
-              "type": "string",
-              "enum": [
-                "Monthly",
-                "Quarterly",
-                "Annually"
-              ]
-            }
-          }
-        }
-      },
-      "r35_effect_b41d4d5": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
-        },
-        "allowedValues": [
-          "Audit",
-          "Deny",
-          "Disabled"
-        ],
-        "defaultValue": "Audit"
-      },
-      "r35_profile_b41d4d5": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-        },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds",
-            "notifications"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            },
-            "notifications": {
-              "type": "object",
-              "minProperties": 1
-            }
-          }
-        }
-      },
       "r36_effect": {
         "type": "String",
         "metadata": {
@@ -1502,96 +1220,19 @@
           "description": "Reviewed inherited tag name"
         }
       },
-      "r14_effect": {
+      "r25_effect": {
         "type": "String",
         "metadata": {
           "displayName": "Effect",
           "description": "Effect"
         },
         "allowedValues": [
-          "Audit",
-          "Deny",
+          "AuditIfNotExists",
           "Disabled"
         ],
-        "defaultValue": "Audit"
+        "defaultValue": "AuditIfNotExists"
       },
-      "r14_profile": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-        },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            }
-          }
-        }
-      },
-      "r15_effect": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
-        },
-        "allowedValues": [
-          "Audit",
-          "Deny",
-          "Disabled"
-        ],
-        "defaultValue": "Audit"
-      },
-      "r15_profile": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
-        },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            }
-          }
-        }
-      },
-      "r16_effect": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
-        },
-        "allowedValues": [
-          "Audit",
-          "Deny",
-          "Disabled"
-        ],
-        "defaultValue": "Audit"
-      },
-      "r16_profile": {
+      "r25_profile": {
         "type": "Object",
         "metadata": {
           "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
@@ -1601,7 +1242,7 @@
           "type": "object",
           "required": [
             "resourceIds",
-            "approvedRotationIntervals"
+            "actionGroupIds"
           ],
           "additionalProperties": false,
           "properties": {
@@ -1614,7 +1255,148 @@
                 "minLength": 1
               }
             },
-            "approvedRotationIntervals": {
+            "actionGroupIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      },
+      "r25_effect_1ed4de2": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Effect"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "r25_profile_1ed4de2": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "actionGroupIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "actionGroupIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      },
+      "r25_effect_6730d27": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Effect"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "r25_profile_6730d27": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "actionGroupIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "actionGroupIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      },
+      "r25_effect_c3c3bc1": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Effect"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "r25_profile_c3c3bc1": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "actionGroupIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "actionGroupIds": {
               "type": "array",
               "minItems": 1,
               "uniqueItems": true,
@@ -1689,35 +1471,14 @@
         }
       },
       {
-        "policyDefinitionReferenceId": "global-r06-r06-subscription-classification-tag",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r06-r06-subscription-classification-tag",
+        "policyDefinitionReferenceId": "global-r06-r06-audit-mandatory-tags-subscriptions",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r06-r06-audit-mandatory-tags-subscriptions",
         "parameters": {
           "effect": {
             "value": "[parameters('r06_effect')]"
           },
-          "tagName": {
-            "value": "[parameters('r06_tagName')]"
-          },
-          "allowedTagValues": {
-            "value": "[parameters('r06_allowedTagValues')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('r06_evaluationScope')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "global-r07-r07-audit-category-resource-logs",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r07-r07-audit-category-resource-logs",
-        "parameters": {
-          "effect": {
-            "value": "[parameters('r07_effect')]"
-          },
-          "requiredLogLevel": {
-            "value": "[parameters('r07_requiredLogLevel')]"
-          },
-          "resourceTypeList": {
-            "value": "[parameters('r07_resourceTypeList')]"
+          "mandatoryTags": {
+            "value": "[parameters('r06_mandatoryTags')]"
           }
         }
       },
@@ -1743,8 +1504,8 @@
         }
       },
       {
-        "policyDefinitionReferenceId": "global-r10-r10-no-anonymous-blob-access",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r10-r10-no-anonymous-blob-access",
+        "policyDefinitionReferenceId": "global-r10-r10-storage-trusted-services-access",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r10-r10-storage-trusted-services-access",
         "parameters": {
           "effect": {
             "value": "[parameters('r10_effect')]"
@@ -1862,18 +1623,6 @@
           },
           "profile": {
             "value": "[parameters('r24_profile')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "global-r25-service-health-readiness",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r25-service-health-readiness",
-        "parameters": {
-          "effect": {
-            "value": "[parameters('r25_effect')]"
-          },
-          "profile": {
-            "value": "[parameters('r25_profile')]"
           }
         }
       },
@@ -2046,26 +1795,11 @@
         }
       },
       {
-        "policyDefinitionReferenceId": "global-r35-subscription-budget-readiness",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r35-subscription-budget-readiness",
+        "policyDefinitionReferenceId": "global-r35-subscription-budget-alert-rules",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r35-subscription-budget-alert-rules",
         "parameters": {
           "effect": {
             "value": "[parameters('r35_effect')]"
-          },
-          "profile": {
-            "value": "[parameters('r35_profile')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "global-r35-budget-notification-readiness",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r35-budget-notification-readiness",
-        "parameters": {
-          "effect": {
-            "value": "[parameters('r35_effect_b41d4d5')]"
-          },
-          "profile": {
-            "value": "[parameters('r35_profile_b41d4d5')]"
           }
         }
       },
@@ -2085,38 +1819,50 @@
         }
       },
       {
-        "policyDefinitionReferenceId": "global-r14-arm-key-expiration",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r14-arm-key-expiration",
+        "policyDefinitionReferenceId": "global-r25-service-health-alert-service-issues",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r25-service-health-alert-service-issues",
         "parameters": {
           "effect": {
-            "value": "[parameters('r14_effect')]"
+            "value": "[parameters('r25_effect')]"
           },
           "profile": {
-            "value": "[parameters('r14_profile')]"
+            "value": "[parameters('r25_profile')]"
           }
         }
       },
       {
-        "policyDefinitionReferenceId": "global-r15-arm-secret-expiration",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r15-arm-secret-expiration",
+        "policyDefinitionReferenceId": "global-r25-service-health-alert-planned-maintenance",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r25-service-health-alert-planned-maintenance",
         "parameters": {
           "effect": {
-            "value": "[parameters('r15_effect')]"
+            "value": "[parameters('r25_effect_1ed4de2')]"
           },
           "profile": {
-            "value": "[parameters('r15_profile')]"
+            "value": "[parameters('r25_profile_1ed4de2')]"
           }
         }
       },
       {
-        "policyDefinitionReferenceId": "global-r16-arm-key-rotation-profile",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r16-arm-key-rotation-profile",
+        "policyDefinitionReferenceId": "global-r25-service-health-alert-health-advisories",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r25-service-health-alert-health-advisories",
         "parameters": {
           "effect": {
-            "value": "[parameters('r16_effect')]"
+            "value": "[parameters('r25_effect_6730d27')]"
           },
           "profile": {
-            "value": "[parameters('r16_profile')]"
+            "value": "[parameters('r25_profile_6730d27')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "global-r25-service-health-alert-security-advisories",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r25-service-health-alert-security-advisories",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('r25_effect_c3c3bc1')]"
+          },
+          "profile": {
+            "value": "[parameters('r25_profile_c3c3bc1')]"
           }
         }
       }

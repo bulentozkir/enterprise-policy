@@ -4,22 +4,10 @@
     "h01_effect": {
       "value": "Audit"
     },
-    "h02_effect": {
-      "value": "Audit"
-    },
-    "h03_effect": {
-      "value": "Audit"
-    },
     "h05_effect": {
       "value": "Audit"
     },
-    "h06_effect": {
-      "value": "Audit"
-    },
     "h08_effect": {
-      "value": "Audit"
-    },
-    "h09_effect": {
       "value": "Audit"
     },
     "h10_effect": {
@@ -32,9 +20,6 @@
       "value": "NetworkWatcherRG"
     },
     "h12_effect": {
-      "value": "Audit"
-    },
-    "h13_effect": {
       "value": "Audit"
     },
     "h14_effect": {
@@ -72,18 +57,6 @@
     },
     "h21_effect": {
       "value": "Audit"
-    },
-    "h22_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "h23_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "h24_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "h25_effect": {
-      "value": "AuditIfNotExists"
     }
   }
 }

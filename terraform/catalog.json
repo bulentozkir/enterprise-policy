@@ -1,7 +1,7 @@
 {
   "sets": {
     "Global": {
-      "expected_rows": 36,
+      "expected_rows": 33,
       "covered_rows": [
         "R01",
         "R02",
@@ -9,16 +9,12 @@
         "R04",
         "R05",
         "R06",
-        "R07",
         "R08",
         "R09",
         "R10",
         "R11",
         "R12",
         "R13",
-        "R14",
-        "R15",
-        "R16",
         "R18",
         "R19",
         "R20",
@@ -40,7 +36,8 @@
         "R36"
       ],
       "excluded_rows": [
-        "R17"
+        "R17",
+        "R25E"
       ],
       "missing_rows": [],
       "coverage_gaps": [
@@ -50,6 +47,13 @@
           "control": "Key Vault certificate expiry runway",
           "reason": "Key Vault certificates are data-plane objects. No equivalent management-plane certificate inventory/expiry aliases are exposed for a custom All/Indexed policy. Changing Microsoft.KeyVault.Data to All would not provide equivalent coverage. The unsupported clone is removed; use the supported built-in certificate-expiry control or a separately authorized data-plane certificate-monitoring process.",
           "source": "https://learn.microsoft.com/azure/governance/policy/concepts/definition-structure-basics"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R25E",
+          "control": "Service Health alert readiness \u2014 Billing updates",
+          "reason": "Billing-type Service Health notifications are not recorded in the Azure subscription Activity Log (category=ServiceHealth); Microsoft's documentation states these notifications are visible only in the Azure Service Health portal/API, not the activity log. Because Microsoft.Insights/ActivityLogAlerts conditions evaluate activity-log events, there is no alias or data path by which a non-mutating Audit/AuditIfNotExists custom policy can verify a Billing-updates alert rule. Use Azure Service Health's native monitoring/notification configuration for this category instead of a custom Azure Policy audit.",
+          "source": "https://learn.microsoft.com/azure/service-health/service-health-notifications-properties"
         },
         {
           "rows": [
@@ -66,17 +70,13 @@
         "global-r03-r03-unapproved-or-retired-resource-types",
         "global-r04-r04-required-resource-tags",
         "global-r05-r05-required-resource-group-tags",
-        "global-r06-r06-subscription-classification-tag",
-        "global-r07-r07-audit-category-resource-logs",
+        "global-r06-r06-audit-mandatory-tags-subscriptions",
         "global-r08-r08-storage-secure-transfer",
         "global-r09-r09-storage-minimum-tls",
-        "global-r10-r10-no-anonymous-blob-access",
+        "global-r10-r10-storage-trusted-services-access",
         "global-r11-r11-key-vault-soft-delete",
         "global-r12-r12-key-vault-purge-protection",
         "global-r13-r13-key-vault-rbac-authorization",
-        "global-r14-arm-key-expiration",
-        "global-r15-arm-secret-expiration",
-        "global-r16-arm-key-rotation-profile",
         "global-r18-r18-administrative-operation-alerts",
         "global-r19-r19-defender-for-servers-coverage",
         "global-r20-r20-defender-for-containers-coverage",
@@ -84,7 +84,10 @@
         "global-r22-r22-defender-for-key-vault-coverage",
         "global-r23-r23-defender-for-azure-sql-coverage",
         "global-r24-subscription-activity-log-export",
-        "global-r25-service-health-readiness",
+        "global-r25-service-health-alert-health-advisories",
+        "global-r25-service-health-alert-planned-maintenance",
+        "global-r25-service-health-alert-security-advisories",
+        "global-r25-service-health-alert-service-issues",
         "global-r26-r26-vm-approved-license",
         "global-r26-r26-vmss-approved-license",
         "global-r27-r27-vm-approved-license",
@@ -99,27 +102,21 @@
         "global-r32-ama-virtualmachinescalesets",
         "global-r33-required-dcr-association",
         "global-r34-defender-endpoint-integration",
-        "global-r35-budget-notification-readiness",
-        "global-r35-subscription-budget-readiness",
+        "global-r35-subscription-budget-alert-rules",
         "global-r36-resource-parent-tag-consistency"
       ]
     },
     "Hub": {
-      "expected_rows": 25,
+      "expected_rows": 16,
       "covered_rows": [
         "H01",
-        "H02",
-        "H03",
         "H04",
         "H05",
-        "H06",
         "H07",
         "H08",
-        "H09",
         "H10",
         "H11",
         "H12",
-        "H13",
         "H14",
         "H15",
         "H16",
@@ -127,29 +124,20 @@
         "H18",
         "H19",
         "H20",
-        "H21",
-        "H22",
-        "H23",
-        "H24",
-        "H25"
+        "H21"
       ],
       "excluded_rows": [],
       "missing_rows": [],
       "coverage_gaps": [],
       "publishable_definition_names": [
         "hub-h01-h01-firewall-policy-threat-intelligence",
-        "hub-h02-h02-transitional-classic-rule-threat-intelligence",
-        "hub-h03-h03-central-firewall-policy-association",
         "hub-h04-firewall-dns-proxy",
         "hub-h05-h05-waf-configuration-on-centrally-owned-application-gat",
-        "hub-h06-h06-premium-firewall-where-risk-justified",
         "hub-h07-hub-ddos-approved-plan",
         "hub-h08-h08-firewall-association-on-secured-virtual-hubs",
-        "hub-h09-h09-non-basic-vpn-gateway-sku",
         "hub-h10-h10-entra-only-point-to-site-vpn-authentication",
         "hub-h11-h11-regional-network-watcher-presence",
         "hub-h12-h12-private-ordinary-platform-vm-subnets",
-        "hub-h13-h13-traffic-analytics-on-selected-vnet-flow-logs",
         "hub-h14-h14-private-only-central-log-analytics-access",
         "hub-h15-h15-entra-based-central-log-ingestion",
         "hub-h16-h16-hub-specific-approved-peering-inventory",
@@ -157,11 +145,7 @@
         "hub-h18-h18-approved-firewall-upstream-dns",
         "hub-h19-h19-bastion-shareable-links-disabled",
         "hub-h20-h20-approved-central-workspace-retention-floor",
-        "hub-h21-premium-firewall-idps",
-        "hub-h22-connectivity-amba-metric-profile",
-        "hub-h23-management-amba-metric-profile",
-        "hub-h24-identity-amba-metric-profile",
-        "hub-h25-hub-vnet-flow-log-coverage"
+        "hub-h21-premium-firewall-idps"
       ]
     },
     "LandingZone": {

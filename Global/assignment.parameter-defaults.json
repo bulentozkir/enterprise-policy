@@ -31,47 +31,10 @@
     "r06_effect": {
       "value": "Audit"
     },
-    "r07_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "r07_requiredLogLevel": {
-      "value": "Audit"
-    },
-    "r07_resourceTypeList": {
+    "r06_mandatoryTags": {
       "value": [
-        "microsoft.agfoodplatform/farmbeats",
-        "microsoft.apimanagement/service",
-        "microsoft.appconfiguration/configurationstores",
-        "microsoft.attestation/attestationproviders",
-        "microsoft.automation/automationaccounts",
-        "microsoft.avs/privateclouds",
-        "microsoft.cache/redis",
-        "microsoft.cdn/profiles",
-        "microsoft.cognitiveservices/accounts",
-        "microsoft.containerregistry/registries",
-        "microsoft.devices/iothubs",
-        "microsoft.eventgrid/topics",
-        "microsoft.eventgrid/domains",
-        "microsoft.eventgrid/partnernamespaces",
-        "microsoft.eventhub/namespaces",
-        "microsoft.keyvault/vaults",
-        "microsoft.keyvault/managedhsms",
-        "microsoft.machinelearningservices/workspaces",
-        "microsoft.media/mediaservices",
-        "microsoft.media/videoanalyzers",
-        "microsoft.netapp/netappaccounts/capacitypools/volumes",
-        "microsoft.network/publicipaddresses",
-        "microsoft.network/virtualnetworkgateways",
-        "microsoft.network/p2svpngateways",
-        "microsoft.network/frontdoors",
-        "microsoft.network/bastionhosts",
-        "microsoft.operationalinsights/workspaces",
-        "microsoft.purview/accounts",
-        "microsoft.servicebus/namespaces",
-        "microsoft.signalrservice/signalr",
-        "microsoft.signalrservice/webpubsub",
-        "microsoft.sql/servers/databases",
-        "microsoft.sql/managedinstances"
+        "owner",
+        "costcenter"
       ]
     },
     "r08_effect": {
@@ -114,9 +77,6 @@
       "value": "AuditIfNotExists"
     },
     "r24_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "r25_effect": {
       "value": "AuditIfNotExists"
     },
     "r26_effect": {
@@ -164,20 +124,20 @@
     "r35_effect": {
       "value": "AuditIfNotExists"
     },
-    "r35_effect_b41d4d5": {
-      "value": "Audit"
-    },
     "r36_effect": {
       "value": "Audit"
     },
-    "r14_effect": {
-      "value": "Audit"
+    "r25_effect": {
+      "value": "AuditIfNotExists"
     },
-    "r15_effect": {
-      "value": "Audit"
+    "r25_effect_1ed4de2": {
+      "value": "AuditIfNotExists"
     },
-    "r16_effect": {
-      "value": "Audit"
+    "r25_effect_6730d27": {
+      "value": "AuditIfNotExists"
+    },
+    "r25_effect_c3c3bc1": {
+      "value": "AuditIfNotExists"
     }
   }
 }

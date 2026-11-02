@@ -1,8 +1,8 @@
 {
   "name": "hub-h20-h20-approved-central-workspace-retention-floor",
   "properties": {
-    "displayName": "Deny change of retention days in Log Analytics workspace",
-    "description": "Ensure the retention days for Log Analytics workspaces do not fall below the set threshold.",
+    "displayName": "Audit change of retention days in Log Analytics workspace",
+    "description": "Audits Log Analytics workspaces whose retention days are at or below the set threshold. Audit is the default effect; Deny can be selected later for enforcement.",
     "mode": "All",
     "metadata": {
       "category": "Monitoring",

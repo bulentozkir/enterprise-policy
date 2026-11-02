@@ -1,10 +1,10 @@
 {
   "set": "Global",
-  "catalogRows": 36,
-  "customDefinitions": 41,
-  "publishableDefinitions": 41,
+  "catalogRows": 33,
+  "customDefinitions": 39,
+  "publishableDefinitions": 39,
   "referenceOnlyDefinitions": 0,
-  "initiativeParameters": 82,
+  "initiativeParameters": 74,
   "coverageGaps": [
     {
       "set": "Global",
@@ -12,6 +12,13 @@
       "control": "Key Vault certificate expiry runway",
       "reason": "Key Vault certificates are data-plane objects. No equivalent management-plane certificate inventory/expiry aliases are exposed for a custom All/Indexed policy. Changing Microsoft.KeyVault.Data to All would not provide equivalent coverage. The unsupported clone is removed; use the supported built-in certificate-expiry control or a separately authorized data-plane certificate-monitoring process.",
       "source": "https://learn.microsoft.com/azure/governance/policy/concepts/definition-structure-basics"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R25E",
+      "control": "Service Health alert readiness \u2014 Billing updates",
+      "reason": "Billing-type Service Health notifications are not recorded in the Azure subscription Activity Log (category=ServiceHealth); Microsoft's documentation states these notifications are visible only in the Azure Service Health portal/API, not the activity log. Because Microsoft.Insights/ActivityLogAlerts conditions evaluate activity-log events, there is no alias or data path by which a non-mutating Audit/AuditIfNotExists custom policy can verify a Billing-updates alert rule. Use Azure Service Health's native monitoring/notification configuration for this category instead of a custom Azure Policy audit.",
+      "source": "https://learn.microsoft.com/azure/service-health/service-health-notifications-properties"
     }
   ],
   "policies": [
@@ -419,105 +426,26 @@
     {
       "set": "Global",
       "rowKey": "R06",
-      "key": "r06-subscription-classification-tag",
-      "source_url": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Tags/required-tag-and-value-set-on-subscriptions/azurepolicy.json",
-      "source_id": "ce5c3d48-6096-4ed7-b2ae-a1b730f5f49d",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
-        "caveats": "Community sample: review and import as a custom definition; the GUID is a source/sample identifier, not a Microsoft built-in ID. Requires subscription tag support and permissions."
-      },
-      "limitations": [
-        "Community sample: review and import as a custom definition; the GUID is a source/sample identifier, not a Microsoft built-in ID. Requires subscription tag support and permissions.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "Require tag name and a value from a set on Subscriptions",
-      "applicability": "Conditional",
-      "name": "global-r06-r06-subscription-classification-tag",
-      "file": "policies/global-r06-r06-subscription-classification-tag.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "d21b981026f1d8bb9f471600b0c2853df4469bd1a4eb41773f1f16b818cb34af",
-      "requiredParameters": [
-        "tagName",
-        "allowedTagValues",
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R07",
-      "key": "r07-audit-category-resource-logs",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/DiagnosticSettingsExistsAudit_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/187242f4-89c6-4c43-9a4e-188c0efacc5f",
+      "key": "r06-audit-mandatory-tags-subscriptions",
+      "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Audit-Tags-Mandatory.json",
+      "source_id": "Audit-Tags-Mandatory-Subscriptions",
       "publishable": true,
       "scopeNotes": {
         "applicability": "Baseline",
         "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
-        "caveats": "AuditIfNotExists only inspects related diagnostic settings. It does not configure logging, verify a central destination, retention, delivery, or cover every Azure resource type."
+        "caveats": "Checks tag-key presence only, not specific allowed values or non-empty quality; do not assume tag inheritance from the subscription to child resource groups or resources. Replaces the retired single-tag-allowed-values community clone (ce5c3d48-6096-4ed7-b2ae-a1b730f5f49d) by adapting the same mandatory-tags presence pattern used for resources (R04) and resource groups (R05); Azure does not publish an upstream subscription-scoped variant, so the check expression is derived from the ALZ Audit-Tags-Mandatory source rather than cloned verbatim."
       },
       "limitations": [
-        "AuditIfNotExists only inspects related diagnostic settings. It does not configure logging, verify a central destination, retention, delivery, or cover every Azure resource type.",
+        "Checks tag-key presence only, not specific allowed values or non-empty quality; do not assume tag inheritance from the subscription to child resource groups or resources. Replaces the retired single-tag-allowed-values community clone (ce5c3d48-6096-4ed7-b2ae-a1b730f5f49d) by adapting the same mandatory-tags presence pattern used for resources (R04) and resource groups (R05); Azure does not publish an upstream subscription-scoped variant, so the check expression is derived from the ALZ Audit-Tags-Mandatory source rather than cloned verbatim.",
         "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+        "Azure Policy does not allow removing parameters from an existing custom definition, so this redesign uses a new definition identity (r06-audit-mandatory-tags-subscriptions) instead of mutating the prior tagName/allowedTagValues/evaluationScope definition in place; the prior definition (global-r06-r06-subscription-classification-tag) is retired and removed from Azure rather than left orphaned."
       ],
       "transformations": [
         {
           "path": "/policyType",
           "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
           "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
         },
         {
           "path": "/metadata/version",
@@ -529,14 +457,19 @@
           "reason": "Canonical source-supported effects and catalog audit-first default.",
           "category": "effect-normalization",
           "parameterName": "effect"
+        },
+        {
+          "path": "/properties",
+          "reason": "User-requested redesign: replaced the single-tag-with-allowed-values logic (tagName/allowedTagValues/evaluationScope) with the mandatory-tags presence pattern (mandatoryTags array), matching R04/R05. Renamed the definition identity because Azure Policy does not permit removing parameters from an existing custom definition; the prior definition is retired rather than mutated in place.",
+          "category": "user-requested-redesign"
         }
       ],
-      "catalogName": "Resource logs should be enabled for Audit on supported resources",
+      "catalogName": "Audit mandatory tags on Subscriptions",
       "applicability": "Baseline",
-      "name": "global-r07-r07-audit-category-resource-logs",
-      "file": "policies/global-r07-r07-audit-category-resource-logs.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "5d00cd8501ac62eb74751e5e679575c23ccd7ddf4e786ac6d9e90d348db1f86b",
+      "name": "global-r06-r06-audit-mandatory-tags-subscriptions",
+      "file": "policies/global-r06-r06-audit-mandatory-tags-subscriptions.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "bdad1737b78080b6d9dbeccdc4b7172356f93130fbbab01f643572c9d660e269",
       "requiredParameters": []
     },
     {
@@ -677,20 +610,19 @@
     {
       "set": "Global",
       "rowKey": "R10",
-      "key": "r10-no-anonymous-blob-access",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Storage/ASC_Storage_DisallowPublicBlobAccess_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/4fa4b6c0-31ca-4c0d-b10d-24b96f62a751",
+      "key": "r10-storage-trusted-services-access",
+      "source_url": "https://learn.microsoft.com/azure/storage/common/storage-network-security-manage-exceptions",
       "publishable": true,
       "scopeNotes": {
         "applicability": "Baseline",
         "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
-        "caveats": "Different from disabling the account's public network endpoint. Approve explicit exceptions for deliberate public static content before Deny."
+        "caveats": "Audits the storage account network-rule exception 'Allow Azure services on the trusted services list to access this storage account' (networkAcls.bypass must include AzureServices). It does not verify which specific trusted services need access, resource-instance rules, or whether the account is otherwise open to all networks; an account whose bypass property is absent is treated as the platform default (AzureServices). Replaces the previous anonymous-blob-access check."
       },
       "limitations": [
-        "Different from disabling the account's public network endpoint. Approve explicit exceptions for deliberate public static content before Deny.",
+        "Audits the storage account network-rule exception 'Allow Azure services on the trusted services list to access this storage account' (networkAcls.bypass must include AzureServices). It does not verify which specific trusted services need access, resource-instance rules, or whether the account is otherwise open to all networks; an account whose bypass property is absent is treated as the platform default (AzureServices). Replaces the previous anonymous-blob-access check.",
         "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+        "Authored as a custom design from the documented Azure Storage network-rule exception setting, not cloned from a Microsoft built-in definition. Alias Microsoft.Storage/storageAccounts/networkAcls.bypass was confirmed in the live Microsoft.Storage provider metadata."
       ],
       "transformations": [
         {
@@ -699,43 +631,17 @@
           "category": "custom-clone"
         },
         {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
+          "path": "/properties",
+          "reason": "User-requested redesign: replaced the anonymous-blob-access check (allowBlobPublicAccess) with a trusted-services network-exception check (networkAcls.bypass contains AzureServices). Definition identity renamed to match.",
+          "category": "user-requested-redesign"
         }
       ],
-      "catalogName": "Storage account public access should be disallowed",
+      "catalogName": "Storage account public access should allow trusted services",
       "applicability": "Baseline",
-      "name": "global-r10-r10-no-anonymous-blob-access",
-      "file": "policies/global-r10-r10-no-anonymous-blob-access.json",
+      "name": "global-r10-r10-storage-trusted-services-access",
+      "file": "policies/global-r10-r10-storage-trusted-services-access.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "327249dc72ebf937a26510367ceb1d4a415e24a4cd67df3e0fd279f728b256a0",
+      "customDefinitionSha256": "99eae9cfeba47843f9aa86afa4975b168c7f9942fc7aeaee122fec4611233656",
       "requiredParameters": []
     },
     {
@@ -1375,40 +1281,17 @@
       "key": "subscription-activity-log-export",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/DataConnectorsAzureActivity.json",
       "limitations": [
-        "Checks subscription diagnostic settings and Log Analytics destination only, not log delivery, retention or Event Hub routes.",
-        "Use subscription resource IDs as targets. Each required category must be enabled within the matching setting.",
-        "Design specification only: definition is not supplied or deployable yet. Create and test a pure AuditIfNotExists rule with no deployment, roleDefinitionIds or remediation content. The referenced ALZ built-in deploys settings and is excluded from all three sets. Existence auditing cannot be switched directly to Deny."
+        "Checks subscription diagnostic-setting destination and that at least one enabled log entry uses categoryGroup 'allLogs', not log delivery, retention or Event Hub routes. categoryGroup is used instead of an enumerated category list so the check automatically covers any Activity Log category Microsoft adds in the future without requiring a policy update.",
+        "Checks subscription diagnostic-setting destination and that at least one enabled log entry uses categoryGroup 'allLogs', not log delivery, retention or Event Hub routes."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
-      "catalogName": "Proposed: Audit subscription Activity Log categories and approved destination",
+      "catalogName": "Audit subscription all Activity Log categories sent to Log Analytics",
       "applicability": "Baseline",
       "name": "global-r24-subscription-activity-log-export",
       "file": "policies/global-r24-subscription-activity-log-export.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "7c01eef4d6ce951d90efe1869640ccf2e2dbd4feb9fd9f2ed5b3ecda891ec9ff",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R25",
-      "key": "service-health-readiness",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
-      "limitations": [
-        "Checks enabled category/scope/action-group configuration, not incident-type or region coverage and not notification delivery.",
-        "Additional alert conditions can narrow coverage; operational review of event/region/service filters remains required.",
-        "Design specification only: definition is not supplied or deployable yet. Create and test a pure AuditIfNotExists rule with no deployment, roleDefinitionIds or remediation content. Check enabled state, conditions, subscription coverage and action-group association; test notification delivery operationally. Reference definition is deploy-capable and is NOT a member."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "catalogName": "Proposed: Audit Service Health alert conditions and action-group association",
-      "applicability": "Baseline",
-      "name": "global-r25-service-health-readiness",
-      "file": "policies/global-r25-service-health-readiness.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "b0712d8468711d9fde35393ce59b04b585a7f121beff4f637d3e0f4da51beac7",
+      "customDefinitionSha256": "cc7983719d5d90deab34ac20d3da6e4013638d2440848d0a66e95a8fcea50047",
       "requiredParameters": [
         "profile"
       ]
@@ -1701,42 +1584,22 @@
     {
       "set": "Global",
       "rowKey": "R35",
-      "key": "subscription-budget-readiness",
+      "key": "subscription-budget-alert-rules",
       "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Budget.json",
       "limitations": [
-        "Notification configuration is audited by the separate budget-resource rule for the same catalog row.",
-        "Budget creation, notifications, spend control and billing currency are not performed or proven."
+        "Adapted from the existence check of the ALZ Deploy-Budget policy; audit only, with no deployment, role or remediation content.",
+        "Azure Policy exposes a budget's alert rules only as one object property (Microsoft.Consumption/budgets/notifications). The check confirms that a subscription-scope Cost budget has that property present; it cannot count alert rules, verify thresholds, recipients or action groups, or detect an empty object.",
+        "Only budgets at subscription scope are considered; budgets at resource-group, management-group or billing scope do not satisfy it.",
+        "Subscriptions that cannot host Cost Management budgets are reported as non-compliant; exclude them with assignment exclusions (notScopes).",
+        "Does not create budgets, send notifications, cap spending or validate alert delivery."
       ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "scopeNotes": "Global/intermediate root; Baseline: evaluates every subscription under the assignment scope. Use assignment exclusions for subscriptions that cannot have budgets.",
       "publishable": true,
-      "name": "global-r35-subscription-budget-readiness",
-      "file": "policies/global-r35-subscription-budget-readiness.json",
+      "name": "global-r35-subscription-budget-alert-rules",
+      "file": "policies/global-r35-subscription-budget-alert-rules.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "cf4d16d773bf0d6028b6823cd5307d7646ba7c010b0b71d71054a74d5ec1d0e9",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R35",
-      "key": "budget-notification-readiness",
-      "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Budget.json",
-      "limitations": [
-        "Select existing budget resource IDs, not subscription IDs. The companion existence rule detects missing budgets.",
-        "Compares the entire reviewed notification dictionary because no individual notification-entry aliases are exposed.",
-        "Expected notifications must have enabled approved thresholds and recipients; exact equality is stricter than subset coverage.",
-        "Does not create budgets, send email, validate delivery or cap spending."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "name": "global-r35-budget-notification-readiness",
-      "file": "policies/global-r35-budget-notification-readiness.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "0080f3f1e4bfb1fe678c9e8b09021114142f4161133fe95ca0caad5e4920c5c6",
-      "requiredParameters": [
-        "profile"
-      ]
+      "customDefinitionSha256": "dfbe79abaf794ba2078218253aed5de38524cdbbe4d0c6e41d725ed6bf23a7cb",
+      "requiredParameters": []
     },
     {
       "set": "Global",
@@ -1760,69 +1623,77 @@
     },
     {
       "set": "Global",
-      "rowKey": "R14",
-      "key": "arm-key-expiration",
-      "source_url": "https://policyalias.mats.codes/Microsoft.KeyVault/vaults-keys/",
+      "rowKey": "R25",
+      "key": "service-health-alert-service-issues",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
       "limitations": [
-        "Fresh management-plane rule, NOT equivalent to vault-wide Microsoft.KeyVault.Data evaluation.",
-        "Only approved ARM-managed child resources are covered. Objects/versions written exclusively through the Key Vault data plane are not guaranteed to be discovered or evaluated.",
-        "No secret values or key material are read. Expiry presence is not rotation or validity proof.",
-        "Align expiry with rotation and service dependencies; abrupt expiry can cause outages. A populated expiry is not evidence that rotation works. Key Vault data-plane mode: validate cloud/region support and application creation/rotation behavior before any future Deny."
+        "Checks enabled state, subscription scope, the ServiceHealth category condition, the incident-type condition and action-group association on the matching ActivityLogAlerts resource; it does not verify region/service filters or confirm notification delivery.",
+        "Policy field/field() alias references for Microsoft.Insights/ActivityLogAlerts condition.allOf[*] are a custom design, not sourced from an official Microsoft built-in policy; target-cloud alias support and Azure service acceptance have not been independently validated."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
-      "catalogName": "Key Vault keys should have an expiration date",
-      "applicability": "Baseline",
-      "name": "global-r14-arm-key-expiration",
-      "file": "policies/global-r14-arm-key-expiration.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "805c0e9244f722c5b5329400f77cd6793ce8ef7f0022eb9fb41b174c722462de",
+      "name": "global-r25-service-health-alert-service-issues",
+      "file": "policies/global-r25-service-health-alert-service-issues.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "648f5f52b0be486d7fa788bb48bb6b112395e7891bcd30ceaa4c64eba1507d5b",
       "requiredParameters": [
         "profile"
       ]
     },
     {
       "set": "Global",
-      "rowKey": "R15",
-      "key": "arm-secret-expiration",
-      "source_url": "https://policyalias.mats.codes/Microsoft.KeyVault/vaults-secrets/",
+      "rowKey": "R25",
+      "key": "service-health-alert-planned-maintenance",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
       "limitations": [
-        "Fresh management-plane rule, NOT equivalent to vault-wide Microsoft.KeyVault.Data evaluation.",
-        "Only approved ARM-managed child resources are covered. Objects/versions written exclusively through the Key Vault data plane are not guaranteed to be discovered or evaluated.",
-        "No secret values or key material are read. Expiry presence is not rotation or validity proof.",
-        "Use exceptions for externally managed integration secrets only with documented lifecycle controls. Key Vault data-plane mode: validate cloud/region support and application creation/rotation behavior before any future Deny."
+        "Checks enabled state, subscription scope, the ServiceHealth category condition, the incident-type condition and action-group association on the matching ActivityLogAlerts resource; it does not verify region/service filters or confirm notification delivery.",
+        "Policy field/field() alias references for Microsoft.Insights/ActivityLogAlerts condition.allOf[*] are a custom design, not sourced from an official Microsoft built-in policy; target-cloud alias support and Azure service acceptance have not been independently validated."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
-      "catalogName": "Key Vault secrets should have an expiration date",
-      "applicability": "Baseline",
-      "name": "global-r15-arm-secret-expiration",
-      "file": "policies/global-r15-arm-secret-expiration.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "8792e9ca1ed58de26a4947f974e74ecb4a08883eac3f16fe9a0324ab9fb57062",
+      "name": "global-r25-service-health-alert-planned-maintenance",
+      "file": "policies/global-r25-service-health-alert-planned-maintenance.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "7fa5a51798bc1abb6bcefbe88012f9f8fc9518cfb11c8d176a39de311d0fc2b4",
       "requiredParameters": [
         "profile"
       ]
     },
     {
       "set": "Global",
-      "rowKey": "R16",
-      "key": "arm-key-rotation-profile",
-      "source_url": "https://policyalias.mats.codes/Microsoft.KeyVault/vaults-keys/",
+      "rowKey": "R25",
+      "key": "service-health-alert-health-advisories",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
       "limitations": [
-        "Fresh management-plane check limited to ARM-managed keys; it is not equivalent to vault-wide data-plane inventory.",
-        "Checks an allowlisted timeAfterCreate interval, not numerical duration equivalence or actual rotation success.",
-        "Keys using only timeBeforeExpiry rotation need a separately reviewed profile and rule.",
-        "Does not rotate keys. The definition has Audit/Disabled only; a future Deny requires a separate valid definition and lifecycle impact assessment. Key Vault data-plane mode: validate cloud/region support and application creation/rotation behavior before any future Deny."
+        "Checks enabled state, subscription scope, the ServiceHealth category condition, the incident-type condition and action-group association on the matching ActivityLogAlerts resource; it does not verify region/service filters or confirm notification delivery.",
+        "Audits for coverage of EITHER the ActionRequired or Informational incident type on the matching alert rule, not necessarily both together in a single rule; AuditIfNotExists evaluates each candidate alert rule independently and cannot prove aggregate coverage across multiple separate rules. Configure a single rule whose condition covers both incident types, or confirm both are covered operationally.",
+        "Policy field/field() alias references for Microsoft.Insights/ActivityLogAlerts condition.allOf[*] are a custom design, not sourced from an official Microsoft built-in policy; target-cloud alias support and Azure service acceptance have not been independently validated."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
-      "catalogName": "Keys should have a rotation policy ensuring that their rotation is scheduled within the specified number of days after creation.",
-      "applicability": "Conditional",
-      "name": "global-r16-arm-key-rotation-profile",
-      "file": "policies/global-r16-arm-key-rotation-profile.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "8de04b76c2c3012338b1c5c9f21c5ddc0f9f4d85be295cd76ea163c268c695ca",
+      "name": "global-r25-service-health-alert-health-advisories",
+      "file": "policies/global-r25-service-health-alert-health-advisories.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "e02a9b04e839bb08d6c1426b1e59ef1bf74feaee36ec2fca93e2493bc404bb97",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R25",
+      "key": "service-health-alert-security-advisories",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
+      "limitations": [
+        "Checks enabled state, subscription scope, the ServiceHealth category condition, the incident-type condition and action-group association on the matching ActivityLogAlerts resource; it does not verify region/service filters or confirm notification delivery.",
+        "Policy field/field() alias references for Microsoft.Insights/ActivityLogAlerts condition.allOf[*] are a custom design, not sourced from an official Microsoft built-in policy; target-cloud alias support and Azure service acceptance have not been independently validated."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r25-service-health-alert-security-advisories",
+      "file": "policies/global-r25-service-health-alert-security-advisories.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "0b81eda71775141e6b5533e7737f58c298d5f81003e2ab667a6c70a98146e3f3",
       "requiredParameters": [
         "profile"
       ]

@@ -1,0 +1,51 @@
+{
+  "name": "global-r10-r10-storage-trusted-services-access",
+  "properties": {
+    "displayName": "Storage account public access should allow trusted services",
+    "description": "Audits storage accounts whose network rules do not allow Azure services on the trusted services list to access the storage account (the AzureServices network-rule exception).",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Storage",
+      "source": "https://learn.microsoft.com/azure/storage/common/storage-network-security-manage-exceptions",
+      "catalogRow": "R10",
+      "packageSet": "Global"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+            "exists": true
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/networkAcls.bypass",
+            "notContains": "AzureServices"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
