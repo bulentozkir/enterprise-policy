@@ -159,45 +159,30 @@
         },
         "defaultValue": []
       },
-      "constraintTemplateUrl": {
-        "type": "String",
-        "metadata": {
-          "displayName": "constraintTemplateUrl",
-          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
-        }
-      },
-      "evaluationScope": {
+      "clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Approved cluster tag selector",
+          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
           "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
           "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
+            "tagName",
+            "tagValue"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "properties": {
+            "tagName": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\[\\]']+$"
+            },
+            "tagValue": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
         }
       }
     },
@@ -205,33 +190,15 @@
       "if": {
         "allOf": [
           {
-            "count": {
-              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
-              "name": "evaluationScopeIncludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeIncludedPattern')]"
-              }
-            },
-            "greater": 0
-          },
-          {
-            "count": {
-              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
-              "name": "evaluationScopeExcludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeExcludedPattern')]"
-              }
-            },
-            "equals": 0
-          },
-          {
             "field": "type",
             "in": [
               "Microsoft.Kubernetes/connectedClusters",
               "Microsoft.ContainerService/managedClusters"
             ]
+          },
+          {
+            "field": "[concat('tags[', parameters('clusterScope').tagName, ']')]",
+            "equals": "[parameters('clusterScope').tagValue]"
           }
         ]
       },
@@ -241,8 +208,8 @@
           "source": "[parameters('source')]",
           "warn": "[parameters('warn')]",
           "templateInfo": {
-            "sourceType": "PublicURL",
-            "url": "[parameters('constraintTemplateUrl')]"
+            "sourceType": "Base64Encoded",
+            "content": "YXBpVmVyc2lvbjogdGVtcGxhdGVzLmdhdGVrZWVwZXIuc2gvdjFiZXRhMQ0Ka2luZDogQ29uc3RyYWludFRlbXBsYXRlDQptZXRhZGF0YToNCiAgbmFtZTogazhzYXp1cmV2M2FsbG93ZWRjYXBhYmlsaXRpZXMNCnNwZWM6DQogIGNyZDoNCiAgICBzcGVjOg0KICAgICAgbmFtZXM6DQogICAgICAgIGtpbmQ6IEs4c0F6dXJlVjNBbGxvd2VkQ2FwYWJpbGl0aWVzDQogICAgICB2YWxpZGF0aW9uOg0KICAgICAgICAjIFNjaGVtYSBmb3IgdGhlIGBwYXJhbWV0ZXJzYCBmaWVsZA0KICAgICAgICBvcGVuQVBJVjNTY2hlbWE6DQogICAgICAgICAgcHJvcGVydGllczoNCiAgICAgICAgICAgIGFsbG93ZWRDYXBhYmlsaXRpZXM6DQogICAgICAgICAgICAgIHR5cGU6IGFycmF5DQogICAgICAgICAgICAgIGl0ZW1zOg0KICAgICAgICAgICAgICAgIHR5cGU6IHN0cmluZw0KICAgICAgICAgICAgcmVxdWlyZWREcm9wQ2FwYWJpbGl0aWVzOg0KICAgICAgICAgICAgICB0eXBlOiBhcnJheQ0KICAgICAgICAgICAgICBpdGVtczoNCiAgICAgICAgICAgICAgICB0eXBlOiBzdHJpbmcNCiAgICAgICAgICAgIGV4Y2x1ZGVkQ29udGFpbmVyczoNCiAgICAgICAgICAgICAgdHlwZTogYXJyYXkNCiAgICAgICAgICAgICAgaXRlbXM6DQogICAgICAgICAgICAgICAgdHlwZTogc3RyaW5nDQogICAgICAgICAgICBleGNsdWRlZEltYWdlczoNCiAgICAgICAgICAgICAgZGVzY3JpcHRpb246ID4tDQogICAgICAgICAgICAgICAgQW55IGNvbnRhaW5lciB0aGF0IHVzZXMgYW4gaW1hZ2UgdGhhdCBtYXRjaGVzIGFuIGVudHJ5IGluIHRoaXMgbGlzdCB3aWxsIGJlIGV4Y2x1ZGVkDQogICAgICAgICAgICAgICAgZnJvbSBlbmZvcmNlbWVudC4gUHJlZml4LW1hdGNoaW5nIGNhbiBiZSBzaWduaWZpZWQgd2l0aCBgKmAuIEZvciBleGFtcGxlOiBgbXktaW1hZ2UtKmAuDQogICAgICAgICAgICAgICAgSXQgaXMgcmVjb21tZW5kZWQgdGhhdCB1c2VycyB1c2UgdGhlIGZ1bGx5LXF1YWxpZmllZCBEb2NrZXIgaW1hZ2UgbmFtZSAoZS5nLiBzdGFydCB3aXRoIGEgZG9tYWluIG5hbWUpDQogICAgICAgICAgICAgICAgaW4gb3JkZXIgdG8gYXZvaWQgdW5leHBlY3RlZGx5IGV4Y2x1ZGluZyBpbWFnZXMgZnJvbSBhbiB1bnRydXN0ZWQgcmVwb3NpdG9yeS4NCiAgICAgICAgICAgICAgdHlwZTogYXJyYXkNCiAgICAgICAgICAgICAgaXRlbXM6DQogICAgICAgICAgICAgICAgdHlwZTogc3RyaW5nDQogIHRhcmdldHM6DQogICAgLSB0YXJnZXQ6IGFkbWlzc2lvbi5rOHMuZ2F0ZWtlZXBlci5zaA0KICAgICAgcmVnbzogfA0KICAgICAgICBwYWNrYWdlIGs4c2F6dXJldjNhbGxvd2VkY2FwYWJpbGl0aWVzDQoNCiAgICAgICAgaW1wb3J0IGRhdGEubGliLmV4Y2x1ZGVfY29udGFpbmVyX2ltYWdlLmlzX2V4Y2x1ZGVkDQoNCiAgICAgICAgdmlvbGF0aW9uW3sibXNnIjogbXNnfV0gew0KICAgICAgICAgIG5vdCBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMubm9kZVNlbGVjdG9yWyJrdWJlcm5ldGVzLmlvL29zIl0gPT0gIndpbmRvd3MiDQogICAgICAgICAgY29udGFpbmVyIDo9IGlucHV0X2NvbnRhaW5lcnNbX10NCiAgICAgICAgICBub3QgaW5wdXRfY29udGFpbmVyX2V4Y2x1ZGVkKGNvbnRhaW5lci5uYW1lKQ0KICAgICAgICAgIG5vdCBpc19leGNsdWRlZChjb250YWluZXIpDQogICAgICAgICAgaGFzX2Rpc2FsbG93ZWRfY2FwYWJpbGl0aWVzKGNvbnRhaW5lcikNCiAgICAgICAgICBtc2cgOj0gc3ByaW50ZigiY29udGFpbmVyIDwldj4gaGFzIGEgZGlzYWxsb3dlZCBjYXBhYmlsaXR5LiBBbGxvd2VkIGNhcGFiaWxpdGllcyBhcmUgJXYuIEZvciBtb3JlIGluZm9ybWF0aW9uLCB2aXNpdCBodHRwczovL2FrYS5tcy9ha3MvZGVwbG95bWVudC1zYWZlZ3VhcmRzIiwgW2NvbnRhaW5lci5uYW1lLCBnZXRfZGVmYXVsdChpbnB1dC5wYXJhbWV0ZXJzLCAiYWxsb3dlZENhcGFiaWxpdGllcyIsICJOT05FIildKQ0KICAgICAgICB9DQoNCiAgICAgICAgdmlvbGF0aW9uW3sibXNnIjogbXNnfV0gew0KICAgICAgICAgIG5vdCBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMubm9kZVNlbGVjdG9yWyJrdWJlcm5ldGVzLmlvL29zIl0gPT0gIndpbmRvd3MiDQogICAgICAgICAgY29udGFpbmVyIDo9IGlucHV0X2NvbnRhaW5lcnNbX10NCiAgICAgICAgICBub3QgaW5wdXRfY29udGFpbmVyX2V4Y2x1ZGVkKGNvbnRhaW5lci5uYW1lKQ0KICAgICAgICAgIG5vdCBpc19leGNsdWRlZChjb250YWluZXIpDQogICAgICAgICAgbWlzc2luZ19kcm9wX2NhcGFiaWxpdGllcyhjb250YWluZXIpDQogICAgICAgICAgbXNnIDo9IHNwcmludGYoImNvbnRhaW5lciA8JXY+IGlzIG5vdCBkcm9wcGluZyBhbGwgcmVxdWlyZWQgY2FwYWJpbGl0aWVzLiBDb250YWluZXIgbXVzdCBkcm9wIGFsbCBvZiAldiBvciBcIkFMTFwiLiBGb3IgbW9yZSBpbmZvcm1hdGlvbiwgdmlzaXQgaHR0cHM6Ly9ha2EubXMvYWtzL2RlcGxveW1lbnQtc2FmZWd1YXJkcyIsIFtjb250YWluZXIubmFtZSwgaW5wdXQucGFyYW1ldGVycy5yZXF1aXJlZERyb3BDYXBhYmlsaXRpZXNdKQ0KICAgICAgICB9DQoNCiAgICAgICAgaGFzX2Rpc2FsbG93ZWRfY2FwYWJpbGl0aWVzKGNvbnRhaW5lcikgew0KICAgICAgICAgIGFsbG93ZWQgOj0ge2MgfCBjIDo9IGxvd2VyKGlucHV0LnBhcmFtZXRlcnMuYWxsb3dlZENhcGFiaWxpdGllc1tfXSl9DQogICAgICAgICAgbm90IGFsbG93ZWRbIioiXQ0KICAgICAgICAgIGNhcGFiaWxpdGllcyA6PSB7YyB8IGMgOj0gbG93ZXIoY29udGFpbmVyLnNlY3VyaXR5Q29udGV4dC5jYXBhYmlsaXRpZXMuYWRkW19dKX0NCg0KICAgICAgICAgIGNvdW50KGNhcGFiaWxpdGllcyAtIGFsbG93ZWQpID4gMA0KICAgICAgICB9DQoNCiAgICAgICAgbWlzc2luZ19kcm9wX2NhcGFiaWxpdGllcyhjb250YWluZXIpIHsNCiAgICAgICAgICBtdXN0X2Ryb3AgOj0ge2MgfCBjIDo9IGxvd2VyKGlucHV0LnBhcmFtZXRlcnMucmVxdWlyZWREcm9wQ2FwYWJpbGl0aWVzW19dKX0NCiAgICAgICAgICBhbGwgOj0geyJhbGwifQ0KICAgICAgICAgIGRyb3BwZWQgOj0ge2MgfCBjIDo9IGxvd2VyKGNvbnRhaW5lci5zZWN1cml0eUNvbnRleHQuY2FwYWJpbGl0aWVzLmRyb3BbX10pfQ0KDQogICAgICAgICAgY291bnQobXVzdF9kcm9wIC0gZHJvcHBlZCkgPiAwDQogICAgICAgICAgY291bnQoYWxsIC0gZHJvcHBlZCkgPiAwDQogICAgICAgIH0NCg0KICAgICAgICBnZXRfZGVmYXVsdChvYmosIHBhcmFtLCBfKSA9IG91dCB7DQogICAgICAgICAgb3V0ID0gb2JqW3BhcmFtXQ0KICAgICAgICB9DQoNCiAgICAgICAgZ2V0X2RlZmF1bHQob2JqLCBwYXJhbSwgX2RlZmF1bHQpID0gb3V0IHsNCiAgICAgICAgICBub3Qgb2JqW3BhcmFtXQ0KICAgICAgICAgIG5vdCBvYmpbcGFyYW1dID09IGZhbHNlDQogICAgICAgICAgb3V0ID0gX2RlZmF1bHQNCiAgICAgICAgfQ0KICAgICAgICBpbnB1dF9jb250YWluZXJzW2NdIHsNCiAgICAgICAgICAgIGMgOj0gaW5wdXQucmV2aWV3Lm9iamVjdC5zcGVjLmNvbnRhaW5lcnNbX10NCiAgICAgICAgfQ0KICAgICAgICBpbnB1dF9jb250YWluZXJzW2NdIHsNCiAgICAgICAgICAgIGMgOj0gaW5wdXQucmV2aWV3Lm9iamVjdC5zcGVjLmluaXRDb250YWluZXJzW19dDQogICAgICAgIH0NCiAgICAgICAgaW5wdXRfY29udGFpbmVyc1tjXSB7DQogICAgICAgICAgYyA6PSBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMuZXBoZW1lcmFsQ29udGFpbmVyc1tfXQ0KICAgICAgICB9DQogICAgICAgIGlucHV0X2NvbnRhaW5lcl9leGNsdWRlZChmaWVsZCkgew0KICAgICAgICAgICAgZmllbGQgPT0gaW5wdXQucGFyYW1ldGVycy5leGNsdWRlZENvbnRhaW5lcnNbX10NCiAgICAgICAgfQ0KICAgICAgbGliczoNCiAgICAgICAgLSB8DQogICAgICAgICAgcGFja2FnZSBsaWIuZXhjbHVkZV9jb250YWluZXJfaW1hZ2UNCiAgICAgICAgICBpc19leGNsdWRlZChjb250YWluZXIpIHsNCiAgICAgICAgICAgICAgZXhjbHVkZV9pbWFnZXMgOj0gb2JqZWN0LmdldChvYmplY3QuZ2V0KGlucHV0LCAicGFyYW1ldGVycyIsIHt9KSwgImV4Y2x1ZGVkSW1hZ2VzIiwgW10pDQogICAgICAgICAgICAgIGltZyA6PSBjb250YWluZXIuaW1hZ2UNCiAgICAgICAgICAgICAgZXhjbHVzaW9uIDo9IGV4Y2x1ZGVfaW1hZ2VzW19dDQogICAgICAgICAgICAgIF9tYXRjaGVzX2V4Y2x1c2lvbihpbWcsIGV4Y2x1c2lvbikNCiAgICAgICAgICB9DQogICAgICAgICAgX21hdGNoZXNfZXhjbHVzaW9uKGltZywgZXhjbHVzaW9uKSB7DQogICAgICAgICAgICAgIG5vdCBlbmRzd2l0aChleGNsdXNpb24sICIqIikNCiAgICAgICAgICAgICAgZXhjbHVzaW9uID09IGltZw0KICAgICAgICAgIH0NCiAgICAgICAgICBfbWF0Y2hlc19leGNsdXNpb24oaW1nLCBleGNsdXNpb24pIHsNCiAgICAgICAgICAgICAgZW5kc3dpdGgoZXhjbHVzaW9uLCAiKiIpDQogICAgICAgICAgICAgIHByZWZpeCA6PSB0cmltX3N1ZmZpeChleGNsdXNpb24sICIqIikNCiAgICAgICAgICAgICAgc3RhcnRzd2l0aChpbWcsIHByZWZpeCkNCiAgICAgICAgICB9DQo="
           },
           "apiGroups": [
             ""

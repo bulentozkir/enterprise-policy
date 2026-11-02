@@ -4,7 +4,7 @@
   "customDefinitions": 56,
   "publishableDefinitions": 56,
   "referenceOnlyDefinitions": 0,
-  "initiativeParameters": 176,
+  "initiativeParameters": 169,
   "coverageGaps": [],
   "policies": [
     {
@@ -512,11 +512,10 @@
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
-        "constraintTemplateUrl is required. Supply a reachable, organization-approved compatible public HTTPS ConstraintTemplate; parameterization does not establish compatibility or validate external content. Existing Kubernetes mode, matching and template values are preserved.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "evaluationScope selects the ARM cluster resource ID, not Kubernetes component IDs. Original namespaces, excludedNamespaces, label selectors and constraint details still apply.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
+        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
       ],
       "transformations": [
         {
@@ -576,17 +575,25 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "category": "provider-mode-targeting",
+          "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
         }
       ],
       "catalogName": "Kubernetes cluster should not allow privileged containers",
       "applicability": "Conditional",
+      "templateAsset": {
+        "file": "templates/l07.yaml",
+        "source": "https://store.policy.core.windows.net/kubernetes/container-no-privilege/v2/template.yaml",
+        "sha256": "dd382c70c50694fb4eabf9649c58cc3670379134b48e15ad716c6f7ac62e8e7a"
+      },
       "name": "landingzone-l07-l07-no-privileged-containers",
       "file": "policies/landingzone-l07-l07-no-privileged-containers.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "8bc9e973be8dde44ac6af92ff015ea7597dac81495d9f9b34d24f08e1c271cf8",
+      "customDefinitionSha256": "518e424c128764fff7e800fb61b4ad18aa6c462641f389ab46b681fbe9c27ede",
       "requiredParameters": [
-        "constraintTemplateUrl",
-        "evaluationScope"
+        "clusterScope"
       ]
     },
     {
@@ -603,11 +610,10 @@
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
-        "constraintTemplateUrl is required. Supply a reachable, organization-approved compatible public HTTPS ConstraintTemplate; parameterization does not establish compatibility or validate external content. Existing Kubernetes mode, matching and template values are preserved.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "evaluationScope selects the ARM cluster resource ID, not Kubernetes component IDs. Original namespaces, excludedNamespaces, label selectors and constraint details still apply.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
+        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
       ],
       "transformations": [
         {
@@ -667,17 +673,25 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "category": "provider-mode-targeting",
+          "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
         }
       ],
       "catalogName": "Kubernetes clusters should not allow container privilege escalation",
       "applicability": "Conditional",
+      "templateAsset": {
+        "file": "templates/l08.yaml",
+        "source": "https://store.policy.core.windows.net/kubernetes/container-no-privilege-escalation/v4/template.yaml",
+        "sha256": "3d7d9e3ce449d46abd8c334424988ad5d98317857234b562c405601b981294a7"
+      },
       "name": "landingzone-l08-l08-no-privilege-escalation",
       "file": "policies/landingzone-l08-l08-no-privilege-escalation.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "d0c233c6ecc2c49a245f15bb417fd3650f6e5a2b9462e56cfd85bb20e9283e02",
+      "customDefinitionSha256": "25f9b3fa470e3039f452fb6c0493af6cc3961ec98003ac388b50e788e4c3751f",
       "requiredParameters": [
-        "constraintTemplateUrl",
-        "evaluationScope"
+        "clusterScope"
       ]
     },
     {
@@ -694,11 +708,10 @@
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
-        "constraintTemplateUrl is required. Supply a reachable, organization-approved compatible public HTTPS ConstraintTemplate; parameterization does not establish compatibility or validate external content. Existing Kubernetes mode, matching and template values are preserved.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "evaluationScope selects the ARM cluster resource ID, not Kubernetes component IDs. Original namespaces, excludedNamespaces, label selectors and constraint details still apply.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
+        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
       ],
       "transformations": [
         {
@@ -758,17 +771,25 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "category": "provider-mode-targeting",
+          "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
         }
       ],
       "catalogName": "Kubernetes cluster containers should not share host namespaces",
       "applicability": "Conditional",
+      "templateAsset": {
+        "file": "templates/l09.yaml",
+        "source": "https://store.policy.core.windows.net/kubernetes/block-host-namespace/v3/template.yaml",
+        "sha256": "8b37125edf7c4c2c5fae8b1b4775fa1c4dc41ec9d947677bf1f9d8ffbe6da120"
+      },
       "name": "landingzone-l09-l09-no-shared-host-pid-ipc-namespaces",
       "file": "policies/landingzone-l09-l09-no-shared-host-pid-ipc-namespaces.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "d889789e13fa0e2fb8eeb4e56a5b47a20a2811dcac5719543aedd0db54a23a7d",
+      "customDefinitionSha256": "9934f06b87261f3d6d0a4a2c0c6c99481456261bc522d4cb441929459bc27b91",
       "requiredParameters": [
-        "constraintTemplateUrl",
-        "evaluationScope"
+        "clusterScope"
       ]
     },
     {
@@ -785,11 +806,10 @@
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
-        "constraintTemplateUrl is required. Supply a reachable, organization-approved compatible public HTTPS ConstraintTemplate; parameterization does not establish compatibility or validate external content. Existing Kubernetes mode, matching and template values are preserved.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "evaluationScope selects the ARM cluster resource ID, not Kubernetes component IDs. Original namespaces, excludedNamespaces, label selectors and constraint details still apply.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
+        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
       ],
       "transformations": [
         {
@@ -859,17 +879,25 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "category": "provider-mode-targeting",
+          "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
         }
       ],
       "catalogName": "Kubernetes cluster pod hostPath volumes should only use allowed host paths",
       "applicability": "Conditional",
+      "templateAsset": {
+        "file": "templates/l10.yaml",
+        "source": "https://store.policy.core.windows.net/kubernetes/allowed-host-paths/v5/template.yaml",
+        "sha256": "e631a885b3d70afef8527e5a7f0949fde52ae53047c4ceb7748d8ad46d8cf7c6"
+      },
       "name": "landingzone-l10-l10-restrict-hostpath-and-socket-mounts",
       "file": "policies/landingzone-l10-l10-restrict-hostpath-and-socket-mounts.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "0c1f348a8bd5abab4be6f946fbedab0cc63b8d40e76bda2dc487213edafcc7fe",
+      "customDefinitionSha256": "52bee0863648f3477cf0b508e7271d90dbe838659464573e5e7468e050bcd952",
       "requiredParameters": [
-        "constraintTemplateUrl",
-        "evaluationScope"
+        "clusterScope"
       ]
     },
     {
@@ -886,11 +914,10 @@
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny. This audits manifests; it does not rewrite user/group IDs.",
-        "constraintTemplateUrl is required. Supply a reachable, organization-approved compatible public HTTPS ConstraintTemplate; parameterization does not establish compatibility or validate external content. Existing Kubernetes mode, matching and template values are preserved.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "evaluationScope selects the ARM cluster resource ID, not Kubernetes component IDs. Original namespaces, excludedNamespaces, label selectors and constraint details still apply.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
+        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
       ],
       "transformations": [
         {
@@ -990,17 +1017,25 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "category": "provider-mode-targeting",
+          "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
         }
       ],
       "catalogName": "Kubernetes cluster pods and containers should only run with approved user and group IDs",
       "applicability": "Conditional",
+      "templateAsset": {
+        "file": "templates/l11.yaml",
+        "source": "https://store.policy.core.windows.net/kubernetes/allowed-users-groups/v3/template.yaml",
+        "sha256": "843968ca39d957d642e4d370050c163fe926274f13f0133b5714ba521cc3ad28"
+      },
       "name": "landingzone-l11-l11-run-containers-as-nonroot",
       "file": "policies/landingzone-l11-l11-run-containers-as-nonroot.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "e423e97b5b122240d125ab70345ca3c899ca98d5ced90e052718ea0bba5a0a3d",
+      "customDefinitionSha256": "82a209ac76ed150dee2e8ea14db13ac3344b6036f2cb3c567cc3e93f907ef6e5",
       "requiredParameters": [
-        "constraintTemplateUrl",
-        "evaluationScope"
+        "clusterScope"
       ]
     },
     {
@@ -1017,11 +1052,10 @@
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
-        "constraintTemplateUrl is required. Supply a reachable, organization-approved compatible public HTTPS ConstraintTemplate; parameterization does not establish compatibility or validate external content. Existing Kubernetes mode, matching and template values are preserved.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "evaluationScope selects the ARM cluster resource ID, not Kubernetes component IDs. Original namespaces, excludedNamespaces, label selectors and constraint details still apply.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
+        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
       ],
       "transformations": [
         {
@@ -1091,17 +1125,25 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "category": "provider-mode-targeting",
+          "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
         }
       ],
       "catalogName": "Kubernetes cluster containers should only use allowed capabilities",
       "applicability": "Conditional",
+      "templateAsset": {
+        "file": "templates/l12.yaml",
+        "source": "https://store.policy.core.windows.net/kubernetes/container-allowed-capabilities/v3/template.yaml",
+        "sha256": "1708ba63781a639f608a010ff058eba8f2b5dbeafdc1e30adb1d97164e2095e3"
+      },
       "name": "landingzone-l12-l12-restrict-linux-capabilities",
       "file": "policies/landingzone-l12-l12-restrict-linux-capabilities.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "a74d7b1d739d3a3e81f02ed48d58761180477c4de013cd82ae08fa640a8c6cb3",
+      "customDefinitionSha256": "34a1984997c6c74e2cd25469341fda366a428b6fa62473b94ec004b3805ad8d2",
       "requiredParameters": [
-        "constraintTemplateUrl",
-        "evaluationScope"
+        "clusterScope"
       ]
     },
     {
@@ -1118,11 +1160,10 @@
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
-        "constraintTemplateUrl is required. Supply a reachable, organization-approved compatible public HTTPS ConstraintTemplate; parameterization does not establish compatibility or validate external content. Existing Kubernetes mode, matching and template values are preserved.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "evaluationScope selects the ARM cluster resource ID, not Kubernetes component IDs. Original namespaces, excludedNamespaces, label selectors and constraint details still apply.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
+        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
       ],
       "transformations": [
         {
@@ -1192,17 +1233,25 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "category": "provider-mode-targeting",
+          "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
         }
       ],
       "catalogName": "Kubernetes cluster pods should only use approved host network and port list",
       "applicability": "Conditional",
+      "templateAsset": {
+        "file": "templates/l13.yaml",
+        "source": "https://store.policy.core.windows.net/kubernetes/host-network-ports/v5/template.yaml",
+        "sha256": "a9c833f47ea5cab15f3a119b64faddbcdd580a44a29e3d8d3f17bd3d40a19ee8"
+      },
       "name": "landingzone-l13-l13-restrict-host-networking-and-host-ports",
       "file": "policies/landingzone-l13-l13-restrict-host-networking-and-host-ports.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "236597f6d32405179d5434d50444f1e8e6cb8b6b31df0e3afdaf3a714c10f994",
+      "customDefinitionSha256": "75776460a910c66c37eb9d4b05197fe379d9ca85d8462c78a20f1c614673a538",
       "requiredParameters": [
-        "constraintTemplateUrl",
-        "evaluationScope"
+        "clusterScope"
       ]
     },
     {
@@ -3542,11 +3591,27 @@
         "Approved custom-DNS exceptions are excluded only through explicit target endpoint inventory; no universal DNS requirement is implied."
       ],
       "scopeNotes": "Landing Zones, selected private endpoints only. Child enumeration uses parentName/? rather than a global group search. All selected endpoint and required/approved-zone lists are mandatory and nonempty.",
+      "transformations": [
+        {
+          "category": "azure-array-count-contract",
+          "path": "/then/details/existenceCondition/allOf/1/count/field",
+          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
+          "original": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
+          "replacement": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*]"
+        },
+        {
+          "category": "azure-array-count-contract",
+          "path": "/then/details/existenceCondition/allOf/2/count/where/count/field",
+          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
+          "original": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
+          "replacement": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*]"
+        }
+      ],
       "publishable": true,
       "name": "landingzone-l47-private-endpoint-central-dns-zones",
       "file": "policies/landingzone-l47-private-endpoint-central-dns-zones.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "ad88b0fc784a0e1939692e3ee9edf0756ad95244a5ed4abcb4f51c80327905b2",
+      "customDefinitionSha256": "b2ed4ab610877285f78c9adbea7e8aa7717b8e8277890cac1c5f85d55961f291",
       "requiredParameters": [
         "profile"
       ]
@@ -3669,11 +3734,27 @@
         "Does not prove metric emission, valid service-specific threshold selection, delivery, or incident response."
       ],
       "scopeNotes": "Landing Zones/workload resource IDs and types only. Assign at subscription or higher for Subscription existenceScope. Profile, nonempty targets/types/action groups, and threshold are mandatory; repeat for additional required metrics.",
+      "transformations": [
+        {
+          "category": "azure-array-count-contract",
+          "path": "/then/details/existenceCondition/allOf/8/count/field",
+          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
+          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
+        },
+        {
+          "category": "azure-array-count-contract",
+          "path": "/then/details/existenceCondition/allOf/9/count/where/count/field",
+          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
+          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
+        }
+      ],
       "publishable": true,
       "name": "landingzone-l52-workload-amba-metric-profile",
       "file": "policies/landingzone-l52-workload-amba-metric-profile.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "4097707eb17713d6b1143bf70a8b953244207b8078ab032ad8d0b7d21c95f174",
+      "customDefinitionSha256": "97ca7479ec8db1a05af55ec40c1ddfc670cd3fa7947a56215d58684cca7cbb81",
       "requiredParameters": [
         "profile"
       ]

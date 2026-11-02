@@ -43,7 +43,13 @@ need future assignment input values, but assignments will require them.
 
 State and provider files used by deploy.ps1 are stored under LOCALAPPDATA, not in
 the OneDrive-synced source folder. The provider lock file stays with source.
+Policy definitions and initiatives use Terraform AzAPI with stable ARM API
+2026-07-01; AzureRM is used only for the authentication-identity precondition.
+The AzureRM policy client calls a retired preview API and is not used for writes.
+recovery.auto.tfvars.json/imports.tf adopt this task's already-created resources
+without deleting them. Keep these records with the Terraform state.
 
-CURRENT AUTHORIZATION LIMIT
-The current portal account shows Reader access at ContosoRoot. Policy definition
-write permissions have not been established. No deployment has been made.
+AUTHENTICATION
+deploy.ps1 verifies the token principal and temporarily selects the provider
+subscription for tenant-token acquisition. It restores the previous CLI subscription
+after the run. Tokens are held in memory only, never written into source or state.

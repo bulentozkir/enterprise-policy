@@ -241,7 +241,7 @@
               },
               {
                 "count": {
-                  "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                  "field": "Microsoft.Insights/metricalerts/actions[*]",
                   "where": {
                     "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
                     "notIn": "[parameters('profile')['actionGroupIds']]"
@@ -255,7 +255,7 @@
                   "name": "requiredActionGroup",
                   "where": {
                     "count": {
-                      "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                      "field": "Microsoft.Insights/metricalerts/actions[*]",
                       "where": {
                         "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
                         "equals": "[current('requiredActionGroup')]"

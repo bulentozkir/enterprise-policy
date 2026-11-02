@@ -73,18 +73,18 @@ resource "terraform_data" "source_catalog" {
   }
 }
 
-resource "azurerm_policy_definition" "custom" {
+resource "azapi_resource" "custom" {
   for_each = local.policies
 
-  name                = each.key
-  management_group_id = local.management_group_id
-  policy_type         = "Custom"
-  mode                = each.value.properties.mode
-  display_name        = each.value.properties.displayName
-  description         = each.value.properties.description
-  metadata            = jsonencode(try(each.value.properties.metadata, {}))
-  parameters          = jsonencode(try(each.value.properties.parameters, {}))
-  policy_rule         = jsonencode(each.value.properties.policyRule)
+  type      = "Microsoft.Authorization/policyDefinitions@2026-07-01"
+  name      = each.key
+  parent_id = local.management_group_id
+  body      = { properties = each.value.properties }
+
+  # ARM advertises this stable API; the provider's bundled type catalog may lag.
+  schema_validation_enabled = false
+  ignore_missing_property   = false
+  response_export_values    = ["properties.policyType"]
 
   depends_on = [terraform_data.source_catalog]
 
@@ -101,28 +101,27 @@ resource "azurerm_policy_definition" "custom" {
   }
 }
 
-resource "azurerm_management_group_policy_set_definition" "initiative" {
+resource "azapi_resource" "initiative" {
   for_each = local.set_names
 
-  name                = local.initiatives[each.key].name
-  management_group_id = local.management_group_id
-  policy_type         = "Custom"
-  display_name        = local.initiatives[each.key].properties.displayName
-  description         = local.initiatives[each.key].properties.description
-  metadata            = jsonencode(local.initiatives[each.key].properties.metadata)
-  parameters          = jsonencode(local.initiatives[each.key].properties.parameters)
-
-  dynamic "policy_definition_reference" {
-    for_each = {
-      for reference in local.initiatives[each.key].properties.policyDefinitions :
-      reference.policyDefinitionReferenceId => reference
-    }
-    content {
-      reference_id         = policy_definition_reference.key
-      policy_definition_id = azurerm_policy_definition.custom[policy_definition_reference.key].id
-      parameter_values     = jsonencode(policy_definition_reference.value.parameters)
-    }
+  type      = "Microsoft.Authorization/policySetDefinitions@2026-07-01"
+  name      = local.initiatives[each.key].name
+  parent_id = local.management_group_id
+  body = {
+    properties = merge(local.initiatives[each.key].properties, {
+      policyDefinitions = [
+        for reference in local.initiatives[each.key].properties.policyDefinitions : {
+          policyDefinitionReferenceId = reference.policyDefinitionReferenceId
+          policyDefinitionId          = azapi_resource.custom[reference.policyDefinitionReferenceId].id
+          parameters                  = reference.parameters
+        }
+      ]
+    })
   }
+
+  schema_validation_enabled = false
+  ignore_missing_property   = false
+  response_export_values    = ["properties.policyType"]
 
   depends_on = [terraform_data.source_catalog]
 

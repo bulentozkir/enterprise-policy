@@ -294,15 +294,6 @@
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
-      "h11_listOfLocations": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Locations",
-          "description": "Audit if Network Watcher is not enabled for region(s).",
-          "strongType": "location"
-        },
-        "defaultValue": []
-      },
       "h11_resourceGroupName": {
         "type": "String",
         "metadata": {
@@ -1374,9 +1365,6 @@
         "parameters": {
           "effect": {
             "value": "[parameters('h11_effect')]"
-          },
-          "listOfLocations": {
-            "value": "[parameters('h11_listOfLocations')]"
           },
           "resourceGroupName": {
             "value": "[parameters('h11_resourceGroupName')]"

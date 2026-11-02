@@ -32,115 +32,59 @@
     "allowedValues": null
   },
   {
-    "parameter": "l07_constraintTemplateUrl",
-    "policy": "landingzone-l07-l07-no-privileged-containers",
-    "row": "L07",
-    "type": "String",
-    "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l07_evaluationScope",
+    "parameter": "l07_clusterScope",
     "policy": "landingzone-l07-l07-no-privileged-containers",
     "row": "L07",
     "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag.",
     "allowedValues": null
   },
   {
-    "parameter": "l08_constraintTemplateUrl",
-    "policy": "landingzone-l08-l08-no-privilege-escalation",
-    "row": "L08",
-    "type": "String",
-    "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l08_evaluationScope",
+    "parameter": "l08_clusterScope",
     "policy": "landingzone-l08-l08-no-privilege-escalation",
     "row": "L08",
     "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag.",
     "allowedValues": null
   },
   {
-    "parameter": "l09_constraintTemplateUrl",
-    "policy": "landingzone-l09-l09-no-shared-host-pid-ipc-namespaces",
-    "row": "L09",
-    "type": "String",
-    "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l09_evaluationScope",
+    "parameter": "l09_clusterScope",
     "policy": "landingzone-l09-l09-no-shared-host-pid-ipc-namespaces",
     "row": "L09",
     "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag.",
     "allowedValues": null
   },
   {
-    "parameter": "l10_constraintTemplateUrl",
-    "policy": "landingzone-l10-l10-restrict-hostpath-and-socket-mounts",
-    "row": "L10",
-    "type": "String",
-    "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l10_evaluationScope",
+    "parameter": "l10_clusterScope",
     "policy": "landingzone-l10-l10-restrict-hostpath-and-socket-mounts",
     "row": "L10",
     "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag.",
     "allowedValues": null
   },
   {
-    "parameter": "l11_constraintTemplateUrl",
-    "policy": "landingzone-l11-l11-run-containers-as-nonroot",
-    "row": "L11",
-    "type": "String",
-    "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l11_evaluationScope",
+    "parameter": "l11_clusterScope",
     "policy": "landingzone-l11-l11-run-containers-as-nonroot",
     "row": "L11",
     "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag.",
     "allowedValues": null
   },
   {
-    "parameter": "l12_constraintTemplateUrl",
-    "policy": "landingzone-l12-l12-restrict-linux-capabilities",
-    "row": "L12",
-    "type": "String",
-    "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l12_evaluationScope",
+    "parameter": "l12_clusterScope",
     "policy": "landingzone-l12-l12-restrict-linux-capabilities",
     "row": "L12",
     "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag.",
     "allowedValues": null
   },
   {
-    "parameter": "l13_constraintTemplateUrl",
-    "policy": "landingzone-l13-l13-restrict-host-networking-and-host-ports",
-    "row": "L13",
-    "type": "String",
-    "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l13_evaluationScope",
+    "parameter": "l13_clusterScope",
     "policy": "landingzone-l13-l13-restrict-host-networking-and-host-ports",
     "row": "L13",
     "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag.",
     "allowedValues": null
   },
   {

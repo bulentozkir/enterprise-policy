@@ -135,45 +135,30 @@
         },
         "defaultValue": []
       },
-      "constraintTemplateUrl": {
-        "type": "String",
-        "metadata": {
-          "displayName": "constraintTemplateUrl",
-          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
-        }
-      },
-      "evaluationScope": {
+      "clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Approved cluster tag selector",
+          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
           "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
           "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
+            "tagName",
+            "tagValue"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "properties": {
+            "tagName": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\[\\]']+$"
+            },
+            "tagValue": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
         }
       }
     },
@@ -181,33 +166,15 @@
       "if": {
         "allOf": [
           {
-            "count": {
-              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
-              "name": "evaluationScopeIncludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeIncludedPattern')]"
-              }
-            },
-            "greater": 0
-          },
-          {
-            "count": {
-              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
-              "name": "evaluationScopeExcludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeExcludedPattern')]"
-              }
-            },
-            "equals": 0
-          },
-          {
             "field": "type",
             "in": [
               "Microsoft.Kubernetes/connectedClusters",
               "Microsoft.ContainerService/managedClusters"
             ]
+          },
+          {
+            "field": "[concat('tags[', parameters('clusterScope').tagName, ']')]",
+            "equals": "[parameters('clusterScope').tagValue]"
           }
         ]
       },
@@ -217,8 +184,8 @@
           "source": "[parameters('source')]",
           "warn": "[parameters('warn')]",
           "templateInfo": {
-            "sourceType": "PublicURL",
-            "url": "[parameters('constraintTemplateUrl')]"
+            "sourceType": "Base64Encoded",
+            "content": "YXBpVmVyc2lvbjogdGVtcGxhdGVzLmdhdGVrZWVwZXIuc2gvdjFiZXRhMQ0Ka2luZDogQ29uc3RyYWludFRlbXBsYXRlDQptZXRhZGF0YToNCiAgbmFtZTogazhzYXp1cmV2M2Jsb2NraG9zdG5hbWVzcGFjZQ0Kc3BlYzoNCiAgY3JkOg0KICAgIHNwZWM6DQogICAgICBuYW1lczoNCiAgICAgICAga2luZDogSzhzQXp1cmVWM0Jsb2NrSG9zdE5hbWVzcGFjZQ0KICAgICAgdmFsaWRhdGlvbjoNCiAgICAgICAgIyBTY2hlbWEgZm9yIHRoZSBgcGFyYW1ldGVyc2AgZmllbGQNCiAgICAgICAgb3BlbkFQSVYzU2NoZW1hOg0KICAgICAgICAgIHByb3BlcnRpZXM6DQogICAgICAgICAgICBleGNsdWRlZEltYWdlczoNCiAgICAgICAgICAgICAgZGVzY3JpcHRpb246ID4tDQogICAgICAgICAgICAgICAgQW55IGNvbnRhaW5lciB0aGF0IHVzZXMgYW4gaW1hZ2UgdGhhdCBtYXRjaGVzIGFuIGVudHJ5IGluIHRoaXMgbGlzdCB3aWxsIGJlIGV4Y2x1ZGVkDQogICAgICAgICAgICAgICAgZnJvbSBlbmZvcmNlbWVudC4gUHJlZml4LW1hdGNoaW5nIGNhbiBiZSBzaWduaWZpZWQgd2l0aCBgKmAuIEZvciBleGFtcGxlOiBgbXktaW1hZ2UtKmAuDQogICAgICAgICAgICAgICAgSXQgaXMgcmVjb21tZW5kZWQgdGhhdCB1c2VycyB1c2UgdGhlIGZ1bGx5LXF1YWxpZmllZCBEb2NrZXIgaW1hZ2UgbmFtZSAoZS5nLiBzdGFydCB3aXRoIGEgZG9tYWluIG5hbWUpDQogICAgICAgICAgICAgICAgaW4gb3JkZXIgdG8gYXZvaWQgdW5leHBlY3RlZGx5IGV4Y2x1ZGluZyBpbWFnZXMgZnJvbSBhbiB1bnRydXN0ZWQgcmVwb3NpdG9yeS4NCiAgICAgICAgICAgICAgdHlwZTogYXJyYXkNCiAgICAgICAgICAgICAgaXRlbXM6DQogICAgICAgICAgICAgICAgdHlwZTogc3RyaW5nDQogIHRhcmdldHM6DQogICAgLSB0YXJnZXQ6IGFkbWlzc2lvbi5rOHMuZ2F0ZWtlZXBlci5zaA0KICAgICAgcmVnbzogfA0KICAgICAgICBwYWNrYWdlIGs4c2F6dXJldjNibG9ja2hvc3RuYW1lc3BhY2UNCiAgICAgICAgaW1wb3J0IGRhdGEubGliLmV4Y2x1ZGVfY29udGFpbmVyX2ltYWdlLmlzX2V4Y2x1ZGVkDQoNCiAgICAgICAgdmlvbGF0aW9uW3sibXNnIjogbXNnLCAiZGV0YWlscyI6IHt9fV0gew0KICAgICAgICAgICAgbm90IGlucHV0LnJldmlldy5vYmplY3Quc3BlYy5ub2RlU2VsZWN0b3JbImt1YmVybmV0ZXMuaW8vb3MiXSA9PSAid2luZG93cyINCiAgICAgICAgICAgIGNvbnRhaW5lcnMgOj0gaW5wdXRfY29udGFpbmVyc1tfXQ0KICAgICAgICAgICAgbm90IGlzX2V4Y2x1ZGVkKGNvbnRhaW5lcnMpDQogICAgICAgICAgICBpbnB1dF9zaGFyZV9ob3N0bmFtZXNwYWNlKGlucHV0LnJldmlldy5vYmplY3QpDQogICAgICAgICAgICBtc2cgOj0gc3ByaW50ZigiU2hhcmluZyB0aGUgaG9zdCBuYW1lc3BhY2UgaXMgbm90IGFsbG93ZWQ6ICV2LiBGb3IgbW9yZSBpbmZvcm1hdGlvbiwgdmlzaXQgaHR0cHM6Ly9ha2EubXMvYWtzL2RlcGxveW1lbnQtc2FmZWd1YXJkcyIsIFtpbnB1dC5yZXZpZXcub2JqZWN0Lm1ldGFkYXRhLm5hbWVdKQ0KICAgICAgICB9DQoNCiAgICAgICAgaW5wdXRfc2hhcmVfaG9zdG5hbWVzcGFjZShvKSB7DQogICAgICAgICAgICBvLnNwZWMuaG9zdFBJRA0KICAgICAgICB9DQogICAgICAgIGlucHV0X3NoYXJlX2hvc3RuYW1lc3BhY2Uobykgew0KICAgICAgICAgICAgby5zcGVjLmhvc3RJUEMNCiAgICAgICAgfQ0KICAgICAgICBpbnB1dF9zaGFyZV9ob3N0bmFtZXNwYWNlKG8pIHsNCiAgICAgICAgICAgIG8uc3BlYy5ob3N0TmV0d29yaw0KICAgICAgICB9DQogICAgICAgIGlucHV0X2NvbnRhaW5lcnNbY10gew0KICAgICAgICAgICAgYyA6PSBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMuY29udGFpbmVyc1tfXQ0KICAgICAgICB9DQogICAgICAgIGlucHV0X2NvbnRhaW5lcnNbY10gew0KICAgICAgICAgICAgYyA6PSBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMuaW5pdENvbnRhaW5lcnNbX10NCiAgICAgICAgfQ0KICAgICAgICBpbnB1dF9jb250YWluZXJzW2NdIHsNCiAgICAgICAgICAgIGMgOj0gaW5wdXQucmV2aWV3Lm9iamVjdC5zcGVjLmVwaGVtZXJhbENvbnRhaW5lcnNbX10NCiAgICAgICAgfQ0KICAgICAgbGliczoNCiAgICAgICAgLSB8DQogICAgICAgICAgcGFja2FnZSBsaWIuZXhjbHVkZV9jb250YWluZXJfaW1hZ2UNCiAgICAgICAgICBpc19leGNsdWRlZChjb250YWluZXIpIHsNCiAgICAgICAgICAgICAgZXhjbHVkZV9pbWFnZXMgOj0gb2JqZWN0LmdldChvYmplY3QuZ2V0KGlucHV0LCAicGFyYW1ldGVycyIsIHt9KSwgImV4Y2x1ZGVkSW1hZ2VzIiwgW10pDQogICAgICAgICAgICAgIGltZyA6PSBjb250YWluZXIuaW1hZ2UNCiAgICAgICAgICAgICAgZXhjbHVzaW9uIDo9IGV4Y2x1ZGVfaW1hZ2VzW19dDQogICAgICAgICAgICAgIF9tYXRjaGVzX2V4Y2x1c2lvbihpbWcsIGV4Y2x1c2lvbikNCiAgICAgICAgICB9DQogICAgICAgICAgX21hdGNoZXNfZXhjbHVzaW9uKGltZywgZXhjbHVzaW9uKSB7DQogICAgICAgICAgICAgIG5vdCBlbmRzd2l0aChleGNsdXNpb24sICIqIikNCiAgICAgICAgICAgICAgZXhjbHVzaW9uID09IGltZw0KICAgICAgICAgIH0NCiAgICAgICAgICBfbWF0Y2hlc19leGNsdXNpb24oaW1nLCBleGNsdXNpb24pIHsNCiAgICAgICAgICAgICAgZW5kc3dpdGgoZXhjbHVzaW9uLCAiKiIpDQogICAgICAgICAgICAgIHByZWZpeCA6PSB0cmltX3N1ZmZpeChleGNsdXNpb24sICIqIikNCiAgICAgICAgICAgICAgc3RhcnRzd2l0aChpbWcsIHByZWZpeCkNCiAgICAgICAgICB9DQo="
           },
           "apiGroups": [
             ""

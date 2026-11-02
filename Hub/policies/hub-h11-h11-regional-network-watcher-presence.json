@@ -25,15 +25,6 @@
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
-      "listOfLocations": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Locations",
-          "description": "Audit if Network Watcher is not enabled for region(s).",
-          "strongType": "location"
-        },
-        "defaultValue": []
-      },
       "resourceGroupName": {
         "type": "String",
         "metadata": {

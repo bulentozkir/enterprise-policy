@@ -4,7 +4,7 @@
   "customDefinitions": 25,
   "publishableDefinitions": 25,
   "referenceOnlyDefinitions": 0,
-  "initiativeParameters": 51,
+  "initiativeParameters": 50,
   "coverageGaps": [],
   "policies": [
     {
@@ -618,6 +618,11 @@
           "reason": "Canonical source-supported effects and catalog audit-first default.",
           "category": "effect-normalization",
           "parameterName": "effect"
+        },
+        {
+          "category": "remove-unused-source-parameter",
+          "parameter": "listOfLocations",
+          "reason": "Azure rejects unused custom policy parameters, including deprecated built-in-only inputs."
         }
       ],
       "catalogName": "Network Watcher should be enabled",
@@ -625,7 +630,7 @@
       "name": "hub-h11-h11-regional-network-watcher-presence",
       "file": "policies/hub-h11-h11-regional-network-watcher-presence.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "7c6ec5e1992294afab681ee7d4f192b00a43174007b73643fc7e5b41eaead7f0",
+      "customDefinitionSha256": "906d9f31fcb66d62f743bcbf469c29b603db51bcc249c33a29a811ba50d1d9cd",
       "requiredParameters": []
     },
     {
@@ -1366,11 +1371,27 @@
         "Does not prove metric emission, valid service-specific threshold selection, action-group receiver configuration, alert-processing-rule behavior, delivery, or incident handling."
       ],
       "scopeNotes": "Platform/Connectivity partition only. Assign at subscription or higher for Subscription existenceScope. No resourceGroupName is combined with Subscription scope. Required object schema rejects empty targets/types/action groups and missing thresholds; choose a supported metric/time-window combination.",
+      "transformations": [
+        {
+          "category": "azure-array-count-contract",
+          "path": "/then/details/existenceCondition/allOf/8/count/field",
+          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
+          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
+        },
+        {
+          "category": "azure-array-count-contract",
+          "path": "/then/details/existenceCondition/allOf/9/count/where/count/field",
+          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
+          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
+        }
+      ],
       "publishable": true,
       "name": "hub-h22-connectivity-amba-metric-profile",
       "file": "policies/hub-h22-connectivity-amba-metric-profile.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "6e8aa88f7eb266d9b23855c7bce229ce8c56f6ef0f2149aa4639d65aadfbc30f",
+      "customDefinitionSha256": "24b5560aadeea8920781b0746693dad8bd214beede51ad67571d89f08ca0a5b0",
       "requiredParameters": [
         "profile"
       ]
@@ -1386,11 +1407,27 @@
         "Does not verify metric emission, receivers, delivery, processing-rule suppression, incident response, or service-specific correctness of supplied inputs."
       ],
       "scopeNotes": "Platform/Management only, with subscription-or-higher assignment and explicit approved Management resource IDs/types. No subscription IDs, metric thresholds, or action-group IDs are invented. The required object schema rejects empty lists.",
+      "transformations": [
+        {
+          "category": "azure-array-count-contract",
+          "path": "/then/details/existenceCondition/allOf/8/count/field",
+          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
+          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
+        },
+        {
+          "category": "azure-array-count-contract",
+          "path": "/then/details/existenceCondition/allOf/9/count/where/count/field",
+          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
+          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
+        }
+      ],
       "publishable": true,
       "name": "hub-h23-management-amba-metric-profile",
       "file": "policies/hub-h23-management-amba-metric-profile.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "bf2427e7f74a3b5d81d07e889e42d8b4301a977ba7e4289cec87dadb5d2f9367",
+      "customDefinitionSha256": "915de456d2bf7be00a73c700235622178c8d8084e1ceebd65b401202f782b502",
       "requiredParameters": [
         "profile"
       ]
@@ -1406,11 +1443,27 @@
         "Same-subscription alert existence only; delivery, receiver health, metric emission, processing rules, and response remain unproven."
       ],
       "scopeNotes": "Platform/Identity Azure resources only. Assign at subscription or higher; central alert RGs in that subscription are searched. A required nonempty profile supplies targets and action groups; no tenant or subscription inventory is assumed.",
+      "transformations": [
+        {
+          "category": "azure-array-count-contract",
+          "path": "/then/details/existenceCondition/allOf/8/count/field",
+          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
+          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
+        },
+        {
+          "category": "azure-array-count-contract",
+          "path": "/then/details/existenceCondition/allOf/9/count/where/count/field",
+          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
+          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
+        }
+      ],
       "publishable": true,
       "name": "hub-h24-identity-amba-metric-profile",
       "file": "policies/hub-h24-identity-amba-metric-profile.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "dc3dd1573168afee5c9a7ae94e6c74df6f0f03e9c2209d4baa050264c497731e",
+      "customDefinitionSha256": "d20ffec7dcdf8c02ff244f1b249324d885b69ccaeb64d22328d110d098fead81",
       "requiredParameters": [
         "profile"
       ]

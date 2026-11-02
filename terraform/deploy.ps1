@@ -84,7 +84,14 @@ $oldData = $env:TF_DATA_DIR
 $env:TF_DATA_DIR = Join-Path $runtime 'data'
 $terraformDirectory = "-chdir=$PSScriptRoot"
 $planPath = Join-Path $runtime 'definitions.tfplan'
+$previousAccountJson = & az account show --output json
+if ($LASTEXITCODE -ne 0) { throw 'Unable to preserve the current Azure CLI account context.' }
+$previousSubscription = ($previousAccountJson | ConvertFrom-Json).id
 try {
+    # AzAPI requests a tenant token; align CLI's default account during this run only.
+    if ($previousSubscription -ne $subscription) {
+        Invoke-Native -Command az -Arguments @('account', 'set', '--subscription', $subscription)
+    }
     Invoke-Native -Command terraform -Arguments @($terraformDirectory, 'init', '-input=false', "-backend-config=path=$(Join-Path $runtime 'terraform.tfstate')")
     Invoke-Native -Command terraform -Arguments @($terraformDirectory, 'validate')
     Invoke-Native -Command terraform -Arguments @(
@@ -99,8 +106,16 @@ try {
         $actions = @($change.change.actions)
         if ('delete' -in $actions) { throw "Refusing a plan containing deletion: $($change.address)" }
         if ($change.mode -eq 'managed' -and @($actions | Where-Object { $_ -ne 'no-op' }).Count -gt 0) {
-            if ($change.type -notin @('azurerm_policy_definition', 'azurerm_management_group_policy_set_definition', 'terraform_data')) {
+            if ($change.type -notin @('azapi_resource', 'terraform_data')) {
                 throw "Unexpected resource type in plan: $($change.type)"
+            }
+            if ($change.type -eq 'azapi_resource') {
+                if ($change.change.after.type -notin @(
+                    'Microsoft.Authorization/policyDefinitions@2026-07-01',
+                    'Microsoft.Authorization/policySetDefinitions@2026-07-01'
+                ) -or $change.change.after.parent_id -ne $scope) {
+                    throw "Unexpected Azure resource or scope in plan: $($change.address)"
+                }
             }
         }
     }
@@ -112,4 +127,7 @@ try {
     }
 } finally {
     $env:TF_DATA_DIR = $oldData
+    if ($previousSubscription -ne $subscription) {
+        Invoke-Native -Command az -Arguments @('account', 'set', '--subscription', $previousSubscription)
+    }
 }

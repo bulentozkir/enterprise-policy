@@ -28,9 +28,6 @@
     "h11_effect": {
       "value": "AuditIfNotExists"
     },
-    "h11_listOfLocations": {
-      "value": []
-    },
     "h11_resourceGroupName": {
       "value": "NetworkWatcherRG"
     },

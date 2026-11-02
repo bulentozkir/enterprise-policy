@@ -7,46 +7,49 @@ mock_provider "azurerm" {
   }
 }
 
+mock_provider "azapi" {}
+
 run "custom_definitions_only" {
   command = plan
 
   variables {
     acknowledge_coverage_gaps = true
+    existing_policy_imports   = {}
   }
 
   assert {
-    condition     = length(azurerm_policy_definition.custom) == 122
+    condition     = length(azapi_resource.custom) == 122
     error_message = "Expected all 122 implemented Custom definitions."
   }
   assert {
-    condition     = length(azurerm_management_group_policy_set_definition.initiative) == 3
+    condition     = length(azapi_resource.initiative) == 3
     error_message = "Expected exactly Global, Hub and LandingZone initiatives."
   }
   assert {
     condition = alltrue([
-      for definition in azurerm_policy_definition.custom :
-      definition.policy_type == "Custom" &&
-      definition.management_group_id == "/providers/Microsoft.Management/managementGroups/contoso"
+      for definition in azapi_resource.custom :
+      definition.body.properties.policyType == "Custom" &&
+      definition.parent_id == "/providers/Microsoft.Management/managementGroups/contoso"
     ])
     error_message = "Every definition must be Custom and scoped to ContosoRoot."
   }
   assert {
     condition = alltrue([
-      for definition in azurerm_policy_definition.custom :
-      contains(["Audit", "AuditIfNotExists"], jsondecode(definition.parameters).effect.defaultValue)
+      for definition in azapi_resource.custom :
+      contains(["Audit", "AuditIfNotExists"], definition.body.properties.parameters.effect.defaultValue)
     ])
     error_message = "Every definition must default to an audit-family effect."
   }
   assert {
-    condition     = length(azurerm_management_group_policy_set_definition.initiative["Global"].policy_definition_reference) == 41
+    condition     = length(azapi_resource.initiative["Global"].body.properties.policyDefinitions) == 41
     error_message = "Global must reference 41 implemented Custom definitions."
   }
   assert {
-    condition     = length(azurerm_management_group_policy_set_definition.initiative["Hub"].policy_definition_reference) == 25
+    condition     = length(azapi_resource.initiative["Hub"].body.properties.policyDefinitions) == 25
     error_message = "Hub must reference 25 implemented Custom definitions."
   }
   assert {
-    condition     = length(azurerm_management_group_policy_set_definition.initiative["LandingZone"].policy_definition_reference) == 56
+    condition     = length(azapi_resource.initiative["LandingZone"].body.properties.policyDefinitions) == 56
     error_message = "LandingZone must reference 56 implemented Custom definitions."
   }
 }
@@ -56,6 +59,7 @@ run "coverage_limit_requires_explicit_acknowledgment" {
 
   variables {
     acknowledge_coverage_gaps = false
+    existing_policy_imports   = {}
   }
 
   expect_failures = [terraform_data.source_catalog]

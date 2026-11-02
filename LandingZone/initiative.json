@@ -381,45 +381,30 @@
         },
         "defaultValue": []
       },
-      "l07_constraintTemplateUrl": {
-        "type": "String",
-        "metadata": {
-          "displayName": "constraintTemplateUrl",
-          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
-        }
-      },
-      "l07_evaluationScope": {
+      "l07_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Approved cluster tag selector",
+          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
           "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
           "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
+            "tagName",
+            "tagValue"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "properties": {
+            "tagName": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\[\\]']+$"
+            },
+            "tagValue": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
         }
       },
       "l08_source": {
@@ -560,45 +545,30 @@
         },
         "defaultValue": []
       },
-      "l08_constraintTemplateUrl": {
-        "type": "String",
-        "metadata": {
-          "displayName": "constraintTemplateUrl",
-          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
-        }
-      },
-      "l08_evaluationScope": {
+      "l08_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Approved cluster tag selector",
+          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
           "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
           "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
+            "tagName",
+            "tagValue"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "properties": {
+            "tagName": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\[\\]']+$"
+            },
+            "tagValue": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
         }
       },
       "l09_source": {
@@ -723,45 +693,30 @@
         },
         "defaultValue": []
       },
-      "l09_constraintTemplateUrl": {
-        "type": "String",
-        "metadata": {
-          "displayName": "constraintTemplateUrl",
-          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
-        }
-      },
-      "l09_evaluationScope": {
+      "l09_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Approved cluster tag selector",
+          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
           "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
           "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
+            "tagName",
+            "tagValue"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "properties": {
+            "tagName": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\[\\]']+$"
+            },
+            "tagValue": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
         }
       },
       "l10_source": {
@@ -978,45 +933,30 @@
         },
         "defaultValue": []
       },
-      "l10_constraintTemplateUrl": {
-        "type": "String",
-        "metadata": {
-          "displayName": "constraintTemplateUrl",
-          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
-        }
-      },
-      "l10_evaluationScope": {
+      "l10_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Approved cluster tag selector",
+          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
           "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
           "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
+            "tagName",
+            "tagValue"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "properties": {
+            "tagName": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\[\\]']+$"
+            },
+            "tagValue": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
         }
       },
       "l11_source": {
@@ -1353,45 +1293,30 @@
         },
         "defaultValue": []
       },
-      "l11_constraintTemplateUrl": {
-        "type": "String",
-        "metadata": {
-          "displayName": "constraintTemplateUrl",
-          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
-        }
-      },
-      "l11_evaluationScope": {
+      "l11_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Approved cluster tag selector",
+          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
           "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
           "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
+            "tagName",
+            "tagValue"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "properties": {
+            "tagName": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\[\\]']+$"
+            },
+            "tagValue": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
         }
       },
       "l12_source": {
@@ -1540,45 +1465,30 @@
         },
         "defaultValue": []
       },
-      "l12_constraintTemplateUrl": {
-        "type": "String",
-        "metadata": {
-          "displayName": "constraintTemplateUrl",
-          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
-        }
-      },
-      "l12_evaluationScope": {
+      "l12_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Approved cluster tag selector",
+          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
           "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
           "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
+            "tagName",
+            "tagValue"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "properties": {
+            "tagName": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\[\\]']+$"
+            },
+            "tagValue": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
         }
       },
       "l13_source": {
@@ -1719,45 +1629,30 @@
         },
         "defaultValue": []
       },
-      "l13_constraintTemplateUrl": {
-        "type": "String",
-        "metadata": {
-          "displayName": "constraintTemplateUrl",
-          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
-        }
-      },
-      "l13_evaluationScope": {
+      "l13_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Approved cluster tag selector",
+          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
           "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
           "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
+            "tagName",
+            "tagValue"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "properties": {
+            "tagName": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\[\\]']+$"
+            },
+            "tagValue": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
         }
       },
       "l14_effect": {
@@ -3564,11 +3459,8 @@
           "excludedImages": {
             "value": "[parameters('l07_excludedImages')]"
           },
-          "constraintTemplateUrl": {
-            "value": "[parameters('l07_constraintTemplateUrl')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('l07_evaluationScope')]"
+          "clusterScope": {
+            "value": "[parameters('l07_clusterScope')]"
           }
         }
       },
@@ -3603,11 +3495,8 @@
           "excludedImages": {
             "value": "[parameters('l08_excludedImages')]"
           },
-          "constraintTemplateUrl": {
-            "value": "[parameters('l08_constraintTemplateUrl')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('l08_evaluationScope')]"
+          "clusterScope": {
+            "value": "[parameters('l08_clusterScope')]"
           }
         }
       },
@@ -3636,11 +3525,8 @@
           "excludedImages": {
             "value": "[parameters('l09_excludedImages')]"
           },
-          "constraintTemplateUrl": {
-            "value": "[parameters('l09_constraintTemplateUrl')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('l09_evaluationScope')]"
+          "clusterScope": {
+            "value": "[parameters('l09_clusterScope')]"
           }
         }
       },
@@ -3681,11 +3567,8 @@
           "excludedImages": {
             "value": "[parameters('l10_excludedImages')]"
           },
-          "constraintTemplateUrl": {
-            "value": "[parameters('l10_constraintTemplateUrl')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('l10_evaluationScope')]"
+          "clusterScope": {
+            "value": "[parameters('l10_clusterScope')]"
           }
         }
       },
@@ -3741,11 +3624,8 @@
           "excludedImages": {
             "value": "[parameters('l11_excludedImages')]"
           },
-          "constraintTemplateUrl": {
-            "value": "[parameters('l11_constraintTemplateUrl')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('l11_evaluationScope')]"
+          "clusterScope": {
+            "value": "[parameters('l11_clusterScope')]"
           }
         }
       },
@@ -3783,11 +3663,8 @@
           "excludedImages": {
             "value": "[parameters('l12_excludedImages')]"
           },
-          "constraintTemplateUrl": {
-            "value": "[parameters('l12_constraintTemplateUrl')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('l12_evaluationScope')]"
+          "clusterScope": {
+            "value": "[parameters('l12_clusterScope')]"
           }
         }
       },
@@ -3822,11 +3699,8 @@
           "excludedImages": {
             "value": "[parameters('l13_excludedImages')]"
           },
-          "constraintTemplateUrl": {
-            "value": "[parameters('l13_constraintTemplateUrl')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('l13_evaluationScope')]"
+          "clusterScope": {
+            "value": "[parameters('l13_clusterScope')]"
           }
         }
       },

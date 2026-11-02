@@ -103,7 +103,7 @@
               },
               {
                 "count": {
-                  "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
+                  "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*]",
                   "where": {
                     "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
                     "notIn": "[parameters('profile')['approvedZoneIds']]"
@@ -117,7 +117,7 @@
                   "name": "requiredZone",
                   "where": {
                     "count": {
-                      "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
+                      "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*]",
                       "where": {
                         "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
                         "equals": "[current('requiredZone')]"

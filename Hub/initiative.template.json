@@ -746,15 +746,6 @@
               "description": "Start in audit mode. Only effects supported by the source definition are available."
             }
           },
-          "listOfLocations": {
-            "type": "Array",
-            "metadata": {
-              "displayName": "Locations",
-              "description": "Audit if Network Watcher is not enabled for region(s).",
-              "strongType": "location"
-            },
-            "defaultValue": []
-          },
           "resourceGroupName": {
             "type": "String",
             "metadata": {
@@ -2378,7 +2369,7 @@
                   },
                   {
                     "count": {
-                      "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                      "field": "Microsoft.Insights/metricalerts/actions[*]",
                       "where": {
                         "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
                         "notIn": "[[parameters('profile')['actionGroupIds']]"
@@ -2392,7 +2383,7 @@
                       "name": "requiredActionGroup",
                       "where": {
                         "count": {
-                          "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                          "field": "Microsoft.Insights/metricalerts/actions[*]",
                           "where": {
                             "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
                             "equals": "[[current('requiredActionGroup')]"
@@ -2654,7 +2645,7 @@
                   },
                   {
                     "count": {
-                      "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                      "field": "Microsoft.Insights/metricalerts/actions[*]",
                       "where": {
                         "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
                         "notIn": "[[parameters('profile')['actionGroupIds']]"
@@ -2668,7 +2659,7 @@
                       "name": "requiredActionGroup",
                       "where": {
                         "count": {
-                          "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                          "field": "Microsoft.Insights/metricalerts/actions[*]",
                           "where": {
                             "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
                             "equals": "[[current('requiredActionGroup')]"
@@ -2930,7 +2921,7 @@
                   },
                   {
                     "count": {
-                      "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                      "field": "Microsoft.Insights/metricalerts/actions[*]",
                       "where": {
                         "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
                         "notIn": "[[parameters('profile')['actionGroupIds']]"
@@ -2944,7 +2935,7 @@
                       "name": "requiredActionGroup",
                       "where": {
                         "count": {
-                          "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                          "field": "Microsoft.Insights/metricalerts/actions[*]",
                           "where": {
                             "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
                             "equals": "[[current('requiredActionGroup')]"
@@ -3408,15 +3399,6 @@
               "displayName": "Effect",
               "description": "Start in audit mode. Only effects supported by the source definition are available."
             }
-          },
-          "h11_listOfLocations": {
-            "type": "Array",
-            "metadata": {
-              "displayName": "Locations",
-              "description": "Audit if Network Watcher is not enabled for region(s).",
-              "strongType": "location"
-            },
-            "defaultValue": []
           },
           "h11_resourceGroupName": {
             "type": "String",
@@ -4489,9 +4471,6 @@
             "parameters": {
               "effect": {
                 "value": "[[parameters('h11_effect')]"
-              },
-              "listOfLocations": {
-                "value": "[[parameters('h11_listOfLocations')]"
               },
               "resourceGroupName": {
                 "value": "[[parameters('h11_resourceGroupName')]"
