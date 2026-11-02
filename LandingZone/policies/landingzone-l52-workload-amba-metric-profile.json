@@ -1,0 +1,275 @@
+{
+  "name": "landingzone-l52-workload-amba-metric-profile",
+  "properties": {
+    "displayName": "Workload resources must have the approved AMBA-style metric alert profile",
+    "description": "Audits selected workload resources without an enabled same-subscription metric alert with one resource scope, exactly one approved static metric condition, and the required action groups. Does not duplicate Service Health or administrative activity-log alerts.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Monitoring",
+      "version": "1.0.0",
+      "designRow": "L52",
+      "sourceVerifiedOn": "2026-11-02",
+      "source": "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/services/Network/virtualNetworks/templates/policy/IfUnderDDoSAttack_72dea6f4-858c-423f-8189-406aac7d20ac.json",
+      "catalogRow": "L52",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required workload metric profile",
+          "description": "Required approved workload resource IDs/types, metric namespace/name, aggregation, operator, threshold, window, frequency, and action-group IDs. Use one reference per required metric/profile."
+        },
+        "schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "resourceIds",
+            "resourceTypes",
+            "metricNamespace",
+            "metricName",
+            "timeAggregation",
+            "operator",
+            "threshold",
+            "windowSize",
+            "evaluationFrequency",
+            "actionGroupIds"
+          ],
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "resourceTypes": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 3,
+                "pattern": "^[^/]+/.+$"
+              }
+            },
+            "metricNamespace": {
+              "type": "string",
+              "minLength": 1
+            },
+            "metricName": {
+              "type": "string",
+              "minLength": 1
+            },
+            "timeAggregation": {
+              "type": "string",
+              "enum": [
+                "Average",
+                "Count",
+                "Minimum",
+                "Maximum",
+                "Total"
+              ]
+            },
+            "operator": {
+              "type": "string",
+              "enum": [
+                "Equals",
+                "GreaterThan",
+                "GreaterThanOrEqual",
+                "LessThan",
+                "LessThanOrEqual"
+              ]
+            },
+            "threshold": {
+              "type": "number"
+            },
+            "windowSize": {
+              "type": "string",
+              "enum": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H",
+                "PT6H",
+                "PT12H",
+                "P1D"
+              ]
+            },
+            "evaluationFrequency": {
+              "type": "string",
+              "enum": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H"
+              ]
+            },
+            "actionGroupIds": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 100,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "in": "[parameters('profile')['resourceTypes']]"
+          },
+          {
+            "field": "id",
+            "in": "[parameters('profile')['resourceIds']]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/metricAlerts",
+          "existenceScope": "Subscription",
+          "evaluationDelay": "PT10M",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/metricalerts/enabled",
+                "equals": true
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Insights/metricalerts/scopes[*]"
+                },
+                "equals": 1
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Insights/metricalerts/scopes[*]",
+                  "where": {
+                    "field": "Microsoft.Insights/metricalerts/scopes[*]",
+                    "equals": "[field('id')]"
+                  }
+                },
+                "equals": 1
+              },
+              {
+                "field": "Microsoft.Insights/metricalerts/windowSize",
+                "equals": "[parameters('profile')['windowSize']]"
+              },
+              {
+                "field": "Microsoft.Insights/metricalerts/evaluationFrequency",
+                "equals": "[parameters('profile')['evaluationFrequency']]"
+              },
+              {
+                "field": "Microsoft.Insights/metricalerts/criteria.odata.type",
+                "equals": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*]"
+                },
+                "equals": 1
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*]",
+                  "where": {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].criterionType",
+                        "equals": "StaticThresholdCriterion"
+                      },
+                      {
+                        "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
+                        "equals": "[parameters('profile')['metricNamespace']]"
+                      },
+                      {
+                        "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricName",
+                        "equals": "[parameters('profile')['metricName']]"
+                      },
+                      {
+                        "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
+                        "equals": "[parameters('profile')['timeAggregation']]"
+                      },
+                      {
+                        "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
+                        "equals": "[parameters('profile')['operator']]"
+                      },
+                      {
+                        "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
+                        "equals": "[parameters('profile')['threshold']]"
+                      },
+                      {
+                        "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].skipMetricValidation",
+                        "notEquals": true
+                      },
+                      {
+                        "count": {
+                          "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].dimensions[*]"
+                        },
+                        "equals": 0
+                      }
+                    ]
+                  }
+                },
+                "equals": 1
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                  "where": {
+                    "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                    "notIn": "[parameters('profile')['actionGroupIds']]"
+                  }
+                },
+                "equals": 0
+              },
+              {
+                "count": {
+                  "value": "[parameters('profile')['actionGroupIds']]",
+                  "name": "requiredActionGroup",
+                  "where": {
+                    "count": {
+                      "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                      "where": {
+                        "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
+                        "equals": "[current('requiredActionGroup')]"
+                      }
+                    },
+                    "equals": 0
+                  }
+                },
+                "equals": 0
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "description": "Defaults only; incomplete until all required-inputs.json values are supplied.",
+  "parameters": {
+    "r01_effect": {
+      "value": "Audit"
+    },
+    "r02_effect": {
+      "value": "Audit"
+    },
+    "r03_effect": {
+      "value": "Audit"
+    },
+    "r04_effect": {
+      "value": "Audit"
+    },
+    "r04_mandatoryTags": {
+      "value": [
+        "owner",
+        "costcenter"
+      ]
+    },
+    "r05_effect": {
+      "value": "Audit"
+    },
+    "r05_mandatoryTags": {
+      "value": [
+        "owner",
+        "costcenter"
+      ]
+    },
+    "r06_effect": {
+      "value": "Audit"
+    },
+    "r07_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r07_requiredLogLevel": {
+      "value": "Audit"
+    },
+    "r07_resourceTypeList": {
+      "value": [
+        "microsoft.agfoodplatform/farmbeats",
+        "microsoft.apimanagement/service",
+        "microsoft.appconfiguration/configurationstores",
+        "microsoft.attestation/attestationproviders",
+        "microsoft.automation/automationaccounts",
+        "microsoft.avs/privateclouds",
+        "microsoft.cache/redis",
+        "microsoft.cdn/profiles",
+        "microsoft.cognitiveservices/accounts",
+        "microsoft.containerregistry/registries",
+        "microsoft.devices/iothubs",
+        "microsoft.eventgrid/topics",
+        "microsoft.eventgrid/domains",
+        "microsoft.eventgrid/partnernamespaces",
+        "microsoft.eventhub/namespaces",
+        "microsoft.keyvault/vaults",
+        "microsoft.keyvault/managedhsms",
+        "microsoft.machinelearningservices/workspaces",
+        "microsoft.media/mediaservices",
+        "microsoft.media/videoanalyzers",
+        "microsoft.netapp/netappaccounts/capacitypools/volumes",
+        "microsoft.network/publicipaddresses",
+        "microsoft.network/virtualnetworkgateways",
+        "microsoft.network/p2svpngateways",
+        "microsoft.network/frontdoors",
+        "microsoft.network/bastionhosts",
+        "microsoft.operationalinsights/workspaces",
+        "microsoft.purview/accounts",
+        "microsoft.servicebus/namespaces",
+        "microsoft.signalrservice/signalr",
+        "microsoft.signalrservice/webpubsub",
+        "microsoft.sql/servers/databases",
+        "microsoft.sql/managedinstances"
+      ]
+    },
+    "r08_effect": {
+      "value": "Audit"
+    },
+    "r09_effect": {
+      "value": "Audit"
+    },
+    "r09_minimumTlsVersion": {
+      "value": "TLS1_2"
+    },
+    "r10_effect": {
+      "value": "Audit"
+    },
+    "r11_effect": {
+      "value": "Audit"
+    },
+    "r12_effect": {
+      "value": "Audit"
+    },
+    "r13_effect": {
+      "value": "Audit"
+    },
+    "r18_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r19_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r20_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r21_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r22_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r23_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r24_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r25_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r26_effect": {
+      "value": "Audit"
+    },
+    "r26_effect_fd2ae87": {
+      "value": "Audit"
+    },
+    "r27_effect": {
+      "value": "Audit"
+    },
+    "r27_effect_0ee5d7b": {
+      "value": "Audit"
+    },
+    "r28_effect": {
+      "value": "Audit"
+    },
+    "r29_effect": {
+      "value": "Audit"
+    },
+    "r30_effect": {
+      "value": "Audit"
+    },
+    "r30_effect_0e94e3a": {
+      "value": "Audit"
+    },
+    "r31_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r32_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r32_effect_1e65079": {
+      "value": "AuditIfNotExists"
+    },
+    "r32_effect_bd12d9a": {
+      "value": "AuditIfNotExists"
+    },
+    "r33_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r34_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r35_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "r35_effect_b41d4d5": {
+      "value": "Audit"
+    },
+    "r36_effect": {
+      "value": "Audit"
+    },
+    "r14_effect": {
+      "value": "Audit"
+    },
+    "r15_effect": {
+      "value": "Audit"
+    },
+    "r16_effect": {
+      "value": "Audit"
+    }
+  }
+}

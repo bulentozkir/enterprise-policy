@@ -1,0 +1,62 @@
+{
+  "name": "landingzone-l42-l42-apim-apis-use-encrypted-protocols",
+  "properties": {
+    "displayName": "API Management APIs should use only encrypted protocols",
+    "description": "To ensure security of data in transit, APIs should be available only through encrypted protocols, like HTTPS or WSS. Avoid using unsecured protocols, such as HTTP or WS.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "API Management",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/API%20Management/HTTPEnabled_AuditDeny.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/ee7495e7-3ba7-40b6-bfee-c29e22cc75d4",
+      "catalogRow": "L42",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.ApiManagement/service/apis"
+          },
+          {
+            "count": {
+              "field": "Microsoft.ApiManagement/service/apis/protocols[*]",
+              "where": {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.ApiManagement/service/apis/protocols[*]",
+                    "equals": "http"
+                  },
+                  {
+                    "field": "Microsoft.ApiManagement/service/apis/protocols[*]",
+                    "equals": "ws"
+                  }
+                ]
+              }
+            },
+            "greaterOrEquals": 1
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

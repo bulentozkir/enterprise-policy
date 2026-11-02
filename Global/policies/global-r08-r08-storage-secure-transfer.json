@@ -1,0 +1,48 @@
+{
+  "name": "global-r08-r08-storage-secure-transfer",
+  "properties": {
+    "displayName": "Secure transfer to storage accounts should be enabled",
+    "description": "Audits Storage accounts unless secure-transfer configuration is explicitly enabled. No request API-version gate is used. Missing configuration is reported rather than inferring compliance from an API-version-dependent service default.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Storage",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Storage/Storage_AuditForHTTPSEnabled_Audit.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/404c3081-a854-4457-ae30-26a93ef643f9",
+      "catalogRow": "R08",
+      "packageSet": "Global"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Storage/storageAccounts"
+          },
+          {
+            "field": "Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly",
+            "notEquals": true
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

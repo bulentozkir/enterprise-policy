@@ -1,0 +1,78 @@
+{
+  "name": "landingzone-l02-l02-explicit-outbound-connectivity",
+  "properties": {
+    "displayName": "Subnets should be private",
+    "description": "Ensure your subnets are secure by default by preventing default outbound access. For more information go to https://aka.ms/defaultoutboundaccessretirement",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/PrivateSubnetOnly_Audit.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/7bca8353-aa3b-429b-904a-9229c4385837",
+      "catalogRow": "L02",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                  "where": {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.Network/virtualNetworks/subnets[*].defaultOutboundAccess",
+                        "notEquals": "false"
+                      },
+                      {
+                        "field": "Microsoft.Network/virtualNetworks/subnets[*].defaultOutboundAccess",
+                        "exists": false
+                      }
+                    ]
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks/subnets"
+              },
+              {
+                "field": "Microsoft.Network/virtualNetworks/subnets/defaultOutboundAccess",
+                "notEquals": "false"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

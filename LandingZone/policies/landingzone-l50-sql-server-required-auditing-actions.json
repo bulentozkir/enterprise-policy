@@ -1,0 +1,119 @@
+{
+  "name": "landingzone-l50-sql-server-required-auditing-actions",
+  "properties": {
+    "displayName": "Selected SQL servers must enable Azure Monitor auditing with required actions",
+    "description": "Audits selected logical SQL servers unless their default auditingSettings child is Enabled, targets Azure Monitor, and includes every required auditing action/group. Use the companion master-database diagnostic destination definition.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "SQL",
+      "version": "1.0.0",
+      "designRow": "L50",
+      "sourceVerifiedOn": "2026-11-02",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlServerAuditingToLA_DINE.json",
+      "catalogRow": "L50",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required SQL auditing actions",
+          "description": "Required nonempty SQL logical-server IDs and required SQL audit actions/groups. Choose valid SQL action/group names according to the approved audit standard; no action list is invented."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "requiredAuditActionsAndGroups"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "requiredAuditActionsAndGroups": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 100,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers"
+          },
+          {
+            "field": "id",
+            "in": "[parameters('profile')['resourceIds']]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/auditingSettings",
+          "name": "[concat(field('name'), '/default')]",
+          "evaluationDelay": "PT10M",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Sql/servers/auditingSettings/state",
+                "equals": "Enabled"
+              },
+              {
+                "field": "Microsoft.Sql/servers/auditingSettings/isAzureMonitorTargetEnabled",
+                "equals": true
+              },
+              {
+                "count": {
+                  "value": "[parameters('profile')['requiredAuditActionsAndGroups']]",
+                  "name": "requiredAuditAction",
+                  "where": {
+                    "count": {
+                      "field": "Microsoft.Sql/servers/auditingSettings/auditActionsAndGroups[*]",
+                      "where": {
+                        "field": "Microsoft.Sql/servers/auditingSettings/auditActionsAndGroups[*]",
+                        "equals": "[current('requiredAuditAction')]"
+                      }
+                    },
+                    "equals": 0
+                  }
+                },
+                "equals": 0
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

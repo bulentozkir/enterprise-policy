@@ -1,0 +1,52 @@
+{
+  "name": "global-r12-r12-key-vault-purge-protection",
+  "properties": {
+    "displayName": "Key vaults should have deletion protection enabled",
+    "description": "Audits Key Vaults unless purge protection is explicitly enabled, excluding recovery operations. This is a property-based check without request API-version gates. Soft-delete configuration is covered by the separate Global soft-delete policy.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Key Vault",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Key%20Vault/Recoverable_Audit.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/0b60c0b2-2dc2-4e1c-b5c9-abbed971de53",
+      "catalogRow": "R12",
+      "packageSet": "Global"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.KeyVault/vaults"
+          },
+          {
+            "field": "Microsoft.KeyVault/vaults/createMode",
+            "notEquals": "recover"
+          },
+          {
+            "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
+            "notEquals": true
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

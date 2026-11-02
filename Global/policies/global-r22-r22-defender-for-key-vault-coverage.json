@@ -1,0 +1,108 @@
+{
+  "name": "global-r22-r22-defender-for-key-vault-coverage",
+  "properties": {
+    "displayName": "Azure Defender for Key Vault should be enabled",
+    "description": "Azure Defender for Key Vault provides an additional layer of protection and security intelligence by detecting unusual and potentially harmful attempts to access or exploit key vault accounts.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Security Center",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedThreatProtectionOnKeyVaults_Audit.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/0e6763cc-5078-4e64-889d-ff4d9a839047",
+      "catalogRow": "R22",
+      "packageSet": "Global"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
+              "name": "evaluationScopeIncludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeIncludedPattern')]"
+              }
+            },
+            "greater": 0
+          },
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
+              "name": "evaluationScopeExcludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeExcludedPattern')]"
+              }
+            },
+            "equals": 0
+          },
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Security/pricings",
+          "name": "KeyVaults",
+          "existenceScope": "subscription",
+          "existenceCondition": {
+            "field": "Microsoft.Security/pricings/pricingTier",
+            "equals": "Standard"
+          }
+        }
+      }
+    }
+  }
+}

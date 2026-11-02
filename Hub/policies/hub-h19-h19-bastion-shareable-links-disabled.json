@@ -1,0 +1,110 @@
+{
+  "name": "hub-h19-h19-bastion-shareable-links-disabled",
+  "properties": {
+    "displayName": "Deny Bastion Shared Links",
+    "description": "The Bastion Shareable Link feature lets users connect to a target resource (virtual machine or virtual machine scale set) using Azure Bastion without accessing the Azure portal.",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "source": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Network/deny-bastion-shared-links/azurepolicy.json",
+      "sourcePolicyId": "17004589-5ebb-451c-bad8-b50a20ada47b",
+      "catalogRow": "H19",
+      "packageSet": "Hub"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
+              "name": "evaluationScopeIncludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeIncludedPattern')]"
+              }
+            },
+            "greater": 0
+          },
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
+              "name": "evaluationScopeExcludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeExcludedPattern')]"
+              }
+            },
+            "equals": 0
+          },
+          {
+            "allOf": [
+              {
+                "equals": "microsoft.network/bastionhosts",
+                "field": "type"
+              },
+              {
+                "not": {
+                  "field": "Microsoft.Network/bastionHosts/enableShareableLink",
+                  "equals": "False"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    },
+    "policyType": "Custom"
+  }
+}

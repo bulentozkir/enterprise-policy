@@ -1,0 +1,123 @@
+{
+  "name": "landingzone-l41-l41-function-built-in-authentication",
+  "properties": {
+    "displayName": "Function apps should have authentication enabled",
+    "description": "Azure App Service Authentication is a feature that can prevent anonymous HTTP requests from reaching the Function app, or authenticate those that have tokens before they reach the Function app.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "App Service",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/App%20Service/Authentication_functionapp_Audit.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/c75248c1-ea1d-4a9c-8fc9-29a6aabd5da8",
+      "catalogRow": "L41",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
+              "name": "evaluationScopeIncludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeIncludedPattern')]"
+              }
+            },
+            "greater": 0
+          },
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
+              "name": "evaluationScopeExcludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeExcludedPattern')]"
+              }
+            },
+            "equals": 0
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Web/sites"
+              },
+              {
+                "field": "kind",
+                "contains": "functionapp"
+              },
+              {
+                "field": "kind",
+                "notContains": "workflowapp"
+              },
+              {
+                "field": "kind",
+                "notContains": "azurecontainerapps"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Web/sites/config",
+          "name": "web",
+          "existenceCondition": {
+            "field": "Microsoft.Web/sites/config/siteAuthEnabled",
+            "equals": "true"
+          }
+        }
+      }
+    }
+  }
+}

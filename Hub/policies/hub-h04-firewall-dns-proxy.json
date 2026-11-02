@@ -1,0 +1,87 @@
+{
+  "name": "hub-h04-firewall-dns-proxy",
+  "properties": {
+    "displayName": "Selected hub Firewall Policies must explicitly enable DNS proxy",
+    "description": "Audits missing and false DNS proxy values on explicitly selected Firewall Policies. Unlike the upstream presence-only check, an explicit false value is noncompliant. Inheritance is not resolved.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0",
+      "designRow": "H04",
+      "sourceVerifiedOn": "2026-11-02",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/AzureFirewall_EnableDNSProxy_Audit.json",
+      "catalogRow": "H04",
+      "packageSet": "Hub"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only evaluation."
+        }
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Approved DNS-proxy targets",
+          "description": "Required, nonempty Firewall Policy resource IDs whose approved DNS architecture requires explicit DNS proxy configuration."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/firewallPolicies"
+          },
+          {
+            "field": "id",
+            "in": "[parameters('profile')['resourceIds']]"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Network/firewallPolicies/dnsSettings.enableProxy",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.Network/firewallPolicies/dnsSettings.enableProxy",
+                "notEquals": true
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

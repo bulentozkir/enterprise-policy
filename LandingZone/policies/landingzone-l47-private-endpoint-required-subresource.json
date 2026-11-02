@@ -1,0 +1,117 @@
+{
+  "name": "landingzone-l47-private-endpoint-required-subresource",
+  "properties": {
+    "displayName": "Selected private endpoints must match their required DNS subresource profile",
+    "description": "Audits selected private endpoints without an automatic or manual private-link service connection for the required groupId. Companion to the central DNS-zone-group existence audit so a wrong/missing subresource cannot silently escape that control.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0",
+      "designRow": "L47",
+      "sourceVerifiedOn": "2026-11-02",
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Private-DNS-Generic.json",
+      "catalogRow": "L47",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only property evaluation."
+        }
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required private-endpoint subresource profile",
+          "description": "Required nonempty private endpoint resource IDs and one required groupId, such as the organization-approved PaaS subresource. Repeat for distinct endpoint profiles."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "groupId"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "groupId": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/privateEndpoints"
+          },
+          {
+            "field": "id",
+            "in": "[parameters('profile')['resourceIds']]"
+          },
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "count": {
+                    "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*]",
+                    "where": {
+                      "count": {
+                        "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
+                        "where": {
+                          "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
+                          "equals": "[parameters('profile')['groupId']]"
+                        }
+                      },
+                      "greater": 0
+                    }
+                  },
+                  "greater": 0
+                },
+                {
+                  "count": {
+                    "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*]",
+                    "where": {
+                      "count": {
+                        "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*].groupIds[*]",
+                        "where": {
+                          "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*].groupIds[*]",
+                          "equals": "[parameters('profile')['groupId']]"
+                        }
+                      },
+                      "greater": 0
+                    }
+                  },
+                  "greater": 0
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

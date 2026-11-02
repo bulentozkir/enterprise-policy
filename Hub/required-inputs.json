@@ -1,0 +1,178 @@
+[
+  {
+    "parameter": "h02_evaluationScope",
+    "policy": "hub-h02-h02-transitional-classic-rule-threat-intelligence",
+    "row": "H02",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h05_evaluationScope",
+    "policy": "hub-h05-h05-waf-configuration-on-centrally-owned-application-gat",
+    "row": "H05",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h06_evaluationScope",
+    "policy": "hub-h06-h06-premium-firewall-where-risk-justified",
+    "row": "H06",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h08_evaluationScope",
+    "policy": "hub-h08-h08-firewall-association-on-secured-virtual-hubs",
+    "row": "H08",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h10_evaluationScope",
+    "policy": "hub-h10-h10-entra-only-point-to-site-vpn-authentication",
+    "row": "H10",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h13_evaluationScope",
+    "policy": "hub-h13-h13-traffic-analytics-on-selected-vnet-flow-logs",
+    "row": "H13",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h14_evaluationScope",
+    "policy": "hub-h14-h14-private-only-central-log-analytics-access",
+    "row": "H14",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h15_evaluationScope",
+    "policy": "hub-h15-h15-entra-based-central-log-ingestion",
+    "row": "H15",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h16_evaluationScope",
+    "policy": "hub-h16-h16-hub-specific-approved-peering-inventory",
+    "row": "H16",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h17_servers",
+    "policy": "hub-h17-h17-approved-custom-dns-on-hub-vnets",
+    "row": "H17",
+    "type": "Array",
+    "description": "The list of DNS servers to enforce exclusive existance of.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h17_evaluationScope",
+    "policy": "hub-h17-h17-approved-custom-dns-on-hub-vnets",
+    "row": "H17",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h18_servers",
+    "policy": "hub-h18-h18-approved-firewall-upstream-dns",
+    "row": "H18",
+    "type": "Array",
+    "description": "The list of DNS servers to enforce exclusive existance of.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h18_evaluationScope",
+    "policy": "hub-h18-h18-approved-firewall-upstream-dns",
+    "row": "H18",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h19_evaluationScope",
+    "policy": "hub-h19-h19-bastion-shareable-links-disabled",
+    "row": "H19",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h20_evaluationScope",
+    "policy": "hub-h20-h20-approved-central-workspace-retention-floor",
+    "row": "H20",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h04_profile",
+    "policy": "hub-h04-firewall-dns-proxy",
+    "row": "H04",
+    "type": "Object",
+    "description": "Required, nonempty Firewall Policy resource IDs whose approved DNS architecture requires explicit DNS proxy configuration.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h07_profile",
+    "policy": "hub-h07-hub-ddos-approved-plan",
+    "row": "H07",
+    "type": "Object",
+    "description": "Required eligible hub VNet IDs and approved DDoS Network Protection plan IDs. Neither list may be empty.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h21_profile",
+    "policy": "hub-h21-premium-firewall-idps",
+    "row": "H21",
+    "type": "Object",
+    "description": "Required nonempty policy IDs and accepted IDPS modes. Accept Alert, Deny, or both according to approved inspection architecture.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h22_profile",
+    "policy": "hub-h22-connectivity-amba-metric-profile",
+    "row": "H22",
+    "type": "Object",
+    "description": "Supply one reviewed metric profile and nonempty target/type/action-group lists. Repeat the definition in an initiative for additional metrics. Alerts must be in each target's subscription.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h23_profile",
+    "policy": "hub-h23-management-amba-metric-profile",
+    "row": "H23",
+    "type": "Object",
+    "description": "Required reviewed metric namespace, name, aggregation, operator, threshold, window, frequency, target resource IDs/types, and action-group IDs. Instantiate separately for each required metric.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h24_profile",
+    "policy": "hub-h24-identity-amba-metric-profile",
+    "row": "H24",
+    "type": "Object",
+    "description": "Required approved Azure resource IDs/types and one complete metric/action-group profile. This is not a tenant-wide Entra, Conditional Access, or identity-risk control.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "h25_profile",
+    "policy": "hub-h25-hub-vnet-flow-log-coverage",
+    "row": "H25",
+    "type": "Object",
+    "description": "Supply nonempty approved hub VNet IDs and storage account IDs, plus the required finite minimum retention days. Regional Network Watcher resources may be in a different RG in the same subscription.",
+    "allowedValues": null
+  }
+]

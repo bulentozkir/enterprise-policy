@@ -1,0 +1,112 @@
+{
+  "name": "hub-h05-h05-waf-configuration-on-centrally-owned-application-gat",
+  "properties": {
+    "displayName": "Web Application Firewall (WAF) should be enabled for Application Gateway",
+    "description": "Deploy Azure Web Application Firewall (WAF) in front of public facing web applications for additional inspection of incoming traffic. Web Application Firewall (WAF) provides centralized protection of your web applications from common exploits and vulnerabilities such as SQL injections, Cross-Site Scripting, local and remote file executions. You can also restrict access to your web applications by countries, IP address ranges, and other http(s) parameters via custom rules.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Network",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/WAF_AppGatewayEnabled_Audit.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/564feb30-bf6a-4854-b4bb-0d2d2d1e6c66",
+      "catalogRow": "H05",
+      "packageSet": "Hub"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
+              "name": "evaluationScopeIncludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeIncludedPattern')]"
+              }
+            },
+            "greater": 0
+          },
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
+              "name": "evaluationScopeExcludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeExcludedPattern')]"
+              }
+            },
+            "equals": 0
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/applicationGateways"
+              },
+              {
+                "field": "Microsoft.Network/applicationGateways/webApplicationFirewallConfiguration",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.Network/applicationGateways/firewallPolicy",
+                "exists": "false"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

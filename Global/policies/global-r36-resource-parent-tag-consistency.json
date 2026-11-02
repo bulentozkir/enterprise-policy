@@ -1,0 +1,94 @@
+{
+  "name": "global-r36-resource-parent-tag-consistency",
+  "properties": {
+    "displayName": "Audit resource tag consistency against a nonempty resource-group tag",
+    "description": "Audit resource tag consistency against a nonempty resource-group tag. Read-only custom check with required approved applicability inputs.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Tags",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Tags/InheritTag_Add_Modify.json",
+      "catalogRow": "R36",
+      "packageSet": "Global"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Effect"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      },
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Reviewed inherited tag name",
+          "description": "Reviewed inherited tag name"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "notIn": [
+              "Microsoft.Resources/subscriptions",
+              "Microsoft.Resources/subscriptions/resourceGroups"
+            ]
+          },
+          {
+            "field": "id",
+            "in": "[parameters('profile').resourceIds]"
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[if(contains(coalesce(resourceGroup().tags, createObject()), parameters('tagName')), resourceGroup().tags[parameters('tagName')], '')]",
+                "equals": ""
+              },
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "notEquals": "[if(contains(coalesce(resourceGroup().tags, createObject()), parameters('tagName')), resourceGroup().tags[parameters('tagName')], '')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

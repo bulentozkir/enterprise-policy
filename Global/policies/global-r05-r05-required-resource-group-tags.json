@@ -1,0 +1,85 @@
+{
+  "name": "global-r05-r05-required-resource-group-tags",
+  "properties": {
+    "displayName": "Audit for mandatory tags on resource groups",
+    "description": "Audits resource groups to ensure they have required tags based on tag array.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Tags",
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Audit-Tags-Mandatory-Rg.json",
+      "sourcePolicyId": "Audit-Tags-Mandatory-Rg",
+      "catalogRow": "R05",
+      "packageSet": "Global"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "mandatoryTags": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Array of mandatory tags",
+          "description": "Array of mandatory tags that must be present on the resource group. The array should contain semicolon separated list of the tag names."
+        },
+        "defaultValue": [
+          "owner",
+          "costcenter"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          },
+          {
+            "anyOf": [
+              {
+                "not": {
+                  "count": {
+                    "value": "[parameters('mandatoryTags')]",
+                    "name": "tagcount",
+                    "where": {
+                      "field": "tags",
+                      "containsKey": "[current('tagcount')]"
+                    }
+                  },
+                  "equals": "[length(parameters('mandatoryTags'))]"
+                }
+              },
+              {
+                "not": {
+                  "count": {
+                    "value": "[parameters('mandatoryTags')]",
+                    "name": "tagnullcount",
+                    "where": {
+                      "value": "[resourceGroup().tags[current('tagnullcount')]]",
+                      "notMatch": ""
+                    }
+                  },
+                  "equals": "[length(parameters('mandatoryTags'))]"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

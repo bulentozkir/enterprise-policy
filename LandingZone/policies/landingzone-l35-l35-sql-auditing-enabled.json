@@ -1,0 +1,66 @@
+{
+  "name": "landingzone-l35-l35-sql-auditing-enabled",
+  "properties": {
+    "displayName": "Auditing on SQL server should be enabled",
+    "description": "Auditing on your SQL Server should be enabled to track database activities across all databases on the server and save them in an audit log.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "SQL",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlServerAuditing_Audit.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/a6fb4358-5bf4-4ad7-ba82-2cd2f41ce5e9",
+      "catalogRow": "L35",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "setting": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Desired Auditing setting"
+        },
+        "defaultValue": "enabled",
+        "allowedValues": [
+          "enabled",
+          "disabled"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers"
+          },
+          {
+            "field": "kind",
+            "notContains": "analytics"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/auditingSettings",
+          "name": "default",
+          "existenceCondition": {
+            "field": "Microsoft.Sql/auditingSettings.state",
+            "equals": "[parameters('setting')]"
+          }
+        }
+      }
+    }
+  }
+}

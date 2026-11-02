@@ -1,0 +1,1831 @@
+{
+  "set": "Global",
+  "catalogRows": 36,
+  "customDefinitions": 41,
+  "publishableDefinitions": 41,
+  "referenceOnlyDefinitions": 0,
+  "initiativeParameters": 82,
+  "coverageGaps": [
+    {
+      "set": "Global",
+      "rowKey": "R17",
+      "control": "Key Vault certificate expiry runway",
+      "reason": "Key Vault certificates are data-plane objects. No equivalent management-plane certificate inventory/expiry aliases are exposed for a custom All/Indexed policy. Changing Microsoft.KeyVault.Data to All would not provide equivalent coverage. The unsupported clone is removed; use the supported built-in certificate-expiry control or a separately authorized data-plane certificate-monitoring process.",
+      "source": "https://learn.microsoft.com/azure/governance/policy/concepts/definition-structure-basics"
+    }
+  ],
+  "policies": [
+    {
+      "set": "Global",
+      "rowKey": "R01",
+      "key": "r01-approved-resource-regions",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/General/AllowedLocations_Deny.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Excludes global resources, resource groups and B2C directories by definition. Include paired/disaster-recovery regions and approved exceptions before Deny."
+      },
+      "limitations": [
+        "Excludes global resources, resource groups and B2C directories by definition. Include paired/disaster-recovery regions and approved exceptions before Deny.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        }
+      ],
+      "catalogName": "Allowed locations",
+      "applicability": "Baseline",
+      "name": "global-r01-r01-approved-resource-regions",
+      "file": "policies/global-r01-r01-approved-resource-regions.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "cbc9d121896b50895bace12423513f905afdbeff32a51b697ca7b9ddb3429136",
+      "requiredParameters": [
+        "listOfAllowedLocations"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R02",
+      "key": "r02-approved-resource-group-regions",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/General/ResourceGroupAllowedLocations_Deny.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Resource-group metadata location does not establish residency of the resources inside it."
+      },
+      "limitations": [
+        "Resource-group metadata location does not establish residency of the resources inside it.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        }
+      ],
+      "catalogName": "Allowed locations for resource groups",
+      "applicability": "Baseline",
+      "name": "global-r02-r02-approved-resource-group-regions",
+      "file": "policies/global-r02-r02-approved-resource-group-regions.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "e81880607a2bb1c48c92666419a5da9db0f724545623c6835abadc3925ea8ba9",
+      "requiredParameters": [
+        "listOfAllowedLocations"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R03",
+      "key": "r03-unapproved-or-retired-resource-types",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/General/InvalidResourceTypes_Deny.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Do not replace with an unmaintained allowlist that blocks new services or platform dependencies. A policy does not move or remove existing resources."
+      },
+      "limitations": [
+        "Do not replace with an unmaintained allowlist that blocks new services or platform dependencies. A policy does not move or remove existing resources.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        }
+      ],
+      "catalogName": "Not allowed resource types",
+      "applicability": "Baseline",
+      "name": "global-r03-r03-unapproved-or-retired-resource-types",
+      "file": "policies/global-r03-r03-unapproved-or-retired-resource-types.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "7ccfff2eb860c14171e55a6a2021df695acd5c99df6e89db091d1e1220ae38af",
+      "requiredParameters": [
+        "listOfResourceTypesNotAllowed"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R04",
+      "key": "r04-required-resource-tags",
+      "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Audit-Tags-Mandatory.json",
+      "source_id": "Audit-Tags-Mandatory",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Indexed mode covers taggable resources only, not resource groups. This checks presence, not allowed values or empty-value quality; do not assume tag inheritance. Use the supported ALZ definition packaging; upstream JSON contains ARM-escaped expressions and must not be copied as an unprocessed policyRule."
+      },
+      "limitations": [
+        "Indexed mode covers taggable resources only, not resource groups. This checks presence, not allowed values or empty-value quality; do not assume tag inheritance. Use the supported ALZ definition packaging; upstream JSON contains ARM-escaped expressions and must not be copied as an unprocessed policyRule.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/sourceEnvelope/apiVersion",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/scope",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/type",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/metadata/source",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/metadata/alzCloudEnvironments",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/policyRule/if/not/count/value",
+          "reason": "Remove exactly one ARM-template escaping layer.",
+          "category": "arm-expression-unescaping"
+        },
+        {
+          "path": "/policyRule/if/not/count/where/containsKey",
+          "reason": "Remove exactly one ARM-template escaping layer.",
+          "category": "arm-expression-unescaping"
+        },
+        {
+          "path": "/policyRule/if/not/equals",
+          "reason": "Remove exactly one ARM-template escaping layer.",
+          "category": "arm-expression-unescaping"
+        },
+        {
+          "path": "/policyRule/then/effect",
+          "reason": "Remove exactly one ARM-template escaping layer.",
+          "category": "arm-expression-unescaping"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        }
+      ],
+      "catalogName": "Audit for mandatory tags on resources",
+      "applicability": "Baseline",
+      "name": "global-r04-r04-required-resource-tags",
+      "file": "policies/global-r04-r04-required-resource-tags.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "fba975530857b2a561dafdedb392930e3ec01cc9f1779da6b92206c0bc8d2fb5",
+      "requiredParameters": []
+    },
+    {
+      "set": "Global",
+      "rowKey": "R05",
+      "key": "r05-required-resource-group-tags",
+      "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Audit-Tags-Mandatory-Rg.json",
+      "source_id": "Audit-Tags-Mandatory-Rg",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Resource-group tags do not automatically propagate to child resources. Source extras page spells the suffix RG; the published definition identifier is Rg. Use the supported ALZ definition packaging; upstream JSON contains ARM-escaped expressions and must not be copied as an unprocessed policyRule."
+      },
+      "limitations": [
+        "Resource-group tags do not automatically propagate to child resources. Source extras page spells the suffix RG; the published definition identifier is Rg. Use the supported ALZ definition packaging; upstream JSON contains ARM-escaped expressions and must not be copied as an unprocessed policyRule.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/sourceEnvelope/apiVersion",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/scope",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/type",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/metadata/source",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/metadata/alzCloudEnvironments",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/policyRule/if/allOf/1/anyOf/0/not/count/value",
+          "reason": "Remove exactly one ARM-template escaping layer.",
+          "category": "arm-expression-unescaping"
+        },
+        {
+          "path": "/policyRule/if/allOf/1/anyOf/0/not/count/where/containsKey",
+          "reason": "Remove exactly one ARM-template escaping layer.",
+          "category": "arm-expression-unescaping"
+        },
+        {
+          "path": "/policyRule/if/allOf/1/anyOf/0/not/equals",
+          "reason": "Remove exactly one ARM-template escaping layer.",
+          "category": "arm-expression-unescaping"
+        },
+        {
+          "path": "/policyRule/if/allOf/1/anyOf/1/not/count/value",
+          "reason": "Remove exactly one ARM-template escaping layer.",
+          "category": "arm-expression-unescaping"
+        },
+        {
+          "path": "/policyRule/if/allOf/1/anyOf/1/not/count/where/value",
+          "reason": "Remove exactly one ARM-template escaping layer.",
+          "category": "arm-expression-unescaping"
+        },
+        {
+          "path": "/policyRule/if/allOf/1/anyOf/1/not/equals",
+          "reason": "Remove exactly one ARM-template escaping layer.",
+          "category": "arm-expression-unescaping"
+        },
+        {
+          "path": "/policyRule/then/effect",
+          "reason": "Remove exactly one ARM-template escaping layer.",
+          "category": "arm-expression-unescaping"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        }
+      ],
+      "catalogName": "Audit for mandatory tags on resource groups",
+      "applicability": "Baseline",
+      "name": "global-r05-r05-required-resource-group-tags",
+      "file": "policies/global-r05-r05-required-resource-group-tags.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "2b6a592b41a9d074a4867323479a13e822766afb870b39963e471113c68294b8",
+      "requiredParameters": []
+    },
+    {
+      "set": "Global",
+      "rowKey": "R06",
+      "key": "r06-subscription-classification-tag",
+      "source_url": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Tags/required-tag-and-value-set-on-subscriptions/azurepolicy.json",
+      "source_id": "ce5c3d48-6096-4ed7-b2ae-a1b730f5f49d",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Conditional",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Community sample: review and import as a custom definition; the GUID is a source/sample identifier, not a Microsoft built-in ID. Requires subscription tag support and permissions."
+      },
+      "limitations": [
+        "Community sample: review and import as a custom definition; the GUID is a source/sample identifier, not a Microsoft built-in ID. Requires subscription tag support and permissions.",
+        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        },
+        {
+          "path": "/policyRule/if",
+          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
+          "category": "conditional-scope-filter",
+          "parameterName": "evaluationScope"
+        }
+      ],
+      "catalogName": "Require tag name and a value from a set on Subscriptions",
+      "applicability": "Conditional",
+      "name": "global-r06-r06-subscription-classification-tag",
+      "file": "policies/global-r06-r06-subscription-classification-tag.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "d21b981026f1d8bb9f471600b0c2853df4469bd1a4eb41773f1f16b818cb34af",
+      "requiredParameters": [
+        "tagName",
+        "allowedTagValues",
+        "evaluationScope"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R07",
+      "key": "r07-audit-category-resource-logs",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/DiagnosticSettingsExistsAudit_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/187242f4-89c6-4c43-9a4e-188c0efacc5f",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "AuditIfNotExists only inspects related diagnostic settings. It does not configure logging, verify a central destination, retention, delivery, or cover every Azure resource type."
+      },
+      "limitations": [
+        "AuditIfNotExists only inspects related diagnostic settings. It does not configure logging, verify a central destination, retention, delivery, or cover every Azure resource type.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        }
+      ],
+      "catalogName": "Resource logs should be enabled for Audit on supported resources",
+      "applicability": "Baseline",
+      "name": "global-r07-r07-audit-category-resource-logs",
+      "file": "policies/global-r07-r07-audit-category-resource-logs.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "5d00cd8501ac62eb74751e5e679575c23ccd7ddf4e786ac6d9e90d348db1f86b",
+      "requiredParameters": []
+    },
+    {
+      "set": "Global",
+      "rowKey": "R08",
+      "key": "r08-storage-secure-transfer",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Storage/Storage_AuditForHTTPSEnabled_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/404c3081-a854-4457-ae30-26a93ef643f9",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Transport control, not a private-network requirement; secure public endpoints can remain available."
+      },
+      "limitations": [
+        "Transport control, not a private-network requirement; secure public endpoints can remain available.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
+        "Source request API-version capability guards are retained. They are resource-provider protocol checks, not OS/image release pins.",
+        "Missing security configuration is reported even if a service/API default could be secure. This removes historical API-version inference and may increase audit findings for implicit defaults; review before any future Deny."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        },
+        {
+          "category": "version-independent-property-check",
+          "reason": "Removed historical request API-version branching. The effective security configuration must be explicit; absent values are noncompliant rather than being interpreted using release-dependent service defaults."
+        }
+      ],
+      "catalogName": "Secure transfer to storage accounts should be enabled",
+      "applicability": "Baseline",
+      "name": "global-r08-r08-storage-secure-transfer",
+      "file": "policies/global-r08-r08-storage-secure-transfer.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "2505ec7798a8137a499edc72664f62b7a296bf437d5e449afefad6af33fdf191",
+      "requiredParameters": []
+    },
+    {
+      "set": "Global",
+      "rowKey": "R09",
+      "key": "r09-storage-minimum-tls",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Storage/StorageAccountMinimumTLSVersion_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/fe83a0eb-a853-422d-aac2-1bffd182c5d0",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Test legacy clients before Deny. This assesses account configuration, not every client connection."
+      },
+      "limitations": [
+        "Test legacy clients before Deny. This assesses account configuration, not every client connection.",
+        "minimumTlsVersion retains its source TLS security baseline and compatible values. This is a transport-security threshold, not an OS/image release pin; the original comparison semantics are unchanged.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        }
+      ],
+      "catalogName": "Storage accounts should have the specified minimum TLS version",
+      "applicability": "Baseline",
+      "name": "global-r09-r09-storage-minimum-tls",
+      "file": "policies/global-r09-r09-storage-minimum-tls.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "c48309dca756be1e8ea35428d9fad7b431913d213516b844fb15464def4cad55",
+      "requiredParameters": []
+    },
+    {
+      "set": "Global",
+      "rowKey": "R10",
+      "key": "r10-no-anonymous-blob-access",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Storage/ASC_Storage_DisallowPublicBlobAccess_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/4fa4b6c0-31ca-4c0d-b10d-24b96f62a751",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Different from disabling the account's public network endpoint. Approve explicit exceptions for deliberate public static content before Deny."
+      },
+      "limitations": [
+        "Different from disabling the account's public network endpoint. Approve explicit exceptions for deliberate public static content before Deny.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        }
+      ],
+      "catalogName": "Storage account public access should be disallowed",
+      "applicability": "Baseline",
+      "name": "global-r10-r10-no-anonymous-blob-access",
+      "file": "policies/global-r10-r10-no-anonymous-blob-access.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "327249dc72ebf937a26510367ceb1d4a415e24a4cd67df3e0fd279f728b256a0",
+      "requiredParameters": []
+    },
+    {
+      "set": "Global",
+      "rowKey": "R11",
+      "key": "r11-key-vault-soft-delete",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Key%20Vault/SoftDeleteMustBeEnabled_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/1e66c121-a66a-4b1f-9b83-0fd99bf0fc2d",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Audit does not turn on soft delete or recover deleted data."
+      },
+      "limitations": [
+        "Audit does not turn on soft delete or recover deleted data.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        }
+      ],
+      "catalogName": "Key vaults should have soft delete enabled",
+      "applicability": "Baseline",
+      "name": "global-r11-r11-key-vault-soft-delete",
+      "file": "policies/global-r11-r11-key-vault-soft-delete.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "4a7da42cfe8cd4a8e039ce46cf7d497d22c34813430757e0cd25dfb3111fff32",
+      "requiredParameters": []
+    },
+    {
+      "set": "Global",
+      "rowKey": "R12",
+      "key": "r12-key-vault-purge-protection",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Key%20Vault/Recoverable_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/0b60c0b2-2dc2-4e1c-b5c9-abbed971de53",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Purge protection has irreversible behavior once enabled; audit is nonmutating. This member targets vaults, not Managed HSM."
+      },
+      "limitations": [
+        "Purge protection has irreversible behavior once enabled; audit is nonmutating. This member targets vaults, not Managed HSM.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
+        "Source request API-version capability guards are retained. They are resource-provider protocol checks, not OS/image release pins.",
+        "Missing security configuration is reported even if a service/API default could be secure. This removes historical API-version inference and may increase audit findings for implicit defaults; review before any future Deny."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        },
+        {
+          "category": "version-independent-property-check",
+          "reason": "Removed historical request API-version branching. The effective security configuration must be explicit; absent values are noncompliant rather than being interpreted using release-dependent service defaults."
+        }
+      ],
+      "catalogName": "Key vaults should have deletion protection enabled",
+      "applicability": "Baseline",
+      "name": "global-r12-r12-key-vault-purge-protection",
+      "file": "policies/global-r12-r12-key-vault-purge-protection.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "0555ef2012b2551332a115f9f43549e52d65bb96c2b06b59a202903b03857d60",
+      "requiredParameters": []
+    },
+    {
+      "set": "Global",
+      "rowKey": "R13",
+      "key": "r13-key-vault-rbac-authorization",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Key%20Vault/Should_Use_RBAC.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/12d4fa5e-1f9f-4c21-97a9-b99b3c6611b5",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Baseline",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Migration requires equivalent data-plane role assignments and application testing; audit does not migrate permissions. Approve justified legacy exceptions."
+      },
+      "limitations": [
+        "Migration requires equivalent data-plane role assignments and application testing; audit does not migrate permissions. Approve justified legacy exceptions.",
+        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        }
+      ],
+      "catalogName": "Azure Key Vault should use RBAC permission model",
+      "applicability": "Baseline",
+      "name": "global-r13-r13-key-vault-rbac-authorization",
+      "file": "policies/global-r13-r13-key-vault-rbac-authorization.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "2fae020a63c5e35d5bc23bd65a9ddb21c9580fbea26bea40db6e399d184022cc",
+      "requiredParameters": []
+    },
+    {
+      "set": "Global",
+      "rowKey": "R18",
+      "key": "r18-administrative-operation-alerts",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ActivityLog_AdministrativeOperations_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/b954148f-4c11-4c38-8221-be76711e194a",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Conditional",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Checks alert configuration, not delivery, action-group routing or notification receipt. Allowed operations are limited to the definition's SQL firewall and NSG operations; it does not cover arbitrary policy-assignment changes. This does not create alert rules."
+      },
+      "limitations": [
+        "Checks alert configuration, not delivery, action-group routing or notification receipt. Allowed operations are limited to the definition's SQL firewall and NSG operations; it does not cover arbitrary policy-assignment changes. This does not create alert rules.",
+        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        },
+        {
+          "path": "/policyRule/if",
+          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
+          "category": "conditional-scope-filter",
+          "parameterName": "evaluationScope"
+        }
+      ],
+      "catalogName": "An activity log alert should exist for specific Administrative operations",
+      "applicability": "Conditional",
+      "name": "global-r18-r18-administrative-operation-alerts",
+      "file": "policies/global-r18-r18-administrative-operation-alerts.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "15a203ab452838239e2a2f77f134bbf3e1ccf0267b91f964ab876e4e969d78f1",
+      "requiredParameters": [
+        "operationName",
+        "evaluationScope"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R19",
+      "key": "r19-defender-for-servers-coverage",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedThreatProtectionOnVM_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/4da35fc9-c9e7-4960-aec9-797fe7d9051d",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Conditional",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health."
+      },
+      "limitations": [
+        "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
+        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        },
+        {
+          "path": "/policyRule/if",
+          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
+          "category": "conditional-scope-filter",
+          "parameterName": "evaluationScope"
+        }
+      ],
+      "catalogName": "Azure Defender for servers should be enabled",
+      "applicability": "Conditional",
+      "name": "global-r19-r19-defender-for-servers-coverage",
+      "file": "policies/global-r19-r19-defender-for-servers-coverage.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "4ac7ec71c9582c89e4d7c2118551f78359be94fb128edf679bffdf7ad5c8d6c0",
+      "requiredParameters": [
+        "evaluationScope"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R20",
+      "key": "r20-defender-for-containers-coverage",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedThreatProtectionOnContainers_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/1c988dd6-ade4-430f-a608-2a3e5b0a6d38",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Conditional",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health."
+      },
+      "limitations": [
+        "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
+        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        },
+        {
+          "path": "/policyRule/if",
+          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
+          "category": "conditional-scope-filter",
+          "parameterName": "evaluationScope"
+        }
+      ],
+      "catalogName": "Microsoft Defender for Containers should be enabled",
+      "applicability": "Conditional",
+      "name": "global-r20-r20-defender-for-containers-coverage",
+      "file": "policies/global-r20-r20-defender-for-containers-coverage.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "617cf1747b7aaf4a041493d617b871049e7d31dfde1aef44aef535ed16794ecd",
+      "requiredParameters": [
+        "evaluationScope"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R21",
+      "key": "r21-defender-for-storage-coverage",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_Microsoft_Defender_For_Storage_Full_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/640d2586-54d2-465f-877f-9ffc1d2109f4",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Conditional",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health."
+      },
+      "limitations": [
+        "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
+        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        },
+        {
+          "path": "/policyRule/if",
+          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
+          "category": "conditional-scope-filter",
+          "parameterName": "evaluationScope"
+        }
+      ],
+      "catalogName": "Microsoft Defender for Storage should be enabled",
+      "applicability": "Conditional",
+      "name": "global-r21-r21-defender-for-storage-coverage",
+      "file": "policies/global-r21-r21-defender-for-storage-coverage.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "33bc711323936eb952745165b5add7f278d7ea6ec8f7c08a0ddcba257c9b49fc",
+      "requiredParameters": [
+        "evaluationScope"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R22",
+      "key": "r22-defender-for-key-vault-coverage",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedThreatProtectionOnKeyVaults_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/0e6763cc-5078-4e64-889d-ff4d9a839047",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Conditional",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health."
+      },
+      "limitations": [
+        "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
+        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        },
+        {
+          "path": "/policyRule/if",
+          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
+          "category": "conditional-scope-filter",
+          "parameterName": "evaluationScope"
+        }
+      ],
+      "catalogName": "Azure Defender for Key Vault should be enabled",
+      "applicability": "Conditional",
+      "name": "global-r22-r22-defender-for-key-vault-coverage",
+      "file": "policies/global-r22-r22-defender-for-key-vault-coverage.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "2004ad4745fd3f4feae0862f0ca6ed6388914b5c9fb16ec0ca31de6223a779f3",
+      "requiredParameters": [
+        "evaluationScope"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R23",
+      "key": "r23-defender-for-azure-sql-coverage",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedDataSecurityOnSqlServers_Audit.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/7fe3b40f-802b-4cdd-8bd4-fd799c948cc2",
+      "publishable": true,
+      "scopeNotes": {
+        "applicability": "Conditional",
+        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
+        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health."
+      },
+      "limitations": [
+        "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
+        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+      ],
+      "transformations": [
+        {
+          "path": "/policyType",
+          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
+          "category": "custom-clone"
+        },
+        {
+          "path": "/version",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/versions",
+          "reason": "Omit non-writable or source-version properties.",
+          "category": "property-removal"
+        },
+        {
+          "path": "/sourceEnvelope/id",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/sourceEnvelope/name",
+          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
+          "category": "source-envelope-removal"
+        },
+        {
+          "path": "/metadata/version",
+          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
+          "category": "metadata-removal"
+        },
+        {
+          "path": "/parameters/effect",
+          "reason": "Canonical source-supported effects and catalog audit-first default.",
+          "category": "effect-normalization",
+          "parameterName": "effect"
+        },
+        {
+          "path": "/policyRule/if",
+          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
+          "category": "conditional-scope-filter",
+          "parameterName": "evaluationScope"
+        }
+      ],
+      "catalogName": "Azure Defender for Azure SQL Database servers should be enabled",
+      "applicability": "Conditional",
+      "name": "global-r23-r23-defender-for-azure-sql-coverage",
+      "file": "policies/global-r23-r23-defender-for-azure-sql-coverage.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "9159899c542ea33a16da492735e45dbd9d77658719b650d0266e848619af7d95",
+      "requiredParameters": [
+        "evaluationScope"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R24",
+      "key": "subscription-activity-log-export",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/DataConnectorsAzureActivity.json",
+      "limitations": [
+        "Checks subscription diagnostic settings and Log Analytics destination only, not log delivery, retention or Event Hub routes.",
+        "Use subscription resource IDs as targets. Each required category must be enabled within the matching setting.",
+        "Design specification only: definition is not supplied or deployable yet. Create and test a pure AuditIfNotExists rule with no deployment, roleDefinitionIds or remediation content. The referenced ALZ built-in deploys settings and is excluded from all three sets. Existence auditing cannot be switched directly to Deny."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "catalogName": "Proposed: Audit subscription Activity Log categories and approved destination",
+      "applicability": "Baseline",
+      "name": "global-r24-subscription-activity-log-export",
+      "file": "policies/global-r24-subscription-activity-log-export.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "7c01eef4d6ce951d90efe1869640ccf2e2dbd4feb9fd9f2ed5b3ecda891ec9ff",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R25",
+      "key": "service-health-readiness",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
+      "limitations": [
+        "Checks enabled category/scope/action-group configuration, not incident-type or region coverage and not notification delivery.",
+        "Additional alert conditions can narrow coverage; operational review of event/region/service filters remains required.",
+        "Design specification only: definition is not supplied or deployable yet. Create and test a pure AuditIfNotExists rule with no deployment, roleDefinitionIds or remediation content. Check enabled state, conditions, subscription coverage and action-group association; test notification delivery operationally. Reference definition is deploy-capable and is NOT a member."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "catalogName": "Proposed: Audit Service Health alert conditions and action-group association",
+      "applicability": "Baseline",
+      "name": "global-r25-service-health-readiness",
+      "file": "policies/global-r25-service-health-readiness.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "b0712d8468711d9fde35393ce59b04b585a7f121beff4f637d3e0f4da51beac7",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R26",
+      "key": "r26-vm-approved-license",
+      "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing",
+      "limitations": [
+        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
+        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
+        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
+        "VMSS checks the scale-set model, not per-instance rollout. Exclude host-licensed and service-managed nodes from eligibility."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r26-r26-vm-approved-license",
+      "file": "policies/global-r26-r26-vm-approved-license.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "c78147c7667bccaacca97deea6cb82fed4654aa75b4c4aca79234e5ae2e013cd",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R26",
+      "key": "r26-vmss-approved-license",
+      "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing",
+      "limitations": [
+        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
+        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
+        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
+        "VMSS checks the scale-set model, not per-instance rollout. Exclude host-licensed and service-managed nodes from eligibility."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r26-r26-vmss-approved-license",
+      "file": "policies/global-r26-r26-vmss-approved-license.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "6902b8bfc935905672be6d3955e77590d79ddd5c70c80e52a52ddcf129a69271",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R27",
+      "key": "r27-vm-approved-license",
+      "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/windows-desktop-multitenant-hosting-deployment",
+      "limitations": [
+        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
+        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
+        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
+        "VMSS checks the scale-set model, not per-instance rollout. Exclude host-licensed and service-managed nodes from eligibility."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r27-r27-vm-approved-license",
+      "file": "policies/global-r27-r27-vm-approved-license.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "c277821175167907e8b759f1a2a5d95776cfb308c97a4e553b05710859b0f742",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R27",
+      "key": "r27-vmss-approved-license",
+      "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/windows-desktop-multitenant-hosting-deployment",
+      "limitations": [
+        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
+        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
+        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
+        "VMSS checks the scale-set model, not per-instance rollout. Exclude host-licensed and service-managed nodes from eligibility."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r27-r27-vmss-approved-license",
+      "file": "policies/global-r27-r27-vmss-approved-license.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "1af64afc422728e2dcb3fff780e64c77e5a373aaa1430ebf866467dcded21d0b",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R28",
+      "key": "sql-vm-ahb",
+      "source_url": "https://learn.microsoft.com/azure/azure-sql/virtual-machines/windows/licensing-model-azure-hybrid-benefit-ahb-change",
+      "limitations": [
+        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
+        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
+        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
+        "Only registered SQL VM resources are visible. Unregistered SQL installations need separate inventory."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r28-sql-vm-ahb",
+      "file": "policies/global-r28-sql-vm-ahb.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "40a6e6f02bdd8b9c93ede83883d93addcf6e60ad73fa2bd76f0acb15441f9ad1",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R29",
+      "key": "sql-mi-ahb",
+      "source_url": "https://learn.microsoft.com/azure/azure-sql/azure-hybrid-benefit",
+      "limitations": [
+        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
+        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
+        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
+        "MI instance pools are excluded; their licensing must be governed at the pool."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r29-sql-mi-ahb",
+      "file": "policies/global-r29-sql-mi-ahb.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "d35303d80147f7e0a9e1bb6f4f8e058e07e761b5c5e2ed43b5a360890e7b6f85",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R30",
+      "key": "sql-database-ahb",
+      "source_url": "https://learn.microsoft.com/azure/azure-sql/azure-hybrid-benefit",
+      "limitations": [
+        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
+        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
+        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
+        "Supply eligible provisioned-vCore targets only; exclude DTU, serverless, master and pooled child databases.",
+        "SQL SKU families are service eligibility checks, not OS/image release pins."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r30-sql-database-ahb",
+      "file": "policies/global-r30-sql-database-ahb.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "52082040c2bda22f70a62787be9fcf58456ff017d6d5d56f19c013deb5fb4815",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R30",
+      "key": "sql-elastic-pool-ahb",
+      "source_url": "https://learn.microsoft.com/azure/azure-sql/azure-hybrid-benefit",
+      "limitations": [
+        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
+        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
+        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
+        "Supply eligible provisioned-vCore targets only; exclude DTU, serverless, master and pooled child databases.",
+        "SQL SKU families are service eligibility checks, not OS/image release pins."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r30-sql-elastic-pool-ahb",
+      "file": "policies/global-r30-sql-elastic-pool-ahb.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "a7dd8188f3354134745b9fe971806c6f4b8986cee056f7dcd4c615a2888dd1a7",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R31",
+      "key": "resource-diagnostic-destination",
+      "source_url": "https://github.com/Azure/Community-Policy/tree/master/policyDefinitions/Storage/audit-diagnostic-setting-for-selected-resource-types",
+      "limitations": [
+        "Checks a required category group at an approved workspace; does not force unsupported metrics.",
+        "Supports category-group-capable resources only, not every diagnostics resource or Event Hub destination. It does not prove delivery."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r31-resource-diagnostic-destination",
+      "file": "policies/global-r31-resource-diagnostic-destination.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "03e170b0c44d5f127b64009d3df5f82bb6c450d1d046e6f239b5269a274a42f4",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R32",
+      "key": "ama-virtualmachines",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_VM_DINE.json",
+      "limitations": [
+        "Reviewed target IDs must exclude unsupported images and AKS/service-managed nodes; OS/image releases are not embedded.",
+        "Checks publisher, extension type and successful provisioning, not a running heartbeat, handler version or protected settings.",
+        "Separate references are required for Windows and Linux agent profiles when both are in use."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r32-ama-virtualmachines",
+      "file": "policies/global-r32-ama-virtualmachines.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "0ef11444ba42009cfd50430a40d4d048f469207a5fb01cc49ba376a8c5a7d7e0",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R32",
+      "key": "ama-virtualmachinescalesets",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_VMSS_DINE.json",
+      "limitations": [
+        "Reviewed target IDs must exclude unsupported images and AKS/service-managed nodes; OS/image releases are not embedded.",
+        "Checks publisher, extension type and successful provisioning, not a running heartbeat, handler version or protected settings.",
+        "Separate references are required for Windows and Linux agent profiles when both are in use."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r32-ama-virtualmachinescalesets",
+      "file": "policies/global-r32-ama-virtualmachinescalesets.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "cfef6b64b00eb627842c3d18b1ff1bc5ad5d7cf04652bfc8d5ef590dabb18a28",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R32",
+      "key": "ama-machines",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_HybridVM_DINE.json",
+      "limitations": [
+        "Reviewed target IDs must exclude unsupported images and AKS/service-managed nodes; OS/image releases are not embedded.",
+        "Checks publisher, extension type and successful provisioning, not a running heartbeat, handler version or protected settings.",
+        "Separate references are required for Windows and Linux agent profiles when both are in use."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r32-ama-machines",
+      "file": "policies/global-r32-ama-machines.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "5d89f6f773db60209312d65d5aaf6178339cf1811c8fc7b674c3affed9052e48",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R33",
+      "key": "required-dcr-association",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_DCRA_Windows_DINE.json",
+      "limitations": [
+        "DCE-only associations do not satisfy the DCR check. Does not verify rule contents, AMA health or actual collection."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r33-required-dcr-association",
+      "file": "policies/global-r33-required-dcr-association.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "21e75b48bb46f1a0542c12680fd9cb9f024a9bdcdb3f922dfa7ad7e4d8abf721",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R34",
+      "key": "defender-endpoint-integration",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_MDE_WDATP_DINE.json",
+      "limitations": [
+        "Use one reviewed setting profile per reference. Does not onboard endpoints or prove runtime sensor health."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r34-defender-endpoint-integration",
+      "file": "policies/global-r34-defender-endpoint-integration.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "4eb088475c7798988defee0588c4b7a53948e635e64bc5233b72434f11224443",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R35",
+      "key": "subscription-budget-readiness",
+      "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Budget.json",
+      "limitations": [
+        "Notification configuration is audited by the separate budget-resource rule for the same catalog row.",
+        "Budget creation, notifications, spend control and billing currency are not performed or proven."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r35-subscription-budget-readiness",
+      "file": "policies/global-r35-subscription-budget-readiness.json",
+      "defaultEffect": "AuditIfNotExists",
+      "customDefinitionSha256": "cf4d16d773bf0d6028b6823cd5307d7646ba7c010b0b71d71054a74d5ec1d0e9",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R35",
+      "key": "budget-notification-readiness",
+      "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Budget.json",
+      "limitations": [
+        "Select existing budget resource IDs, not subscription IDs. The companion existence rule detects missing budgets.",
+        "Compares the entire reviewed notification dictionary because no individual notification-entry aliases are exposed.",
+        "Expected notifications must have enabled approved thresholds and recipients; exact equality is stricter than subset coverage.",
+        "Does not create budgets, send email, validate delivery or cap spending."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r35-budget-notification-readiness",
+      "file": "policies/global-r35-budget-notification-readiness.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "0080f3f1e4bfb1fe678c9e8b09021114142f4161133fe95ca0caad5e4920c5c6",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R36",
+      "key": "resource-parent-tag-consistency",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Tags/InheritTag_Add_Modify.json",
+      "limitations": [
+        "A missing or empty parent tag is noncompliant rather than silently accepting an empty expected value.",
+        "Select only taggable resource-group resources. Approved resource-specific overrides must be omitted from the target profile."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "name": "global-r36-resource-parent-tag-consistency",
+      "file": "policies/global-r36-resource-parent-tag-consistency.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "9879c3ee0155508d2b01ebe49b7aed5155bf2a7e382ef390b93bb504ab175c21",
+      "requiredParameters": [
+        "profile",
+        "tagName"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R14",
+      "key": "arm-key-expiration",
+      "source_url": "https://policyalias.mats.codes/Microsoft.KeyVault/vaults-keys/",
+      "limitations": [
+        "Fresh management-plane rule, NOT equivalent to vault-wide Microsoft.KeyVault.Data evaluation.",
+        "Only approved ARM-managed child resources are covered. Objects/versions written exclusively through the Key Vault data plane are not guaranteed to be discovered or evaluated.",
+        "No secret values or key material are read. Expiry presence is not rotation or validity proof.",
+        "Align expiry with rotation and service dependencies; abrupt expiry can cause outages. A populated expiry is not evidence that rotation works. Key Vault data-plane mode: validate cloud/region support and application creation/rotation behavior before any future Deny."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "catalogName": "Key Vault keys should have an expiration date",
+      "applicability": "Baseline",
+      "name": "global-r14-arm-key-expiration",
+      "file": "policies/global-r14-arm-key-expiration.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "805c0e9244f722c5b5329400f77cd6793ce8ef7f0022eb9fb41b174c722462de",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R15",
+      "key": "arm-secret-expiration",
+      "source_url": "https://policyalias.mats.codes/Microsoft.KeyVault/vaults-secrets/",
+      "limitations": [
+        "Fresh management-plane rule, NOT equivalent to vault-wide Microsoft.KeyVault.Data evaluation.",
+        "Only approved ARM-managed child resources are covered. Objects/versions written exclusively through the Key Vault data plane are not guaranteed to be discovered or evaluated.",
+        "No secret values or key material are read. Expiry presence is not rotation or validity proof.",
+        "Use exceptions for externally managed integration secrets only with documented lifecycle controls. Key Vault data-plane mode: validate cloud/region support and application creation/rotation behavior before any future Deny."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "catalogName": "Key Vault secrets should have an expiration date",
+      "applicability": "Baseline",
+      "name": "global-r15-arm-secret-expiration",
+      "file": "policies/global-r15-arm-secret-expiration.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "8792e9ca1ed58de26a4947f974e74ecb4a08883eac3f16fe9a0324ab9fb57062",
+      "requiredParameters": [
+        "profile"
+      ]
+    },
+    {
+      "set": "Global",
+      "rowKey": "R16",
+      "key": "arm-key-rotation-profile",
+      "source_url": "https://policyalias.mats.codes/Microsoft.KeyVault/vaults-keys/",
+      "limitations": [
+        "Fresh management-plane check limited to ARM-managed keys; it is not equivalent to vault-wide data-plane inventory.",
+        "Checks an allowlisted timeAfterCreate interval, not numerical duration equivalence or actual rotation success.",
+        "Keys using only timeBeforeExpiry rotation need a separately reviewed profile and rule.",
+        "Does not rotate keys. The definition has Audit/Disabled only; a future Deny requires a separate valid definition and lifecycle impact assessment. Key Vault data-plane mode: validate cloud/region support and application creation/rotation behavior before any future Deny."
+      ],
+      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "publishable": true,
+      "catalogName": "Keys should have a rotation policy ensuring that their rotation is scheduled within the specified number of days after creation.",
+      "applicability": "Conditional",
+      "name": "global-r16-arm-key-rotation-profile",
+      "file": "policies/global-r16-arm-key-rotation-profile.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "8de04b76c2c3012338b1c5c9f21c5ddc0f9f4d85be295cd76ea163c268c695ca",
+      "requiredParameters": [
+        "profile"
+      ]
+    }
+  ]
+}

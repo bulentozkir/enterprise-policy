@@ -1,0 +1,120 @@
+{
+  "name": "landingzone-l40-l40-postgresql-cmk-where-required",
+  "properties": {
+    "displayName": "PostgreSQL flexible servers should use customer-managed keys to encrypt data at rest",
+    "description": "Use customer-managed keys to manage the encryption at rest of your PostgreSQL flexible servers. By default, the data is encrypted at rest with service-managed keys, but customer-managed keys are commonly required to meet regulatory compliance standards. Customer-managed keys enable the data to be encrypted with an Azure Key Vault key created and owned by you. You have full control and responsibility for the key lifecycle, including rotation and management.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "PostgreSQL",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/PostgreSQL/FlexibleServers_EnableCMK_AINE.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/12c74c95-0efd-48da-b8d9-2a7d68470c92",
+      "catalogRow": "L40",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
+              "name": "evaluationScopeIncludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeIncludedPattern')]"
+              }
+            },
+            "greater": 0
+          },
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
+              "name": "evaluationScopeExcludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeExcludedPattern')]"
+              }
+            },
+            "equals": 0
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/dataEncryption.type",
+                    "notEquals": "AzureKeyVault"
+                  },
+                  {
+                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/dataEncryption.primaryKeyURI",
+                    "exists": false
+                  },
+                  {
+                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/dataEncryption.primaryKeyURI",
+                    "equals": ""
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

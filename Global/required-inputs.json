@@ -1,0 +1,301 @@
+[
+  {
+    "parameter": "r01_listOfAllowedLocations",
+    "policy": "global-r01-r01-approved-resource-regions",
+    "row": "R01",
+    "type": "Array",
+    "description": "The list of locations that can be specified when deploying resources.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r02_listOfAllowedLocations",
+    "policy": "global-r02-r02-approved-resource-group-regions",
+    "row": "R02",
+    "type": "Array",
+    "description": "The list of locations that resource groups can be created in.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r03_listOfResourceTypesNotAllowed",
+    "policy": "global-r03-r03-unapproved-or-retired-resource-types",
+    "row": "R03",
+    "type": "Array",
+    "description": "The list of resource types that cannot be deployed.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r06_tagName",
+    "policy": "global-r06-r06-subscription-classification-tag",
+    "row": "R06",
+    "type": "String",
+    "description": "Name of the tag, such as 'CostCenter'",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r06_allowedTagValues",
+    "policy": "global-r06-r06-subscription-classification-tag",
+    "row": "R06",
+    "type": "Array",
+    "description": "List of allowed values for this tag.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r06_evaluationScope",
+    "policy": "global-r06-r06-subscription-classification-tag",
+    "row": "R06",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r18_operationName",
+    "policy": "global-r18-r18-administrative-operation-alerts",
+    "row": "R18",
+    "type": "String",
+    "description": "Administrative Operation name for which activity log alert should be configured",
+    "allowedValues": [
+      "Microsoft.Sql/servers/firewallRules/write",
+      "Microsoft.Sql/servers/firewallRules/delete",
+      "Microsoft.Network/networkSecurityGroups/write",
+      "Microsoft.Network/networkSecurityGroups/delete",
+      "Microsoft.ClassicNetwork/networkSecurityGroups/write",
+      "Microsoft.ClassicNetwork/networkSecurityGroups/delete",
+      "Microsoft.Network/networkSecurityGroups/securityRules/write",
+      "Microsoft.Network/networkSecurityGroups/securityRules/delete",
+      "Microsoft.ClassicNetwork/networkSecurityGroups/securityRules/write",
+      "Microsoft.ClassicNetwork/networkSecurityGroups/securityRules/delete"
+    ]
+  },
+  {
+    "parameter": "r18_evaluationScope",
+    "policy": "global-r18-r18-administrative-operation-alerts",
+    "row": "R18",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r19_evaluationScope",
+    "policy": "global-r19-r19-defender-for-servers-coverage",
+    "row": "R19",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r20_evaluationScope",
+    "policy": "global-r20-r20-defender-for-containers-coverage",
+    "row": "R20",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r21_evaluationScope",
+    "policy": "global-r21-r21-defender-for-storage-coverage",
+    "row": "R21",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r22_evaluationScope",
+    "policy": "global-r22-r22-defender-for-key-vault-coverage",
+    "row": "R22",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r23_evaluationScope",
+    "policy": "global-r23-r23-defender-for-azure-sql-coverage",
+    "row": "R23",
+    "type": "Object",
+    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r24_profile",
+    "policy": "global-r24-subscription-activity-log-export",
+    "row": "R24",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r25_profile",
+    "policy": "global-r25-service-health-readiness",
+    "row": "R25",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r26_profile",
+    "policy": "global-r26-r26-vm-approved-license",
+    "row": "R26",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r26_profile_fd2ae87",
+    "policy": "global-r26-r26-vmss-approved-license",
+    "row": "R26",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r27_profile",
+    "policy": "global-r27-r27-vm-approved-license",
+    "row": "R27",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r27_profile_0ee5d7b",
+    "policy": "global-r27-r27-vmss-approved-license",
+    "row": "R27",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r28_profile",
+    "policy": "global-r28-sql-vm-ahb",
+    "row": "R28",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r29_profile",
+    "policy": "global-r29-sql-mi-ahb",
+    "row": "R29",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r30_profile",
+    "policy": "global-r30-sql-database-ahb",
+    "row": "R30",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r30_profile_0e94e3a",
+    "policy": "global-r30-sql-elastic-pool-ahb",
+    "row": "R30",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r31_profile",
+    "policy": "global-r31-resource-diagnostic-destination",
+    "row": "R31",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r32_profile",
+    "policy": "global-r32-ama-virtualmachines",
+    "row": "R32",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r32_profile_1e65079",
+    "policy": "global-r32-ama-virtualmachinescalesets",
+    "row": "R32",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r32_profile_bd12d9a",
+    "policy": "global-r32-ama-machines",
+    "row": "R32",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r33_profile",
+    "policy": "global-r33-required-dcr-association",
+    "row": "R33",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r34_profile",
+    "policy": "global-r34-defender-endpoint-integration",
+    "row": "R34",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r35_profile",
+    "policy": "global-r35-subscription-budget-readiness",
+    "row": "R35",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r35_profile_b41d4d5",
+    "policy": "global-r35-budget-notification-readiness",
+    "row": "R35",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r36_profile",
+    "policy": "global-r36-resource-parent-tag-consistency",
+    "row": "R36",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r36_tagName",
+    "policy": "global-r36-resource-parent-tag-consistency",
+    "row": "R36",
+    "type": "String",
+    "description": "Reviewed inherited tag name",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r14_profile",
+    "policy": "global-r14-arm-key-expiration",
+    "row": "R14",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r15_profile",
+    "policy": "global-r15-arm-secret-expiration",
+    "row": "R15",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  },
+  {
+    "parameter": "r16_profile",
+    "policy": "global-r16-arm-key-rotation-profile",
+    "row": "R16",
+    "type": "Object",
+    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "allowedValues": null
+  }
+]

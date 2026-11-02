@@ -1,0 +1,125 @@
+{
+  "name": "landingzone-l48-vm-backup-approved-vault-policy",
+  "properties": {
+    "displayName": "Selected VM must have active backup in its approved vault and policy",
+    "description": "Audits a required explicitly selected ARM VM against protected items inside one required vault/fabric/container. Requires matching sourceResourceId, AzureIaasVM management type, Protected state, and an approved backup policy ID. Instantiate for each VM/container profile.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Backup",
+      "version": "1.0.0",
+      "designRow": "L48",
+      "sourceVerifiedOn": "2026-11-02",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Backup/VirtualMachineApplicationCentricBackup_WithOutTag_DINE.json",
+      "catalogRow": "L48",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required VM backup-container profile",
+          "description": "Required exact VM ID, Recovery Services vault ID in the SAME subscription, actual Azure protection-container name, and approved backup policy IDs in that vault. Container name is an existing resource name, not a guessed VM-name convention."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "vmResourceId",
+            "vaultResourceId",
+            "protectionContainerName",
+            "approvedPolicyIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "vmResourceId": {
+              "type": "string",
+              "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/[^/]+/[^/]+$"
+            },
+            "vaultResourceId": {
+              "type": "string",
+              "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/[^/]+/[^/]+$"
+            },
+            "protectionContainerName": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^/?*]+$"
+            },
+            "approvedPolicyIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "field": "id",
+            "equals": "[parameters('profile')['vmResourceId']]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
+          "resourceGroupName": "[split(parameters('profile')['vaultResourceId'], '/')[4]]",
+          "existenceScope": "ResourceGroup",
+          "name": "[concat(last(split(parameters('profile')['vaultResourceId'], '/')), '/Azure/', parameters('profile')['protectionContainerName'], '/?')]",
+          "evaluationDelay": "PT10M",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "value": "[split(parameters('profile')['vaultResourceId'], '/')[2]]",
+                "equals": "[subscription().subscriptionId]"
+              },
+              {
+                "field": "id",
+                "like": "[concat(parameters('profile')['vaultResourceId'], '/backupFabrics/Azure/protectionContainers/', parameters('profile')['protectionContainerName'], '/protectedItems/*')]"
+              },
+              {
+                "field": "Microsoft.RecoveryServices/Vaults/backupFabrics/protectionContainers/protectedItems/sourceResourceId",
+                "equals": "[field('id')]"
+              },
+              {
+                "field": "Microsoft.RecoveryServices/Vaults/backupFabrics/protectionContainers/protectedItems/backupManagementType",
+                "equals": "AzureIaasVM"
+              },
+              {
+                "field": "Microsoft.RecoveryServices/Vaults/backupFabrics/protectionContainers/protectedItems/policyId",
+                "in": "[parameters('profile')['approvedPolicyIds']]"
+              },
+              {
+                "field": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems/AzureIaaSVMProtectedItem.protectionState",
+                "equals": "Protected"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

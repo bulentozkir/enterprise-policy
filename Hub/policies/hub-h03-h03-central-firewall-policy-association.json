@@ -1,0 +1,48 @@
+{
+  "name": "hub-h03-h03-central-firewall-policy-association",
+  "properties": {
+    "displayName": "Azure Firewall Classic Rules should be migrated to Firewall Policy",
+    "description": "Migrate from Azure Firewall Classic Rules to Firewall Policy to utilize central management tools such as Azure Firewall Manager.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Network",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/AzureFirewallClassicRules_MigrateToAzureFirewallPolicy_Audit.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/794d77cc-fe65-4801-8514-230c0be387a8",
+      "catalogRow": "H03",
+      "packageSet": "Hub"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/azureFirewalls"
+          },
+          {
+            "field": "Microsoft.Network/azureFirewalls/firewallPolicy.id",
+            "exists": "false"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

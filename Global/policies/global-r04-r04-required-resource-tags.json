@@ -1,0 +1,60 @@
+{
+  "name": "global-r04-r04-required-resource-tags",
+  "properties": {
+    "displayName": "Audit for mandatory tags on resources",
+    "description": "Audits resources to ensure they have required tags based on tag array. Does not apply to resource groups.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Tags",
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Audit-Tags-Mandatory.json",
+      "sourcePolicyId": "Audit-Tags-Mandatory",
+      "catalogRow": "R04",
+      "packageSet": "Global"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "mandatoryTags": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Array of mandatory tags",
+          "description": "Array of mandatory tags that must be present on the resource group. The array should contain semicolon separated list of the tag names."
+        },
+        "defaultValue": [
+          "owner",
+          "costcenter"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "not": {
+          "count": {
+            "value": "[parameters('mandatoryTags')]",
+            "name": "tagcount",
+            "where": {
+              "field": "tags",
+              "containsKey": "[current('tagcount')]"
+            }
+          },
+          "equals": "[length(parameters('mandatoryTags'))]"
+        }
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

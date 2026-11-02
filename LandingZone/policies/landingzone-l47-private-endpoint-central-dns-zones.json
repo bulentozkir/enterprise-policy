@@ -1,0 +1,137 @@
+{
+  "name": "landingzone-l47-private-endpoint-central-dns-zones",
+  "properties": {
+    "displayName": "Selected private endpoints must have their required approved central DNS zones",
+    "description": "Audits selected private endpoints unless a child privateDnsZoneGroup contains every required central zone ID and no zone IDs outside the approved central set. Parent-name child enumeration detects missing groups without depending on existing group names.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0",
+      "designRow": "L47",
+      "sourceVerifiedOn": "2026-11-02",
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Private-DNS-Generic.json",
+      "catalogRow": "L47",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required central private DNS-zone profile",
+          "description": "Required selected private endpoint IDs, required zone IDs for their subresource profile, and approved central zone IDs. Required zones must be included in the approved set. Use the companion groupId Audit."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "requiredZoneIds",
+            "approvedZoneIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "requiredZoneIds": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 5,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "approvedZoneIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/privateEndpoints"
+          },
+          {
+            "field": "id",
+            "in": "[parameters('profile')['resourceIds']]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+          "name": "[concat(field('name'), '/?')]",
+          "evaluationDelay": "PT10M",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "count": {
+                  "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*]"
+                },
+                "greater": 0
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
+                  "where": {
+                    "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
+                    "notIn": "[parameters('profile')['approvedZoneIds']]"
+                  }
+                },
+                "equals": 0
+              },
+              {
+                "count": {
+                  "value": "[parameters('profile')['requiredZoneIds']]",
+                  "name": "requiredZone",
+                  "where": {
+                    "count": {
+                      "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
+                      "where": {
+                        "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
+                        "equals": "[current('requiredZone')]"
+                      }
+                    },
+                    "equals": 0
+                  }
+                },
+                "equals": 0
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

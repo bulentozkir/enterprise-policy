@@ -1,0 +1,98 @@
+{
+  "name": "global-r32-ama-virtualmachinescalesets",
+  "properties": {
+    "displayName": "Check approved Azure Monitor Agent on virtualMachineScaleSets",
+    "description": "Check approved Azure Monitor Agent on virtualMachineScaleSets. Read-only custom check with required approved applicability inputs.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Monitoring",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_VMSS_DINE.json",
+      "catalogRow": "R32",
+      "packageSet": "Global"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Effect"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "agentType"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "agentType": {
+              "type": "string",
+              "enum": [
+                "AzureMonitorWindowsAgent",
+                "AzureMonitorLinuxAgent"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachineScaleSets"
+          },
+          {
+            "field": "id",
+            "in": "[parameters('profile').resourceIds]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/publisher",
+                "equals": "Microsoft.Azure.Monitor"
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/type",
+                "equals": "[parameters('profile').agentType]"
+              },
+              {
+                "field": "Microsoft.Compute/virtualMachineScaleSets/extensions/provisioningState",
+                "equals": "Succeeded"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

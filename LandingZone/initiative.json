@@ -1,0 +1,4330 @@
+{
+  "name": "alz-landingzone-custom-audit",
+  "properties": {
+    "displayName": "ALZ LandingZone - custom audit policies",
+    "description": "Custom audit-first source package. Required organizational inputs and scope exclusions must be supplied before assignment. No remediation effects.",
+    "policyType": "Custom",
+    "metadata": {
+      "category": "ALZ custom audit",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "l01_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l02_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l03_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l03_excludedSubnets": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Excluded Subnets",
+          "description": "Array of subnet names that are excluded from this policy"
+        },
+        "defaultValue": [
+          "AzureBastionSubnet",
+          "RouteServerSubnet"
+        ]
+      },
+      "l03_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l04_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l04_excludedDestinations": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Excluded Destinations",
+          "description": "Array of route destinations that are to be denied"
+        },
+        "defaultValue": [
+          "Internet",
+          "VirtualNetworkGateway"
+        ]
+      },
+      "l04_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l05_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l05_allowedVnets": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed vNets to peer with",
+          "description": "Array of allowed vNets that can be peered with. Must be entered using their resource ID. Example: /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}"
+        },
+        "defaultValue": []
+      },
+      "l05_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l06_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l06_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l07_source": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Source",
+          "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
+        },
+        "defaultValue": "Original",
+        "allowedValues": [
+          "All",
+          "Generated",
+          "Original"
+        ]
+      },
+      "l07_warn": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Warn",
+          "description": "Whether or not to return warnings back to the user in the kubectl cli"
+        },
+        "defaultValue": false
+      },
+      "l07_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l07_excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
+        },
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ]
+      },
+      "l07_namespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace inclusions",
+          "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l07_labelSelector": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Kubernetes label selector",
+          "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
+        },
+        "defaultValue": {},
+        "schema": {
+          "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all resources.",
+          "type": "object",
+          "properties": {
+            "matchLabels": {
+              "description": "matchLabels is a map of {key,value} pairs.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "minProperties": 1
+            },
+            "matchExpressions": {
+              "description": "matchExpressions is a list of values, a key, and an operator.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "description": "key is the label key that the selector applies to.",
+                    "type": "string"
+                  },
+                  "operator": {
+                    "description": "operator represents a key's relationship to a set of values.",
+                    "type": "string",
+                    "enum": [
+                      "In",
+                      "NotIn",
+                      "Exists",
+                      "DoesNotExist"
+                    ]
+                  },
+                  "values": {
+                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "key",
+                  "operator"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "l07_excludedContainers": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Containers exclusions",
+          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identify is the name of container. Use an empty list to apply this policy to all containers in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l07_excludedImages": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Image exclusions",
+          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
+        },
+        "defaultValue": []
+      },
+      "l07_constraintTemplateUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "constraintTemplateUrl",
+          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
+        }
+      },
+      "l07_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l08_source": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Source",
+          "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
+        },
+        "defaultValue": "Original",
+        "allowedValues": [
+          "All",
+          "Generated",
+          "Original"
+        ]
+      },
+      "l08_warn": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Warn",
+          "description": "Whether or not to return warnings back to the user in the kubectl cli"
+        },
+        "defaultValue": false
+      },
+      "l08_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l08_excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
+        },
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ]
+      },
+      "l08_namespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace inclusions",
+          "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l08_labelSelector": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Kubernetes label selector",
+          "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
+        },
+        "defaultValue": {},
+        "schema": {
+          "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all resources.",
+          "type": "object",
+          "properties": {
+            "matchLabels": {
+              "description": "matchLabels is a map of {key,value} pairs.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "minProperties": 1
+            },
+            "matchExpressions": {
+              "description": "matchExpressions is a list of values, a key, and an operator.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "description": "key is the label key that the selector applies to.",
+                    "type": "string"
+                  },
+                  "operator": {
+                    "description": "operator represents a key's relationship to a set of values.",
+                    "type": "string",
+                    "enum": [
+                      "In",
+                      "NotIn",
+                      "Exists",
+                      "DoesNotExist"
+                    ]
+                  },
+                  "values": {
+                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "key",
+                  "operator"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "l08_forcePrivilegeEscalationToBeFalse": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Force all container securityContext.allowPrivilegeEscalation fields to be explicity set to false",
+          "description": "If set to true, then `allowPrivilegeEscalation` must explicitly be set to false regardless of the `runAsUser` field in the container securityContext. Setting this value to true will make this policy follow the behavior of the Kubernetes Pod Security Standards for Privilege Escalation at the restricted level: https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted"
+        },
+        "defaultValue": false
+      },
+      "l08_excludedContainers": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Containers exclusions",
+          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identify is the name of container. Use an empty list to apply this policy to all containers in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l08_excludedImages": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Image exclusions",
+          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
+        },
+        "defaultValue": []
+      },
+      "l08_constraintTemplateUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "constraintTemplateUrl",
+          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
+        }
+      },
+      "l08_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l09_source": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Source",
+          "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
+        },
+        "defaultValue": "Original",
+        "allowedValues": [
+          "All",
+          "Generated",
+          "Original"
+        ]
+      },
+      "l09_warn": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Warn",
+          "description": "Whether or not to return warnings back to the user in the kubectl cli"
+        },
+        "defaultValue": false
+      },
+      "l09_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l09_excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
+        },
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ]
+      },
+      "l09_namespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace inclusions",
+          "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l09_labelSelector": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Kubernetes label selector",
+          "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
+        },
+        "defaultValue": {},
+        "schema": {
+          "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all resources.",
+          "type": "object",
+          "properties": {
+            "matchLabels": {
+              "description": "matchLabels is a map of {key,value} pairs.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "minProperties": 1
+            },
+            "matchExpressions": {
+              "description": "matchExpressions is a list of values, a key, and an operator.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "description": "key is the label key that the selector applies to.",
+                    "type": "string"
+                  },
+                  "operator": {
+                    "description": "operator represents a key's relationship to a set of values.",
+                    "type": "string",
+                    "enum": [
+                      "In",
+                      "NotIn",
+                      "Exists",
+                      "DoesNotExist"
+                    ]
+                  },
+                  "values": {
+                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "key",
+                  "operator"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "l09_excludedImages": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Image exclusions",
+          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
+        },
+        "defaultValue": []
+      },
+      "l09_constraintTemplateUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "constraintTemplateUrl",
+          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
+        }
+      },
+      "l09_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l10_source": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Source",
+          "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
+        },
+        "defaultValue": "Original",
+        "allowedValues": [
+          "All",
+          "Generated",
+          "Original"
+        ]
+      },
+      "l10_warn": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Warn",
+          "description": "Whether or not to return warnings back to the user in the kubectl cli"
+        },
+        "defaultValue": false
+      },
+      "l10_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l10_excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
+        },
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ]
+      },
+      "l10_namespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace inclusions",
+          "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l10_labelSelector": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Kubernetes label selector",
+          "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
+        },
+        "defaultValue": {},
+        "schema": {
+          "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all resources.",
+          "type": "object",
+          "properties": {
+            "matchLabels": {
+              "description": "matchLabels is a map of {key,value} pairs.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "minProperties": 1
+            },
+            "matchExpressions": {
+              "description": "matchExpressions is a list of values, a key, and an operator.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "description": "key is the label key that the selector applies to.",
+                    "type": "string"
+                  },
+                  "operator": {
+                    "description": "operator represents a key's relationship to a set of values.",
+                    "type": "string",
+                    "enum": [
+                      "In",
+                      "NotIn",
+                      "Exists",
+                      "DoesNotExist"
+                    ]
+                  },
+                  "values": {
+                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "key",
+                  "operator"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "l10_allowedHostPaths": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Allowed host paths",
+          "description": "The host paths allowed for pod hostPath volumes to use. Provide an empty paths list to block all host paths."
+        },
+        "defaultValue": {
+          "paths": []
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "paths": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "pathPrefix": {
+                    "type": "string"
+                  },
+                  "readOnly": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "pathPrefix",
+                  "readOnly"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "paths"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l10_windowsAllowedHostPaths": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Allowed host paths for windows containers",
+          "description": "The host paths allowed for windows pod hostPath volumes to use. Provide an empty paths list to block all host paths. Use \"C:\\\" to allow all windows host paths."
+        },
+        "defaultValue": {
+          "paths": []
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "paths": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "pathPrefix": {
+                    "type": "string"
+                  },
+                  "readOnly": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "pathPrefix",
+                  "readOnly"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "paths"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l10_blockSocketMountPaths": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Block container runtime socket host paths",
+          "description": "Block hostPath volumes and 'Socket' type volumes that expose container runtime sockets, even when the path is allowed and mounted read-only. Set to false only when access to container runtime sockets is intentionally required."
+        },
+        "defaultValue": true
+      },
+      "l10_excludedContainers": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Containers exclusions",
+          "description": "The list of InitContainers and Containers to exclude from readonly evaluation. It will not exclude the disallowed host path. The identify is the name of container. Use an empty list to apply this policy to all containers in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l10_excludedImages": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Image exclusions",
+          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
+        },
+        "defaultValue": []
+      },
+      "l10_constraintTemplateUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "constraintTemplateUrl",
+          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
+        }
+      },
+      "l10_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l11_source": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Source",
+          "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
+        },
+        "defaultValue": "Original",
+        "allowedValues": [
+          "All",
+          "Generated",
+          "Original"
+        ]
+      },
+      "l11_warn": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Warn",
+          "description": "Whether or not to return warnings back to the user in the kubectl cli"
+        },
+        "defaultValue": false
+      },
+      "l11_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l11_excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
+        },
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ]
+      },
+      "l11_namespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace inclusions",
+          "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l11_labelSelector": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Kubernetes label selector",
+          "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
+        },
+        "defaultValue": {},
+        "schema": {
+          "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all resources.",
+          "type": "object",
+          "properties": {
+            "matchLabels": {
+              "description": "matchLabels is a map of {key,value} pairs.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "minProperties": 1
+            },
+            "matchExpressions": {
+              "description": "matchExpressions is a list of values, a key, and an operator.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "description": "key is the label key that the selector applies to.",
+                    "type": "string"
+                  },
+                  "operator": {
+                    "description": "operator represents a key's relationship to a set of values.",
+                    "type": "string",
+                    "enum": [
+                      "In",
+                      "NotIn",
+                      "Exists",
+                      "DoesNotExist"
+                    ]
+                  },
+                  "values": {
+                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "key",
+                  "operator"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "l11_runAsUserRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Run as user rule",
+          "description": "The 'RunAsUser' rule that containers are allowed to run with. MustRunAs requires at least one range to be specified. MustRunAsNonRoot requires the pod be submitted with non-zero runAsUser or have USER directive defined (using a numeric UID) in the image. RunAsAny allows any runAsUser to be specified"
+        },
+        "allowedValues": [
+          "MustRunAs",
+          "MustRunAsNonRoot",
+          "RunAsAny"
+        ],
+        "defaultValue": "MustRunAsNonRoot"
+      },
+      "l11_runAsUserRanges": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Allowed user ID ranges",
+          "description": "The user ID ranges that are allowed for containers to use. Set 'max' as '-1' to skip max limit evaluation. Empty array blocks every defined value for 'MustRunAs'."
+        },
+        "defaultValue": {
+          "ranges": []
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "ranges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "min": {
+                    "type": "integer"
+                  },
+                  "max": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ranges"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l11_runAsGroupRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Run as group rule",
+          "description": "The 'RunAsGroup' rule that containers are allowed to run with. MustRunAs requires at least one range to be specified. MayRunAs does not require that 'RunAsGroup' be specified. RunAsAny allows any"
+        },
+        "allowedValues": [
+          "MustRunAs",
+          "MayRunAs",
+          "RunAsAny"
+        ],
+        "defaultValue": "RunAsAny"
+      },
+      "l11_runAsGroupRanges": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Allowed group ID ranges",
+          "description": "The group ID ranges that are allowed for containers to use. Set 'max' as '-1' to skip max limit evaluation. Empty array blocks every defined value for 'MustRunAs' and 'MayRunAs'."
+        },
+        "defaultValue": {
+          "ranges": []
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "ranges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "min": {
+                    "type": "integer"
+                  },
+                  "max": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ranges"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l11_supplementalGroupsRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Supplemental group rule",
+          "description": "The 'SupplementalGroups' rule that containers are allowed to run with. MustRunAs requires at least one range to be specified. MayRunAs does not require that 'SupplementalGroups' be specified. RunAsAny allows any"
+        },
+        "allowedValues": [
+          "MustRunAs",
+          "MayRunAs",
+          "RunAsAny"
+        ],
+        "defaultValue": "RunAsAny"
+      },
+      "l11_supplementalGroupsRanges": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Allowed supplemental group ID ranges",
+          "description": "The supplemental group ID ranges that are allowed for containers to use. Set 'max' as '-1' to skip max limit evaluation. Empty array blocks every defined value for 'MustRunAs' and 'MayRunAs'."
+        },
+        "defaultValue": {
+          "ranges": []
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "ranges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "min": {
+                    "type": "integer"
+                  },
+                  "max": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ranges"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l11_fsGroupRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "File system group rule",
+          "description": "The 'FSGroup' rule that containers are allowed to run with. MustRunAs requires at least one range to be specified. MayRunAs does not require that 'FSGroup' be specified. RunAsAny allows any"
+        },
+        "allowedValues": [
+          "MustRunAs",
+          "MayRunAs",
+          "RunAsAny"
+        ],
+        "defaultValue": "RunAsAny"
+      },
+      "l11_fsGroupRanges": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Allowed file system group ID ranges",
+          "description": "The file system group ranges that are allowed for pods to use. Set 'max' as '-1' to skip max limit evaluation. Empty array blocks every defined value for 'MustRunAs' and 'MayRunAs'."
+        },
+        "defaultValue": {
+          "ranges": []
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "ranges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "min": {
+                    "type": "integer"
+                  },
+                  "max": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "min",
+                  "max"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ranges"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l11_excludedContainers": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Containers exclusions",
+          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identify is the name of container. Use an empty list to apply this policy to all containers in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l11_excludedImages": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Image exclusions",
+          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
+        },
+        "defaultValue": []
+      },
+      "l11_constraintTemplateUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "constraintTemplateUrl",
+          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
+        }
+      },
+      "l11_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l12_source": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Source",
+          "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
+        },
+        "defaultValue": "Original",
+        "allowedValues": [
+          "All",
+          "Generated",
+          "Original"
+        ]
+      },
+      "l12_warn": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Warn",
+          "description": "Whether or not to return warnings back to the user in the kubectl cli"
+        },
+        "defaultValue": false
+      },
+      "l12_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l12_excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
+        },
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ]
+      },
+      "l12_namespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace inclusions",
+          "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l12_labelSelector": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Kubernetes label selector",
+          "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
+        },
+        "defaultValue": {},
+        "schema": {
+          "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all resources.",
+          "type": "object",
+          "properties": {
+            "matchLabels": {
+              "description": "matchLabels is a map of {key,value} pairs.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "minProperties": 1
+            },
+            "matchExpressions": {
+              "description": "matchExpressions is a list of values, a key, and an operator.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "description": "key is the label key that the selector applies to.",
+                    "type": "string"
+                  },
+                  "operator": {
+                    "description": "operator represents a key's relationship to a set of values.",
+                    "type": "string",
+                    "enum": [
+                      "In",
+                      "NotIn",
+                      "Exists",
+                      "DoesNotExist"
+                    ]
+                  },
+                  "values": {
+                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "key",
+                  "operator"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "l12_allowedCapabilities": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed capabilities",
+          "description": "The list of capabilities that are allowed to be added to a container. Provide empty list as input to block everything."
+        },
+        "defaultValue": []
+      },
+      "l12_requiredDropCapabilities": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Required drop capabilities",
+          "description": "The list of capabilities that must be dropped by a container."
+        },
+        "defaultValue": []
+      },
+      "l12_excludedContainers": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Containers exclusions",
+          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identify is the name of container. Use an empty list to apply this policy to all containers in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l12_excludedImages": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Image exclusions",
+          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
+        },
+        "defaultValue": []
+      },
+      "l12_constraintTemplateUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "constraintTemplateUrl",
+          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
+        }
+      },
+      "l12_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l13_source": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Source",
+          "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
+        },
+        "defaultValue": "Original",
+        "allowedValues": [
+          "All",
+          "Generated",
+          "Original"
+        ]
+      },
+      "l13_warn": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Warn",
+          "description": "Whether or not to return warnings back to the user in the kubectl cli"
+        },
+        "defaultValue": false
+      },
+      "l13_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l13_excludedNamespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace exclusions",
+          "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
+        },
+        "defaultValue": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ]
+      },
+      "l13_namespaces": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Namespace inclusions",
+          "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
+        },
+        "defaultValue": []
+      },
+      "l13_labelSelector": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Kubernetes label selector",
+          "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
+        },
+        "defaultValue": {},
+        "schema": {
+          "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all resources.",
+          "type": "object",
+          "properties": {
+            "matchLabels": {
+              "description": "matchLabels is a map of {key,value} pairs.",
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "minProperties": 1
+            },
+            "matchExpressions": {
+              "description": "matchExpressions is a list of values, a key, and an operator.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "description": "key is the label key that the selector applies to.",
+                    "type": "string"
+                  },
+                  "operator": {
+                    "description": "operator represents a key's relationship to a set of values.",
+                    "type": "string",
+                    "enum": [
+                      "In",
+                      "NotIn",
+                      "Exists",
+                      "DoesNotExist"
+                    ]
+                  },
+                  "values": {
+                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "key",
+                  "operator"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "l13_allowHostNetwork": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Allow host network usage",
+          "description": "Set this value to true if pod is allowed to use host network otherwise false."
+        },
+        "defaultValue": false
+      },
+      "l13_allowedHostPorts": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed host ports list",
+          "description": "The list of specific host ports that pods are allowed to use in the host network namespace. Can include individual ports (e.g., '80') or port ranges (e.g., '3000-5000'). Empty list means no host ports are allowed. Note that port 0 is not allowed according to Pod Security Standards."
+        },
+        "defaultValue": []
+      },
+      "l13_excludedImages": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Image exclusions",
+          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
+        },
+        "defaultValue": []
+      },
+      "l13_constraintTemplateUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "constraintTemplateUrl",
+          "description": "Required public HTTPS URL of an organization-approved compatible Gatekeeper ConstraintTemplate. The template must preserve the existing kinds, values and constraint contract. No versioned URL is supplied as a default; never infer a latest-version URL."
+        }
+      },
+      "l13_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l14_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l14_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l15_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l15_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l16_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l16_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l17_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l17_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l18_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l18_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l19_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l19_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l20_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l20_excludedResourceIds": {
+        "type": "Array",
+        "defaultValue": [],
+        "metadata": {
+          "displayName": "Explicit assessment exceptions",
+          "description": "Approved VM or Arc machine resource IDs outside the periodic-assessment standard, including service-managed nodes and unsupported appliance workloads. No OS releases or Marketplace image selectors are used."
+        }
+      },
+      "l21_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l21_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l22_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l22_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l23_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l23_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l24_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l24_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l25_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l25_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l26_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l26_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l27_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l27_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l28_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l29_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l29_minimumTlsVersion": {
+        "type": "String",
+        "defaultValue": "1.2",
+        "metadata": {
+          "displayName": "Minimum TLS version",
+          "description": "Transport-security baseline, not an OS/image release. The source security baseline is retained as the default. Use compatible approved values without weakening security; the source comparison operator remains unchanged."
+        }
+      },
+      "l30_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l31_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l31_minimumTlsVersion": {
+        "type": "String",
+        "defaultValue": "1.2",
+        "metadata": {
+          "displayName": "Minimum TLS version",
+          "description": "Transport-security baseline, not an OS/image release. The source security baseline is retained as the default. Use compatible approved values without weakening security; the source comparison operator remains unchanged."
+        }
+      },
+      "l32_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l32_minimumTlsVersion": {
+        "type": "String",
+        "defaultValue": "1.2",
+        "metadata": {
+          "displayName": "Minimum TLS version",
+          "description": "Transport-security baseline, not an OS/image release. The source security baseline is retained as the default. Use compatible approved values without weakening security; the source comparison operator remains unchanged."
+        }
+      },
+      "l33_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l33_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l34_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "l35_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l35_setting": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Desired Auditing setting"
+        },
+        "defaultValue": "enabled",
+        "allowedValues": [
+          "enabled",
+          "disabled"
+        ]
+      },
+      "l36_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l37_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l38_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l38_approvedMinimumTlsVersions": {
+        "type": "Array",
+        "defaultValue": [
+          "TLSV1.2",
+          "TLSV1.3"
+        ],
+        "metadata": {
+          "displayName": "Approved minimum TLS versions",
+          "description": "Transport-security baseline, not an OS/image release. The source security baseline is retained as the default. Use compatible approved values without weakening security; the source comparison operator remains unchanged."
+        }
+      },
+      "l39_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l40_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l40_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l41_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l41_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l42_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l43_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l43_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l44_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l44_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l45_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "l45_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l46_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l46_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "l47_effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only property evaluation."
+        }
+      },
+      "l47_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required private-endpoint subresource profile",
+          "description": "Required nonempty private endpoint resource IDs and one required groupId, such as the organization-approved PaaS subresource. Repeat for distinct endpoint profiles."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "groupId"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "groupId": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "l47_effect_6468389": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "l47_profile_6468389": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required central private DNS-zone profile",
+          "description": "Required selected private endpoint IDs, required zone IDs for their subresource profile, and approved central zone IDs. Required zones must be included in the approved set. Use the companion groupId Audit."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "requiredZoneIds",
+            "approvedZoneIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "requiredZoneIds": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 5,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "approvedZoneIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      },
+      "l48_effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "l48_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required VM backup-container profile",
+          "description": "Required exact VM ID, Recovery Services vault ID in the SAME subscription, actual Azure protection-container name, and approved backup policy IDs in that vault. Container name is an existing resource name, not a guessed VM-name convention."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "vmResourceId",
+            "vaultResourceId",
+            "protectionContainerName",
+            "approvedPolicyIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "vmResourceId": {
+              "type": "string",
+              "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/[^/]+/[^/]+$"
+            },
+            "vaultResourceId": {
+              "type": "string",
+              "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/[^/]+/[^/]+$"
+            },
+            "protectionContainerName": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^/?*]+$"
+            },
+            "approvedPolicyIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      },
+      "l49_effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "l49_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required traditional Corp peering profile",
+          "description": "Required nonempty approved spoke IDs and hub VNet IDs plus the architecture-approved useRemoteGateways value. Exclude vWAN, isolated, and intentionally unpeered spokes."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "approvedHubVnetIds",
+            "useRemoteGateways"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "approvedHubVnetIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "useRemoteGateways": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "l50_effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "l50_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required SQL auditing actions",
+          "description": "Required nonempty SQL logical-server IDs and required SQL audit actions/groups. Choose valid SQL action/group names according to the approved audit standard; no action list is invented."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "requiredAuditActionsAndGroups"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "requiredAuditActionsAndGroups": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 100,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      },
+      "l50_effect_d08888e": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only extension-resource evaluation."
+        }
+      },
+      "l50_profile_d08888e": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required SQL auditing destination",
+          "description": "Required nonempty SQL logical-server IDs, matching the companion action audit, and approved Log Analytics workspace IDs. The policy derives each master database's parent-server ID."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "serverResourceIds",
+            "approvedWorkspaceIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "serverResourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "approvedWorkspaceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      },
+      "l51_effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "l51_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required SQL threat-detection profile",
+          "description": "Required nonempty target SQL-server IDs, approved disabled-alert names, whether admin email is required, and required notification emails. An empty approvedDisabledAlerts array means no alert exclusions are approved; an empty requiredNotificationEmails array means no specific address requirement."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "approvedDisabledAlerts",
+            "requireEmailAccountAdmins",
+            "requiredNotificationEmails"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "approvedDisabledAlerts": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "requireEmailAccountAdmins": {
+              "type": "boolean"
+            },
+            "requiredNotificationEmails": {
+              "type": "array",
+              "maxItems": 100,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 3,
+                "pattern": "^[^@\\s]+@[^@\\s]+$"
+              }
+            }
+          }
+        }
+      },
+      "l52_effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "l52_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required workload metric profile",
+          "description": "Required approved workload resource IDs/types, metric namespace/name, aggregation, operator, threshold, window, frequency, and action-group IDs. Use one reference per required metric/profile."
+        },
+        "schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "resourceIds",
+            "resourceTypes",
+            "metricNamespace",
+            "metricName",
+            "timeAggregation",
+            "operator",
+            "threshold",
+            "windowSize",
+            "evaluationFrequency",
+            "actionGroupIds"
+          ],
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "resourceTypes": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 3,
+                "pattern": "^[^/]+/.+$"
+              }
+            },
+            "metricNamespace": {
+              "type": "string",
+              "minLength": 1
+            },
+            "metricName": {
+              "type": "string",
+              "minLength": 1
+            },
+            "timeAggregation": {
+              "type": "string",
+              "enum": [
+                "Average",
+                "Count",
+                "Minimum",
+                "Maximum",
+                "Total"
+              ]
+            },
+            "operator": {
+              "type": "string",
+              "enum": [
+                "Equals",
+                "GreaterThan",
+                "GreaterThanOrEqual",
+                "LessThan",
+                "LessThanOrEqual"
+              ]
+            },
+            "threshold": {
+              "type": "number"
+            },
+            "windowSize": {
+              "type": "string",
+              "enum": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H",
+                "PT6H",
+                "PT12H",
+                "P1D"
+              ]
+            },
+            "evaluationFrequency": {
+              "type": "string",
+              "enum": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H"
+              ]
+            },
+            "actionGroupIds": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 100,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      },
+      "l53_effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "l53_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required workload VNet flow-log profile",
+          "description": "Required nonempty workload VNet IDs and approved storage IDs plus minimum finite retention days. Supply workload inventory separately from the Hub sibling scope."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "approvedStorageIds",
+            "minimumRetentionDays"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "approvedStorageIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "minimumRetentionDays": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      },
+      "l54_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start with Audit. Change to Deny only after appliance exceptions and application dependencies are reviewed."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "l54_excludedNetworkInterfaceIds": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Approved appliance network interface IDs",
+          "description": "Explicit resource IDs of NIC-based network appliances allowed to use public IPs. No resource tags or names automatically grant an exception."
+        },
+        "defaultValue": []
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "landingzone-l01-l01-workload-subnet-nsg-association",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l01-l01-workload-subnet-nsg-association",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l01_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l02-l02-explicit-outbound-connectivity",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l02-l02-explicit-outbound-connectivity",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l02_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l03-l03-inspection-path-route-table-association",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l03-l03-inspection-path-route-table-association",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l03_effect')]"
+          },
+          "excludedSubnets": {
+            "value": "[parameters('l03_excludedSubnets')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l03_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l04-l04-prohibited-udr-next-hop-types",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l04-l04-prohibited-udr-next-hop-types",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l04_effect')]"
+          },
+          "excludedDestinations": {
+            "value": "[parameters('l04_excludedDestinations')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l04_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l05-l05-approved-workload-peering-destinations",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l05-l05-approved-workload-peering-destinations",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l05_effect')]"
+          },
+          "allowedVnets": {
+            "value": "[parameters('l05_allowedVnets')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l05_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l06-l06-aks-policy-add-on-presence",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l06-l06-aks-policy-add-on-presence",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l06_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l06_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l07-l07-no-privileged-containers",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l07-l07-no-privileged-containers",
+        "parameters": {
+          "source": {
+            "value": "[parameters('l07_source')]"
+          },
+          "warn": {
+            "value": "[parameters('l07_warn')]"
+          },
+          "effect": {
+            "value": "[parameters('l07_effect')]"
+          },
+          "excludedNamespaces": {
+            "value": "[parameters('l07_excludedNamespaces')]"
+          },
+          "namespaces": {
+            "value": "[parameters('l07_namespaces')]"
+          },
+          "labelSelector": {
+            "value": "[parameters('l07_labelSelector')]"
+          },
+          "excludedContainers": {
+            "value": "[parameters('l07_excludedContainers')]"
+          },
+          "excludedImages": {
+            "value": "[parameters('l07_excludedImages')]"
+          },
+          "constraintTemplateUrl": {
+            "value": "[parameters('l07_constraintTemplateUrl')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l07_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l08-l08-no-privilege-escalation",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l08-l08-no-privilege-escalation",
+        "parameters": {
+          "source": {
+            "value": "[parameters('l08_source')]"
+          },
+          "warn": {
+            "value": "[parameters('l08_warn')]"
+          },
+          "effect": {
+            "value": "[parameters('l08_effect')]"
+          },
+          "excludedNamespaces": {
+            "value": "[parameters('l08_excludedNamespaces')]"
+          },
+          "namespaces": {
+            "value": "[parameters('l08_namespaces')]"
+          },
+          "labelSelector": {
+            "value": "[parameters('l08_labelSelector')]"
+          },
+          "forcePrivilegeEscalationToBeFalse": {
+            "value": "[parameters('l08_forcePrivilegeEscalationToBeFalse')]"
+          },
+          "excludedContainers": {
+            "value": "[parameters('l08_excludedContainers')]"
+          },
+          "excludedImages": {
+            "value": "[parameters('l08_excludedImages')]"
+          },
+          "constraintTemplateUrl": {
+            "value": "[parameters('l08_constraintTemplateUrl')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l08_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l09-l09-no-shared-host-pid-ipc-namespaces",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l09-l09-no-shared-host-pid-ipc-namespaces",
+        "parameters": {
+          "source": {
+            "value": "[parameters('l09_source')]"
+          },
+          "warn": {
+            "value": "[parameters('l09_warn')]"
+          },
+          "effect": {
+            "value": "[parameters('l09_effect')]"
+          },
+          "excludedNamespaces": {
+            "value": "[parameters('l09_excludedNamespaces')]"
+          },
+          "namespaces": {
+            "value": "[parameters('l09_namespaces')]"
+          },
+          "labelSelector": {
+            "value": "[parameters('l09_labelSelector')]"
+          },
+          "excludedImages": {
+            "value": "[parameters('l09_excludedImages')]"
+          },
+          "constraintTemplateUrl": {
+            "value": "[parameters('l09_constraintTemplateUrl')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l09_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l10-l10-restrict-hostpath-and-socket-mounts",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l10-l10-restrict-hostpath-and-socket-mounts",
+        "parameters": {
+          "source": {
+            "value": "[parameters('l10_source')]"
+          },
+          "warn": {
+            "value": "[parameters('l10_warn')]"
+          },
+          "effect": {
+            "value": "[parameters('l10_effect')]"
+          },
+          "excludedNamespaces": {
+            "value": "[parameters('l10_excludedNamespaces')]"
+          },
+          "namespaces": {
+            "value": "[parameters('l10_namespaces')]"
+          },
+          "labelSelector": {
+            "value": "[parameters('l10_labelSelector')]"
+          },
+          "allowedHostPaths": {
+            "value": "[parameters('l10_allowedHostPaths')]"
+          },
+          "windowsAllowedHostPaths": {
+            "value": "[parameters('l10_windowsAllowedHostPaths')]"
+          },
+          "blockSocketMountPaths": {
+            "value": "[parameters('l10_blockSocketMountPaths')]"
+          },
+          "excludedContainers": {
+            "value": "[parameters('l10_excludedContainers')]"
+          },
+          "excludedImages": {
+            "value": "[parameters('l10_excludedImages')]"
+          },
+          "constraintTemplateUrl": {
+            "value": "[parameters('l10_constraintTemplateUrl')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l10_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l11-l11-run-containers-as-nonroot",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l11-l11-run-containers-as-nonroot",
+        "parameters": {
+          "source": {
+            "value": "[parameters('l11_source')]"
+          },
+          "warn": {
+            "value": "[parameters('l11_warn')]"
+          },
+          "effect": {
+            "value": "[parameters('l11_effect')]"
+          },
+          "excludedNamespaces": {
+            "value": "[parameters('l11_excludedNamespaces')]"
+          },
+          "namespaces": {
+            "value": "[parameters('l11_namespaces')]"
+          },
+          "labelSelector": {
+            "value": "[parameters('l11_labelSelector')]"
+          },
+          "runAsUserRule": {
+            "value": "[parameters('l11_runAsUserRule')]"
+          },
+          "runAsUserRanges": {
+            "value": "[parameters('l11_runAsUserRanges')]"
+          },
+          "runAsGroupRule": {
+            "value": "[parameters('l11_runAsGroupRule')]"
+          },
+          "runAsGroupRanges": {
+            "value": "[parameters('l11_runAsGroupRanges')]"
+          },
+          "supplementalGroupsRule": {
+            "value": "[parameters('l11_supplementalGroupsRule')]"
+          },
+          "supplementalGroupsRanges": {
+            "value": "[parameters('l11_supplementalGroupsRanges')]"
+          },
+          "fsGroupRule": {
+            "value": "[parameters('l11_fsGroupRule')]"
+          },
+          "fsGroupRanges": {
+            "value": "[parameters('l11_fsGroupRanges')]"
+          },
+          "excludedContainers": {
+            "value": "[parameters('l11_excludedContainers')]"
+          },
+          "excludedImages": {
+            "value": "[parameters('l11_excludedImages')]"
+          },
+          "constraintTemplateUrl": {
+            "value": "[parameters('l11_constraintTemplateUrl')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l11_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l12-l12-restrict-linux-capabilities",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l12-l12-restrict-linux-capabilities",
+        "parameters": {
+          "source": {
+            "value": "[parameters('l12_source')]"
+          },
+          "warn": {
+            "value": "[parameters('l12_warn')]"
+          },
+          "effect": {
+            "value": "[parameters('l12_effect')]"
+          },
+          "excludedNamespaces": {
+            "value": "[parameters('l12_excludedNamespaces')]"
+          },
+          "namespaces": {
+            "value": "[parameters('l12_namespaces')]"
+          },
+          "labelSelector": {
+            "value": "[parameters('l12_labelSelector')]"
+          },
+          "allowedCapabilities": {
+            "value": "[parameters('l12_allowedCapabilities')]"
+          },
+          "requiredDropCapabilities": {
+            "value": "[parameters('l12_requiredDropCapabilities')]"
+          },
+          "excludedContainers": {
+            "value": "[parameters('l12_excludedContainers')]"
+          },
+          "excludedImages": {
+            "value": "[parameters('l12_excludedImages')]"
+          },
+          "constraintTemplateUrl": {
+            "value": "[parameters('l12_constraintTemplateUrl')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l12_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l13-l13-restrict-host-networking-and-host-ports",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l13-l13-restrict-host-networking-and-host-ports",
+        "parameters": {
+          "source": {
+            "value": "[parameters('l13_source')]"
+          },
+          "warn": {
+            "value": "[parameters('l13_warn')]"
+          },
+          "effect": {
+            "value": "[parameters('l13_effect')]"
+          },
+          "excludedNamespaces": {
+            "value": "[parameters('l13_excludedNamespaces')]"
+          },
+          "namespaces": {
+            "value": "[parameters('l13_namespaces')]"
+          },
+          "labelSelector": {
+            "value": "[parameters('l13_labelSelector')]"
+          },
+          "allowHostNetwork": {
+            "value": "[parameters('l13_allowHostNetwork')]"
+          },
+          "allowedHostPorts": {
+            "value": "[parameters('l13_allowedHostPorts')]"
+          },
+          "excludedImages": {
+            "value": "[parameters('l13_excludedImages')]"
+          },
+          "constraintTemplateUrl": {
+            "value": "[parameters('l13_constraintTemplateUrl')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l13_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l14-l14-microsoft-entra-cluster-integration",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l14-l14-microsoft-entra-cluster-integration",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l14_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l14_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l15-l15-disable-aks-local-accounts",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l15-l15-disable-aks-local-accounts",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l15_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l15_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l16-l16-private-aks-api",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l16-l16-private-aks-api",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l16_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l16_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l17-l17-authorized-ranges-on-public-aks-api",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l17-l17-authorized-ranges-on-public-aks-api",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l17_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l17_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l18-l18-trusted-launch-with-secure-boot-vtpm",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l18-l18-trusted-launch-with-secure-boot-vtpm",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l18_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l18_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l19-l19-cmk-disk-encryption-where-required",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l19-l19-cmk-disk-encryption-where-required",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l19_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l19_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l20-l20-periodic-update-assessment-configured",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l20-l20-periodic-update-assessment-configured",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l20_effect')]"
+          },
+          "excludedResourceIds": {
+            "value": "[parameters('l20_excludedResourceIds')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l21-l21-missing-critical-security-updates",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l21-l21-missing-critical-security-updates",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l21_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l21_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l22-l22-private-only-storage-networking",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l22-l22-private-only-storage-networking",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l22_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l22_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l23-l23-private-only-key-vault-networking",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l23-l23-private-only-key-vault-networking",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l23_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l23_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l24-l24-private-only-sql-networking",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l24-l24-private-only-sql-networking",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l24_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l24_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l25-l25-private-only-container-registries",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l25-l25-private-only-container-registries",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l25_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l25_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l26-l26-private-only-postgresql-networking",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l26-l26-private-only-postgresql-networking",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l26_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l26_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l27-l27-private-application-backends",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l27-l27-private-application-backends",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l27_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l27_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l28-l28-web-apps-require-https",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l28-l28-web-apps-require-https",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l28_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l29-l29-web-app-minimum-tls-1-2",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l29-l29-web-app-minimum-tls-1-2",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l29_effect')]"
+          },
+          "minimumTlsVersion": {
+            "value": "[parameters('l29_minimumTlsVersion')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l30-l30-function-apps-require-https",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l30-l30-function-apps-require-https",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l30_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l31-l31-function-app-minimum-tls-1-2",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l31-l31-function-app-minimum-tls-1-2",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l31_effect')]"
+          },
+          "minimumTlsVersion": {
+            "value": "[parameters('l31_minimumTlsVersion')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l32-l32-sql-server-minimum-tls-1-2",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l32-l32-sql-server-minimum-tls-1-2",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l32_effect')]"
+          },
+          "minimumTlsVersion": {
+            "value": "[parameters('l32_minimumTlsVersion')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l33-l33-sql-microsoft-entra-administrator",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l33-l33-sql-microsoft-entra-administrator",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l33_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l33_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l34-l34-sql-database-tde-enabled",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l34-l34-sql-database-tde-enabled",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l34_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l35-l35-sql-auditing-enabled",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l35-l35-sql-auditing-enabled",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l35_effect')]"
+          },
+          "setting": {
+            "value": "[parameters('l35_setting')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l36-l36-disable-acr-admin-credentials",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l36-l36-disable-acr-admin-credentials",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l36_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l37-l37-disable-anonymous-registry-pulls",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l37-l37-disable-anonymous-registry-pulls",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l37_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l38-l38-postgresql-minimum-tls-1-2",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l38-l38-postgresql-minimum-tls-1-2",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l38_effect')]"
+          },
+          "approvedMinimumTlsVersions": {
+            "value": "[parameters('l38_approvedMinimumTlsVersions')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l39-l39-postgresql-secure-transport-required",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l39-l39-postgresql-secure-transport-required",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l39_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l40-l40-postgresql-cmk-where-required",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l40-l40-postgresql-cmk-where-required",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l40_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l40_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l41-l41-function-built-in-authentication",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l41-l41-function-built-in-authentication",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l41_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l41_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l42-l42-apim-apis-use-encrypted-protocols",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l42-l42-apim-apis-use-encrypted-protocols",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l42_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l43-l43-vm-backup-protection-exists",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l43-l43-vm-backup-protection-exists",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l43_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l43_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l44-l44-postgresql-geo-redundant-backup",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l44-l44-postgresql-geo-redundant-backup",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l44_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l44_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l45-l45-sql-long-term-retention-enabled",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l45-l45-sql-long-term-retention-enabled",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l45_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l45_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l46-l46-application-gateway-waf-presence",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l46-l46-application-gateway-waf-presence",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l46_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('l46_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l47-private-endpoint-required-subresource",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l47-private-endpoint-required-subresource",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l47_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('l47_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l47-private-endpoint-central-dns-zones",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l47-private-endpoint-central-dns-zones",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l47_effect_6468389')]"
+          },
+          "profile": {
+            "value": "[parameters('l47_profile_6468389')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l48-vm-backup-approved-vault-policy",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l48-vm-backup-approved-vault-policy",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l48_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('l48_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l49-corp-spoke-required-hub-peering",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l49-corp-spoke-required-hub-peering",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l49_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('l49_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l50-sql-server-required-auditing-actions",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l50-sql-server-required-auditing-actions",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l50_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('l50_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l50-sql-master-approved-audit-workspace",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l50-sql-master-approved-audit-workspace",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l50_effect_d08888e')]"
+          },
+          "profile": {
+            "value": "[parameters('l50_profile_d08888e')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l51-sql-server-threat-detection-profile",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l51-sql-server-threat-detection-profile",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l51_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('l51_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l52-workload-amba-metric-profile",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l52-workload-amba-metric-profile",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l52_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('l52_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l53-workload-vnet-flow-log-coverage",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l53-workload-vnet-flow-log-coverage",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l53_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('l53_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "landingzone-l54-audit-vm-nic-public-ip",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/landingzone-l54-audit-vm-nic-public-ip",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('l54_effect')]"
+          },
+          "excludedNetworkInterfaceIds": {
+            "value": "[parameters('l54_excludedNetworkInterfaceIds')]"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "name": "landingzone-l54-audit-vm-nic-public-ip",
+  "properties": {
+    "displayName": "Audit public IP attachments to regular VM network interfaces",
+    "description": "Audits network interfaces with a public IP on any IP configuration, except explicitly approved appliance NICs. Application Gateway and Azure Firewall frontend IPs are not NIC resources and are unaffected. Audit is the default; Deny is available for a later approved rollout. Does not remove existing public IPs or cover VMSS instance public-IP configuration.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Network",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/NetworkPublicIPNic_Deny.json",
+      "sourcePolicyId": "83a86a26-fd1f-447c-b59d-e51f44264114",
+      "catalogRow": "L54",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start with Audit. Change to Deny only after appliance exceptions and application dependencies are reviewed."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "excludedNetworkInterfaceIds": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Approved appliance network interface IDs",
+          "description": "Explicit resource IDs of NIC-based network appliances allowed to use public IPs. No resource tags or names automatically grant an exception."
+        },
+        "defaultValue": []
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/networkInterfaces"
+          },
+          {
+            "field": "id",
+            "notIn": "[parameters('excludedNetworkInterfaceIds')]"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Network/networkInterfaces/ipconfigurations[*].publicIpAddress.id",
+              "notLike": "*"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

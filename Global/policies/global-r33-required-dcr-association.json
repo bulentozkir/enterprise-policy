@@ -1,0 +1,92 @@
+{
+  "name": "global-r33-required-dcr-association",
+  "properties": {
+    "displayName": "Check machines have an association to an approved collection rule",
+    "description": "Check machines have an association to an approved collection rule. Read-only custom check with required approved applicability inputs.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Monitoring",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_DCRA_Windows_DINE.json",
+      "catalogRow": "R33",
+      "packageSet": "Global"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Effect"
+        },
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists"
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "approvedDcrIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "approvedDcrIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "in": [
+              "Microsoft.Compute/virtualMachines",
+              "Microsoft.Compute/virtualMachineScaleSets",
+              "Microsoft.HybridCompute/machines"
+            ]
+          },
+          {
+            "field": "id",
+            "in": "[parameters('profile').resourceIds]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/dataCollectionRuleAssociations",
+          "existenceCondition": {
+            "field": "Microsoft.Insights/dataCollectionRuleAssociations/dataCollectionRuleId",
+            "in": "[parameters('profile').approvedDcrIds]"
+          }
+        }
+      }
+    }
+  }
+}

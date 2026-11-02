@@ -1,0 +1,85 @@
+{
+  "name": "global-r35-budget-notification-readiness",
+  "properties": {
+    "displayName": "Audit budget notification dictionary against the approved configuration",
+    "description": "Audit budget notification dictionary against the approved configuration. Read-only custom check with required approved applicability inputs.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Cost Management",
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Budget.json",
+      "catalogRow": "R35",
+      "packageSet": "Global"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Effect"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "notifications"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "notifications": {
+              "type": "object",
+              "minProperties": 1
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Consumption/budgets"
+              },
+              {
+                "field": "id",
+                "in": "[parameters('profile').resourceIds]"
+              }
+            ]
+          },
+          {
+            "value": "[equals(field('Microsoft.Consumption/budgets/notifications'), parameters('profile').notifications)]",
+            "equals": false
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

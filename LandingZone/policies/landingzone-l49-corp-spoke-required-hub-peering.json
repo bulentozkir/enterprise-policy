@@ -1,0 +1,113 @@
+{
+  "name": "landingzone-l49-corp-spoke-required-hub-peering",
+  "properties": {
+    "displayName": "Selected Corp spokes must have a connected approved hub peering",
+    "description": "Audits selected traditional Corp spoke VNets unless an actual child peering exists to at least one approved hub, is Connected, allows virtual-network access, and uses the required remote-gateway setting.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0",
+      "designRow": "L49",
+      "sourceVerifiedOn": "2026-11-02",
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-VNET-HubSpoke.json",
+      "catalogRow": "L49",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required traditional Corp peering profile",
+          "description": "Required nonempty approved spoke IDs and hub VNet IDs plus the architecture-approved useRemoteGateways value. Exclude vWAN, isolated, and intentionally unpeered spokes."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "approvedHubVnetIds",
+            "useRemoteGateways"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "approvedHubVnetIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "useRemoteGateways": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "field": "id",
+            "in": "[parameters('profile')['resourceIds']]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+          "name": "[concat(field('name'), '/?')]",
+          "evaluationDelay": "PT10M",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
+                "in": "[parameters('profile')['approvedHubVnetIds']]"
+              },
+              {
+                "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/peeringState",
+                "equals": "Connected"
+              },
+              {
+                "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/allowVirtualNetworkAccess",
+                "equals": true
+              },
+              {
+                "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/useRemoteGateways",
+                "equals": "[parameters('profile')['useRemoteGateways']]"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

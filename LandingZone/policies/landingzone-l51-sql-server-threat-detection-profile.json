@@ -1,0 +1,154 @@
+{
+  "name": "landingzone-l51-sql-server-threat-detection-profile",
+  "properties": {
+    "displayName": "Selected SQL servers must enable threat detection with approved exclusions and notifications",
+    "description": "Audits selected logical SQL servers unless their Default securityAlertPolicies child is Enabled, disables no alerts outside the approved list, and satisfies required administrator-email and notification-address configuration.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "SQL",
+      "version": "1.0.0",
+      "designRow": "L51",
+      "sourceVerifiedOn": "2026-11-02",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/TdOnSqlServers_DINE.json",
+      "catalogRow": "L51",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required SQL threat-detection profile",
+          "description": "Required nonempty target SQL-server IDs, approved disabled-alert names, whether admin email is required, and required notification emails. An empty approvedDisabledAlerts array means no alert exclusions are approved; an empty requiredNotificationEmails array means no specific address requirement."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "approvedDisabledAlerts",
+            "requireEmailAccountAdmins",
+            "requiredNotificationEmails"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "approvedDisabledAlerts": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "requireEmailAccountAdmins": {
+              "type": "boolean"
+            },
+            "requiredNotificationEmails": {
+              "type": "array",
+              "maxItems": 100,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 3,
+                "pattern": "^[^@\\s]+@[^@\\s]+$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/servers"
+          },
+          {
+            "field": "kind",
+            "notContains": "analytics"
+          },
+          {
+            "field": "id",
+            "in": "[parameters('profile')['resourceIds']]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Sql/servers/securityAlertPolicies",
+          "name": "[concat(field('name'), '/Default')]",
+          "evaluationDelay": "PT10M",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Sql/servers/securityAlertPolicies/state",
+                "equals": "Enabled"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Sql/servers/securityAlertPolicies/disabledAlerts[*]",
+                  "where": {
+                    "field": "Microsoft.Sql/servers/securityAlertPolicies/disabledAlerts[*]",
+                    "notIn": "[parameters('profile')['approvedDisabledAlerts']]"
+                  }
+                },
+                "equals": 0
+              },
+              {
+                "anyOf": [
+                  {
+                    "value": "[parameters('profile')['requireEmailAccountAdmins']]",
+                    "equals": false
+                  },
+                  {
+                    "field": "Microsoft.Sql/servers/securityAlertPolicies/emailAccountAdmins",
+                    "equals": true
+                  }
+                ]
+              },
+              {
+                "count": {
+                  "value": "[parameters('profile')['requiredNotificationEmails']]",
+                  "name": "requiredEmail",
+                  "where": {
+                    "count": {
+                      "field": "Microsoft.Sql/servers/securityAlertPolicies/emailAddresses[*]",
+                      "where": {
+                        "field": "Microsoft.Sql/servers/securityAlertPolicies/emailAddresses[*]",
+                        "equals": "[current('requiredEmail')]"
+                      }
+                    },
+                    "equals": 0
+                  }
+                },
+                "equals": 0
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

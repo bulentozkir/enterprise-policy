@@ -1,0 +1,448 @@
+{
+  "description": "Defaults only; incomplete until all required-inputs.json values are supplied.",
+  "parameters": {
+    "l01_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l02_effect": {
+      "value": "Audit"
+    },
+    "l03_effect": {
+      "value": "Audit"
+    },
+    "l03_excludedSubnets": {
+      "value": [
+        "AzureBastionSubnet",
+        "RouteServerSubnet"
+      ]
+    },
+    "l04_effect": {
+      "value": "Audit"
+    },
+    "l04_excludedDestinations": {
+      "value": [
+        "Internet",
+        "VirtualNetworkGateway"
+      ]
+    },
+    "l05_effect": {
+      "value": "Audit"
+    },
+    "l05_allowedVnets": {
+      "value": []
+    },
+    "l06_effect": {
+      "value": "Audit"
+    },
+    "l07_source": {
+      "value": "Original"
+    },
+    "l07_warn": {
+      "value": false
+    },
+    "l07_effect": {
+      "value": "Audit"
+    },
+    "l07_excludedNamespaces": {
+      "value": [
+        "kube-system",
+        "gatekeeper-system",
+        "azure-arc",
+        "azure-extensions-usage-system"
+      ]
+    },
+    "l07_namespaces": {
+      "value": []
+    },
+    "l07_labelSelector": {
+      "value": {}
+    },
+    "l07_excludedContainers": {
+      "value": []
+    },
+    "l07_excludedImages": {
+      "value": []
+    },
+    "l08_source": {
+      "value": "Original"
+    },
+    "l08_warn": {
+      "value": false
+    },
+    "l08_effect": {
+      "value": "Audit"
+    },
+    "l08_excludedNamespaces": {
+      "value": [
+        "kube-system",
+        "gatekeeper-system",
+        "azure-arc",
+        "azure-extensions-usage-system"
+      ]
+    },
+    "l08_namespaces": {
+      "value": []
+    },
+    "l08_labelSelector": {
+      "value": {}
+    },
+    "l08_forcePrivilegeEscalationToBeFalse": {
+      "value": false
+    },
+    "l08_excludedContainers": {
+      "value": []
+    },
+    "l08_excludedImages": {
+      "value": []
+    },
+    "l09_source": {
+      "value": "Original"
+    },
+    "l09_warn": {
+      "value": false
+    },
+    "l09_effect": {
+      "value": "Audit"
+    },
+    "l09_excludedNamespaces": {
+      "value": [
+        "kube-system",
+        "gatekeeper-system",
+        "azure-arc",
+        "azure-extensions-usage-system"
+      ]
+    },
+    "l09_namespaces": {
+      "value": []
+    },
+    "l09_labelSelector": {
+      "value": {}
+    },
+    "l09_excludedImages": {
+      "value": []
+    },
+    "l10_source": {
+      "value": "Original"
+    },
+    "l10_warn": {
+      "value": false
+    },
+    "l10_effect": {
+      "value": "Audit"
+    },
+    "l10_excludedNamespaces": {
+      "value": [
+        "kube-system",
+        "gatekeeper-system",
+        "azure-arc",
+        "azure-extensions-usage-system"
+      ]
+    },
+    "l10_namespaces": {
+      "value": []
+    },
+    "l10_labelSelector": {
+      "value": {}
+    },
+    "l10_allowedHostPaths": {
+      "value": {
+        "paths": []
+      }
+    },
+    "l10_windowsAllowedHostPaths": {
+      "value": {
+        "paths": []
+      }
+    },
+    "l10_blockSocketMountPaths": {
+      "value": true
+    },
+    "l10_excludedContainers": {
+      "value": []
+    },
+    "l10_excludedImages": {
+      "value": []
+    },
+    "l11_source": {
+      "value": "Original"
+    },
+    "l11_warn": {
+      "value": false
+    },
+    "l11_effect": {
+      "value": "Audit"
+    },
+    "l11_excludedNamespaces": {
+      "value": [
+        "kube-system",
+        "gatekeeper-system",
+        "azure-arc",
+        "azure-extensions-usage-system"
+      ]
+    },
+    "l11_namespaces": {
+      "value": []
+    },
+    "l11_labelSelector": {
+      "value": {}
+    },
+    "l11_runAsUserRule": {
+      "value": "MustRunAsNonRoot"
+    },
+    "l11_runAsUserRanges": {
+      "value": {
+        "ranges": []
+      }
+    },
+    "l11_runAsGroupRule": {
+      "value": "RunAsAny"
+    },
+    "l11_runAsGroupRanges": {
+      "value": {
+        "ranges": []
+      }
+    },
+    "l11_supplementalGroupsRule": {
+      "value": "RunAsAny"
+    },
+    "l11_supplementalGroupsRanges": {
+      "value": {
+        "ranges": []
+      }
+    },
+    "l11_fsGroupRule": {
+      "value": "RunAsAny"
+    },
+    "l11_fsGroupRanges": {
+      "value": {
+        "ranges": []
+      }
+    },
+    "l11_excludedContainers": {
+      "value": []
+    },
+    "l11_excludedImages": {
+      "value": []
+    },
+    "l12_source": {
+      "value": "Original"
+    },
+    "l12_warn": {
+      "value": false
+    },
+    "l12_effect": {
+      "value": "Audit"
+    },
+    "l12_excludedNamespaces": {
+      "value": [
+        "kube-system",
+        "gatekeeper-system",
+        "azure-arc",
+        "azure-extensions-usage-system"
+      ]
+    },
+    "l12_namespaces": {
+      "value": []
+    },
+    "l12_labelSelector": {
+      "value": {}
+    },
+    "l12_allowedCapabilities": {
+      "value": []
+    },
+    "l12_requiredDropCapabilities": {
+      "value": []
+    },
+    "l12_excludedContainers": {
+      "value": []
+    },
+    "l12_excludedImages": {
+      "value": []
+    },
+    "l13_source": {
+      "value": "Original"
+    },
+    "l13_warn": {
+      "value": false
+    },
+    "l13_effect": {
+      "value": "Audit"
+    },
+    "l13_excludedNamespaces": {
+      "value": [
+        "kube-system",
+        "gatekeeper-system",
+        "azure-arc",
+        "azure-extensions-usage-system"
+      ]
+    },
+    "l13_namespaces": {
+      "value": []
+    },
+    "l13_labelSelector": {
+      "value": {}
+    },
+    "l13_allowHostNetwork": {
+      "value": false
+    },
+    "l13_allowedHostPorts": {
+      "value": []
+    },
+    "l13_excludedImages": {
+      "value": []
+    },
+    "l14_effect": {
+      "value": "Audit"
+    },
+    "l15_effect": {
+      "value": "Audit"
+    },
+    "l16_effect": {
+      "value": "Audit"
+    },
+    "l17_effect": {
+      "value": "Audit"
+    },
+    "l18_effect": {
+      "value": "Audit"
+    },
+    "l19_effect": {
+      "value": "Audit"
+    },
+    "l20_effect": {
+      "value": "Audit"
+    },
+    "l20_excludedResourceIds": {
+      "value": []
+    },
+    "l21_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l22_effect": {
+      "value": "Audit"
+    },
+    "l23_effect": {
+      "value": "Audit"
+    },
+    "l24_effect": {
+      "value": "Audit"
+    },
+    "l25_effect": {
+      "value": "Audit"
+    },
+    "l26_effect": {
+      "value": "Audit"
+    },
+    "l27_effect": {
+      "value": "Audit"
+    },
+    "l28_effect": {
+      "value": "Audit"
+    },
+    "l29_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l29_minimumTlsVersion": {
+      "value": "1.2"
+    },
+    "l30_effect": {
+      "value": "Audit"
+    },
+    "l31_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l31_minimumTlsVersion": {
+      "value": "1.2"
+    },
+    "l32_effect": {
+      "value": "Audit"
+    },
+    "l32_minimumTlsVersion": {
+      "value": "1.2"
+    },
+    "l33_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l34_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l35_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l35_setting": {
+      "value": "enabled"
+    },
+    "l36_effect": {
+      "value": "Audit"
+    },
+    "l37_effect": {
+      "value": "Audit"
+    },
+    "l38_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l38_approvedMinimumTlsVersions": {
+      "value": [
+        "TLSV1.2",
+        "TLSV1.3"
+      ]
+    },
+    "l39_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l40_effect": {
+      "value": "Audit"
+    },
+    "l41_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l42_effect": {
+      "value": "Audit"
+    },
+    "l43_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l44_effect": {
+      "value": "Audit"
+    },
+    "l45_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l46_effect": {
+      "value": "Audit"
+    },
+    "l47_effect": {
+      "value": "Audit"
+    },
+    "l47_effect_6468389": {
+      "value": "AuditIfNotExists"
+    },
+    "l48_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l49_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l50_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l50_effect_d08888e": {
+      "value": "AuditIfNotExists"
+    },
+    "l51_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l52_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l53_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "l54_effect": {
+      "value": "Audit"
+    },
+    "l54_excludedNetworkInterfaceIds": {
+      "value": []
+    }
+  }
+}

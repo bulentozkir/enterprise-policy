@@ -1,0 +1,1589 @@
+{
+  "name": "alz-hub-custom-audit",
+  "properties": {
+    "displayName": "ALZ Hub - custom audit policies",
+    "description": "Custom audit-first source package. Required organizational inputs and scope exclusions must be supplied before assignment. No remediation effects.",
+    "policyType": "Custom",
+    "metadata": {
+      "category": "ALZ custom audit",
+      "packageSet": "Hub"
+    },
+    "parameters": {
+      "h01_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h02_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h02_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h03_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h05_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h05_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h06_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h06_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h08_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h08_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h09_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "h10_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h10_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h11_effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "h11_listOfLocations": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Locations",
+          "description": "Audit if Network Watcher is not enabled for region(s).",
+          "strongType": "location"
+        },
+        "defaultValue": []
+      },
+      "h11_resourceGroupName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "NetworkWatcher resource group name",
+          "description": "Name of the resource group of NetworkWatcher, such as NetworkWatcherRG. This is the resource group where the Network Watchers are located."
+        },
+        "defaultValue": "NetworkWatcherRG"
+      },
+      "h12_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h13_effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "h13_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h14_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h14_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h15_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h15_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h16_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h16_allowedVnets": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed vNets to peer with",
+          "description": "Array of allowed vNets that can be peered with. Must be entered using their resource ID. Example: /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}"
+        },
+        "defaultValue": []
+      },
+      "h16_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h17_servers": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of DNS servers to enforce exclusive existance of.",
+          "displayName": "DNS Servers list"
+        }
+      },
+      "h17_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h17_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h18_servers": {
+        "type": "Array",
+        "metadata": {
+          "description": "The list of DNS servers to enforce exclusive existance of.",
+          "displayName": "DNS Servers list"
+        }
+      },
+      "h18_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h18_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h19_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h19_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h20_retentionInDays": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "retentionInDays",
+          "description": "retentionInDays"
+        },
+        "defaultValue": 179
+      },
+      "h20_effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "h20_evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "h04_effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only evaluation."
+        }
+      },
+      "h04_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Approved DNS-proxy targets",
+          "description": "Required, nonempty Firewall Policy resource IDs whose approved DNS architecture requires explicit DNS proxy configuration."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      },
+      "h07_effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only evaluation."
+        }
+      },
+      "h07_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Approved DDoS targets and plans",
+          "description": "Required eligible hub VNet IDs and approved DDoS Network Protection plan IDs. Neither list may be empty."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "approvedPlanIds"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "approvedPlanIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      },
+      "h21_effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only evaluation; the IDPS traffic mode is a separate configuration."
+        }
+      },
+      "h21_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Approved Premium policies and IDPS modes",
+          "description": "Required nonempty policy IDs and accepted IDPS modes. Accept Alert, Deny, or both according to approved inspection architecture."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "acceptedModes"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "acceptedModes": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Alert",
+                  "Deny"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "h22_effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "h22_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required Connectivity metric profile",
+          "description": "Supply one reviewed metric profile and nonempty target/type/action-group lists. Repeat the definition in an initiative for additional metrics. Alerts must be in each target's subscription."
+        },
+        "schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "resourceIds",
+            "resourceTypes",
+            "metricNamespace",
+            "metricName",
+            "timeAggregation",
+            "operator",
+            "threshold",
+            "windowSize",
+            "evaluationFrequency",
+            "actionGroupIds"
+          ],
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "resourceTypes": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 3,
+                "pattern": "^[^/]+/.+$"
+              }
+            },
+            "metricNamespace": {
+              "type": "string",
+              "minLength": 1
+            },
+            "metricName": {
+              "type": "string",
+              "minLength": 1
+            },
+            "timeAggregation": {
+              "type": "string",
+              "enum": [
+                "Average",
+                "Count",
+                "Minimum",
+                "Maximum",
+                "Total"
+              ]
+            },
+            "operator": {
+              "type": "string",
+              "enum": [
+                "Equals",
+                "GreaterThan",
+                "GreaterThanOrEqual",
+                "LessThan",
+                "LessThanOrEqual"
+              ]
+            },
+            "threshold": {
+              "type": "number"
+            },
+            "windowSize": {
+              "type": "string",
+              "enum": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H",
+                "PT6H",
+                "PT12H",
+                "P1D"
+              ]
+            },
+            "evaluationFrequency": {
+              "type": "string",
+              "enum": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H"
+              ]
+            },
+            "actionGroupIds": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 100,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      },
+      "h23_effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "h23_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required Management metric profile",
+          "description": "Required reviewed metric namespace, name, aggregation, operator, threshold, window, frequency, target resource IDs/types, and action-group IDs. Instantiate separately for each required metric."
+        },
+        "schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "resourceIds",
+            "resourceTypes",
+            "metricNamespace",
+            "metricName",
+            "timeAggregation",
+            "operator",
+            "threshold",
+            "windowSize",
+            "evaluationFrequency",
+            "actionGroupIds"
+          ],
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "resourceTypes": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 3,
+                "pattern": "^[^/]+/.+$"
+              }
+            },
+            "metricNamespace": {
+              "type": "string",
+              "minLength": 1
+            },
+            "metricName": {
+              "type": "string",
+              "minLength": 1
+            },
+            "timeAggregation": {
+              "type": "string",
+              "enum": [
+                "Average",
+                "Count",
+                "Minimum",
+                "Maximum",
+                "Total"
+              ]
+            },
+            "operator": {
+              "type": "string",
+              "enum": [
+                "Equals",
+                "GreaterThan",
+                "GreaterThanOrEqual",
+                "LessThan",
+                "LessThanOrEqual"
+              ]
+            },
+            "threshold": {
+              "type": "number"
+            },
+            "windowSize": {
+              "type": "string",
+              "enum": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H",
+                "PT6H",
+                "PT12H",
+                "P1D"
+              ]
+            },
+            "evaluationFrequency": {
+              "type": "string",
+              "enum": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H"
+              ]
+            },
+            "actionGroupIds": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 100,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      },
+      "h24_effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "h24_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required Identity Azure-resource metric profile",
+          "description": "Required approved Azure resource IDs/types and one complete metric/action-group profile. This is not a tenant-wide Entra, Conditional Access, or identity-risk control."
+        },
+        "schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "resourceIds",
+            "resourceTypes",
+            "metricNamespace",
+            "metricName",
+            "timeAggregation",
+            "operator",
+            "threshold",
+            "windowSize",
+            "evaluationFrequency",
+            "actionGroupIds"
+          ],
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "resourceTypes": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 3,
+                "pattern": "^[^/]+/.+$"
+              }
+            },
+            "metricNamespace": {
+              "type": "string",
+              "minLength": 1
+            },
+            "metricName": {
+              "type": "string",
+              "minLength": 1
+            },
+            "timeAggregation": {
+              "type": "string",
+              "enum": [
+                "Average",
+                "Count",
+                "Minimum",
+                "Maximum",
+                "Total"
+              ]
+            },
+            "operator": {
+              "type": "string",
+              "enum": [
+                "Equals",
+                "GreaterThan",
+                "GreaterThanOrEqual",
+                "LessThan",
+                "LessThanOrEqual"
+              ]
+            },
+            "threshold": {
+              "type": "number"
+            },
+            "windowSize": {
+              "type": "string",
+              "enum": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H",
+                "PT6H",
+                "PT12H",
+                "P1D"
+              ]
+            },
+            "evaluationFrequency": {
+              "type": "string",
+              "enum": [
+                "PT1M",
+                "PT5M",
+                "PT15M",
+                "PT30M",
+                "PT1H"
+              ]
+            },
+            "actionGroupIds": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 100,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            }
+          }
+        }
+      },
+      "h25_effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "h25_profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required hub VNet flow-log profile",
+          "description": "Supply nonempty approved hub VNet IDs and storage account IDs, plus the required finite minimum retention days. Regional Network Watcher resources may be in a different RG in the same subscription."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "approvedStorageIds",
+            "minimumRetentionDays"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "approvedStorageIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "minimumRetentionDays": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "hub-h01-h01-firewall-policy-threat-intelligence",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h01-h01-firewall-policy-threat-intelligence",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h01_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h02-h02-transitional-classic-rule-threat-intelligence",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h02-h02-transitional-classic-rule-threat-intelligence",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h02_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h02_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h03-h03-central-firewall-policy-association",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h03-h03-central-firewall-policy-association",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h03_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h05-h05-waf-configuration-on-centrally-owned-application-gat",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h05-h05-waf-configuration-on-centrally-owned-application-gat",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h05_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h05_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h06-h06-premium-firewall-where-risk-justified",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h06-h06-premium-firewall-where-risk-justified",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h06_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h06_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h08-h08-firewall-association-on-secured-virtual-hubs",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h08-h08-firewall-association-on-secured-virtual-hubs",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h08_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h08_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h09-h09-non-basic-vpn-gateway-sku",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h09-h09-non-basic-vpn-gateway-sku",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h09_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h10-h10-entra-only-point-to-site-vpn-authentication",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h10-h10-entra-only-point-to-site-vpn-authentication",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h10_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h10_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h11-h11-regional-network-watcher-presence",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h11-h11-regional-network-watcher-presence",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h11_effect')]"
+          },
+          "listOfLocations": {
+            "value": "[parameters('h11_listOfLocations')]"
+          },
+          "resourceGroupName": {
+            "value": "[parameters('h11_resourceGroupName')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h12-h12-private-ordinary-platform-vm-subnets",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h12-h12-private-ordinary-platform-vm-subnets",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h12_effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h13-h13-traffic-analytics-on-selected-vnet-flow-logs",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h13-h13-traffic-analytics-on-selected-vnet-flow-logs",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h13_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h13_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h14-h14-private-only-central-log-analytics-access",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h14-h14-private-only-central-log-analytics-access",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h14_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h14_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h15-h15-entra-based-central-log-ingestion",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h15-h15-entra-based-central-log-ingestion",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h15_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h15_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h16-h16-hub-specific-approved-peering-inventory",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h16-h16-hub-specific-approved-peering-inventory",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h16_effect')]"
+          },
+          "allowedVnets": {
+            "value": "[parameters('h16_allowedVnets')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h16_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h17-h17-approved-custom-dns-on-hub-vnets",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h17-h17-approved-custom-dns-on-hub-vnets",
+        "parameters": {
+          "servers": {
+            "value": "[parameters('h17_servers')]"
+          },
+          "effect": {
+            "value": "[parameters('h17_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h17_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h18-h18-approved-firewall-upstream-dns",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h18-h18-approved-firewall-upstream-dns",
+        "parameters": {
+          "servers": {
+            "value": "[parameters('h18_servers')]"
+          },
+          "effect": {
+            "value": "[parameters('h18_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h18_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h19-h19-bastion-shareable-links-disabled",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h19-h19-bastion-shareable-links-disabled",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h19_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h19_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h20-h20-approved-central-workspace-retention-floor",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h20-h20-approved-central-workspace-retention-floor",
+        "parameters": {
+          "retentionInDays": {
+            "value": "[parameters('h20_retentionInDays')]"
+          },
+          "effect": {
+            "value": "[parameters('h20_effect')]"
+          },
+          "evaluationScope": {
+            "value": "[parameters('h20_evaluationScope')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h04-firewall-dns-proxy",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h04-firewall-dns-proxy",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h04_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('h04_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h07-hub-ddos-approved-plan",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h07-hub-ddos-approved-plan",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h07_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('h07_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h21-premium-firewall-idps",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h21-premium-firewall-idps",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h21_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('h21_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h22-connectivity-amba-metric-profile",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h22-connectivity-amba-metric-profile",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h22_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('h22_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h23-management-amba-metric-profile",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h23-management-amba-metric-profile",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h23_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('h23_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h24-identity-amba-metric-profile",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h24-identity-amba-metric-profile",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h24_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('h24_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h25-hub-vnet-flow-log-coverage",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h25-hub-vnet-flow-log-coverage",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h25_effect')]"
+          },
+          "profile": {
+            "value": "[parameters('h25_profile')]"
+          }
+        }
+      }
+    ]
+  }
+}

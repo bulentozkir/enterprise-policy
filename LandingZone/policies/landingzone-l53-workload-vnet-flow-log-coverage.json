@@ -1,0 +1,122 @@
+{
+  "name": "landingzone-l53-workload-vnet-flow-log-coverage",
+  "properties": {
+    "displayName": "Selected workload VNets must have enabled flow logs with approved storage and retention",
+    "description": "Audits selected workload VNets unless an enabled same-region Network Watcher flow log in their subscription targets the VNet, references approved storage, and explicitly enables finite retention at least the required minimum.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0",
+      "designRow": "L53",
+      "sourceVerifiedOn": "2026-11-02",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/VirtualNetwork_FlowLog_DINE.json",
+      "catalogRow": "L53",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only related-resource evaluation."
+        }
+      },
+      "profile": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Required workload VNet flow-log profile",
+          "description": "Required nonempty workload VNet IDs and approved storage IDs plus minimum finite retention days. Supply workload inventory separately from the Hub sibling scope."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "resourceIds",
+            "approvedStorageIds",
+            "minimumRetentionDays"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "resourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "approvedStorageIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
+              }
+            },
+            "minimumRetentionDays": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "field": "id",
+            "in": "[parameters('profile')['resourceIds']]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Network/networkWatchers/flowlogs",
+          "existenceScope": "Subscription",
+          "evaluationDelay": "PT10M",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Network/networkWatchers/flowLogs/targetResourceId",
+                "equals": "[field('id')]"
+              },
+              {
+                "field": "location",
+                "equals": "[field('location')]"
+              },
+              {
+                "field": "Microsoft.Network/networkWatchers/flowLogs/enabled",
+                "equals": true
+              },
+              {
+                "field": "Microsoft.Network/networkWatchers/flowLogs/storageId",
+                "in": "[parameters('profile')['approvedStorageIds']]"
+              },
+              {
+                "field": "Microsoft.Network/networkWatchers/flowLogs/retentionPolicy.enabled",
+                "equals": true
+              },
+              {
+                "field": "Microsoft.Network/networkWatchers/flowLogs/retentionPolicy.days",
+                "greaterOrEquals": "[parameters('profile')['minimumRetentionDays']]"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "name": "landingzone-l20-l20-periodic-update-assessment-configured",
+  "properties": {
+    "displayName": "Machines should be configured to periodically check for missing system updates",
+    "description": "Audits Windows and Linux Azure VMs and Arc machines whose OS-family assessment configuration is not AutomaticByPlatform. Applicability does not depend on Marketplace images, OS releases, distribution versions, image SKUs or API-version comparison gates. Approved unsupported or service-managed resources require explicit exceptions.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Azure Update Manager",
+      "applicability": "OS family; no OS/image release filters",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Azure%20Update%20Manager/AzUpdateMgmtCenter_AutoAssessmentMode_Audit.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/bd876905-5b84-4f73-ab2d-2e7a7c4568d9",
+      "catalogRow": "L20",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      },
+      "excludedResourceIds": {
+        "type": "Array",
+        "defaultValue": [],
+        "metadata": {
+          "displayName": "Explicit assessment exceptions",
+          "description": "Approved VM or Arc machine resource IDs outside the periodic-assessment standard, including service-managed nodes and unsupported appliance workloads. No OS releases or Marketplace image selectors are used."
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "id",
+            "notIn": "[parameters('excludedResourceIds')]"
+          },
+          {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+                    "equals": "Windows"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration.patchSettings.assessmentMode",
+                    "notEquals": "AutomaticByPlatform"
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+                    "equals": "Linux"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/osProfile.linuxConfiguration.patchSettings.assessmentMode",
+                    "notEquals": "AutomaticByPlatform"
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.HybridCompute/machines"
+                  },
+                  {
+                    "field": "Microsoft.HybridCompute/machines/osName",
+                    "equals": "Windows"
+                  },
+                  {
+                    "field": "Microsoft.HybridCompute/machines/osProfile.windowsConfiguration.patchSettings.assessmentMode",
+                    "notEquals": "AutomaticByPlatform"
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.HybridCompute/machines"
+                  },
+                  {
+                    "field": "Microsoft.HybridCompute/machines/osName",
+                    "equals": "Linux"
+                  },
+                  {
+                    "field": "Microsoft.HybridCompute/machines/osProfile.linuxConfiguration.patchSettings.assessmentMode",
+                    "notEquals": "AutomaticByPlatform"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

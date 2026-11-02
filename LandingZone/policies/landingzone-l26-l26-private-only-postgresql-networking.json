@@ -1,0 +1,140 @@
+{
+  "name": "landingzone-l26-l26-private-only-postgresql-networking",
+  "properties": {
+    "displayName": "Public network access should be disabled for PostgreSQL flexible servers",
+    "description": "Disabling the public network access property improves security by ensuring your Azure Database for PostgreSQL flexible servers can only be accessed from a private endpoint. This configuration strictly disables access from any public address space outside of Azure IP range and denies all logins that match IP based firewall rules.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "SQL",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/PostgreSQL_FlexibleServers_DisablePublicNetworkAccess_Audit.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/5e1de0e3-42cb-4ebc-a86d-61d0c619ca48",
+      "catalogRow": "L26",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
+              "name": "evaluationScopeIncludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeIncludedPattern')]"
+              }
+            },
+            "greater": 0
+          },
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
+              "name": "evaluationScopeExcludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeExcludedPattern')]"
+              }
+            },
+            "equals": 0
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.delegatedSubnetResourceId",
+                    "exists": "true"
+                  },
+                  {
+                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.privateDnsZoneArmResourceId",
+                    "exists": "true"
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.publicNetworkAccess",
+                        "exists": "true"
+                      },
+                      {
+                        "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.publicNetworkAccess",
+                        "notEquals": "Disabled"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.delegatedSubnetResourceId",
+                    "exists": "false"
+                  },
+                  {
+                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.privateDnsZoneArmResourceId",
+                    "exists": "false"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

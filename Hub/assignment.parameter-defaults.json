@@ -1,0 +1,92 @@
+{
+  "description": "Defaults only; incomplete until all required-inputs.json values are supplied.",
+  "parameters": {
+    "h01_effect": {
+      "value": "Audit"
+    },
+    "h02_effect": {
+      "value": "Audit"
+    },
+    "h03_effect": {
+      "value": "Audit"
+    },
+    "h05_effect": {
+      "value": "Audit"
+    },
+    "h06_effect": {
+      "value": "Audit"
+    },
+    "h08_effect": {
+      "value": "Audit"
+    },
+    "h09_effect": {
+      "value": "Audit"
+    },
+    "h10_effect": {
+      "value": "Audit"
+    },
+    "h11_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "h11_listOfLocations": {
+      "value": []
+    },
+    "h11_resourceGroupName": {
+      "value": "NetworkWatcherRG"
+    },
+    "h12_effect": {
+      "value": "Audit"
+    },
+    "h13_effect": {
+      "value": "Audit"
+    },
+    "h14_effect": {
+      "value": "Audit"
+    },
+    "h15_effect": {
+      "value": "Audit"
+    },
+    "h16_effect": {
+      "value": "Audit"
+    },
+    "h16_allowedVnets": {
+      "value": []
+    },
+    "h17_effect": {
+      "value": "Audit"
+    },
+    "h18_effect": {
+      "value": "Audit"
+    },
+    "h19_effect": {
+      "value": "Audit"
+    },
+    "h20_retentionInDays": {
+      "value": 179
+    },
+    "h20_effect": {
+      "value": "Audit"
+    },
+    "h04_effect": {
+      "value": "Audit"
+    },
+    "h07_effect": {
+      "value": "Audit"
+    },
+    "h21_effect": {
+      "value": "Audit"
+    },
+    "h22_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "h23_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "h24_effect": {
+      "value": "AuditIfNotExists"
+    },
+    "h25_effect": {
+      "value": "AuditIfNotExists"
+    }
+  }
+}

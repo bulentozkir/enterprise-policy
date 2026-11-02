@@ -1,0 +1,250 @@
+{
+  "name": "landingzone-l19-l19-cmk-disk-encryption-where-required",
+  "properties": {
+    "displayName": "OS and data disks should be encrypted with a customer-managed key",
+    "description": "Use customer-managed keys to manage the encryption at rest of the contents of your managed disks. By default, the data is encrypted at rest with platform-managed keys, but customer-managed keys are commonly required to meet regulatory compliance standards. Customer-managed keys enable the data to be encrypted with an Azure Key Vault key created and owned by you. You have full control and responsibility for the key lifecycle, including rotation and management. Learn more at https://aka.ms/disks-cmk.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Compute",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Compute/OSAndDataDiskCMKRequired_Deny.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/702dd420-7fcc-42c5-afe8-4026edd20fe0",
+      "catalogRow": "L19",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "evaluationScope": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "Explicit conditional resource applicability",
+          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "includedResourceIdPatterns": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            },
+            "excludedResourceIdPatterns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^*]*(\\*[^*]*)?$"
+              }
+            }
+          },
+          "required": [
+            "includedResourceIdPatterns",
+            "excludedResourceIdPatterns"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
+              "name": "evaluationScopeIncludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeIncludedPattern')]"
+              }
+            },
+            "greater": 0
+          },
+          {
+            "count": {
+              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
+              "name": "evaluationScopeExcludedPattern",
+              "where": {
+                "field": "id",
+                "like": "[current('evaluationScopeExcludedPattern')]"
+              }
+            },
+            "equals": 0
+          },
+          {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.managedDisk.diskEncryptionSet.id",
+                    "exists": "False"
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachines"
+                  },
+                  {
+                    "value": "[length(field('Microsoft.Compute/virtualMachines/storageProfile.dataDisks'))]",
+                    "greater": 0
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.dataDisks[*].managedDisk.id",
+                    "exists": "False"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachines/storageProfile.dataDisks[*].managedDisk.diskEncryptionSet.id",
+                    "exists": "False"
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachineScaleSets"
+                  },
+                  {
+                    "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.storageProfile.osDisk.managedDisk.diskEncryptionSet.id",
+                    "exists": "False"
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/virtualMachineScaleSets"
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.storageProfile.dataDisks[*]"
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "not": {
+                      "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.storageProfile.dataDisks[*].managedDisk.diskEncryptionSet.id",
+                      "exists": "true"
+                    }
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/disks"
+                  },
+                  {
+                    "field": "Microsoft.Compute/disks/encryption.diskEncryptionSetId",
+                    "exists": "False"
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/galleries/images/versions"
+                  },
+                  {
+                    "value": "[length(field('Microsoft.Compute/galleries/images/versions/publishingProfile.targetRegions[*].encryption.osDiskImage.diskEncryptionSetId'))]",
+                    "notEquals": "[length(field('Microsoft.Compute/galleries/images/versions/publishingProfile.targetRegions[*]'))]"
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/galleries/images/versions"
+                  },
+                  {
+                    "value": "[length(field('Microsoft.Compute/galleries/images/versions/storageProfile.dataDiskImages[*]'))]",
+                    "greater": 0
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "count": {
+                          "field": "Microsoft.Compute/galleries/images/versions/publishingProfile.targetRegions[*]",
+                          "where": {
+                            "value": "[length(current('Microsoft.Compute/galleries/images/versions/publishingProfile.targetRegions[*].encryption.dataDiskImages[*].diskEncryptionSetId'))]",
+                            "notEquals": "[length(field('Microsoft.Compute/galleries/images/versions/storageProfile.dataDiskImages[*]'))]"
+                          }
+                        },
+                        "greater": 0
+                      },
+                      {
+                        "not": {
+                          "field": "Microsoft.Compute/galleries/images/versions/publishingProfile.targetRegions[*].encryption.dataDiskImages[*].diskEncryptionSetId",
+                          "exists": "true"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/images"
+                  },
+                  {
+                    "field": "Microsoft.Compute/images/storageProfile.osDisk.diskEncryptionSet.id",
+                    "exists": "False"
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Compute/images"
+                  },
+                  {
+                    "value": "[length(field('Microsoft.Compute/images/storageProfile.dataDisks[*]'))]",
+                    "greater": 0
+                  },
+                  {
+                    "not": {
+                      "field": "Microsoft.Compute/images/storageProfile.dataDisks[*].diskEncryptionSet.id",
+                      "exists": "true"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "name": "landingzone-l30-l30-function-apps-require-https",
+  "properties": {
+    "displayName": "Function apps should only be accessible over HTTPS",
+    "description": "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "App Service",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/App%20Service/FunctionApp_AuditHTTP_Audit.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/6d555dd1-86f2-4f1c-8ed7-5abae7c6cbab",
+      "catalogRow": "L30",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "kind",
+            "contains": "functionapp"
+          },
+          {
+            "field": "kind",
+            "notContains": "workflowapp"
+          },
+          {
+            "field": "kind",
+            "notContains": "azurecontainerapps"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Web/sites/httpsOnly",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.Web/sites/httpsOnly",
+                "equals": "false"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

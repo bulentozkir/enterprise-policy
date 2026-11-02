@@ -1,0 +1,58 @@
+{
+  "name": "landingzone-l38-l38-postgresql-minimum-tls-1-2",
+  "properties": {
+    "displayName": "PostgreSQL flexible servers should be running TLS version 1.2 or newer",
+    "description": "This policy helps audit any PostgreSQL flexible servers in your environment which is running with TLS version less than 1.2.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "PostgreSQL",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/PostgreSQL/FlexibleServers_MinTLS_AINE.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/a43d5475-c569-45ce-a268-28fa79f4e87a",
+      "catalogRow": "L38",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "approvedMinimumTlsVersions": {
+        "type": "Array",
+        "defaultValue": [
+          "TLSV1.2",
+          "TLSV1.3"
+        ],
+        "metadata": {
+          "displayName": "Approved minimum TLS versions",
+          "description": "Transport-security baseline, not an OS/image release. The source security baseline is retained as the default. Use compatible approved values without weakening security; the source comparison operator remains unchanged."
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.DBforPostgreSQL/flexibleServers/configurations",
+          "name": "ssl_min_protocol_version",
+          "existenceCondition": {
+            "field": "Microsoft.DBforPostgreSQL/flexibleServers/configurations/value",
+            "in": "[parameters('approvedMinimumTlsVersions')]"
+          }
+        }
+      }
+    }
+  }
+}

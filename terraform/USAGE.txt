@@ -1,0 +1,49 @@
+ALZ POLICY DEFINITIONS - TERRAFORM
+
+Target Entra tenant:
+  d24284e3-1ea5-4285-9b96-4d53f671284b
+Target management group:
+  contoso (ContosoRoot)
+Provider subscription context:
+  a0fdc749-441a-43a5-8297-29192ed42f79
+
+Creates custom policy definitions and exactly three initiatives: Global, Hub,
+LandingZone. It creates NO policy assignments, role assignments, managed identities,
+remediation jobs, or workload resources. Definitions alone do not enforce policy.
+
+Use the existing Azure CLI authentication for the requested tenant. An Edge portal
+session alone is not Terraform authentication. The account needs Resource Policy
+Contributor or equivalent permissions on ContosoRoot. Reader and
+Entra directory administrator roles alone do not grant Azure Policy write access.
+The script does not change sign-in, default subscriptions, permissions, or roles.
+
+Plan only:
+  .\deploy.ps1
+Plan, inspect for unexpected resource types/deletions, then apply:
+  .\deploy.ps1 -Apply
+
+The supplied source catalog must be complete before plan/apply. Missing definitions
+are hard failures; empty initiatives and partial deployments are not substituted.
+Unsupported Key Vault data-mode clones were removed. Three fresh ARM-only checks
+have narrower object coverage; certificate-expiry auditing is an explicit omission.
+After reviewing those documented limitations, accept them with:
+  .\deploy.ps1 -Apply -AcknowledgeCoverageGaps
+This switch NEVER bypasses the missing-source guard.
+
+Do not run apply until catalog.json reports no missing rows and policy/initiative
+sources have been reviewed. Built-in/custom source validation is separate from
+Terraform syntax validation; an Azure API import may report additional alias/rule
+constraints. Existing Azure definitions must be imported into Terraform state before
+management, not overwritten blindly. prevent_destroy rejects deletion/replacement.
+
+Policy defaults remain Audit/AuditIfNotExists; future assignment parameters are
+promoted individually into each initiative. Required OS/image/support profiles and
+organizational IDs have no guessed values. Terraform definition creation does not
+need future assignment input values, but assignments will require them.
+
+State and provider files used by deploy.ps1 are stored under LOCALAPPDATA, not in
+the OneDrive-synced source folder. The provider lock file stays with source.
+
+CURRENT AUTHORIZATION LIMIT
+The current portal account shows Reader access at ContosoRoot. Policy definition
+write permissions have not been established. No deployment has been made.
