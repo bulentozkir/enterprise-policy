@@ -1,8 +1,8 @@
 {
   "name": "global-r30-sql-database-ahb",
   "properties": {
-    "displayName": "Audit approved SQL database Hybrid Benefit",
-    "description": "Audit approved SQL database Hybrid Benefit. Read-only custom check with required approved applicability inputs.",
+    "displayName": "Audit Azure Hybrid Benefit for Azure SQL Database",
+    "description": "Audit Azure Hybrid Benefit for Azure SQL Database. Read-only custom check with required approved applicability inputs.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {

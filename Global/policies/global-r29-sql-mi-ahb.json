@@ -1,8 +1,8 @@
 {
   "name": "global-r29-sql-mi-ahb",
   "properties": {
-    "displayName": "Audit approved standalone SQL Managed Instance Hybrid Benefit",
-    "description": "Audit approved standalone SQL Managed Instance Hybrid Benefit. Read-only custom check with required approved applicability inputs.",
+    "displayName": "Audit Azure Hybrid Benefit for Azure SQL Managed Instance",
+    "description": "Audit Azure Hybrid Benefit for Azure SQL Managed Instance. Read-only custom check with required approved applicability inputs.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {

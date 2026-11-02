@@ -18,8 +18,8 @@ run "custom_definitions_only" {
   }
 
   assert {
-    condition     = length(azapi_resource.custom) == 111
-    error_message = "Expected all 111 implemented Custom definitions."
+    condition     = length(azapi_resource.custom) == 97
+    error_message = "Expected all 97 implemented Custom definitions."
   }
   assert {
     condition     = length(azapi_resource.initiative) == 3
@@ -45,12 +45,12 @@ run "custom_definitions_only" {
     error_message = "Global must reference 39 implemented Custom definitions."
   }
   assert {
-    condition     = length(azapi_resource.initiative["Hub"].body.properties.policyDefinitions) == 16
-    error_message = "Hub must reference 16 implemented Custom definitions."
+    condition     = length(azapi_resource.initiative["Hub"].body.properties.policyDefinitions) == 15
+    error_message = "Hub must reference 15 implemented Custom definitions."
   }
   assert {
-    condition     = length(azapi_resource.initiative["LandingZone"].body.properties.policyDefinitions) == 56
-    error_message = "LandingZone must reference 56 implemented Custom definitions."
+    condition     = length(azapi_resource.initiative["LandingZone"].body.properties.policyDefinitions) == 43
+    error_message = "LandingZone must reference 43 implemented Custom definitions."
   }
 }
 

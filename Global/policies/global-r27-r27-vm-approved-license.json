@@ -1,8 +1,8 @@
 {
   "name": "global-r27-r27-vm-approved-license",
   "properties": {
-    "displayName": "Audit approved Windows client BYOL licensing on VM resources",
-    "description": "Audit approved Windows client BYOL licensing on VM resources. Read-only custom check with required approved applicability inputs.",
+    "displayName": "Audit Windows client BYOL licensing benefit on virtual machines",
+    "description": "Audit Windows client BYOL licensing benefit on virtual machines. Read-only custom check with required approved applicability inputs.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {

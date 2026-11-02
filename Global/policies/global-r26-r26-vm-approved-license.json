@@ -1,8 +1,8 @@
 {
   "name": "global-r26-r26-vm-approved-license",
   "properties": {
-    "displayName": "Audit approved Windows Server Azure Hybrid Benefit on VM resources",
-    "description": "Audit approved Windows Server Azure Hybrid Benefit on VM resources. Read-only custom check with required approved applicability inputs.",
+    "displayName": "Audit Azure Hybrid Benefit for Windows Server on virtual machines",
+    "description": "Audit Azure Hybrid Benefit for Windows Server on virtual machines. Read-only custom check with required approved applicability inputs.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {

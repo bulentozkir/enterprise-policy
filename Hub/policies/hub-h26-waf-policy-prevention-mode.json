@@ -1,0 +1,82 @@
+{
+  "name": "hub-h26-waf-policy-prevention-mode",
+  "properties": {
+    "displayName": "Web Application Firewall (WAF) policy must be enabled for Prevention mode",
+    "description": "Audits Application Gateway and Azure Front Door WAF policies that are disabled or not set to Prevention mode. Read-only; it does not change WAF policies. Audit by default; Deny can be selected later.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0",
+      "designRow": "H26",
+      "sourceVerifiedOn": "2026-11-03",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/WAF_AppGatewayMode_Audit.json",
+      "catalogRow": "H26",
+      "packageSet": "Hub"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit reports WAF policies that are disabled or not in Prevention mode. Deny blocks creating or updating such a policy."
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/applicationGatewayWebApplicationFirewallPolicies"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Network/applicationGatewayWebApplicationFirewallPolicies/policySettings.mode",
+                    "notEquals": "Prevention"
+                  },
+                  {
+                    "field": "Microsoft.Network/applicationGatewayWebApplicationFirewallPolicies/policySettings.state",
+                    "equals": "Disabled"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/frontdoorWebApplicationFirewallPolicies"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Network/frontdoorWebApplicationFirewallPolicies/policySettings.mode",
+                    "notEquals": "Prevention"
+                  },
+                  {
+                    "field": "Microsoft.Network/frontdoorWebApplicationFirewallPolicies/policySettings.enabledState",
+                    "equals": "Disabled"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

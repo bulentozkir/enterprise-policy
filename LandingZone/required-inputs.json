@@ -120,41 +120,9 @@
     "allowedValues": null
   },
   {
-    "parameter": "l18_evaluationScope",
-    "policy": "landingzone-l18-l18-trusted-launch-with-secure-boot-vtpm",
-    "row": "L18",
-    "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l19_evaluationScope",
-    "policy": "landingzone-l19-l19-cmk-disk-encryption-where-required",
-    "row": "L19",
-    "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
-    "allowedValues": null
-  },
-  {
     "parameter": "l21_evaluationScope",
     "policy": "landingzone-l21-l21-missing-critical-security-updates",
     "row": "L21",
-    "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l22_evaluationScope",
-    "policy": "landingzone-l22-l22-private-only-storage-networking",
-    "row": "L22",
-    "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l23_evaluationScope",
-    "policy": "landingzone-l23-l23-private-only-key-vault-networking",
-    "row": "L23",
     "type": "Object",
     "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
     "allowedValues": null
@@ -200,14 +168,6 @@
     "allowedValues": null
   },
   {
-    "parameter": "l40_evaluationScope",
-    "policy": "landingzone-l40-l40-postgresql-cmk-where-required",
-    "row": "L40",
-    "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
-    "allowedValues": null
-  },
-  {
     "parameter": "l41_evaluationScope",
     "policy": "landingzone-l41-l41-function-built-in-authentication",
     "row": "L41",
@@ -219,14 +179,6 @@
     "parameter": "l43_evaluationScope",
     "policy": "landingzone-l43-l43-vm-backup-protection-exists",
     "row": "L43",
-    "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l44_evaluationScope",
-    "policy": "landingzone-l44-l44-postgresql-geo-redundant-backup",
-    "row": "L44",
     "type": "Object",
     "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
     "allowedValues": null
@@ -248,75 +200,11 @@
     "allowedValues": null
   },
   {
-    "parameter": "l47_profile",
-    "policy": "landingzone-l47-private-endpoint-required-subresource",
-    "row": "L47",
-    "type": "Object",
-    "description": "Required nonempty private endpoint resource IDs and one required groupId, such as the organization-approved PaaS subresource. Repeat for distinct endpoint profiles.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l47_profile_6468389",
-    "policy": "landingzone-l47-private-endpoint-central-dns-zones",
-    "row": "L47",
-    "type": "Object",
-    "description": "Required selected private endpoint IDs, required zone IDs for their subresource profile, and approved central zone IDs. Required zones must be included in the approved set. Use the companion groupId Audit.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l48_profile",
-    "policy": "landingzone-l48-vm-backup-approved-vault-policy",
-    "row": "L48",
-    "type": "Object",
-    "description": "Required exact VM ID, Recovery Services vault ID in the SAME subscription, actual Azure protection-container name, and approved backup policy IDs in that vault. Container name is an existing resource name, not a guessed VM-name convention.",
-    "allowedValues": null
-  },
-  {
     "parameter": "l49_profile",
     "policy": "landingzone-l49-corp-spoke-required-hub-peering",
     "row": "L49",
     "type": "Object",
     "description": "Required nonempty approved spoke IDs and hub VNet IDs plus the architecture-approved useRemoteGateways value. Exclude vWAN, isolated, and intentionally unpeered spokes.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l50_profile",
-    "policy": "landingzone-l50-sql-server-required-auditing-actions",
-    "row": "L50",
-    "type": "Object",
-    "description": "Required nonempty SQL logical-server IDs and required SQL audit actions/groups. Choose valid SQL action/group names according to the approved audit standard; no action list is invented.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l50_profile_d08888e",
-    "policy": "landingzone-l50-sql-master-approved-audit-workspace",
-    "row": "L50",
-    "type": "Object",
-    "description": "Required nonempty SQL logical-server IDs, matching the companion action audit, and approved Log Analytics workspace IDs. The policy derives each master database's parent-server ID.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l51_profile",
-    "policy": "landingzone-l51-sql-server-threat-detection-profile",
-    "row": "L51",
-    "type": "Object",
-    "description": "Required nonempty target SQL-server IDs, approved disabled-alert names, whether admin email is required, and required notification emails. An empty approvedDisabledAlerts array means no alert exclusions are approved; an empty requiredNotificationEmails array means no specific address requirement.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l52_profile",
-    "policy": "landingzone-l52-workload-amba-metric-profile",
-    "row": "L52",
-    "type": "Object",
-    "description": "Required approved workload resource IDs/types, metric namespace/name, aggregation, operator, threshold, window, frequency, and action-group IDs. Use one reference per required metric/profile.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "l53_profile",
-    "policy": "landingzone-l53-workload-vnet-flow-log-coverage",
-    "row": "L53",
-    "type": "Object",
-    "description": "Required nonempty workload VNet IDs and approved storage IDs plus minimum finite retention days. Supply workload inventory separately from the Hub sibling scope.",
     "allowedValues": null
   }
 ]

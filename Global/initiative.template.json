@@ -1612,8 +1612,8 @@
       "apiVersion": "2020-09-01",
       "name": "global-r26-r26-vm-approved-license",
       "properties": {
-        "displayName": "Audit approved Windows Server Azure Hybrid Benefit on VM resources",
-        "description": "Audit approved Windows Server Azure Hybrid Benefit on VM resources. Read-only custom check with required approved applicability inputs.",
+        "displayName": "Audit Azure Hybrid Benefit for Windows Server on virtual machines",
+        "description": "Audit Azure Hybrid Benefit for Windows Server on virtual machines. Read-only custom check with required approved applicability inputs.",
         "mode": "All",
         "metadata": {
           "category": "Licensing",
@@ -1693,8 +1693,8 @@
       "apiVersion": "2020-09-01",
       "name": "global-r26-r26-vmss-approved-license",
       "properties": {
-        "displayName": "Audit approved Windows Server Azure Hybrid Benefit on VMSS resources",
-        "description": "Audit approved Windows Server Azure Hybrid Benefit on VMSS resources. Read-only custom check with required approved applicability inputs.",
+        "displayName": "Audit Azure Hybrid Benefit for Windows Server on virtual machine scale sets",
+        "description": "Audit Azure Hybrid Benefit for Windows Server on virtual machine scale sets. Read-only custom check with required approved applicability inputs.",
         "mode": "All",
         "metadata": {
           "category": "Licensing",
@@ -1774,8 +1774,8 @@
       "apiVersion": "2020-09-01",
       "name": "global-r27-r27-vm-approved-license",
       "properties": {
-        "displayName": "Audit approved Windows client BYOL licensing on VM resources",
-        "description": "Audit approved Windows client BYOL licensing on VM resources. Read-only custom check with required approved applicability inputs.",
+        "displayName": "Audit Windows client BYOL licensing benefit on virtual machines",
+        "description": "Audit Windows client BYOL licensing benefit on virtual machines. Read-only custom check with required approved applicability inputs.",
         "mode": "All",
         "metadata": {
           "category": "Licensing",
@@ -1855,8 +1855,8 @@
       "apiVersion": "2020-09-01",
       "name": "global-r27-r27-vmss-approved-license",
       "properties": {
-        "displayName": "Audit approved Windows client BYOL licensing on VMSS resources",
-        "description": "Audit approved Windows client BYOL licensing on VMSS resources. Read-only custom check with required approved applicability inputs.",
+        "displayName": "Audit Windows client BYOL licensing benefit on virtual machine scale sets",
+        "description": "Audit Windows client BYOL licensing benefit on virtual machine scale sets. Read-only custom check with required approved applicability inputs.",
         "mode": "All",
         "metadata": {
           "category": "Licensing",
@@ -1936,8 +1936,8 @@
       "apiVersion": "2020-09-01",
       "name": "global-r28-sql-vm-ahb",
       "properties": {
-        "displayName": "Audit approved SQL Server VM Hybrid Benefit licensing",
-        "description": "Audit approved SQL Server VM Hybrid Benefit licensing. Read-only custom check with required approved applicability inputs.",
+        "displayName": "Audit Azure Hybrid Benefit for SQL Server on Azure VMs",
+        "description": "Audit Azure Hybrid Benefit for SQL Server on Azure VMs. Read-only custom check with required approved applicability inputs.",
         "mode": "All",
         "metadata": {
           "category": "Licensing",
@@ -2017,8 +2017,8 @@
       "apiVersion": "2020-09-01",
       "name": "global-r29-sql-mi-ahb",
       "properties": {
-        "displayName": "Audit approved standalone SQL Managed Instance Hybrid Benefit",
-        "description": "Audit approved standalone SQL Managed Instance Hybrid Benefit. Read-only custom check with required approved applicability inputs.",
+        "displayName": "Audit Azure Hybrid Benefit for Azure SQL Managed Instance",
+        "description": "Audit Azure Hybrid Benefit for Azure SQL Managed Instance. Read-only custom check with required approved applicability inputs.",
         "mode": "All",
         "metadata": {
           "category": "Licensing",
@@ -2102,8 +2102,8 @@
       "apiVersion": "2020-09-01",
       "name": "global-r30-sql-database-ahb",
       "properties": {
-        "displayName": "Audit approved SQL database Hybrid Benefit",
-        "description": "Audit approved SQL database Hybrid Benefit. Read-only custom check with required approved applicability inputs.",
+        "displayName": "Audit Azure Hybrid Benefit for Azure SQL Database",
+        "description": "Audit Azure Hybrid Benefit for Azure SQL Database. Read-only custom check with required approved applicability inputs.",
         "mode": "All",
         "metadata": {
           "category": "Licensing",
@@ -2203,8 +2203,8 @@
       "apiVersion": "2020-09-01",
       "name": "global-r30-sql-elastic-pool-ahb",
       "properties": {
-        "displayName": "Audit approved SQL elastic-pool Hybrid Benefit",
-        "description": "Audit approved SQL elastic-pool Hybrid Benefit. Read-only custom check with required approved applicability inputs.",
+        "displayName": "Audit Azure Hybrid Benefit for Azure SQL Database elastic pools",
+        "description": "Audit Azure Hybrid Benefit for Azure SQL Database elastic pools. Read-only custom check with required approved applicability inputs.",
         "mode": "All",
         "metadata": {
           "category": "Licensing",

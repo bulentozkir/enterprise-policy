@@ -1,8 +1,8 @@
 {
   "name": "global-r27-r27-vmss-approved-license",
   "properties": {
-    "displayName": "Audit approved Windows client BYOL licensing on VMSS resources",
-    "description": "Audit approved Windows client BYOL licensing on VMSS resources. Read-only custom check with required approved applicability inputs.",
+    "displayName": "Audit Windows client BYOL licensing benefit on virtual machine scale sets",
+    "description": "Audit Windows client BYOL licensing benefit on virtual machine scale sets. Read-only custom check with required approved applicability inputs.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {

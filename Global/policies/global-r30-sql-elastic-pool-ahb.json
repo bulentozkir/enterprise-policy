@@ -1,8 +1,8 @@
 {
   "name": "global-r30-sql-elastic-pool-ahb",
   "properties": {
-    "displayName": "Audit approved SQL elastic-pool Hybrid Benefit",
-    "description": "Audit approved SQL elastic-pool Hybrid Benefit. Read-only custom check with required approved applicability inputs.",
+    "displayName": "Audit Azure Hybrid Benefit for Azure SQL Database elastic pools",
+    "description": "Audit Azure Hybrid Benefit for Azure SQL Database elastic pools. Read-only custom check with required approved applicability inputs.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {

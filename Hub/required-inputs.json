@@ -32,14 +32,6 @@
     "allowedValues": null
   },
   {
-    "parameter": "h15_evaluationScope",
-    "policy": "hub-h15-h15-entra-based-central-log-ingestion",
-    "row": "H15",
-    "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
-    "allowedValues": null
-  },
-  {
     "parameter": "h16_evaluationScope",
     "policy": "hub-h16-h16-hub-specific-approved-peering-inventory",
     "row": "H16",
@@ -59,22 +51,6 @@
     "parameter": "h17_evaluationScope",
     "policy": "hub-h17-h17-approved-custom-dns-on-hub-vnets",
     "row": "H17",
-    "type": "Object",
-    "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "h18_servers",
-    "policy": "hub-h18-h18-approved-firewall-upstream-dns",
-    "row": "H18",
-    "type": "Array",
-    "description": "The list of DNS servers to enforce exclusive existance of.",
-    "allowedValues": null
-  },
-  {
-    "parameter": "h18_evaluationScope",
-    "policy": "hub-h18-h18-approved-firewall-upstream-dns",
-    "row": "H18",
     "type": "Object",
     "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope.",
     "allowedValues": null
@@ -104,11 +80,11 @@
     "allowedValues": null
   },
   {
-    "parameter": "h07_profile",
-    "policy": "hub-h07-hub-ddos-approved-plan",
+    "parameter": "h07_approvedPlanIds",
+    "policy": "hub-h07-public-ip-ddos-approved-plan",
     "row": "H07",
-    "type": "Object",
-    "description": "Required eligible hub VNet IDs and approved DDoS Network Protection plan IDs. Neither list may be empty.",
+    "type": "Array",
+    "description": "Required, nonempty list of approved DDoS Network Protection plan resource IDs. A public IP is approved only when ddosSettings.protectionMode is Enabled and ddosSettings.ddosProtectionPlan.id is in this list.",
     "allowedValues": null
   },
   {

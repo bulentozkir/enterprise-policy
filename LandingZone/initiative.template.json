@@ -2983,381 +2983,6 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2020-09-01",
-      "name": "landingzone-l18-l18-trusted-launch-with-secure-boot-vtpm",
-      "properties": {
-        "displayName": "Virtual Machine should have TrustedLaunch enabled",
-        "description": "Enable TrustedLaunch on Virtual Machine for enhanced security, use VM SKU (Gen 2) that supports TrustedLaunch. To learn more about TrustedLaunch, visit https://learn.microsoft.com/en-us/azure/virtual-machines/trusted-launch",
-        "mode": "Indexed",
-        "metadata": {
-          "category": "Trusted Launch",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Trusted%20Launch/VirtualMachine_Should_Have_TrustedLaunch%20enabled.json",
-          "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/c95b54ad-0614-4633-ab29-104b01235cbf",
-          "catalogRow": "L18",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "Audit",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').includedResourceIdPatterns]",
-                  "name": "evaluationScopeIncludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeIncludedPattern')]"
-                  }
-                },
-                "greater": 0
-              },
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').excludedResourceIdPatterns]",
-                  "name": "evaluationScopeExcludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeExcludedPattern')]"
-                  }
-                },
-                "equals": 0
-              },
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.Compute/virtualMachines"
-                  },
-                  {
-                    "anyOf": [
-                      {
-                        "field": "Microsoft.Compute/virtualMachines/securityProfile",
-                        "exists": "false"
-                      },
-                      {
-                        "field": "Microsoft.Compute/virtualMachines/securityProfile.securityType",
-                        "notEquals": "TrustedLaunch"
-                      },
-                      {
-                        "field": "Microsoft.Compute/virtualMachines/securityProfile.uefiSettings.secureBootEnabled",
-                        "notEquals": "true"
-                      },
-                      {
-                        "field": "Microsoft.Compute/virtualMachines/securityProfile.uefiSettings.vTpmEnabled",
-                        "notEquals": "true"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "landingzone-l19-l19-cmk-disk-encryption-where-required",
-      "properties": {
-        "displayName": "OS and data disks should be encrypted with a customer-managed key",
-        "description": "Use customer-managed keys to manage the encryption at rest of the contents of your managed disks. By default, the data is encrypted at rest with platform-managed keys, but customer-managed keys are commonly required to meet regulatory compliance standards. Customer-managed keys enable the data to be encrypted with an Azure Key Vault key created and owned by you. You have full control and responsibility for the key lifecycle, including rotation and management. Learn more at https://aka.ms/disks-cmk.",
-        "mode": "Indexed",
-        "metadata": {
-          "category": "Compute",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Compute/OSAndDataDiskCMKRequired_Deny.json",
-          "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/702dd420-7fcc-42c5-afe8-4026edd20fe0",
-          "catalogRow": "L19",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "defaultValue": "Audit",
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            }
-          },
-          "evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').includedResourceIdPatterns]",
-                  "name": "evaluationScopeIncludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeIncludedPattern')]"
-                  }
-                },
-                "greater": 0
-              },
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').excludedResourceIdPatterns]",
-                  "name": "evaluationScopeExcludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeExcludedPattern')]"
-                  }
-                },
-                "equals": 0
-              },
-              {
-                "anyOf": [
-                  {
-                    "allOf": [
-                      {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/virtualMachines"
-                      },
-                      {
-                        "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.managedDisk.diskEncryptionSet.id",
-                        "exists": "False"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/virtualMachines"
-                      },
-                      {
-                        "value": "[[length(field('Microsoft.Compute/virtualMachines/storageProfile.dataDisks'))]",
-                        "greater": 0
-                      },
-                      {
-                        "field": "Microsoft.Compute/virtualMachines/storageProfile.dataDisks[*].managedDisk.id",
-                        "exists": "False"
-                      },
-                      {
-                        "field": "Microsoft.Compute/virtualMachines/storageProfile.dataDisks[*].managedDisk.diskEncryptionSet.id",
-                        "exists": "False"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/virtualMachineScaleSets"
-                      },
-                      {
-                        "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.storageProfile.osDisk.managedDisk.diskEncryptionSet.id",
-                        "exists": "False"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/virtualMachineScaleSets"
-                      },
-                      {
-                        "count": {
-                          "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.storageProfile.dataDisks[*]"
-                        },
-                        "greater": 0
-                      },
-                      {
-                        "not": {
-                          "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.storageProfile.dataDisks[*].managedDisk.diskEncryptionSet.id",
-                          "exists": "true"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/disks"
-                      },
-                      {
-                        "field": "Microsoft.Compute/disks/encryption.diskEncryptionSetId",
-                        "exists": "False"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/galleries/images/versions"
-                      },
-                      {
-                        "value": "[[length(field('Microsoft.Compute/galleries/images/versions/publishingProfile.targetRegions[*].encryption.osDiskImage.diskEncryptionSetId'))]",
-                        "notEquals": "[[length(field('Microsoft.Compute/galleries/images/versions/publishingProfile.targetRegions[*]'))]"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/galleries/images/versions"
-                      },
-                      {
-                        "value": "[[length(field('Microsoft.Compute/galleries/images/versions/storageProfile.dataDiskImages[*]'))]",
-                        "greater": 0
-                      },
-                      {
-                        "anyOf": [
-                          {
-                            "count": {
-                              "field": "Microsoft.Compute/galleries/images/versions/publishingProfile.targetRegions[*]",
-                              "where": {
-                                "value": "[[length(current('Microsoft.Compute/galleries/images/versions/publishingProfile.targetRegions[*].encryption.dataDiskImages[*].diskEncryptionSetId'))]",
-                                "notEquals": "[[length(field('Microsoft.Compute/galleries/images/versions/storageProfile.dataDiskImages[*]'))]"
-                              }
-                            },
-                            "greater": 0
-                          },
-                          {
-                            "not": {
-                              "field": "Microsoft.Compute/galleries/images/versions/publishingProfile.targetRegions[*].encryption.dataDiskImages[*].diskEncryptionSetId",
-                              "exists": "true"
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/images"
-                      },
-                      {
-                        "field": "Microsoft.Compute/images/storageProfile.osDisk.diskEncryptionSet.id",
-                        "exists": "False"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "field": "type",
-                        "equals": "Microsoft.Compute/images"
-                      },
-                      {
-                        "value": "[[length(field('Microsoft.Compute/images/storageProfile.dataDisks[*]'))]",
-                        "greater": 0
-                      },
-                      {
-                        "not": {
-                          "field": "Microsoft.Compute/images/storageProfile.dataDisks[*].diskEncryptionSet.id",
-                          "exists": "true"
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
       "name": "landingzone-l20-l20-periodic-update-assessment-configured",
       "properties": {
         "displayName": "Machines should be configured to periodically check for missing system updates",
@@ -3587,229 +3212,6 @@
                 ]
               }
             }
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "landingzone-l22-l22-private-only-storage-networking",
-      "properties": {
-        "displayName": "Storage accounts should disable public network access",
-        "description": "To improve the security of Storage Accounts, ensure that they aren't exposed to the public internet and can only be accessed from a private endpoint. Disable the public network access property as described in https://aka.ms/storageaccountpublicnetworkaccess. This option disables access from any public address space outside the Azure IP range, and denies all logins that match IP or virtual network-based firewall rules. This reduces data leakage risks.",
-        "mode": "All",
-        "metadata": {
-          "category": "Storage",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Storage/StoragePublicNetworkAccess_AuditDeny.json",
-          "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/b2982f36-99f2-4db5-8eff-283140c09693",
-          "catalogRow": "L22",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').includedResourceIdPatterns]",
-                  "name": "evaluationScopeIncludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeIncludedPattern')]"
-                  }
-                },
-                "greater": 0
-              },
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').excludedResourceIdPatterns]",
-                  "name": "evaluationScopeExcludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeExcludedPattern')]"
-                  }
-                },
-                "equals": 0
-              },
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.Storage/storageAccounts"
-                  },
-                  {
-                    "not": {
-                      "field": "Microsoft.Storage/storageAccounts/publicNetworkAccess",
-                      "in": [
-                        "Disabled",
-                        "SecuredByPerimeter"
-                      ]
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "landingzone-l23-l23-private-only-key-vault-networking",
-      "properties": {
-        "displayName": "Azure Key Vault should disable public network access",
-        "description": "Audits selected Key Vaults unless publicNetworkAccess is explicitly Disabled, excluding recovery operations. No request API-version gate is used; approved private connectivity and DNS remain prerequisites.",
-        "mode": "Indexed",
-        "metadata": {
-          "category": "Key Vault",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Key%20Vault/PublicNetworkAccess_Audit.json",
-          "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/405c5871-3e91-4644-8a63-58e19d68ff5b",
-          "catalogRow": "L23",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').includedResourceIdPatterns]",
-                  "name": "evaluationScopeIncludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeIncludedPattern')]"
-                  }
-                },
-                "greater": 0
-              },
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').excludedResourceIdPatterns]",
-                  "name": "evaluationScopeExcludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeExcludedPattern')]"
-                  }
-                },
-                "equals": 0
-              },
-              {
-                "field": "type",
-                "equals": "Microsoft.KeyVault/vaults"
-              },
-              {
-                "field": "Microsoft.KeyVault/vaults/createMode",
-                "notEquals": "recover"
-              },
-              {
-                "field": "Microsoft.KeyVault/vaults/publicNetworkAccess",
-                "notEquals": "Disabled"
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]"
           }
         }
       }
@@ -4731,70 +4133,6 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2020-09-01",
-      "name": "landingzone-l34-l34-sql-database-tde-enabled",
-      "properties": {
-        "displayName": "Transparent Data Encryption on SQL databases should be enabled",
-        "description": "Transparent data encryption should be enabled to protect data-at-rest and meet compliance requirements",
-        "mode": "Indexed",
-        "metadata": {
-          "category": "SQL",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlDBEncryption_Audit.json",
-          "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/17k78e20-9358-41c9-923c-fb736d382a12",
-          "catalogRow": "L34",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists"
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "field": "type",
-                "equals": "Microsoft.Sql/servers/databases"
-              },
-              {
-                "field": "name",
-                "notEquals": "master"
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]",
-            "details": {
-              "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
-              "name": "current",
-              "existenceCondition": {
-                "anyOf": [
-                  {
-                    "field": "Microsoft.Sql/transparentDataEncryption.status",
-                    "equals": "enabled"
-                  },
-                  {
-                    "field": "Microsoft.Sql/servers/databases/transparentDataEncryption/state",
-                    "equals": "enabled"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
       "name": "landingzone-l35-l35-sql-auditing-enabled",
       "properties": {
         "displayName": "Auditing on SQL server should be enabled",
@@ -5060,127 +4398,6 @@
                 "equals": "ON"
               }
             }
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "landingzone-l40-l40-postgresql-cmk-where-required",
-      "properties": {
-        "displayName": "PostgreSQL flexible servers should use customer-managed keys to encrypt data at rest",
-        "description": "Use customer-managed keys to manage the encryption at rest of your PostgreSQL flexible servers. By default, the data is encrypted at rest with service-managed keys, but customer-managed keys are commonly required to meet regulatory compliance standards. Customer-managed keys enable the data to be encrypted with an Azure Key Vault key created and owned by you. You have full control and responsibility for the key lifecycle, including rotation and management.",
-        "mode": "Indexed",
-        "metadata": {
-          "category": "PostgreSQL",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/PostgreSQL/FlexibleServers_EnableCMK_AINE.json",
-          "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/12c74c95-0efd-48da-b8d9-2a7d68470c92",
-          "catalogRow": "L40",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').includedResourceIdPatterns]",
-                  "name": "evaluationScopeIncludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeIncludedPattern')]"
-                  }
-                },
-                "greater": 0
-              },
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').excludedResourceIdPatterns]",
-                  "name": "evaluationScopeExcludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeExcludedPattern')]"
-                  }
-                },
-                "equals": 0
-              },
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
-                  },
-                  {
-                    "anyOf": [
-                      {
-                        "field": "Microsoft.DBforPostgreSQL/flexibleServers/dataEncryption.type",
-                        "notEquals": "AzureKeyVault"
-                      },
-                      {
-                        "field": "Microsoft.DBforPostgreSQL/flexibleServers/dataEncryption.primaryKeyURI",
-                        "exists": false
-                      },
-                      {
-                        "field": "Microsoft.DBforPostgreSQL/flexibleServers/dataEncryption.primaryKeyURI",
-                        "equals": ""
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]"
           }
         }
       }
@@ -5494,114 +4711,6 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2020-09-01",
-      "name": "landingzone-l44-l44-postgresql-geo-redundant-backup",
-      "properties": {
-        "displayName": "Geo-redundant backup should be enabled for Azure Database for PostgreSQL flexible servers",
-        "description": "Azure Database for PostgreSQL flexible servers allows you to choose the redundancy option for your database server. It can be set to a geo-redundant backup storage in which the data is not only stored within the region in which your server is hosted, but is also replicated to a paired region to provide recovery option in case of a region failure. Configuring geo-redundant storage for backup is only allowed during server create.",
-        "mode": "Indexed",
-        "metadata": {
-          "category": "PostgreSQL",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/PostgreSQL/FlexibleServers_GeoRedundant_Audit.json",
-          "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/cee2f9fd-3968-44be-a863-bd62c9884423",
-          "catalogRow": "L44",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "defaultValue": "Audit",
-            "allowedValues": [
-              "Audit",
-              "Disabled"
-            ],
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            }
-          },
-          "evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').includedResourceIdPatterns]",
-                  "name": "evaluationScopeIncludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeIncludedPattern')]"
-                  }
-                },
-                "greater": 0
-              },
-              {
-                "count": {
-                  "value": "[[parameters('evaluationScope').excludedResourceIdPatterns]",
-                  "name": "evaluationScopeExcludedPattern",
-                  "where": {
-                    "field": "id",
-                    "like": "[[current('evaluationScopeExcludedPattern')]"
-                  }
-                },
-                "equals": 0
-              },
-              {
-                "allOf": [
-                  {
-                    "field": "type",
-                    "equals": "Microsoft.DBforPostgreSQL/flexibleServers"
-                  },
-                  {
-                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/backup.geoRedundantBackup",
-                    "notEquals": "Enabled"
-                  }
-                ]
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
       "name": "landingzone-l45-l45-sql-long-term-retention-enabled",
       "properties": {
         "displayName": "Long-term geo-redundant backup should be enabled for Azure SQL Databases",
@@ -5843,388 +4952,6 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2020-09-01",
-      "name": "landingzone-l47-private-endpoint-required-subresource",
-      "properties": {
-        "displayName": "Selected private endpoints must match their required DNS subresource profile",
-        "description": "Audits selected private endpoints without an automatic or manual private-link service connection for the required groupId. Companion to the central DNS-zone-group existence audit so a wrong/missing subresource cannot silently escape that control.",
-        "mode": "All",
-        "metadata": {
-          "category": "Network",
-          "version": "1.0.0",
-          "designRow": "L47",
-          "sourceVerifiedOn": "2026-11-02",
-          "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Private-DNS-Generic.json",
-          "catalogRow": "L47",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "allowedValues": [
-              "Audit",
-              "Disabled"
-            ],
-            "defaultValue": "Audit",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only property evaluation."
-            }
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required private-endpoint subresource profile",
-              "description": "Required nonempty private endpoint resource IDs and one required groupId, such as the organization-approved PaaS subresource. Repeat for distinct endpoint profiles."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "groupId"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "groupId": {
-                  "type": "string",
-                  "minLength": 1
-                }
-              }
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "field": "type",
-                "equals": "Microsoft.Network/privateEndpoints"
-              },
-              {
-                "field": "id",
-                "in": "[[parameters('profile')['resourceIds']]"
-              },
-              {
-                "not": {
-                  "anyOf": [
-                    {
-                      "count": {
-                        "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*]",
-                        "where": {
-                          "count": {
-                            "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
-                            "where": {
-                              "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
-                              "equals": "[[parameters('profile')['groupId']]"
-                            }
-                          },
-                          "greater": 0
-                        }
-                      },
-                      "greater": 0
-                    },
-                    {
-                      "count": {
-                        "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*]",
-                        "where": {
-                          "count": {
-                            "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*].groupIds[*]",
-                            "where": {
-                              "field": "Microsoft.Network/privateEndpoints/manualPrivateLinkServiceConnections[*].groupIds[*]",
-                              "equals": "[[parameters('profile')['groupId']]"
-                            }
-                          },
-                          "greater": 0
-                        }
-                      },
-                      "greater": 0
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]"
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "landingzone-l47-private-endpoint-central-dns-zones",
-      "properties": {
-        "displayName": "Selected private endpoints must have their required approved central DNS zones",
-        "description": "Audits selected private endpoints unless a child privateDnsZoneGroup contains every required central zone ID and no zone IDs outside the approved central set. Parent-name child enumeration detects missing groups without depending on existing group names.",
-        "mode": "All",
-        "metadata": {
-          "category": "Network",
-          "version": "1.0.0",
-          "designRow": "L47",
-          "sourceVerifiedOn": "2026-11-02",
-          "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Private-DNS-Generic.json",
-          "catalogRow": "L47",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
-            }
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required central private DNS-zone profile",
-              "description": "Required selected private endpoint IDs, required zone IDs for their subresource profile, and approved central zone IDs. Required zones must be included in the approved set. Use the companion groupId Audit."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "requiredZoneIds",
-                "approvedZoneIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "requiredZoneIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "maxItems": 5,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "approvedZoneIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "field": "type",
-                "equals": "Microsoft.Network/privateEndpoints"
-              },
-              {
-                "field": "id",
-                "in": "[[parameters('profile')['resourceIds']]"
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]",
-            "details": {
-              "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
-              "name": "[[concat(field('name'), '/?')]",
-              "evaluationDelay": "PT10M",
-              "existenceCondition": {
-                "allOf": [
-                  {
-                    "count": {
-                      "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*]"
-                    },
-                    "greater": 0
-                  },
-                  {
-                    "count": {
-                      "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*]",
-                      "where": {
-                        "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
-                        "notIn": "[[parameters('profile')['approvedZoneIds']]"
-                      }
-                    },
-                    "equals": 0
-                  },
-                  {
-                    "count": {
-                      "value": "[[parameters('profile')['requiredZoneIds']]",
-                      "name": "requiredZone",
-                      "where": {
-                        "count": {
-                          "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*]",
-                          "where": {
-                            "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
-                            "equals": "[[current('requiredZone')]"
-                          }
-                        },
-                        "equals": 0
-                      }
-                    },
-                    "equals": 0
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "landingzone-l48-vm-backup-approved-vault-policy",
-      "properties": {
-        "displayName": "Selected VM must have active backup in its approved vault and policy",
-        "description": "Audits a required explicitly selected ARM VM against protected items inside one required vault/fabric/container. Requires matching sourceResourceId, AzureIaasVM management type, Protected state, and an approved backup policy ID. Instantiate for each VM/container profile.",
-        "mode": "All",
-        "metadata": {
-          "category": "Backup",
-          "version": "1.0.0",
-          "designRow": "L48",
-          "sourceVerifiedOn": "2026-11-02",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Backup/VirtualMachineApplicationCentricBackup_WithOutTag_DINE.json",
-          "catalogRow": "L48",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
-            }
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required VM backup-container profile",
-              "description": "Required exact VM ID, Recovery Services vault ID in the SAME subscription, actual Azure protection-container name, and approved backup policy IDs in that vault. Container name is an existing resource name, not a guessed VM-name convention."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "vmResourceId",
-                "vaultResourceId",
-                "protectionContainerName",
-                "approvedPolicyIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "vmResourceId": {
-                  "type": "string",
-                  "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/[^/]+/[^/]+$"
-                },
-                "vaultResourceId": {
-                  "type": "string",
-                  "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/[^/]+/[^/]+$"
-                },
-                "protectionContainerName": {
-                  "type": "string",
-                  "minLength": 1,
-                  "pattern": "^[^/?*]+$"
-                },
-                "approvedPolicyIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "field": "type",
-                "equals": "Microsoft.Compute/virtualMachines"
-              },
-              {
-                "field": "id",
-                "equals": "[[parameters('profile')['vmResourceId']]"
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]",
-            "details": {
-              "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
-              "resourceGroupName": "[[split(parameters('profile')['vaultResourceId'], '/')[4]]",
-              "existenceScope": "ResourceGroup",
-              "name": "[[concat(last(split(parameters('profile')['vaultResourceId'], '/')), '/Azure/', parameters('profile')['protectionContainerName'], '/?')]",
-              "evaluationDelay": "PT10M",
-              "existenceCondition": {
-                "allOf": [
-                  {
-                    "value": "[[split(parameters('profile')['vaultResourceId'], '/')[2]]",
-                    "equals": "[[subscription().subscriptionId]"
-                  },
-                  {
-                    "field": "id",
-                    "like": "[[concat(parameters('profile')['vaultResourceId'], '/backupFabrics/Azure/protectionContainers/', parameters('profile')['protectionContainerName'], '/protectedItems/*')]"
-                  },
-                  {
-                    "field": "Microsoft.RecoveryServices/Vaults/backupFabrics/protectionContainers/protectedItems/sourceResourceId",
-                    "equals": "[[field('id')]"
-                  },
-                  {
-                    "field": "Microsoft.RecoveryServices/Vaults/backupFabrics/protectionContainers/protectedItems/backupManagementType",
-                    "equals": "AzureIaasVM"
-                  },
-                  {
-                    "field": "Microsoft.RecoveryServices/Vaults/backupFabrics/protectionContainers/protectedItems/policyId",
-                    "in": "[[parameters('profile')['approvedPolicyIds']]"
-                  },
-                  {
-                    "field": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems/AzureIaaSVMProtectedItem.protectionState",
-                    "equals": "Protected"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
       "name": "landingzone-l49-corp-spoke-required-hub-peering",
       "properties": {
         "displayName": "Selected Corp spokes must have a connected approved hub peering",
@@ -6339,119 +5066,82 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2020-09-01",
-      "name": "landingzone-l50-sql-server-required-auditing-actions",
+      "name": "landingzone-l55-waf-policy-prevention-mode",
       "properties": {
-        "displayName": "Selected SQL servers must enable Azure Monitor auditing with required actions",
-        "description": "Audits selected logical SQL servers unless their default auditingSettings child is Enabled, targets Azure Monitor, and includes every required auditing action/group. Use the companion master-database diagnostic destination definition.",
+        "displayName": "Web Application Firewall (WAF) policy must be enabled for Prevention mode",
+        "description": "Audits Application Gateway and Azure Front Door WAF policies that are disabled or not set to Prevention mode. Read-only; it does not change WAF policies. Audit by default; Deny can be selected later.",
         "mode": "All",
         "metadata": {
-          "category": "SQL",
+          "category": "Network",
           "version": "1.0.0",
-          "designRow": "L50",
-          "sourceVerifiedOn": "2026-11-02",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlServerAuditingToLA_DINE.json",
-          "catalogRow": "L50",
+          "designRow": "L55",
+          "sourceVerifiedOn": "2026-11-03",
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/WAF_AppGatewayMode_Audit.json",
+          "catalogRow": "L55",
           "packageSet": "LandingZone"
         },
         "parameters": {
           "effect": {
             "type": "String",
             "allowedValues": [
-              "AuditIfNotExists",
+              "Audit",
+              "Deny",
               "Disabled"
             ],
-            "defaultValue": "AuditIfNotExists",
+            "defaultValue": "Audit",
             "metadata": {
               "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
-            }
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required SQL auditing actions",
-              "description": "Required nonempty SQL logical-server IDs and required SQL audit actions/groups. Choose valid SQL action/group names according to the approved audit standard; no action list is invented."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "requiredAuditActionsAndGroups"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "requiredAuditActionsAndGroups": {
-                  "type": "array",
-                  "minItems": 1,
-                  "maxItems": 100,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                }
-              }
+              "description": "Audit reports WAF policies that are disabled or not in Prevention mode. Deny blocks creating or updating such a policy."
             }
           }
         },
         "policyRule": {
           "if": {
-            "allOf": [
+            "anyOf": [
               {
-                "field": "type",
-                "equals": "Microsoft.Sql/servers"
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Network/applicationGatewayWebApplicationFirewallPolicies"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.Network/applicationGatewayWebApplicationFirewallPolicies/policySettings.mode",
+                        "notEquals": "Prevention"
+                      },
+                      {
+                        "field": "Microsoft.Network/applicationGatewayWebApplicationFirewallPolicies/policySettings.state",
+                        "equals": "Disabled"
+                      }
+                    ]
+                  }
+                ]
               },
               {
-                "field": "id",
-                "in": "[[parameters('profile')['resourceIds']]"
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Network/frontdoorWebApplicationFirewallPolicies"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "field": "Microsoft.Network/frontdoorWebApplicationFirewallPolicies/policySettings.mode",
+                        "notEquals": "Prevention"
+                      },
+                      {
+                        "field": "Microsoft.Network/frontdoorWebApplicationFirewallPolicies/policySettings.enabledState",
+                        "equals": "Disabled"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
           "then": {
-            "effect": "[[parameters('effect')]",
-            "details": {
-              "type": "Microsoft.Sql/servers/auditingSettings",
-              "name": "[[concat(field('name'), '/default')]",
-              "evaluationDelay": "PT10M",
-              "existenceCondition": {
-                "allOf": [
-                  {
-                    "field": "Microsoft.Sql/servers/auditingSettings/state",
-                    "equals": "Enabled"
-                  },
-                  {
-                    "field": "Microsoft.Sql/servers/auditingSettings/isAzureMonitorTargetEnabled",
-                    "equals": true
-                  },
-                  {
-                    "count": {
-                      "value": "[[parameters('profile')['requiredAuditActionsAndGroups']]",
-                      "name": "requiredAuditAction",
-                      "where": {
-                        "count": {
-                          "field": "Microsoft.Sql/servers/auditingSettings/auditActionsAndGroups[*]",
-                          "where": {
-                            "field": "Microsoft.Sql/servers/auditingSettings/auditActionsAndGroups[*]",
-                            "equals": "[[current('requiredAuditAction')]"
-                          }
-                        },
-                        "equals": 0
-                      }
-                    },
-                    "equals": 0
-                  }
-                ]
-              }
-            }
+            "effect": "[[parameters('effect')]"
           }
         }
       }
@@ -6459,672 +5149,72 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2020-09-01",
-      "name": "landingzone-l50-sql-master-approved-audit-workspace",
+      "name": "landingzone-l56-nat-gateway-subnet-association",
       "properties": {
-        "displayName": "Selected SQL servers' master databases must route audit logs to an approved workspace",
-        "description": "Audits master databases of selected SQL logical servers unless a diagnostic setting targets an approved Log Analytics workspace and explicitly enables SQLSecurityAuditEvents. The built-in SQL-to-LA deployment places this diagnostic setting on master, not the server.",
+        "displayName": "Audit NAT Gateways should not be associated to subnets",
+        "description": "Audits subnets that have an Azure NAT Gateway associated, whether the subnet is a standalone resource or defined inline in a virtual network. Read-only; it does not remove associations or delete NAT gateways. Audit by default; Deny can be selected later.",
         "mode": "All",
         "metadata": {
-          "category": "SQL",
+          "category": "Network",
           "version": "1.0.0",
-          "designRow": "L50",
-          "sourceVerifiedOn": "2026-11-02",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlServerAuditingToLA_DINE.json",
-          "catalogRow": "L50",
+          "designRow": "L56",
+          "sourceVerifiedOn": "2026-11-03",
+          "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deny-Subnet-Without-Nsg.json",
+          "catalogRow": "L56",
           "packageSet": "LandingZone"
         },
         "parameters": {
           "effect": {
             "type": "String",
             "allowedValues": [
-              "AuditIfNotExists",
+              "Audit",
+              "Deny",
               "Disabled"
             ],
-            "defaultValue": "AuditIfNotExists",
+            "defaultValue": "Audit",
             "metadata": {
               "displayName": "Effect",
-              "description": "Read-only extension-resource evaluation."
-            }
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required SQL auditing destination",
-              "description": "Required nonempty SQL logical-server IDs, matching the companion action audit, and approved Log Analytics workspace IDs. The policy derives each master database's parent-server ID."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "serverResourceIds",
-                "approvedWorkspaceIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "serverResourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "approvedWorkspaceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                }
-              }
+              "description": "Audit reports subnets with a NAT gateway. Deny blocks creating or updating a subnet or virtual network that associates one."
             }
           }
         },
         "policyRule": {
           "if": {
-            "allOf": [
+            "anyOf": [
               {
-                "field": "type",
-                "equals": "Microsoft.Sql/servers/databases"
-              },
-              {
-                "field": "name",
-                "equals": "master"
-              },
-              {
-                "value": "[[first(split(toLower(field('id')), '/databases/'))]",
-                "in": "[[parameters('profile')['serverResourceIds']]"
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]",
-            "details": {
-              "type": "Microsoft.Insights/diagnosticSettings",
-              "evaluationDelay": "PT10M",
-              "existenceCondition": {
                 "allOf": [
                   {
-                    "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
-                    "in": "[[parameters('profile')['approvedWorkspaceIds']]"
+                    "field": "type",
+                    "equals": "Microsoft.Network/virtualNetworks/subnets"
+                  },
+                  {
+                    "field": "Microsoft.Network/virtualNetworks/subnets/natGateway.id",
+                    "exists": true
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "field": "type",
+                    "equals": "Microsoft.Network/virtualNetworks"
                   },
                   {
                     "count": {
-                      "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                      "field": "Microsoft.Network/virtualNetworks/subnets[*]",
                       "where": {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
-                            "equals": "SQLSecurityAuditEvents"
-                          },
-                          {
-                            "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
-                            "equals": true
-                          }
-                        ]
+                        "field": "Microsoft.Network/virtualNetworks/subnets[*].natGateway.id",
+                        "exists": true
                       }
                     },
                     "greater": 0
                   }
                 ]
               }
-            }
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "landingzone-l51-sql-server-threat-detection-profile",
-      "properties": {
-        "displayName": "Selected SQL servers must enable threat detection with approved exclusions and notifications",
-        "description": "Audits selected logical SQL servers unless their Default securityAlertPolicies child is Enabled, disables no alerts outside the approved list, and satisfies required administrator-email and notification-address configuration.",
-        "mode": "All",
-        "metadata": {
-          "category": "SQL",
-          "version": "1.0.0",
-          "designRow": "L51",
-          "sourceVerifiedOn": "2026-11-02",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/TdOnSqlServers_DINE.json",
-          "catalogRow": "L51",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
-            }
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required SQL threat-detection profile",
-              "description": "Required nonempty target SQL-server IDs, approved disabled-alert names, whether admin email is required, and required notification emails. An empty approvedDisabledAlerts array means no alert exclusions are approved; an empty requiredNotificationEmails array means no specific address requirement."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "approvedDisabledAlerts",
-                "requireEmailAccountAdmins",
-                "requiredNotificationEmails"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "approvedDisabledAlerts": {
-                  "type": "array",
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "requireEmailAccountAdmins": {
-                  "type": "boolean"
-                },
-                "requiredNotificationEmails": {
-                  "type": "array",
-                  "maxItems": 100,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 3,
-                    "pattern": "^[^@\\s]+@[^@\\s]+$"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "field": "type",
-                "equals": "Microsoft.Sql/servers"
-              },
-              {
-                "field": "kind",
-                "notContains": "analytics"
-              },
-              {
-                "field": "id",
-                "in": "[[parameters('profile')['resourceIds']]"
-              }
             ]
           },
           "then": {
-            "effect": "[[parameters('effect')]",
-            "details": {
-              "type": "Microsoft.Sql/servers/securityAlertPolicies",
-              "name": "[[concat(field('name'), '/Default')]",
-              "evaluationDelay": "PT10M",
-              "existenceCondition": {
-                "allOf": [
-                  {
-                    "field": "Microsoft.Sql/servers/securityAlertPolicies/state",
-                    "equals": "Enabled"
-                  },
-                  {
-                    "count": {
-                      "field": "Microsoft.Sql/servers/securityAlertPolicies/disabledAlerts[*]",
-                      "where": {
-                        "field": "Microsoft.Sql/servers/securityAlertPolicies/disabledAlerts[*]",
-                        "notIn": "[[parameters('profile')['approvedDisabledAlerts']]"
-                      }
-                    },
-                    "equals": 0
-                  },
-                  {
-                    "anyOf": [
-                      {
-                        "value": "[[parameters('profile')['requireEmailAccountAdmins']]",
-                        "equals": false
-                      },
-                      {
-                        "field": "Microsoft.Sql/servers/securityAlertPolicies/emailAccountAdmins",
-                        "equals": true
-                      }
-                    ]
-                  },
-                  {
-                    "count": {
-                      "value": "[[parameters('profile')['requiredNotificationEmails']]",
-                      "name": "requiredEmail",
-                      "where": {
-                        "count": {
-                          "field": "Microsoft.Sql/servers/securityAlertPolicies/emailAddresses[*]",
-                          "where": {
-                            "field": "Microsoft.Sql/servers/securityAlertPolicies/emailAddresses[*]",
-                            "equals": "[[current('requiredEmail')]"
-                          }
-                        },
-                        "equals": 0
-                      }
-                    },
-                    "equals": 0
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "landingzone-l52-workload-amba-metric-profile",
-      "properties": {
-        "displayName": "Workload resources must have the approved AMBA-style metric alert profile",
-        "description": "Audits selected workload resources without an enabled same-subscription metric alert with one resource scope, exactly one approved static metric condition, and the required action groups. Does not duplicate Service Health or administrative activity-log alerts.",
-        "mode": "All",
-        "metadata": {
-          "category": "Monitoring",
-          "version": "1.0.0",
-          "designRow": "L52",
-          "sourceVerifiedOn": "2026-11-02",
-          "source": "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/services/Network/virtualNetworks/templates/policy/IfUnderDDoSAttack_72dea6f4-858c-423f-8189-406aac7d20ac.json",
-          "catalogRow": "L52",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
-            }
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required workload metric profile",
-              "description": "Required approved workload resource IDs/types, metric namespace/name, aggregation, operator, threshold, window, frequency, and action-group IDs. Use one reference per required metric/profile."
-            },
-            "schema": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "resourceIds",
-                "resourceTypes",
-                "metricNamespace",
-                "metricName",
-                "timeAggregation",
-                "operator",
-                "threshold",
-                "windowSize",
-                "evaluationFrequency",
-                "actionGroupIds"
-              ],
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "resourceTypes": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 3,
-                    "pattern": "^[^/]+/.+$"
-                  }
-                },
-                "metricNamespace": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "metricName": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "timeAggregation": {
-                  "type": "string",
-                  "enum": [
-                    "Average",
-                    "Count",
-                    "Minimum",
-                    "Maximum",
-                    "Total"
-                  ]
-                },
-                "operator": {
-                  "type": "string",
-                  "enum": [
-                    "Equals",
-                    "GreaterThan",
-                    "GreaterThanOrEqual",
-                    "LessThan",
-                    "LessThanOrEqual"
-                  ]
-                },
-                "threshold": {
-                  "type": "number"
-                },
-                "windowSize": {
-                  "type": "string",
-                  "enum": [
-                    "PT1M",
-                    "PT5M",
-                    "PT15M",
-                    "PT30M",
-                    "PT1H",
-                    "PT6H",
-                    "PT12H",
-                    "P1D"
-                  ]
-                },
-                "evaluationFrequency": {
-                  "type": "string",
-                  "enum": [
-                    "PT1M",
-                    "PT5M",
-                    "PT15M",
-                    "PT30M",
-                    "PT1H"
-                  ]
-                },
-                "actionGroupIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "maxItems": 100,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "field": "type",
-                "in": "[[parameters('profile')['resourceTypes']]"
-              },
-              {
-                "field": "id",
-                "in": "[[parameters('profile')['resourceIds']]"
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]",
-            "details": {
-              "type": "Microsoft.Insights/metricAlerts",
-              "existenceScope": "Subscription",
-              "evaluationDelay": "PT10M",
-              "existenceCondition": {
-                "allOf": [
-                  {
-                    "field": "Microsoft.Insights/metricalerts/enabled",
-                    "equals": true
-                  },
-                  {
-                    "count": {
-                      "field": "Microsoft.Insights/metricalerts/scopes[*]"
-                    },
-                    "equals": 1
-                  },
-                  {
-                    "count": {
-                      "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                      "where": {
-                        "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                        "equals": "[[field('id')]"
-                      }
-                    },
-                    "equals": 1
-                  },
-                  {
-                    "field": "Microsoft.Insights/metricalerts/windowSize",
-                    "equals": "[[parameters('profile')['windowSize']]"
-                  },
-                  {
-                    "field": "Microsoft.Insights/metricalerts/evaluationFrequency",
-                    "equals": "[[parameters('profile')['evaluationFrequency']]"
-                  },
-                  {
-                    "field": "Microsoft.Insights/metricalerts/criteria.odata.type",
-                    "equals": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
-                  },
-                  {
-                    "count": {
-                      "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*]"
-                    },
-                    "equals": 1
-                  },
-                  {
-                    "count": {
-                      "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*]",
-                      "where": {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].criterionType",
-                            "equals": "StaticThresholdCriterion"
-                          },
-                          {
-                            "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
-                            "equals": "[[parameters('profile')['metricNamespace']]"
-                          },
-                          {
-                            "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricName",
-                            "equals": "[[parameters('profile')['metricName']]"
-                          },
-                          {
-                            "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
-                            "equals": "[[parameters('profile')['timeAggregation']]"
-                          },
-                          {
-                            "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
-                            "equals": "[[parameters('profile')['operator']]"
-                          },
-                          {
-                            "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
-                            "equals": "[[parameters('profile')['threshold']]"
-                          },
-                          {
-                            "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].skipMetricValidation",
-                            "notEquals": true
-                          },
-                          {
-                            "count": {
-                              "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].dimensions[*]"
-                            },
-                            "equals": 0
-                          }
-                        ]
-                      }
-                    },
-                    "equals": 1
-                  },
-                  {
-                    "count": {
-                      "field": "Microsoft.Insights/metricalerts/actions[*]",
-                      "where": {
-                        "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
-                        "notIn": "[[parameters('profile')['actionGroupIds']]"
-                      }
-                    },
-                    "equals": 0
-                  },
-                  {
-                    "count": {
-                      "value": "[[parameters('profile')['actionGroupIds']]",
-                      "name": "requiredActionGroup",
-                      "where": {
-                        "count": {
-                          "field": "Microsoft.Insights/metricalerts/actions[*]",
-                          "where": {
-                            "field": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
-                            "equals": "[[current('requiredActionGroup')]"
-                          }
-                        },
-                        "equals": 0
-                      }
-                    },
-                    "equals": 0
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Authorization/policyDefinitions",
-      "apiVersion": "2020-09-01",
-      "name": "landingzone-l53-workload-vnet-flow-log-coverage",
-      "properties": {
-        "displayName": "Selected workload VNets must have enabled flow logs with approved storage and retention",
-        "description": "Audits selected workload VNets unless an enabled same-region Network Watcher flow log in their subscription targets the VNet, references approved storage, and explicitly enables finite retention at least the required minimum.",
-        "mode": "All",
-        "metadata": {
-          "category": "Network",
-          "version": "1.0.0",
-          "designRow": "L53",
-          "sourceVerifiedOn": "2026-11-02",
-          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/VirtualNetwork_FlowLog_DINE.json",
-          "catalogRow": "L53",
-          "packageSet": "LandingZone"
-        },
-        "parameters": {
-          "effect": {
-            "type": "String",
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
-            }
-          },
-          "profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required workload VNet flow-log profile",
-              "description": "Required nonempty workload VNet IDs and approved storage IDs plus minimum finite retention days. Supply workload inventory separately from the Hub sibling scope."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "approvedStorageIds",
-                "minimumRetentionDays"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "approvedStorageIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "minimumRetentionDays": {
-                  "type": "integer",
-                  "minimum": 1
-                }
-              }
-            }
-          }
-        },
-        "policyRule": {
-          "if": {
-            "allOf": [
-              {
-                "field": "type",
-                "equals": "Microsoft.Network/virtualNetworks"
-              },
-              {
-                "field": "id",
-                "in": "[[parameters('profile')['resourceIds']]"
-              }
-            ]
-          },
-          "then": {
-            "effect": "[[parameters('effect')]",
-            "details": {
-              "type": "Microsoft.Network/networkWatchers/flowlogs",
-              "existenceScope": "Subscription",
-              "evaluationDelay": "PT10M",
-              "existenceCondition": {
-                "allOf": [
-                  {
-                    "field": "Microsoft.Network/networkWatchers/flowLogs/targetResourceId",
-                    "equals": "[[field('id')]"
-                  },
-                  {
-                    "field": "location",
-                    "equals": "[[field('location')]"
-                  },
-                  {
-                    "field": "Microsoft.Network/networkWatchers/flowLogs/enabled",
-                    "equals": true
-                  },
-                  {
-                    "field": "Microsoft.Network/networkWatchers/flowLogs/storageId",
-                    "in": "[[parameters('profile')['approvedStorageIds']]"
-                  },
-                  {
-                    "field": "Microsoft.Network/networkWatchers/flowLogs/retentionPolicy.enabled",
-                    "equals": true
-                  },
-                  {
-                    "field": "Microsoft.Network/networkWatchers/flowLogs/retentionPolicy.days",
-                    "greaterOrEquals": "[[parameters('profile')['minimumRetentionDays']]"
-                  }
-                ]
-              }
-            }
+            "effect": "[[parameters('effect')]"
           }
         }
       }
@@ -7214,12 +5304,8 @@
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l15-l15-disable-aks-local-accounts')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l16-l16-private-aks-api')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l17-l17-authorized-ranges-on-public-aks-api')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l18-l18-trusted-launch-with-secure-boot-vtpm')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l19-l19-cmk-disk-encryption-where-required')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l20-l20-periodic-update-assessment-configured')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l21-l21-missing-critical-security-updates')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l22-l22-private-only-storage-networking')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l23-l23-private-only-key-vault-networking')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l24-l24-private-only-sql-networking')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l25-l25-private-only-container-registries')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l26-l26-private-only-postgresql-networking')]",
@@ -7230,28 +5316,19 @@
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l31-l31-function-app-minimum-tls-1-2')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l32-l32-sql-server-minimum-tls-1-2')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l33-l33-sql-microsoft-entra-administrator')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l34-l34-sql-database-tde-enabled')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l35-l35-sql-auditing-enabled')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l36-l36-disable-acr-admin-credentials')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l37-l37-disable-anonymous-registry-pulls')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l38-l38-postgresql-minimum-tls-1-2')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l39-l39-postgresql-secure-transport-required')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l40-l40-postgresql-cmk-where-required')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l41-l41-function-built-in-authentication')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l42-l42-apim-apis-use-encrypted-protocols')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l43-l43-vm-backup-protection-exists')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l44-l44-postgresql-geo-redundant-backup')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l45-l45-sql-long-term-retention-enabled')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l46-l46-application-gateway-waf-presence')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l47-private-endpoint-required-subresource')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l47-private-endpoint-central-dns-zones')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l48-vm-backup-approved-vault-policy')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l49-corp-spoke-required-hub-peering')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l50-sql-server-required-auditing-actions')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l50-sql-master-approved-audit-workspace')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l51-sql-server-threat-detection-profile')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l52-workload-amba-metric-profile')]",
-        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l53-workload-vnet-flow-log-coverage')]",
+        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l55-waf-policy-prevention-mode')]",
+        "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l56-nat-gateway-subnet-association')]",
         "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l54-audit-vm-nic-public-ip')]"
       ],
       "properties": {
@@ -9092,99 +7169,6 @@
               "additionalProperties": false
             }
           },
-          "l18_effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "Audit",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "l18_evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          },
-          "l19_effect": {
-            "type": "String",
-            "defaultValue": "Audit",
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            }
-          },
-          "l19_evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          },
           "l20_effect": {
             "type": "String",
             "metadata": {
@@ -9219,100 +7203,6 @@
             }
           },
           "l21_evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          },
-          "l22_effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "l22_evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          },
-          "l23_effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "l23_evaluationScope": {
             "type": "Object",
             "metadata": {
               "displayName": "Explicit conditional resource applicability",
@@ -9667,18 +7557,6 @@
               "additionalProperties": false
             }
           },
-          "l34_effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists"
-          },
           "l35_effect": {
             "type": "String",
             "defaultValue": "AuditIfNotExists",
@@ -9763,53 +7641,6 @@
               "description": "Start in audit mode. Only effects supported by the source definition are available."
             }
           },
-          "l40_effect": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            },
-            "allowedValues": [
-              "Audit",
-              "Deny",
-              "Disabled"
-            ],
-            "defaultValue": "Audit"
-          },
-          "l40_evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          },
           "l41_effect": {
             "type": "String",
             "defaultValue": "AuditIfNotExists",
@@ -9882,52 +7713,6 @@
             }
           },
           "l43_evaluationScope": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Explicit conditional resource applicability",
-              "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-            },
-            "schema": {
-              "type": "object",
-              "properties": {
-                "includedResourceIdPatterns": {
-                  "type": "array",
-                  "minItems": 1,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                },
-                "excludedResourceIdPatterns": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^[^*]*(\\*[^*]*)?$"
-                  }
-                }
-              },
-              "required": [
-                "includedResourceIdPatterns",
-                "excludedResourceIdPatterns"
-              ],
-              "additionalProperties": false
-            }
-          },
-          "l44_effect": {
-            "type": "String",
-            "defaultValue": "Audit",
-            "allowedValues": [
-              "Audit",
-              "Disabled"
-            ],
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Start in audit mode. Only effects supported by the source definition are available."
-            }
-          },
-          "l44_evaluationScope": {
             "type": "Object",
             "metadata": {
               "displayName": "Explicit conditional resource applicability",
@@ -10054,159 +7839,6 @@
               "additionalProperties": false
             }
           },
-          "l47_effect": {
-            "type": "String",
-            "allowedValues": [
-              "Audit",
-              "Disabled"
-            ],
-            "defaultValue": "Audit",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only property evaluation."
-            }
-          },
-          "l47_profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required private-endpoint subresource profile",
-              "description": "Required nonempty private endpoint resource IDs and one required groupId, such as the organization-approved PaaS subresource. Repeat for distinct endpoint profiles."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "groupId"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "groupId": {
-                  "type": "string",
-                  "minLength": 1
-                }
-              }
-            }
-          },
-          "l47_effect_6468389": {
-            "type": "String",
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
-            }
-          },
-          "l47_profile_6468389": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required central private DNS-zone profile",
-              "description": "Required selected private endpoint IDs, required zone IDs for their subresource profile, and approved central zone IDs. Required zones must be included in the approved set. Use the companion groupId Audit."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "requiredZoneIds",
-                "approvedZoneIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "requiredZoneIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "maxItems": 5,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "approvedZoneIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                }
-              }
-            }
-          },
-          "l48_effect": {
-            "type": "String",
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
-            }
-          },
-          "l48_profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required VM backup-container profile",
-              "description": "Required exact VM ID, Recovery Services vault ID in the SAME subscription, actual Azure protection-container name, and approved backup policy IDs in that vault. Container name is an existing resource name, not a guessed VM-name convention."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "vmResourceId",
-                "vaultResourceId",
-                "protectionContainerName",
-                "approvedPolicyIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "vmResourceId": {
-                  "type": "string",
-                  "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/[^/]+/[^/]+$"
-                },
-                "vaultResourceId": {
-                  "type": "string",
-                  "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/[^/]+/[^/]+$"
-                },
-                "protectionContainerName": {
-                  "type": "string",
-                  "minLength": 1,
-                  "pattern": "^[^/?*]+$"
-                },
-                "approvedPolicyIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                }
-              }
-            }
-          },
           "l49_effect": {
             "type": "String",
             "allowedValues": [
@@ -10258,332 +7890,30 @@
               }
             }
           },
-          "l50_effect": {
+          "l55_effect": {
             "type": "String",
             "allowedValues": [
-              "AuditIfNotExists",
+              "Audit",
+              "Deny",
               "Disabled"
             ],
-            "defaultValue": "AuditIfNotExists",
+            "defaultValue": "Audit",
             "metadata": {
               "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
+              "description": "Audit reports WAF policies that are disabled or not in Prevention mode. Deny blocks creating or updating such a policy."
             }
           },
-          "l50_profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required SQL auditing actions",
-              "description": "Required nonempty SQL logical-server IDs and required SQL audit actions/groups. Choose valid SQL action/group names according to the approved audit standard; no action list is invented."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "requiredAuditActionsAndGroups"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "requiredAuditActionsAndGroups": {
-                  "type": "array",
-                  "minItems": 1,
-                  "maxItems": 100,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                }
-              }
-            }
-          },
-          "l50_effect_d08888e": {
+          "l56_effect": {
             "type": "String",
             "allowedValues": [
-              "AuditIfNotExists",
+              "Audit",
+              "Deny",
               "Disabled"
             ],
-            "defaultValue": "AuditIfNotExists",
+            "defaultValue": "Audit",
             "metadata": {
               "displayName": "Effect",
-              "description": "Read-only extension-resource evaluation."
-            }
-          },
-          "l50_profile_d08888e": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required SQL auditing destination",
-              "description": "Required nonempty SQL logical-server IDs, matching the companion action audit, and approved Log Analytics workspace IDs. The policy derives each master database's parent-server ID."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "serverResourceIds",
-                "approvedWorkspaceIds"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "serverResourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "approvedWorkspaceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                }
-              }
-            }
-          },
-          "l51_effect": {
-            "type": "String",
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
-            }
-          },
-          "l51_profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required SQL threat-detection profile",
-              "description": "Required nonempty target SQL-server IDs, approved disabled-alert names, whether admin email is required, and required notification emails. An empty approvedDisabledAlerts array means no alert exclusions are approved; an empty requiredNotificationEmails array means no specific address requirement."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "approvedDisabledAlerts",
-                "requireEmailAccountAdmins",
-                "requiredNotificationEmails"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "approvedDisabledAlerts": {
-                  "type": "array",
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "requireEmailAccountAdmins": {
-                  "type": "boolean"
-                },
-                "requiredNotificationEmails": {
-                  "type": "array",
-                  "maxItems": 100,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 3,
-                    "pattern": "^[^@\\s]+@[^@\\s]+$"
-                  }
-                }
-              }
-            }
-          },
-          "l52_effect": {
-            "type": "String",
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
-            }
-          },
-          "l52_profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required workload metric profile",
-              "description": "Required approved workload resource IDs/types, metric namespace/name, aggregation, operator, threshold, window, frequency, and action-group IDs. Use one reference per required metric/profile."
-            },
-            "schema": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "resourceIds",
-                "resourceTypes",
-                "metricNamespace",
-                "metricName",
-                "timeAggregation",
-                "operator",
-                "threshold",
-                "windowSize",
-                "evaluationFrequency",
-                "actionGroupIds"
-              ],
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "resourceTypes": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "minLength": 3,
-                    "pattern": "^[^/]+/.+$"
-                  }
-                },
-                "metricNamespace": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "metricName": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "timeAggregation": {
-                  "type": "string",
-                  "enum": [
-                    "Average",
-                    "Count",
-                    "Minimum",
-                    "Maximum",
-                    "Total"
-                  ]
-                },
-                "operator": {
-                  "type": "string",
-                  "enum": [
-                    "Equals",
-                    "GreaterThan",
-                    "GreaterThanOrEqual",
-                    "LessThan",
-                    "LessThanOrEqual"
-                  ]
-                },
-                "threshold": {
-                  "type": "number"
-                },
-                "windowSize": {
-                  "type": "string",
-                  "enum": [
-                    "PT1M",
-                    "PT5M",
-                    "PT15M",
-                    "PT30M",
-                    "PT1H",
-                    "PT6H",
-                    "PT12H",
-                    "P1D"
-                  ]
-                },
-                "evaluationFrequency": {
-                  "type": "string",
-                  "enum": [
-                    "PT1M",
-                    "PT5M",
-                    "PT15M",
-                    "PT30M",
-                    "PT1H"
-                  ]
-                },
-                "actionGroupIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "maxItems": 100,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                }
-              }
-            }
-          },
-          "l53_effect": {
-            "type": "String",
-            "allowedValues": [
-              "AuditIfNotExists",
-              "Disabled"
-            ],
-            "defaultValue": "AuditIfNotExists",
-            "metadata": {
-              "displayName": "Effect",
-              "description": "Read-only related-resource evaluation."
-            }
-          },
-          "l53_profile": {
-            "type": "Object",
-            "metadata": {
-              "displayName": "Required workload VNet flow-log profile",
-              "description": "Required nonempty workload VNet IDs and approved storage IDs plus minimum finite retention days. Supply workload inventory separately from the Hub sibling scope."
-            },
-            "schema": {
-              "type": "object",
-              "required": [
-                "resourceIds",
-                "approvedStorageIds",
-                "minimumRetentionDays"
-              ],
-              "additionalProperties": false,
-              "properties": {
-                "resourceIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "approvedStorageIds": {
-                  "type": "array",
-                  "minItems": 1,
-                  "uniqueItems": true,
-                  "items": {
-                    "type": "string",
-                    "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-                  }
-                },
-                "minimumRetentionDays": {
-                  "type": "integer",
-                  "minimum": 1
-                }
-              }
+              "description": "Audit reports subnets with a NAT gateway. Deny blocks creating or updating a subnet or virtual network that associates one."
             }
           },
           "l54_effect": {
@@ -11006,30 +8336,6 @@
             }
           },
           {
-            "policyDefinitionReferenceId": "landingzone-l18-l18-trusted-launch-with-secure-boot-vtpm",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l18-l18-trusted-launch-with-secure-boot-vtpm')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l18_effect')]"
-              },
-              "evaluationScope": {
-                "value": "[[parameters('l18_evaluationScope')]"
-              }
-            }
-          },
-          {
-            "policyDefinitionReferenceId": "landingzone-l19-l19-cmk-disk-encryption-where-required",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l19-l19-cmk-disk-encryption-where-required')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l19_effect')]"
-              },
-              "evaluationScope": {
-                "value": "[[parameters('l19_evaluationScope')]"
-              }
-            }
-          },
-          {
             "policyDefinitionReferenceId": "landingzone-l20-l20-periodic-update-assessment-configured",
             "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l20-l20-periodic-update-assessment-configured')]",
             "parameters": {
@@ -11050,30 +8356,6 @@
               },
               "evaluationScope": {
                 "value": "[[parameters('l21_evaluationScope')]"
-              }
-            }
-          },
-          {
-            "policyDefinitionReferenceId": "landingzone-l22-l22-private-only-storage-networking",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l22-l22-private-only-storage-networking')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l22_effect')]"
-              },
-              "evaluationScope": {
-                "value": "[[parameters('l22_evaluationScope')]"
-              }
-            }
-          },
-          {
-            "policyDefinitionReferenceId": "landingzone-l23-l23-private-only-key-vault-networking",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l23-l23-private-only-key-vault-networking')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l23_effect')]"
-              },
-              "evaluationScope": {
-                "value": "[[parameters('l23_evaluationScope')]"
               }
             }
           },
@@ -11192,15 +8474,6 @@
             }
           },
           {
-            "policyDefinitionReferenceId": "landingzone-l34-l34-sql-database-tde-enabled",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l34-l34-sql-database-tde-enabled')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l34_effect')]"
-              }
-            }
-          },
-          {
             "policyDefinitionReferenceId": "landingzone-l35-l35-sql-auditing-enabled",
             "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l35-l35-sql-auditing-enabled')]",
             "parameters": {
@@ -11252,18 +8525,6 @@
             }
           },
           {
-            "policyDefinitionReferenceId": "landingzone-l40-l40-postgresql-cmk-where-required",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l40-l40-postgresql-cmk-where-required')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l40_effect')]"
-              },
-              "evaluationScope": {
-                "value": "[[parameters('l40_evaluationScope')]"
-              }
-            }
-          },
-          {
             "policyDefinitionReferenceId": "landingzone-l41-l41-function-built-in-authentication",
             "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l41-l41-function-built-in-authentication')]",
             "parameters": {
@@ -11297,18 +8558,6 @@
             }
           },
           {
-            "policyDefinitionReferenceId": "landingzone-l44-l44-postgresql-geo-redundant-backup",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l44-l44-postgresql-geo-redundant-backup')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l44_effect')]"
-              },
-              "evaluationScope": {
-                "value": "[[parameters('l44_evaluationScope')]"
-              }
-            }
-          },
-          {
             "policyDefinitionReferenceId": "landingzone-l45-l45-sql-long-term-retention-enabled",
             "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l45-l45-sql-long-term-retention-enabled')]",
             "parameters": {
@@ -11333,42 +8582,6 @@
             }
           },
           {
-            "policyDefinitionReferenceId": "landingzone-l47-private-endpoint-required-subresource",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l47-private-endpoint-required-subresource')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l47_effect')]"
-              },
-              "profile": {
-                "value": "[[parameters('l47_profile')]"
-              }
-            }
-          },
-          {
-            "policyDefinitionReferenceId": "landingzone-l47-private-endpoint-central-dns-zones",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l47-private-endpoint-central-dns-zones')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l47_effect_6468389')]"
-              },
-              "profile": {
-                "value": "[[parameters('l47_profile_6468389')]"
-              }
-            }
-          },
-          {
-            "policyDefinitionReferenceId": "landingzone-l48-vm-backup-approved-vault-policy",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l48-vm-backup-approved-vault-policy')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l48_effect')]"
-              },
-              "profile": {
-                "value": "[[parameters('l48_profile')]"
-              }
-            }
-          },
-          {
             "policyDefinitionReferenceId": "landingzone-l49-corp-spoke-required-hub-peering",
             "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l49-corp-spoke-required-hub-peering')]",
             "parameters": {
@@ -11381,62 +8594,20 @@
             }
           },
           {
-            "policyDefinitionReferenceId": "landingzone-l50-sql-server-required-auditing-actions",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l50-sql-server-required-auditing-actions')]",
+            "policyDefinitionReferenceId": "landingzone-l55-waf-policy-prevention-mode",
+            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l55-waf-policy-prevention-mode')]",
             "parameters": {
               "effect": {
-                "value": "[[parameters('l50_effect')]"
-              },
-              "profile": {
-                "value": "[[parameters('l50_profile')]"
+                "value": "[[parameters('l55_effect')]"
               }
             }
           },
           {
-            "policyDefinitionReferenceId": "landingzone-l50-sql-master-approved-audit-workspace",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l50-sql-master-approved-audit-workspace')]",
+            "policyDefinitionReferenceId": "landingzone-l56-nat-gateway-subnet-association",
+            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l56-nat-gateway-subnet-association')]",
             "parameters": {
               "effect": {
-                "value": "[[parameters('l50_effect_d08888e')]"
-              },
-              "profile": {
-                "value": "[[parameters('l50_profile_d08888e')]"
-              }
-            }
-          },
-          {
-            "policyDefinitionReferenceId": "landingzone-l51-sql-server-threat-detection-profile",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l51-sql-server-threat-detection-profile')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l51_effect')]"
-              },
-              "profile": {
-                "value": "[[parameters('l51_profile')]"
-              }
-            }
-          },
-          {
-            "policyDefinitionReferenceId": "landingzone-l52-workload-amba-metric-profile",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l52-workload-amba-metric-profile')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l52_effect')]"
-              },
-              "profile": {
-                "value": "[[parameters('l52_profile')]"
-              }
-            }
-          },
-          {
-            "policyDefinitionReferenceId": "landingzone-l53-workload-vnet-flow-log-coverage",
-            "policyDefinitionId": "[extensionResourceId(managementGroup().id, 'Microsoft.Authorization/policyDefinitions', 'landingzone-l53-workload-vnet-flow-log-coverage')]",
-            "parameters": {
-              "effect": {
-                "value": "[[parameters('l53_effect')]"
-              },
-              "profile": {
-                "value": "[[parameters('l53_profile')]"
+                "value": "[[parameters('l56_effect')]"
               }
             }
           },

@@ -1,0 +1,72 @@
+{
+  "name": "landingzone-l56-nat-gateway-subnet-association",
+  "properties": {
+    "displayName": "Audit NAT Gateways should not be associated to subnets",
+    "description": "Audits subnets that have an Azure NAT Gateway associated, whether the subnet is a standalone resource or defined inline in a virtual network. Read-only; it does not remove associations or delete NAT gateways. Audit by default; Deny can be selected later.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0",
+      "designRow": "L56",
+      "sourceVerifiedOn": "2026-11-03",
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deny-Subnet-Without-Nsg.json",
+      "catalogRow": "L56",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit reports subnets with a NAT gateway. Deny blocks creating or updating a subnet or virtual network that associates one."
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks/subnets"
+              },
+              {
+                "field": "Microsoft.Network/virtualNetworks/subnets/natGateway.id",
+                "exists": true
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/virtualNetworks"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/virtualNetworks/subnets[*]",
+                  "where": {
+                    "field": "Microsoft.Network/virtualNetworks/subnets[*].natGateway.id",
+                    "exists": true
+                  }
+                },
+                "greater": 0
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1312,7 +1312,7 @@
       "name": "global-r26-r26-vm-approved-license",
       "file": "policies/global-r26-r26-vm-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "c78147c7667bccaacca97deea6cb82fed4654aa75b4c4aca79234e5ae2e013cd",
+      "customDefinitionSha256": "273f9cb2d7f7c906e4b0072aa1cd97797d57ad48f110f35d078f528d29da0c8c",
       "requiredParameters": [
         "profile"
       ]
@@ -1333,7 +1333,7 @@
       "name": "global-r26-r26-vmss-approved-license",
       "file": "policies/global-r26-r26-vmss-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "6902b8bfc935905672be6d3955e77590d79ddd5c70c80e52a52ddcf129a69271",
+      "customDefinitionSha256": "a9bb668cb5d9f8777f117da7741efea47fb87017d6012f36e84b9022c68e50a3",
       "requiredParameters": [
         "profile"
       ]
@@ -1354,7 +1354,7 @@
       "name": "global-r27-r27-vm-approved-license",
       "file": "policies/global-r27-r27-vm-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "c277821175167907e8b759f1a2a5d95776cfb308c97a4e553b05710859b0f742",
+      "customDefinitionSha256": "c5edf45425045eff865ead9dbd4907faefb45d1f548a919796a7cd9b32117bb0",
       "requiredParameters": [
         "profile"
       ]
@@ -1375,7 +1375,7 @@
       "name": "global-r27-r27-vmss-approved-license",
       "file": "policies/global-r27-r27-vmss-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "1af64afc422728e2dcb3fff780e64c77e5a373aaa1430ebf866467dcded21d0b",
+      "customDefinitionSha256": "1765cccc2b009df832c81502f3aa12f595f734a69d5de9d8bc5ffa65ff2a02e6",
       "requiredParameters": [
         "profile"
       ]
@@ -1396,7 +1396,7 @@
       "name": "global-r28-sql-vm-ahb",
       "file": "policies/global-r28-sql-vm-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "40a6e6f02bdd8b9c93ede83883d93addcf6e60ad73fa2bd76f0acb15441f9ad1",
+      "customDefinitionSha256": "eef96a9492ed7fa7dd5360524623b6894011c8862871b67559655046cb6f8224",
       "requiredParameters": [
         "profile"
       ]
@@ -1417,7 +1417,7 @@
       "name": "global-r29-sql-mi-ahb",
       "file": "policies/global-r29-sql-mi-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "d35303d80147f7e0a9e1bb6f4f8e058e07e761b5c5e2ed43b5a360890e7b6f85",
+      "customDefinitionSha256": "5d3f6b1745ce7704151490aa5c89c1f83ba57e4dc15d10fb131fef027abfd3b8",
       "requiredParameters": [
         "profile"
       ]
@@ -1439,7 +1439,7 @@
       "name": "global-r30-sql-database-ahb",
       "file": "policies/global-r30-sql-database-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "52082040c2bda22f70a62787be9fcf58456ff017d6d5d56f19c013deb5fb4815",
+      "customDefinitionSha256": "0868e8f222e34639a66a134982311d7e01b7c9e0f91f06a0394ad1c6426e12f0",
       "requiredParameters": [
         "profile"
       ]
@@ -1461,7 +1461,7 @@
       "name": "global-r30-sql-elastic-pool-ahb",
       "file": "policies/global-r30-sql-elastic-pool-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "a7dd8188f3354134745b9fe971806c6f4b8986cee056f7dcd4c615a2888dd1a7",
+      "customDefinitionSha256": "270662c1274a73dd44a577393ad2d79fe965076e984d1e7b2f8db58d3bb9e362",
       "requiredParameters": [
         "profile"
       ]

@@ -1,10 +1,10 @@
 {
   "set": "LandingZone",
-  "catalogRows": 54,
-  "customDefinitions": 56,
-  "publishableDefinitions": 56,
+  "catalogRows": 43,
+  "customDefinitions": 43,
+  "publishableDefinitions": 43,
   "referenceOnlyDefinitions": 0,
-  "initiativeParameters": 169,
+  "initiativeParameters": 142,
   "coverageGaps": [],
   "policies": [
     {
@@ -1559,150 +1559,6 @@
     },
     {
       "set": "LandingZone",
-      "rowKey": "L18",
-      "key": "l18-trusted-launch-with-secure-boot-vtpm",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Trusted%20Launch/VirtualMachine_Should_Have_TrustedLaunch%20enabled.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/c95b54ad-0614-4633-ab29-104b01235cbf",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "Landing Zones; supported Gen2 standalone VMs, excluding AKS-managed resource groups",
-        "caveats": "Checks TrustedLaunch plus Secure Boot and vTPM. It does not filter unsupported SKUs/images; scope exemptions are needed for Gen1, confidential VM, and incompatible workloads. No Deny supported; do not alter AKS-managed nodes."
-      },
-      "limitations": [
-        "Checks TrustedLaunch plus Secure Boot and vTPM. It does not filter unsupported SKUs/images; scope exemptions are needed for Gen1, confidential VM, and incompatible workloads. No Deny supported; do not alter AKS-managed nodes.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "Virtual Machine should have TrustedLaunch enabled",
-      "applicability": "Conditional",
-      "name": "landingzone-l18-l18-trusted-launch-with-secure-boot-vtpm",
-      "file": "policies/landingzone-l18-l18-trusted-launch-with-secure-boot-vtpm.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "4b4f43c47ad256423ec204e8e1fcdaa95e5266e829881c7a4474d954a6a983de",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "LandingZone",
-      "rowKey": "L19",
-      "key": "l19-cmk-disk-encryption-where-required",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Compute/OSAndDataDiskCMKRequired_Deny.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/702dd420-7fcc-42c5-afe8-4026edd20fe0",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "Landing Zones; regulated CMK workload scopes, excluding AKS-managed resource groups",
-        "caveats": "Platform-managed encryption is already the default; CMK is not a universal baseline. Covers VMs, VMSS and disks. Exclude AKS-managed groups; use AKS-supported encryption interfaces, not direct VMSS edits."
-      },
-      "limitations": [
-        "Platform-managed encryption is already the default; CMK is not a universal baseline. Covers VMs, VMSS and disks. Exclude AKS-managed groups; use AKS-supported encryption interfaces, not direct VMSS edits.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "OS and data disks should be encrypted with a customer-managed key",
-      "applicability": "Conditional",
-      "name": "landingzone-l19-l19-cmk-disk-encryption-where-required",
-      "file": "policies/landingzone-l19-l19-cmk-disk-encryption-where-required.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "690853fb805872f7fc39ec2f8bf1e1ec534d466adbe4950761367aa2e72c56a0",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "LandingZone",
       "rowKey": "L20",
       "key": "l20-periodic-update-assessment-configured",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Azure%20Update%20Manager/AzUpdateMgmtCenter_AutoAssessmentMode_Audit.json",
@@ -1809,156 +1665,6 @@
       "file": "policies/landingzone-l21-l21-missing-critical-security-updates.json",
       "defaultEffect": "AuditIfNotExists",
       "customDefinitionSha256": "8c4b9bd2a1242d27ec631d06e8c3266f9e20b55f3083e4ed77bc2c820d8fc47b",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "LandingZone",
-      "rowKey": "L22",
-      "key": "l22-private-only-storage-networking",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Storage/StoragePublicNetworkAccess_AuditDeny.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/b2982f36-99f2-4db5-8eff-283140c09693",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "Corp child; private-only Storage workloads",
-        "caveats": "Corp/private-data profile only; no blanket private endpoints for Online. Disabling public access alone does not establish a working private endpoint/DNS path."
-      },
-      "limitations": [
-        "Corp/private-data profile only; no blanket private endpoints for Online. Disabling public access alone does not establish a working private endpoint/DNS path.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "Storage accounts should disable public network access",
-      "applicability": "Conditional",
-      "name": "landingzone-l22-l22-private-only-storage-networking",
-      "file": "policies/landingzone-l22-l22-private-only-storage-networking.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "97e52929606481a175eecd8bb607ee7e5772e1db7511957cf411c68eec570143",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "LandingZone",
-      "rowKey": "L23",
-      "key": "l23-private-only-key-vault-networking",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Key%20Vault/PublicNetworkAccess_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/405c5871-3e91-4644-8a63-58e19d68ff5b",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "Corp child; private-only Key Vault workloads",
-        "caveats": "Separate from inherited Key Vault lifecycle/RBAC controls. Confirm application, operator and service access paths; do not impose universally on Online."
-      },
-      "limitations": [
-        "Separate from inherited Key Vault lifecycle/RBAC controls. Confirm application, operator and service access paths; do not impose universally on Online.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
-        "Source request API-version capability guards are retained. They are resource-provider protocol checks, not OS/image release pins.",
-        "Missing security configuration is reported even if a service/API default could be secure. This removes historical API-version inference and may increase audit findings for implicit defaults; review before any future Deny."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        },
-        {
-          "category": "version-independent-property-check",
-          "reason": "Removed historical request API-version branching. The effective security configuration must be explicit; absent values are noncompliant rather than being interpreted using release-dependent service defaults."
-        }
-      ],
-      "catalogName": "Azure Key Vault should disable public network access",
-      "applicability": "Conditional",
-      "name": "landingzone-l23-l23-private-only-key-vault-networking",
-      "file": "policies/landingzone-l23-l23-private-only-key-vault-networking.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "9c9eff878c6f51cf2eebc9bc8ab9f2e093c82b357c07263b280c2062fd2a9a28",
       "requiredParameters": [
         "evaluationScope"
       ]
@@ -2672,70 +2378,6 @@
     },
     {
       "set": "LandingZone",
-      "rowKey": "L34",
-      "key": "l34-sql-database-tde-enabled",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlDBEncryption_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/17k78e20-9358-41c9-923c-fb736d382a12",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Baseline",
-        "scope": "Landing Zones",
-        "caveats": "Excludes master. Checks the current TDE child configuration; no deployment or encryption change. AuditIfNotExists has no Deny."
-      },
-      "limitations": [
-        "Excludes master. Checks the current TDE child configuration; no deployment or encryption change. AuditIfNotExists has no Deny.",
-        "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        }
-      ],
-      "catalogName": "Transparent Data Encryption on SQL databases should be enabled",
-      "applicability": "Baseline",
-      "name": "landingzone-l34-l34-sql-database-tde-enabled",
-      "file": "policies/landingzone-l34-l34-sql-database-tde-enabled.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "0e442512455ee3dc22b81a9fedaccea3695b6823630261a43302e3410af2ec22",
-      "requiredParameters": []
-    },
-    {
-      "set": "LandingZone",
       "rowKey": "L35",
       "key": "l35-sql-auditing-enabled",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlServerAuditing_Audit.json",
@@ -3065,78 +2707,6 @@
     },
     {
       "set": "LandingZone",
-      "rowKey": "L40",
-      "key": "l40-postgresql-cmk-where-required",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/PostgreSQL/FlexibleServers_EnableCMK_AINE.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/12c74c95-0efd-48da-b8d9-2a7d68470c92",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "Landing Zones; regulated CMK PostgreSQL flexible servers",
-        "caveats": "Service-managed encryption already protects data at rest. Apply only for approved regulatory/customer key requirements; confirm key lifecycle, identity and recovery design."
-      },
-      "limitations": [
-        "Service-managed encryption already protects data at rest. Apply only for approved regulatory/customer key requirements; confirm key lifecycle, identity and recovery design.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "PostgreSQL flexible servers should use customer-managed keys to encrypt data at rest",
-      "applicability": "Conditional",
-      "name": "landingzone-l40-l40-postgresql-cmk-where-required",
-      "file": "policies/landingzone-l40-l40-postgresql-cmk-where-required.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "cf0074a6e772c616f9509456235a42031626b224a8d8d60ad6dc36e61f2f5921",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "LandingZone",
       "rowKey": "L41",
       "key": "l41-function-built-in-authentication",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/App%20Service/Authentication_functionapp_Audit.json",
@@ -3345,78 +2915,6 @@
     },
     {
       "set": "LandingZone",
-      "rowKey": "L44",
-      "key": "l44-postgresql-geo-redundant-backup",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/PostgreSQL/FlexibleServers_GeoRedundant_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/cee2f9fd-3968-44be-a863-bd62c9884423",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "Landing Zones; PostgreSQL flexible servers requiring cross-region backup recovery",
-        "caveats": "Apply only where paired-region support, residency rules and recovery objectives allow. Checks backup.geoRedundantBackup=Enabled, not replication health or restore readiness. Definition describes creation-time configuration; existing servers may require a migration/restore plan. No Deny."
-      },
-      "limitations": [
-        "Apply only where paired-region support, residency rules and recovery objectives allow. Checks backup.geoRedundantBackup=Enabled, not replication health or restore readiness. Definition describes creation-time configuration; existing servers may require a migration/restore plan. No Deny.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "Geo-redundant backup should be enabled for Azure Database for PostgreSQL flexible servers",
-      "applicability": "Conditional",
-      "name": "landingzone-l44-l44-postgresql-geo-redundant-backup",
-      "file": "policies/landingzone-l44-l44-postgresql-geo-redundant-backup.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "fac25fd4d26a953efa984d259896691ee4cfc549e5e72627c8a9a93dc7468fb4",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "LandingZone",
       "rowKey": "L45",
       "key": "l45-sql-long-term-retention-enabled",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/GeoRedundant_SQLDatabase_AINE.json",
@@ -3561,85 +3059,6 @@
     },
     {
       "set": "LandingZone",
-      "rowKey": "L47",
-      "key": "private-endpoint-required-subresource",
-      "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Private-DNS-Generic.json",
-      "limitations": [
-        "Companion definition checks subresource membership, not connection approval, endpoint reachability, central zone names, or DNS resolution.",
-        "An existing custom-DNS architecture exception must be omitted from the explicit selected endpoint IDs through approved inventory governance.",
-        "Requires the configured groupId to be present in a connection. Additional groupIds are not denied. Explicit nested counts prevent an empty groupIds array from satisfying the check."
-      ],
-      "scopeNotes": "Landing Zones only. Include both L47 definitions with matching endpoint inventory. Each assignment/reference represents one approved subresource profile; target arrays cannot be empty.",
-      "publishable": true,
-      "name": "landingzone-l47-private-endpoint-required-subresource",
-      "file": "policies/landingzone-l47-private-endpoint-required-subresource.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "043a656aa64eb96b774a5ff92f5466b242dc89af3dfb17b629468540abb1d7fe",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "LandingZone",
-      "rowKey": "L47",
-      "key": "private-endpoint-central-dns-zones",
-      "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Private-DNS-Generic.json",
-      "limitations": [
-        "Checks the endpoint child configuration, not whether referenced central zones exist, have the right links/records, or resolve from clients.",
-        "Zone IDs may refer to another subscription, but no cross-subscription zone resource query is performed; compliance proves only the approved reference set.",
-        "Deploy with the companion L47 subresource Audit to detect wrong/missing groupIds; repeat both definitions for each required subresource profile.",
-        "Approved custom-DNS exceptions are excluded only through explicit target endpoint inventory; no universal DNS requirement is implied."
-      ],
-      "scopeNotes": "Landing Zones, selected private endpoints only. Child enumeration uses parentName/? rather than a global group search. All selected endpoint and required/approved-zone lists are mandatory and nonempty.",
-      "transformations": [
-        {
-          "category": "azure-array-count-contract",
-          "path": "/then/details/existenceCondition/allOf/1/count/field",
-          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
-          "original": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
-          "replacement": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*]"
-        },
-        {
-          "category": "azure-array-count-contract",
-          "path": "/then/details/existenceCondition/allOf/2/count/where/count/field",
-          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
-          "original": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
-          "replacement": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*]"
-        }
-      ],
-      "publishable": true,
-      "name": "landingzone-l47-private-endpoint-central-dns-zones",
-      "file": "policies/landingzone-l47-private-endpoint-central-dns-zones.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "b2ed4ab610877285f78c9adbea7e8aa7717b8e8277890cac1c5f85d55961f291",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "LandingZone",
-      "rowKey": "L48",
-      "key": "vm-backup-approved-vault-policy",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Backup/VirtualMachineApplicationCentricBackup_WithOutTag_DINE.json",
-      "limitations": [
-        "One explicit VM/vault/container profile per assignment/reference; this intentionally avoids relying on the subscription-wide backupProtectedItems pseudo-type, which has no verified sourceResourceId alias.",
-        "Only Azure fabric ARM IaaS VM backup in a Recovery Services vault in the VM's current subscription is supported. Cross-subscription vault queries, Data Protection vaults, classic VMs, SQL-in-VM, file backup, and arbitrary container discovery are not implemented.",
-        "Supply the actual protection-container name from approved inventory; the policy makes no naming-convention assumptions. Missing vault/container/items are noncompliant.",
-        "Protected state is a configuration check, not evidence of latest successful backup, recovery-point age, RPO/RTO, immutable vault settings, or successful restore.",
-        "No upstream OS/image-version allowlist is copied: explicitly selected VM IDs must already be approved as eligible for native Azure VM backup."
-      ],
-      "scopeNotes": "Landing Zones; instantiate for each approved workload VM. The vault RG can differ from the VM RG but must be in the same subscription. This definition cannot search another subscription and flags an incompatible subscription profile as noncompliant rather than claiming coverage.",
-      "publishable": true,
-      "name": "landingzone-l48-vm-backup-approved-vault-policy",
-      "file": "policies/landingzone-l48-vm-backup-approved-vault-policy.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "f14554731c194a88e612b40a2790e1b185dd8cbbc289f52ffb043ded37c87c88",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "LandingZone",
       "rowKey": "L49",
       "key": "corp-spoke-required-hub-peering",
       "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-VNET-HubSpoke.json",
@@ -3661,124 +3080,43 @@
     },
     {
       "set": "LandingZone",
-      "rowKey": "L50",
-      "key": "sql-server-required-auditing-actions",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlServerAuditingToLA_DINE.json",
+      "rowKey": "L55",
+      "key": "waf-policy-prevention-mode",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/WAF_AppGatewayMode_Audit.json",
       "limitations": [
-        "Logical SQL servers with a Log Analytics/Azure Monitor audit path only; not Managed Instance, Synapse, database-specific audit policies, or storage-only auditing.",
-        "Required actions are checked as a subset; additional audit actions are allowed. The caller must supply valid required SQL audit action/group names.",
-        "The default auditing child alone cannot prove its diagnostic destination. The companion L50 definition checks master-database SQLSecurityAuditEvents routing separately.",
-        "No SQL storage retention is imposed on the Log Analytics path; workspace/table retention, ingestion, audit generation, and queryability need separate checks."
+        "Evaluates WAF policy resources only, whether or not they are attached; it does not prove a WAF policy exists or is attached (see the Application Gateway WAF presence policy), and inline legacy WAF configuration on an Application Gateway is not evaluated. A missing mode is reported as not Prevention; only an explicit Disabled state is reported.",
+        "Prevention mode blocks matching requests; review exclusions, custom rules and tuning before assigning Deny. Detection mode is reported even where new rules are deliberately staged, so use an exemption for staged rollouts.",
+        "Does not assess managed rule sets, exclusions, custom rules, request-body settings or logging."
       ],
-      "scopeNotes": "Landing Zones, required selected logical-server IDs. Include both L50 definitions and target the same server inventory. No deployment, identity, permissions, or storage credentials.",
+      "scopeNotes": "Landing Zones; evaluates every Application Gateway and Azure Front Door WAF policy under the assignment scope. No resource list is required; use an exemption for a staged Detection-mode rollout.",
+      "catalogName": "Web Application Firewall (WAF) policy must be enabled for Prevention mode",
+      "applicability": "Baseline",
       "publishable": true,
-      "name": "landingzone-l50-sql-server-required-auditing-actions",
-      "file": "policies/landingzone-l50-sql-server-required-auditing-actions.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "db28a7fe016cc95d78426ed6033d4dd73d9e3395b69f95e4de98ea747bef96ef",
-      "requiredParameters": [
-        "profile"
-      ]
+      "name": "landingzone-l55-waf-policy-prevention-mode",
+      "file": "policies/landingzone-l55-waf-policy-prevention-mode.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "7ff04f2be2af81531eb30d767b792c30f391be2cd427087fd6693bcd9d0560e8",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
-      "rowKey": "L50",
-      "key": "sql-master-approved-audit-workspace",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlServerAuditingToLA_DINE.json",
+      "rowKey": "L56",
+      "key": "nat-gateway-subnet-association",
+      "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deny-Subnet-Without-Nsg.json",
       "limitations": [
-        "Evaluates the extension diagnostic setting on the existing master database, not on the logical server and not on every workload database.",
-        "Requires an explicitly enabled SQLSecurityAuditEvents category; category-group-only equivalence is deliberately not inferred.",
-        "An approved workspace resource ID reference may point to another subscription, but workspace existence, ingestion, access, retention, and audit delivery are not queried.",
-        "Server auditing state and required audit actions are checked by the companion L50 definition; both are needed for row coverage."
+        "Evaluates only the subnet-to-NAT-gateway association (natGateway.id). A NAT gateway with no subnet association, and the NAT gateway resource itself, are not reported.",
+        "Subnets are evaluated both as Microsoft.Network/virtualNetworks/subnets resources and inside Microsoft.Network/virtualNetworks, following the ALZ subnet-policy pattern, so one subnet can appear as two compliance records.",
+        "Other outbound designs (Azure Firewall, load balancer outbound rules, public IPs) and default outbound access are not assessed. Deny blocks new or changed associations; existing associations are not removed."
       ],
-      "scopeNotes": "Landing Zones, subscription/resource-group scopes that include selected servers and their master database resources. Parent server IDs are derived from actual master database IDs; apply the same inventory as the L50 action audit. Mode All includes untaggable system databases.",
+      "scopeNotes": "Landing Zones; evaluates every subnet under the assignment scope. Use assignment exclusions only for approved exceptions; the customer standard is no NAT gateway anywhere.",
+      "catalogName": "Audit NAT Gateways should not be associated to subnets",
+      "applicability": "Baseline",
       "publishable": true,
-      "name": "landingzone-l50-sql-master-approved-audit-workspace",
-      "file": "policies/landingzone-l50-sql-master-approved-audit-workspace.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "002cbf14da0a786f8bfc5ba5b663378139cea35134a5b1ba692dcd4774bfb165",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "LandingZone",
-      "rowKey": "L51",
-      "key": "sql-server-threat-detection-profile",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/TdOnSqlServers_DINE.json",
-      "limitations": [
-        "Logical SQL server threat-detection child configuration only; excludes analytics kinds as in the source, and does not cover Managed Instance, Synapse, or database-specific child overrides.",
-        "Does not enable or validate a paid Defender subscription plan; inherited plan coverage remains a separate root-level control.",
-        "Enabled state and configured email addresses do not prove detector operation, notification delivery, receiver ownership, or incident handling.",
-        "The approved disabled-alert list is a maximum allowed exclusion set, not a requirement to disable those alerts."
-      ],
-      "scopeNotes": "Landing Zones; selected SQL logical-server IDs. Organization supplies all exclusion and notification decisions, including explicit empty arrays when none are required. No tenant-wide paid plan changes or remediation.",
-      "publishable": true,
-      "name": "landingzone-l51-sql-server-threat-detection-profile",
-      "file": "policies/landingzone-l51-sql-server-threat-detection-profile.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "8cfc6388dd8d6355406956f6399b8fb7d28e2744c03e09ebda65e9b9c8677026",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "LandingZone",
-      "rowKey": "L52",
-      "key": "workload-amba-metric-profile",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/services/Network/virtualNetworks/templates/policy/IfUnderDDoSAttack_72dea6f4-858c-423f-8189-406aac7d20ac.json",
-      "limitations": [
-        "One required static, dimension-free metric profile per assignment/reference; not full AMBA, dynamic thresholds, metric logs, Service Health, or administrative alerts.",
-        "Exactly one criterion/scope is required, and all required action groups must exist with no unapproved extras. Alert processing rules and receiver delivery are not assessed.",
-        "The central alert RG must be in the evaluated workload resource's subscription. No sibling Hub assignment inheritance or cross-subscription alert search is assumed.",
-        "Does not prove metric emission, valid service-specific threshold selection, delivery, or incident response."
-      ],
-      "scopeNotes": "Landing Zones/workload resource IDs and types only. Assign at subscription or higher for Subscription existenceScope. Profile, nonempty targets/types/action groups, and threshold are mandatory; repeat for additional required metrics.",
-      "transformations": [
-        {
-          "category": "azure-array-count-contract",
-          "path": "/then/details/existenceCondition/allOf/8/count/field",
-          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
-          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
-          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
-        },
-        {
-          "category": "azure-array-count-contract",
-          "path": "/then/details/existenceCondition/allOf/9/count/where/count/field",
-          "reason": "count.field must end with [*]; count parent objects while keeping the property test in where.",
-          "original": "Microsoft.Insights/metricalerts/actions[*].actionGroupId",
-          "replacement": "Microsoft.Insights/metricalerts/actions[*]"
-        }
-      ],
-      "publishable": true,
-      "name": "landingzone-l52-workload-amba-metric-profile",
-      "file": "policies/landingzone-l52-workload-amba-metric-profile.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "97ca7479ec8db1a05af55ec40c1ddfc670cd3fa7947a56215d58684cca7cbb81",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "LandingZone",
-      "rowKey": "L53",
-      "key": "workload-vnet-flow-log-coverage",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/VirtualNetwork_FlowLog_DINE.json",
-      "limitations": [
-        "VNet flow logs only; no NSG-flow-log onboarding or equivalence.",
-        "Regional Network Watcher resources may be in another RG but must be in the evaluated VNet's subscription and region.",
-        "Strict explicit enabled finite-retention profile; zero/infinite or disabled retention is deliberately not treated as equivalent.",
-        "Does not prove actual ingestion, storage authorization, effective storage lifecycle retention, traffic completeness, analytics, or downstream alerts."
-      ],
-      "scopeNotes": "Landing Zones workload VNet IDs only, separately instantiated from H25. Assign at subscription or higher. No inheritance from the Platform/Connectivity sibling is assumed; missing flow logs are noncompliant.",
-      "publishable": true,
-      "name": "landingzone-l53-workload-vnet-flow-log-coverage",
-      "file": "policies/landingzone-l53-workload-vnet-flow-log-coverage.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "67f83862969292108c0583ea8ba54856673556f98754fcfe6628a68280229ece",
-      "requiredParameters": [
-        "profile"
-      ]
+      "name": "landingzone-l56-nat-gateway-subnet-association",
+      "file": "policies/landingzone-l56-nat-gateway-subnet-association.json",
+      "defaultEffect": "Audit",
+      "customDefinitionSha256": "058012d8e236a20f5b866152f4ee649a7066e2600ee0f63e957e69e8cd938cd9",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",

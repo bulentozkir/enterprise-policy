@@ -243,53 +243,6 @@
           "additionalProperties": false
         }
       },
-      "h15_effect": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Effect",
-          "description": "Start in audit mode. Only effects supported by the source definition are available."
-        },
-        "allowedValues": [
-          "Audit",
-          "Deny",
-          "Disabled"
-        ],
-        "defaultValue": "Audit"
-      },
-      "h15_evaluationScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-        },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
-      },
       "h16_effect": {
         "type": "String",
         "metadata": {
@@ -366,60 +319,6 @@
         "defaultValue": "Audit"
       },
       "h17_evaluationScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-        },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "h18_servers": {
-        "type": "Array",
-        "metadata": {
-          "description": "The list of DNS servers to enforce exclusive existance of.",
-          "displayName": "DNS Servers list"
-        }
-      },
-      "h18_effect": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Effect",
-          "description": "Start in audit mode. Only effects supported by the source definition are available."
-        },
-        "allowedValues": [
-          "Audit",
-          "Deny",
-          "Disabled"
-        ],
-        "defaultValue": "Audit"
-      },
-      "h18_evaluationScope": {
         "type": "Object",
         "metadata": {
           "displayName": "Explicit conditional resource applicability",
@@ -605,41 +504,33 @@
           "description": "Read-only evaluation."
         }
       },
-      "h07_profile": {
-        "type": "Object",
+      "h07_approvedPlanIds": {
+        "type": "Array",
         "metadata": {
-          "displayName": "Approved DDoS targets and plans",
-          "description": "Required eligible hub VNet IDs and approved DDoS Network Protection plan IDs. Neither list may be empty."
+          "displayName": "Approved DDoS protection plan resource IDs",
+          "description": "Required, nonempty list of approved DDoS Network Protection plan resource IDs. A public IP is approved only when ddosSettings.protectionMode is Enabled and ddosSettings.ddosProtectionPlan.id is in this list."
         },
         "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds",
-            "approvedPlanIds"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-              }
-            },
-            "approvedPlanIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-              }
-            }
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
           }
+        }
+      },
+      "h07_acceptVirtualNetworkInherited": {
+        "type": "Boolean",
+        "allowedValues": [
+          true,
+          false
+        ],
+        "defaultValue": false,
+        "metadata": {
+          "displayName": "Accept virtual-network-inherited protection",
+          "description": "When true, public IPs whose protectionMode is VirtualNetworkInherited (or omitted) are not reported, because the plan association is on the virtual network and cannot be read from the public IP. The default false reports them."
         }
       },
       "h21_effect": {
@@ -691,6 +582,19 @@
               }
             }
           }
+        }
+      },
+      "h26_effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Audit reports WAF policies that are disabled or not in Prevention mode. Deny blocks creating or updating such a policy."
         }
       }
     },
@@ -774,18 +678,6 @@
         }
       },
       {
-        "policyDefinitionReferenceId": "hub-h15-h15-entra-based-central-log-ingestion",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h15-h15-entra-based-central-log-ingestion",
-        "parameters": {
-          "effect": {
-            "value": "[parameters('h15_effect')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('h15_evaluationScope')]"
-          }
-        }
-      },
-      {
         "policyDefinitionReferenceId": "hub-h16-h16-hub-specific-approved-peering-inventory",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h16-h16-hub-specific-approved-peering-inventory",
         "parameters": {
@@ -812,21 +704,6 @@
           },
           "evaluationScope": {
             "value": "[parameters('h17_evaluationScope')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "hub-h18-h18-approved-firewall-upstream-dns",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h18-h18-approved-firewall-upstream-dns",
-        "parameters": {
-          "servers": {
-            "value": "[parameters('h18_servers')]"
-          },
-          "effect": {
-            "value": "[parameters('h18_effect')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('h18_evaluationScope')]"
           }
         }
       },
@@ -870,14 +747,17 @@
         }
       },
       {
-        "policyDefinitionReferenceId": "hub-h07-hub-ddos-approved-plan",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h07-hub-ddos-approved-plan",
+        "policyDefinitionReferenceId": "hub-h07-public-ip-ddos-approved-plan",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h07-public-ip-ddos-approved-plan",
         "parameters": {
           "effect": {
             "value": "[parameters('h07_effect')]"
           },
-          "profile": {
-            "value": "[parameters('h07_profile')]"
+          "approvedPlanIds": {
+            "value": "[parameters('h07_approvedPlanIds')]"
+          },
+          "acceptVirtualNetworkInherited": {
+            "value": "[parameters('h07_acceptVirtualNetworkInherited')]"
           }
         }
       },
@@ -890,6 +770,15 @@
           },
           "profile": {
             "value": "[parameters('h21_profile')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "hub-h26-waf-policy-prevention-mode",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h26-waf-policy-prevention-mode",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('h26_effect')]"
           }
         }
       }
