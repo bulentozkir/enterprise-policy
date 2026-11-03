@@ -17,14 +17,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L01 - Subnets should be associated with a Network Security Group: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l02_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L02 - Subnets should be private: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -37,7 +37,7 @@
       "l03_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L03 - Subnets should have a User Defined Route: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -50,7 +50,7 @@
       "l03_excludedSubnets": {
         "type": "Array",
         "metadata": {
-          "displayName": "Excluded Subnets",
+          "displayName": "L03 - Subnets should have a User Defined Route: Excluded Subnets",
           "description": "Array of subnet names that are excluded from this policy"
         },
         "defaultValue": [
@@ -61,7 +61,7 @@
       "l03_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L03 - Subnets should have a User Defined Route: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -95,7 +95,7 @@
       "l04_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L04 - User Defined Routes with 'Next Hop Type' set to 'Internet' or 'VirtualNetworkGateway' should be denied: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -108,7 +108,7 @@
       "l04_excludedDestinations": {
         "type": "Array",
         "metadata": {
-          "displayName": "Excluded Destinations",
+          "displayName": "L04 - User Defined Routes with 'Next Hop Type' set to 'Internet' or 'VirtualNetworkGateway' should be denied: Excluded Destin...",
           "description": "Array of route destinations that are to be denied"
         },
         "defaultValue": [
@@ -119,7 +119,7 @@
       "l04_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L04 - User Defined Routes with 'Next Hop Type' set to 'Internet' or 'VirtualNetworkGateway' should be denied: Explicit condit...",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -153,7 +153,7 @@
       "l05_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L05 - Deny vNet peering to non-approved vNets: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -166,7 +166,7 @@
       "l05_allowedVnets": {
         "type": "Array",
         "metadata": {
-          "displayName": "Allowed vNets to peer with",
+          "displayName": "L05 - Deny vNet peering to non-approved vNets: Allowed vNets to peer with",
           "description": "Array of allowed vNets that can be peered with. Must be entered using their resource ID. Example: /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}"
         },
         "defaultValue": []
@@ -174,7 +174,7 @@
       "l05_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L05 - Deny vNet peering to non-approved vNets: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -213,14 +213,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L06 - Azure Policy Add-on for Kubernetes service (AKS) should be installed and enabled on your clusters: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l06_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L06 - Azure Policy Add-on for Kubernetes service (AKS) should be installed and enabled on your clusters: Explicit conditional...",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -254,7 +254,7 @@
       "l07_source": {
         "type": "String",
         "metadata": {
-          "displayName": "Source",
+          "displayName": "L07 - Kubernetes cluster should not allow privileged containers: Source",
           "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
         },
         "defaultValue": "Original",
@@ -267,7 +267,7 @@
       "l07_warn": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Warn",
+          "displayName": "L07 - Kubernetes cluster should not allow privileged containers: Warn",
           "description": "Whether or not to return warnings back to the user in the kubectl cli"
         },
         "defaultValue": false
@@ -275,7 +275,7 @@
       "l07_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L07 - Kubernetes cluster should not allow privileged containers: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -288,7 +288,7 @@
       "l07_excludedNamespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace exclusions",
+          "displayName": "L07 - Kubernetes cluster should not allow privileged containers: Namespace exclusions",
           "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
         },
         "defaultValue": [
@@ -301,7 +301,7 @@
       "l07_namespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace inclusions",
+          "displayName": "L07 - Kubernetes cluster should not allow privileged containers: Namespace inclusions",
           "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
         },
         "defaultValue": []
@@ -309,7 +309,7 @@
       "l07_labelSelector": {
         "type": "Object",
         "metadata": {
-          "displayName": "Kubernetes label selector",
+          "displayName": "L07 - Kubernetes cluster should not allow privileged containers: Kubernetes label selector",
           "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
         },
         "defaultValue": {},
@@ -368,7 +368,7 @@
       "l07_excludedContainers": {
         "type": "Array",
         "metadata": {
-          "displayName": "Containers exclusions",
+          "displayName": "L07 - Kubernetes cluster should not allow privileged containers: Containers exclusions",
           "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identify is the name of container. Use an empty list to apply this policy to all containers in all namespaces."
         },
         "defaultValue": []
@@ -376,7 +376,7 @@
       "l07_excludedImages": {
         "type": "Array",
         "metadata": {
-          "displayName": "Image exclusions",
+          "displayName": "L07 - Kubernetes cluster should not allow privileged containers: Image exclusions",
           "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
         },
         "defaultValue": []
@@ -384,7 +384,7 @@
       "l07_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Approved cluster tag selector",
+          "displayName": "L07 - Kubernetes cluster should not allow privileged containers: Approved cluster tag selector",
           "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
@@ -410,7 +410,7 @@
       "l08_source": {
         "type": "String",
         "metadata": {
-          "displayName": "Source",
+          "displayName": "L08 - Kubernetes clusters should not allow container privilege escalation: Source",
           "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
         },
         "defaultValue": "Original",
@@ -423,7 +423,7 @@
       "l08_warn": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Warn",
+          "displayName": "L08 - Kubernetes clusters should not allow container privilege escalation: Warn",
           "description": "Whether or not to return warnings back to the user in the kubectl cli"
         },
         "defaultValue": false
@@ -431,7 +431,7 @@
       "l08_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L08 - Kubernetes clusters should not allow container privilege escalation: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -444,7 +444,7 @@
       "l08_excludedNamespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace exclusions",
+          "displayName": "L08 - Kubernetes clusters should not allow container privilege escalation: Namespace exclusions",
           "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
         },
         "defaultValue": [
@@ -457,7 +457,7 @@
       "l08_namespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace inclusions",
+          "displayName": "L08 - Kubernetes clusters should not allow container privilege escalation: Namespace inclusions",
           "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
         },
         "defaultValue": []
@@ -465,7 +465,7 @@
       "l08_labelSelector": {
         "type": "Object",
         "metadata": {
-          "displayName": "Kubernetes label selector",
+          "displayName": "L08 - Kubernetes clusters should not allow container privilege escalation: Kubernetes label selector",
           "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
         },
         "defaultValue": {},
@@ -524,7 +524,7 @@
       "l08_forcePrivilegeEscalationToBeFalse": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Force all container securityContext.allowPrivilegeEscalation fields to be explicity set to false",
+          "displayName": "L08 - Kubernetes clusters should not allow container privilege escalation: Force all container securityContext.allowPrivilege...",
           "description": "If set to true, then `allowPrivilegeEscalation` must explicitly be set to false regardless of the `runAsUser` field in the container securityContext. Setting this value to true will make this policy follow the behavior of the Kubernetes Pod Security Standards for Privilege Escalation at the restricted level: https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted"
         },
         "defaultValue": false
@@ -532,7 +532,7 @@
       "l08_excludedContainers": {
         "type": "Array",
         "metadata": {
-          "displayName": "Containers exclusions",
+          "displayName": "L08 - Kubernetes clusters should not allow container privilege escalation: Containers exclusions",
           "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identify is the name of container. Use an empty list to apply this policy to all containers in all namespaces."
         },
         "defaultValue": []
@@ -540,7 +540,7 @@
       "l08_excludedImages": {
         "type": "Array",
         "metadata": {
-          "displayName": "Image exclusions",
+          "displayName": "L08 - Kubernetes clusters should not allow container privilege escalation: Image exclusions",
           "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
         },
         "defaultValue": []
@@ -548,7 +548,7 @@
       "l08_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Approved cluster tag selector",
+          "displayName": "L08 - Kubernetes clusters should not allow container privilege escalation: Approved cluster tag selector",
           "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
@@ -574,7 +574,7 @@
       "l09_source": {
         "type": "String",
         "metadata": {
-          "displayName": "Source",
+          "displayName": "L09 - Kubernetes cluster containers should not share host namespaces: Source",
           "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
         },
         "defaultValue": "Original",
@@ -587,7 +587,7 @@
       "l09_warn": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Warn",
+          "displayName": "L09 - Kubernetes cluster containers should not share host namespaces: Warn",
           "description": "Whether or not to return warnings back to the user in the kubectl cli"
         },
         "defaultValue": false
@@ -595,7 +595,7 @@
       "l09_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L09 - Kubernetes cluster containers should not share host namespaces: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -608,7 +608,7 @@
       "l09_excludedNamespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace exclusions",
+          "displayName": "L09 - Kubernetes cluster containers should not share host namespaces: Namespace exclusions",
           "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
         },
         "defaultValue": [
@@ -621,7 +621,7 @@
       "l09_namespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace inclusions",
+          "displayName": "L09 - Kubernetes cluster containers should not share host namespaces: Namespace inclusions",
           "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
         },
         "defaultValue": []
@@ -629,7 +629,7 @@
       "l09_labelSelector": {
         "type": "Object",
         "metadata": {
-          "displayName": "Kubernetes label selector",
+          "displayName": "L09 - Kubernetes cluster containers should not share host namespaces: Kubernetes label selector",
           "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
         },
         "defaultValue": {},
@@ -688,7 +688,7 @@
       "l09_excludedImages": {
         "type": "Array",
         "metadata": {
-          "displayName": "Image exclusions",
+          "displayName": "L09 - Kubernetes cluster containers should not share host namespaces: Image exclusions",
           "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
         },
         "defaultValue": []
@@ -696,7 +696,7 @@
       "l09_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Approved cluster tag selector",
+          "displayName": "L09 - Kubernetes cluster containers should not share host namespaces: Approved cluster tag selector",
           "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
@@ -722,7 +722,7 @@
       "l10_source": {
         "type": "String",
         "metadata": {
-          "displayName": "Source",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Source",
           "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
         },
         "defaultValue": "Original",
@@ -735,7 +735,7 @@
       "l10_warn": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Warn",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Warn",
           "description": "Whether or not to return warnings back to the user in the kubectl cli"
         },
         "defaultValue": false
@@ -743,7 +743,7 @@
       "l10_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -756,7 +756,7 @@
       "l10_excludedNamespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace exclusions",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Namespace exclusions",
           "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
         },
         "defaultValue": [
@@ -769,7 +769,7 @@
       "l10_namespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace inclusions",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Namespace inclusions",
           "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
         },
         "defaultValue": []
@@ -777,7 +777,7 @@
       "l10_labelSelector": {
         "type": "Object",
         "metadata": {
-          "displayName": "Kubernetes label selector",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Kubernetes label selector",
           "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
         },
         "defaultValue": {},
@@ -836,7 +836,7 @@
       "l10_allowedHostPaths": {
         "type": "Object",
         "metadata": {
-          "displayName": "Allowed host paths",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Allowed host paths",
           "description": "The host paths allowed for pod hostPath volumes to use. Provide an empty paths list to block all host paths."
         },
         "defaultValue": {
@@ -874,7 +874,7 @@
       "l10_windowsAllowedHostPaths": {
         "type": "Object",
         "metadata": {
-          "displayName": "Allowed host paths for windows containers",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Allowed host paths for windows containers",
           "description": "The host paths allowed for windows pod hostPath volumes to use. Provide an empty paths list to block all host paths. Use \"C:\\\" to allow all windows host paths."
         },
         "defaultValue": {
@@ -912,7 +912,7 @@
       "l10_blockSocketMountPaths": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Block container runtime socket host paths",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Block container runtime socket host paths",
           "description": "Block hostPath volumes and 'Socket' type volumes that expose container runtime sockets, even when the path is allowed and mounted read-only. Set to false only when access to container runtime sockets is intentionally required."
         },
         "defaultValue": true
@@ -920,7 +920,7 @@
       "l10_excludedContainers": {
         "type": "Array",
         "metadata": {
-          "displayName": "Containers exclusions",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Containers exclusions",
           "description": "The list of InitContainers and Containers to exclude from readonly evaluation. It will not exclude the disallowed host path. The identify is the name of container. Use an empty list to apply this policy to all containers in all namespaces."
         },
         "defaultValue": []
@@ -928,7 +928,7 @@
       "l10_excludedImages": {
         "type": "Array",
         "metadata": {
-          "displayName": "Image exclusions",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Image exclusions",
           "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
         },
         "defaultValue": []
@@ -936,7 +936,7 @@
       "l10_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Approved cluster tag selector",
+          "displayName": "L10 - Kubernetes cluster pod hostPath volumes should only use allowed host paths: Approved cluster tag selector",
           "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
@@ -962,7 +962,7 @@
       "l11_source": {
         "type": "String",
         "metadata": {
-          "displayName": "Source",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Source",
           "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
         },
         "defaultValue": "Original",
@@ -975,7 +975,7 @@
       "l11_warn": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Warn",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Warn",
           "description": "Whether or not to return warnings back to the user in the kubectl cli"
         },
         "defaultValue": false
@@ -983,7 +983,7 @@
       "l11_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -996,7 +996,7 @@
       "l11_excludedNamespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace exclusions",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Namespace exclusions",
           "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
         },
         "defaultValue": [
@@ -1009,7 +1009,7 @@
       "l11_namespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace inclusions",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Namespace inclusions",
           "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
         },
         "defaultValue": []
@@ -1017,7 +1017,7 @@
       "l11_labelSelector": {
         "type": "Object",
         "metadata": {
-          "displayName": "Kubernetes label selector",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Kubernetes label selector",
           "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
         },
         "defaultValue": {},
@@ -1076,7 +1076,7 @@
       "l11_runAsUserRule": {
         "type": "String",
         "metadata": {
-          "displayName": "Run as user rule",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Run as user rule",
           "description": "The 'RunAsUser' rule that containers are allowed to run with. MustRunAs requires at least one range to be specified. MustRunAsNonRoot requires the pod be submitted with non-zero runAsUser or have USER directive defined (using a numeric UID) in the image. RunAsAny allows any runAsUser to be specified"
         },
         "allowedValues": [
@@ -1089,7 +1089,7 @@
       "l11_runAsUserRanges": {
         "type": "Object",
         "metadata": {
-          "displayName": "Allowed user ID ranges",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Allowed user ID ranges",
           "description": "The user ID ranges that are allowed for containers to use. Set 'max' as '-1' to skip max limit evaluation. Empty array blocks every defined value for 'MustRunAs'."
         },
         "defaultValue": {
@@ -1127,7 +1127,7 @@
       "l11_runAsGroupRule": {
         "type": "String",
         "metadata": {
-          "displayName": "Run as group rule",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Run as group rule",
           "description": "The 'RunAsGroup' rule that containers are allowed to run with. MustRunAs requires at least one range to be specified. MayRunAs does not require that 'RunAsGroup' be specified. RunAsAny allows any"
         },
         "allowedValues": [
@@ -1140,7 +1140,7 @@
       "l11_runAsGroupRanges": {
         "type": "Object",
         "metadata": {
-          "displayName": "Allowed group ID ranges",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Allowed group ID ranges",
           "description": "The group ID ranges that are allowed for containers to use. Set 'max' as '-1' to skip max limit evaluation. Empty array blocks every defined value for 'MustRunAs' and 'MayRunAs'."
         },
         "defaultValue": {
@@ -1178,7 +1178,7 @@
       "l11_supplementalGroupsRule": {
         "type": "String",
         "metadata": {
-          "displayName": "Supplemental group rule",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Supplemental group rule",
           "description": "The 'SupplementalGroups' rule that containers are allowed to run with. MustRunAs requires at least one range to be specified. MayRunAs does not require that 'SupplementalGroups' be specified. RunAsAny allows any"
         },
         "allowedValues": [
@@ -1191,7 +1191,7 @@
       "l11_supplementalGroupsRanges": {
         "type": "Object",
         "metadata": {
-          "displayName": "Allowed supplemental group ID ranges",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Allowed supplemental group ID...",
           "description": "The supplemental group ID ranges that are allowed for containers to use. Set 'max' as '-1' to skip max limit evaluation. Empty array blocks every defined value for 'MustRunAs' and 'MayRunAs'."
         },
         "defaultValue": {
@@ -1229,7 +1229,7 @@
       "l11_fsGroupRule": {
         "type": "String",
         "metadata": {
-          "displayName": "File system group rule",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: File system group rule",
           "description": "The 'FSGroup' rule that containers are allowed to run with. MustRunAs requires at least one range to be specified. MayRunAs does not require that 'FSGroup' be specified. RunAsAny allows any"
         },
         "allowedValues": [
@@ -1242,7 +1242,7 @@
       "l11_fsGroupRanges": {
         "type": "Object",
         "metadata": {
-          "displayName": "Allowed file system group ID ranges",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Allowed file system group ID r...",
           "description": "The file system group ranges that are allowed for pods to use. Set 'max' as '-1' to skip max limit evaluation. Empty array blocks every defined value for 'MustRunAs' and 'MayRunAs'."
         },
         "defaultValue": {
@@ -1280,7 +1280,7 @@
       "l11_excludedContainers": {
         "type": "Array",
         "metadata": {
-          "displayName": "Containers exclusions",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Containers exclusions",
           "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identify is the name of container. Use an empty list to apply this policy to all containers in all namespaces."
         },
         "defaultValue": []
@@ -1288,7 +1288,7 @@
       "l11_excludedImages": {
         "type": "Array",
         "metadata": {
-          "displayName": "Image exclusions",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Image exclusions",
           "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
         },
         "defaultValue": []
@@ -1296,7 +1296,7 @@
       "l11_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Approved cluster tag selector",
+          "displayName": "L11 - Kubernetes cluster pods and containers should only run with approved user and group IDs: Approved cluster tag selector",
           "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
@@ -1322,7 +1322,7 @@
       "l12_source": {
         "type": "String",
         "metadata": {
-          "displayName": "Source",
+          "displayName": "L12 - Kubernetes cluster containers should only use allowed capabilities: Source",
           "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
         },
         "defaultValue": "Original",
@@ -1335,7 +1335,7 @@
       "l12_warn": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Warn",
+          "displayName": "L12 - Kubernetes cluster containers should only use allowed capabilities: Warn",
           "description": "Whether or not to return warnings back to the user in the kubectl cli"
         },
         "defaultValue": false
@@ -1343,7 +1343,7 @@
       "l12_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L12 - Kubernetes cluster containers should only use allowed capabilities: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -1356,7 +1356,7 @@
       "l12_excludedNamespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace exclusions",
+          "displayName": "L12 - Kubernetes cluster containers should only use allowed capabilities: Namespace exclusions",
           "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
         },
         "defaultValue": [
@@ -1369,7 +1369,7 @@
       "l12_namespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace inclusions",
+          "displayName": "L12 - Kubernetes cluster containers should only use allowed capabilities: Namespace inclusions",
           "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
         },
         "defaultValue": []
@@ -1377,7 +1377,7 @@
       "l12_labelSelector": {
         "type": "Object",
         "metadata": {
-          "displayName": "Kubernetes label selector",
+          "displayName": "L12 - Kubernetes cluster containers should only use allowed capabilities: Kubernetes label selector",
           "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
         },
         "defaultValue": {},
@@ -1436,7 +1436,7 @@
       "l12_allowedCapabilities": {
         "type": "Array",
         "metadata": {
-          "displayName": "Allowed capabilities",
+          "displayName": "L12 - Kubernetes cluster containers should only use allowed capabilities: Allowed capabilities",
           "description": "The list of capabilities that are allowed to be added to a container. Provide empty list as input to block everything."
         },
         "defaultValue": []
@@ -1444,7 +1444,7 @@
       "l12_requiredDropCapabilities": {
         "type": "Array",
         "metadata": {
-          "displayName": "Required drop capabilities",
+          "displayName": "L12 - Kubernetes cluster containers should only use allowed capabilities: Required drop capabilities",
           "description": "The list of capabilities that must be dropped by a container."
         },
         "defaultValue": []
@@ -1452,7 +1452,7 @@
       "l12_excludedContainers": {
         "type": "Array",
         "metadata": {
-          "displayName": "Containers exclusions",
+          "displayName": "L12 - Kubernetes cluster containers should only use allowed capabilities: Containers exclusions",
           "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identify is the name of container. Use an empty list to apply this policy to all containers in all namespaces."
         },
         "defaultValue": []
@@ -1460,7 +1460,7 @@
       "l12_excludedImages": {
         "type": "Array",
         "metadata": {
-          "displayName": "Image exclusions",
+          "displayName": "L12 - Kubernetes cluster containers should only use allowed capabilities: Image exclusions",
           "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
         },
         "defaultValue": []
@@ -1468,7 +1468,7 @@
       "l12_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Approved cluster tag selector",
+          "displayName": "L12 - Kubernetes cluster containers should only use allowed capabilities: Approved cluster tag selector",
           "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
@@ -1494,7 +1494,7 @@
       "l13_source": {
         "type": "String",
         "metadata": {
-          "displayName": "Source",
+          "displayName": "L13 - Kubernetes cluster pods should only use approved host network and port list: Source",
           "description": "The source k8s object for constraint evaluation. 'Original' means only evaluate against the specific GroupVersionKind specified in the policy definition. 'Generated' means only evaluate against k8s objects generated by Gatekeeper ExpansionTemplates. 'All' means evaluate against both the original object and any generated ones."
         },
         "defaultValue": "Original",
@@ -1507,7 +1507,7 @@
       "l13_warn": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Warn",
+          "displayName": "L13 - Kubernetes cluster pods should only use approved host network and port list: Warn",
           "description": "Whether or not to return warnings back to the user in the kubectl cli"
         },
         "defaultValue": false
@@ -1515,7 +1515,7 @@
       "l13_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L13 - Kubernetes cluster pods should only use approved host network and port list: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -1528,7 +1528,7 @@
       "l13_excludedNamespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace exclusions",
+          "displayName": "L13 - Kubernetes cluster pods should only use approved host network and port list: Namespace exclusions",
           "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
         },
         "defaultValue": [
@@ -1541,7 +1541,7 @@
       "l13_namespaces": {
         "type": "Array",
         "metadata": {
-          "displayName": "Namespace inclusions",
+          "displayName": "L13 - Kubernetes cluster pods should only use approved host network and port list: Namespace inclusions",
           "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
         },
         "defaultValue": []
@@ -1549,7 +1549,7 @@
       "l13_labelSelector": {
         "type": "Object",
         "metadata": {
-          "displayName": "Kubernetes label selector",
+          "displayName": "L13 - Kubernetes cluster pods should only use approved host network and port list: Kubernetes label selector",
           "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
         },
         "defaultValue": {},
@@ -1608,7 +1608,7 @@
       "l13_allowHostNetwork": {
         "type": "Boolean",
         "metadata": {
-          "displayName": "Allow host network usage",
+          "displayName": "L13 - Kubernetes cluster pods should only use approved host network and port list: Allow host network usage",
           "description": "Set this value to true if pod is allowed to use host network otherwise false."
         },
         "defaultValue": false
@@ -1616,7 +1616,7 @@
       "l13_allowedHostPorts": {
         "type": "Array",
         "metadata": {
-          "displayName": "Allowed host ports list",
+          "displayName": "L13 - Kubernetes cluster pods should only use approved host network and port list: Allowed host ports list",
           "description": "The list of specific host ports that pods are allowed to use in the host network namespace. Can include individual ports (e.g., '80') or port ranges (e.g., '3000-5000'). Empty list means no host ports are allowed. Note that port 0 is not allowed according to Pod Security Standards."
         },
         "defaultValue": []
@@ -1624,7 +1624,7 @@
       "l13_excludedImages": {
         "type": "Array",
         "metadata": {
-          "displayName": "Image exclusions",
+          "displayName": "L13 - Kubernetes cluster pods should only use approved host network and port list: Image exclusions",
           "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
         },
         "defaultValue": []
@@ -1632,7 +1632,7 @@
       "l13_clusterScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Approved cluster tag selector",
+          "displayName": "L13 - Kubernetes cluster pods should only use approved host network and port list: Approved cluster tag selector",
           "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
         },
         "schema": {
@@ -1663,14 +1663,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L14 - Azure Kubernetes Service Clusters should enable Microsoft Entra ID integration: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l14_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L14 - Azure Kubernetes Service Clusters should enable Microsoft Entra ID integration: Explicit conditional resource applicabi...",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -1709,14 +1709,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L15 - Azure Kubernetes Service Clusters should have local authentication methods disabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l15_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L15 - Azure Kubernetes Service Clusters should have local authentication methods disabled: Explicit conditional resource appl...",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -1755,14 +1755,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L16 - Azure Kubernetes Service Private Clusters should be enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l16_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L16 - Azure Kubernetes Service Private Clusters should be enabled: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -1801,14 +1801,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L17 - Authorized IP ranges should be defined on Kubernetes Services: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l17_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L17 - Authorized IP ranges should be defined on Kubernetes Services: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -1842,7 +1842,7 @@
       "l20_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L20 - Machines should be configured to periodically check for missing system updates: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -1856,7 +1856,7 @@
         "type": "Array",
         "defaultValue": [],
         "metadata": {
-          "displayName": "Explicit assessment exceptions",
+          "displayName": "L20 - Machines should be configured to periodically check for missing system updates: Explicit assessment exceptions",
           "description": "Approved VM or Arc machine resource IDs outside the periodic-assessment standard, including service-managed nodes and unsupported appliance workloads. No OS releases or Marketplace image selectors are used."
         }
       },
@@ -1868,14 +1868,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L21 - System updates should be installed on your machines (powered by Update Center): Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l21_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L21 - System updates should be installed on your machines (powered by Update Center): Explicit conditional resource applicabi...",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -1909,7 +1909,7 @@
       "l24_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L24 - Public network access on Azure SQL Database should be disabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -1922,7 +1922,7 @@
       "l24_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L24 - Public network access on Azure SQL Database should be disabled: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -1962,14 +1962,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L25 - Public network access should be disabled for Container registries: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l25_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L25 - Public network access should be disabled for Container registries: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -2009,14 +2009,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L26 - Public network access should be disabled for PostgreSQL flexible servers: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l26_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L26 - Public network access should be disabled for PostgreSQL flexible servers: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -2050,7 +2050,7 @@
       "l27_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L27 - App Service apps should disable public network access: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -2063,7 +2063,7 @@
       "l27_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L27 - App Service apps should disable public network access: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -2103,7 +2103,7 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L28 - App Service apps should only be accessible over HTTPS: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
@@ -2115,7 +2115,7 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L29 - App Service apps should use the latest TLS version: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
@@ -2123,7 +2123,7 @@
         "type": "String",
         "defaultValue": "1.2",
         "metadata": {
-          "displayName": "Minimum TLS version",
+          "displayName": "L29 - App Service apps should use the latest TLS version: Minimum TLS version",
           "description": "Transport-security baseline, not an OS/image release. The source security baseline is retained as the default. Use compatible approved values without weakening security; the source comparison operator remains unchanged."
         }
       },
@@ -2136,7 +2136,7 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L30 - Function apps should only be accessible over HTTPS: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
@@ -2148,7 +2148,7 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L31 - Function apps should use the latest TLS version: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
@@ -2156,14 +2156,14 @@
         "type": "String",
         "defaultValue": "1.2",
         "metadata": {
-          "displayName": "Minimum TLS version",
+          "displayName": "L31 - Function apps should use the latest TLS version: Minimum TLS version",
           "description": "Transport-security baseline, not an OS/image release. The source security baseline is retained as the default. Use compatible approved values without weakening security; the source comparison operator remains unchanged."
         }
       },
       "l32_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L32 - Azure SQL Database should be running TLS version 1.2 or newer: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -2177,7 +2177,7 @@
         "type": "String",
         "defaultValue": "1.2",
         "metadata": {
-          "displayName": "Minimum TLS version",
+          "displayName": "L32 - Azure SQL Database should be running TLS version 1.2 or newer: Minimum TLS version",
           "description": "Transport-security baseline, not an OS/image release. The source security baseline is retained as the default. Use compatible approved values without weakening security; the source comparison operator remains unchanged."
         }
       },
@@ -2189,14 +2189,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L33 - An Azure Active Directory administrator should be provisioned for SQL servers: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l33_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L33 - An Azure Active Directory administrator should be provisioned for SQL servers: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -2235,14 +2235,15 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L35 - Auditing on SQL server should be enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l35_setting": {
         "type": "String",
         "metadata": {
-          "displayName": "Desired Auditing setting"
+          "displayName": "L35 - Auditing on SQL server should be enabled: Desired Auditing setting",
+          "description": "Auditing state a SQL server must have to be compliant: enabled (default) or disabled. Servers whose auditing state differs are reported."
         },
         "defaultValue": "enabled",
         "allowedValues": [
@@ -2259,7 +2260,7 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L36 - Container registries should have local admin account disabled.: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
@@ -2272,7 +2273,7 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L37 - Container registries should have anonymous authentication disabled.: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
@@ -2284,7 +2285,7 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L38 - PostgreSQL flexible servers should be running TLS version 1.2 or newer: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
@@ -2295,7 +2296,7 @@
           "TLSV1.3"
         ],
         "metadata": {
-          "displayName": "Approved minimum TLS versions",
+          "displayName": "L38 - PostgreSQL flexible servers should be running TLS version 1.2 or newer: Approved minimum TLS versions",
           "description": "Transport-security baseline, not an OS/image release. The source security baseline is retained as the default. Use compatible approved values without weakening security; the source comparison operator remains unchanged."
         }
       },
@@ -2307,7 +2308,7 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L39 - Enforce SSL connection should be enabled for PostgreSQL flexible servers: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
@@ -2319,14 +2320,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L41 - Function apps should have authentication enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l41_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L41 - Function apps should have authentication enabled: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -2360,7 +2361,7 @@
       "l42_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L42 - API Management APIs should use only encrypted protocols: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -2378,14 +2379,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L43 - Azure Backup should be enabled for Virtual Machines: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l43_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L43 - Azure Backup should be enabled for Virtual Machines: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -2424,14 +2425,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L45 - Long-term geo-redundant backup should be enabled for Azure SQL Databases: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "l45_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L45 - Long-term geo-redundant backup should be enabled for Azure SQL Databases: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -2465,7 +2466,7 @@
       "l46_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L46 - Web Application Firewall (WAF) should be enabled for Application Gateway: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -2478,7 +2479,7 @@
       "l46_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "L46 - Web Application Firewall (WAF) should be enabled for Application Gateway: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -2517,14 +2518,14 @@
         ],
         "defaultValue": "AuditIfNotExists",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L49 - Selected Corp spokes must have a connected approved hub peering: Effect",
           "description": "Read-only related-resource evaluation."
         }
       },
       "l49_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required traditional Corp peering profile",
+          "displayName": "L49 - Selected Corp spokes must have a connected approved hub peering: Required traditional Corp peering profile",
           "description": "Required nonempty approved spoke IDs and hub VNet IDs plus the architecture-approved useRemoteGateways value. Exclude vWAN, isolated, and intentionally unpeered spokes."
         },
         "schema": {
@@ -2569,7 +2570,7 @@
         ],
         "defaultValue": "Audit",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L55 - Web Application Firewall (WAF) policy must be enabled for Prevention mode: Effect",
           "description": "Audit reports WAF policies that are disabled or not in Prevention mode. Deny blocks creating or updating such a policy."
         }
       },
@@ -2582,14 +2583,14 @@
         ],
         "defaultValue": "Audit",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L56 - Audit NAT Gateways should not be associated to subnets: Effect",
           "description": "Audit reports subnets with a NAT gateway. Deny blocks creating or updating a subnet or virtual network that associates one."
         }
       },
       "l54_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "L54 - Audit public IP attachments to regular VM network interfaces: Effect",
           "description": "Start with Audit. Change to Deny only after appliance exceptions and application dependencies are reviewed."
         },
         "allowedValues": [
@@ -2602,7 +2603,7 @@
       "l54_excludedNetworkInterfaceIds": {
         "type": "Array",
         "metadata": {
-          "displayName": "Approved appliance network interface IDs",
+          "displayName": "L54 - Audit public IP attachments to regular VM network interfaces: Approved appliance network interface IDs",
           "description": "Explicit resource IDs of NIC-based network appliances allowed to use public IPs. No resource tags or names automatically grant an exception."
         },
         "defaultValue": []

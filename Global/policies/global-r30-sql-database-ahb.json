@@ -2,7 +2,7 @@
   "name": "global-r30-sql-database-ahb",
   "properties": {
     "displayName": "Audit Azure Hybrid Benefit for Azure SQL Database",
-    "description": "Audit Azure Hybrid Benefit for Azure SQL Database. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed provisioned vCore Azure SQL databases (General Purpose, Business Critical or Hyperscale; not serverless, not in an elastic pool, not master) that do not use Azure Hybrid Benefit (licenseType BasePrice). Only databases in the approved resource ID list are evaluated. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -28,8 +28,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved SQL databases",
+          "description": "Required object with the properties: resourceIds (SQL database resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",

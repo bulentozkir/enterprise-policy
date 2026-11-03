@@ -2,7 +2,7 @@
   "name": "global-r32-ama-virtualmachinescalesets",
   "properties": {
     "displayName": "Check approved Azure Monitor Agent on virtualMachineScaleSets",
-    "description": "Check approved Azure Monitor Agent on virtualMachineScaleSets. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed virtual machine scale sets that do not have the approved Azure Monitor Agent extension installed with a successful provisioning state. Only scale sets in the approved resource ID list are evaluated. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -27,8 +27,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved scale sets and agent type",
+          "description": "Required object with the properties: resourceIds (virtual machine scale set resource IDs; resources that are not listed are never evaluated); agentType (approved Azure Monitor Agent extension type: AzureMonitorWindowsAgent or AzureMonitorLinuxAgent)."
         },
         "schema": {
           "type": "object",

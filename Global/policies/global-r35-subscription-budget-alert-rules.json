@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",

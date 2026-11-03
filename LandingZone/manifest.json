@@ -2245,7 +2245,7 @@
       },
       "limitations": [
         "Checks Microsoft.Sql/servers.minimalTlsVersion; SQL Managed Instance uses a different definition. Validate legacy clients before Deny.",
-        "minimumTlsVersion retains the upstream transport-security baseline as its default, not an OS/image release pin. The exact source comparison operator is preserved.",
+        "minimumTlsVersion retains the upstream transport-security baseline as its default, not an OS/image release pin. The source comparison operator (less) is preserved, with one explicit addition: a minimalTlsVersion of 'None' (no minimum enforced) is reported, because the string comparison alone sorts 'None' after '1.2' and would treat it as compliant.",
         "Baseline applicability retains the original resource criteria without an internal resource-ID scope filter. Use only the documented source assignment scope.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
@@ -2294,6 +2294,11 @@
           "parameterName": "minimumTlsVersion",
           "field": "Microsoft.Sql/servers/minimalTlsVersion",
           "operator": "less"
+        },
+        {
+          "path": "/policyRule/if/allOf/1/anyOf",
+          "reason": "Report minimalTlsVersion 'None'. The upstream string comparison 'less' sorts 'None' after '1.2', so servers with no enforced minimum TLS version were treated as compliant.",
+          "category": "semantic-fix"
         }
       ],
       "catalogName": "Azure SQL Database should be running TLS version 1.2 or newer",
@@ -2301,7 +2306,7 @@
       "name": "landingzone-l32-l32-sql-server-minimum-tls-1-2",
       "file": "policies/landingzone-l32-l32-sql-server-minimum-tls-1-2.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "4b96b7a4569cc4c3b507734dd142f9cc0859386c0082d637e9001b30fc8fde29",
+      "customDefinitionSha256": "5ca346dbb5ea497cbcd68ac7e861c366d26147669b46caff6776489f4370eeb2",
       "requiredParameters": []
     },
     {
@@ -2430,6 +2435,11 @@
           "reason": "Canonical source-supported effects and catalog audit-first default.",
           "category": "effect-normalization",
           "parameterName": "effect"
+        },
+        {
+          "path": "/parameters/setting/metadata/description",
+          "reason": "The source parameter had no description.",
+          "category": "semantic-fix"
         }
       ],
       "catalogName": "Auditing on SQL server should be enabled",
@@ -2437,7 +2447,7 @@
       "name": "landingzone-l35-l35-sql-auditing-enabled",
       "file": "policies/landingzone-l35-l35-sql-auditing-enabled.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "5e06d5382299dfa1f73ee2542f5462a3c39afa5feadbc13ae6aa8280a3355f7a",
+      "customDefinitionSha256": "aff6c08f550f1228050282c543d57730ccda0a7af5d0f2127ca8e9fbe9986f3f",
       "requiredParameters": []
     },
     {

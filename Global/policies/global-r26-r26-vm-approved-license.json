@@ -2,7 +2,7 @@
   "name": "global-r26-r26-vm-approved-license",
   "properties": {
     "displayName": "Audit Azure Hybrid Benefit for Windows Server on virtual machines",
-    "description": "Audit Azure Hybrid Benefit for Windows Server on virtual machines. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed virtual machines that do not have Azure Hybrid Benefit for Windows Server enabled (licenseType Windows_Server). Only virtual machines in the approved resource ID list are evaluated; Software Assurance or subscription-license eligibility is never inferred. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -28,8 +28,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved virtual machines",
+          "description": "Required object with the properties: resourceIds (virtual machine resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",

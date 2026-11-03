@@ -12,7 +12,7 @@
       "h01_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H01 - Azure Firewall Policy should enable Threat Intelligence: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -25,7 +25,7 @@
       "h05_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H05 - Web Application Firewall (WAF) should be enabled for Application Gateway: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -38,7 +38,7 @@
       "h05_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "H05 - Web Application Firewall (WAF) should be enabled for Application Gateway: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -72,7 +72,7 @@
       "h08_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H08 - Virtual Hubs should be protected with Azure Firewall: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -85,7 +85,7 @@
       "h08_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "H08 - Virtual Hubs should be protected with Azure Firewall: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -119,7 +119,7 @@
       "h10_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H10 - VPN gateways should use only Azure Active Directory (Azure AD) authentication for point-to-site users: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -132,7 +132,7 @@
       "h10_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "H10 - VPN gateways should use only Azure Active Directory (Azure AD) authentication for point-to-site users: Explicit conditi...",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -171,14 +171,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H11 - Network Watcher should be enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "h11_resourceGroupName": {
         "type": "String",
         "metadata": {
-          "displayName": "NetworkWatcher resource group name",
+          "displayName": "H11 - Network Watcher should be enabled: NetworkWatcher resource group name",
           "description": "Name of the resource group of NetworkWatcher, such as NetworkWatcherRG. This is the resource group where the Network Watchers are located."
         },
         "defaultValue": "NetworkWatcherRG"
@@ -186,7 +186,7 @@
       "h12_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H12 - Subnets should be private: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -199,7 +199,7 @@
       "h14_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H14 - Log Analytics workspaces should block log ingestion and querying from public networks: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -212,7 +212,7 @@
       "h14_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "H14 - Log Analytics workspaces should block log ingestion and querying from public networks: Explicit conditional resource ap...",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -246,7 +246,7 @@
       "h16_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H16 - Deny vNet peering to non-approved vNets: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -259,7 +259,7 @@
       "h16_allowedVnets": {
         "type": "Array",
         "metadata": {
-          "displayName": "Allowed vNets to peer with",
+          "displayName": "H16 - Deny vNet peering to non-approved vNets: Allowed vNets to peer with",
           "description": "Array of allowed vNets that can be peered with. Must be entered using their resource ID. Example: /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}"
         },
         "defaultValue": []
@@ -267,7 +267,7 @@
       "h16_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "H16 - Deny vNet peering to non-approved vNets: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -302,13 +302,13 @@
         "type": "Array",
         "metadata": {
           "description": "The list of DNS servers to enforce exclusive existance of.",
-          "displayName": "DNS Servers list"
+          "displayName": "H17 - Enforce VNET DNS servers: DNS Servers list"
         }
       },
       "h17_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H17 - Enforce VNET DNS servers: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -321,7 +321,7 @@
       "h17_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "H17 - Enforce VNET DNS servers: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -355,7 +355,7 @@
       "h19_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H19 - Deny Bastion Shared Links: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -368,7 +368,7 @@
       "h19_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "H19 - Deny Bastion Shared Links: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -402,15 +402,15 @@
       "h20_retentionInDays": {
         "type": "Integer",
         "metadata": {
-          "displayName": "retentionInDays",
-          "description": "retentionInDays"
+          "displayName": "H20 - Audit change of retention days in Log Analytics workspace: Retention threshold in days (reported at or below)",
+          "description": "Workspaces whose retention is less than or equal to this number of days are reported (the rule uses lessOrEquals). To require at least N days, set N-1. The default of 179 comes from the community source and means at least 180 days; set your own approved minimum minus 1."
         },
         "defaultValue": 179
       },
       "h20_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H20 - Audit change of retention days in Log Analytics workspace: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -423,7 +423,7 @@
       "h20_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "H20 - Audit change of retention days in Log Analytics workspace: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -462,14 +462,14 @@
         ],
         "defaultValue": "Audit",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H04 - Selected hub Firewall Policies must explicitly enable DNS proxy: Effect",
           "description": "Read-only evaluation."
         }
       },
       "h04_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Approved DNS-proxy targets",
+          "displayName": "H04 - Selected hub Firewall Policies must explicitly enable DNS proxy: Approved DNS-proxy targets",
           "description": "Required, nonempty Firewall Policy resource IDs whose approved DNS architecture requires explicit DNS proxy configuration."
         },
         "schema": {
@@ -500,14 +500,14 @@
         ],
         "defaultValue": "Audit",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H07 - Audit all Public IPs require approved DDoS Network Protection: Effect",
           "description": "Read-only evaluation."
         }
       },
       "h07_approvedPlanIds": {
         "type": "Array",
         "metadata": {
-          "displayName": "Approved DDoS protection plan resource IDs",
+          "displayName": "H07 - Audit all Public IPs require approved DDoS Network Protection: Approved DDoS protection plan resource IDs",
           "description": "Required, nonempty list of approved DDoS Network Protection plan resource IDs. A public IP is approved only when ddosSettings.protectionMode is Enabled and ddosSettings.ddosProtectionPlan.id is in this list."
         },
         "schema": {
@@ -529,7 +529,7 @@
         ],
         "defaultValue": false,
         "metadata": {
-          "displayName": "Accept virtual-network-inherited protection",
+          "displayName": "H07 - Audit all Public IPs require approved DDoS Network Protection: Accept virtual-network-inherited protection",
           "description": "When true, public IPs whose protectionMode is VirtualNetworkInherited (or omitted) are not reported, because the plan association is on the virtual network and cannot be read from the public IP. The default false reports them."
         }
       },
@@ -541,14 +541,14 @@
         ],
         "defaultValue": "Audit",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H21 - Selected Premium Firewall Policies must explicitly enable approved IDPS mode: Effect",
           "description": "Read-only evaluation; the IDPS traffic mode is a separate configuration."
         }
       },
       "h21_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Approved Premium policies and IDPS modes",
+          "displayName": "H21 - Selected Premium Firewall Policies must explicitly enable approved IDPS mode: Approved Premium policies and IDPS modes",
           "description": "Required nonempty policy IDs and accepted IDPS modes. Accept Alert, Deny, or both according to approved inspection architecture."
         },
         "schema": {
@@ -593,7 +593,7 @@
         ],
         "defaultValue": "Audit",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "H26 - Web Application Firewall (WAF) policy must be enabled for Prevention mode: Effect",
           "description": "Audit reports WAF policies that are disabled or not in Prevention mode. Deny blocks creating or updating such a policy."
         }
       }

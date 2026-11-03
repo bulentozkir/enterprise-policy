@@ -50,6 +50,10 @@
               },
               {
                 "field": "Microsoft.Sql/servers/minimalTlsVersion",
+                "equals": "None"
+              },
+              {
+                "field": "Microsoft.Sql/servers/minimalTlsVersion",
                 "less": "[parameters('minimumTlsVersion')]"
               }
             ]

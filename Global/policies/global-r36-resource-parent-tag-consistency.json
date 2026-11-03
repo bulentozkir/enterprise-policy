@@ -2,7 +2,7 @@
   "name": "global-r36-resource-parent-tag-consistency",
   "properties": {
     "displayName": "Audit resource tag consistency against a nonempty resource-group tag",
-    "description": "Audit resource tag consistency against a nonempty resource-group tag. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed resources whose value for the selected tag differs from the same tag on their resource group, or whose resource group tag is missing or empty. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -28,8 +28,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved resources",
+          "description": "Required object with the properties: resourceIds (resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",
@@ -53,8 +53,8 @@
       "tagName": {
         "type": "String",
         "metadata": {
-          "displayName": "Reviewed inherited tag name",
-          "description": "Reviewed inherited tag name"
+          "displayName": "Tag name to compare",
+          "description": "Name of the tag whose value on each listed resource must match the same tag on its resource group. A missing or empty resource group tag is non-compliant."
         }
       }
     },

@@ -95,7 +95,7 @@
     "policy": "global-r24-subscription-activity-log-export",
     "row": "R24",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); workspaceId (resource ID of the approved Log Analytics workspace).",
     "allowedValues": null
   },
   {
@@ -103,7 +103,7 @@
     "policy": "global-r26-r26-vm-approved-license",
     "row": "R26",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (virtual machine resource IDs; resources that are not listed are never evaluated).",
     "allowedValues": null
   },
   {
@@ -111,7 +111,7 @@
     "policy": "global-r26-r26-vmss-approved-license",
     "row": "R26",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (virtual machine scale set resource IDs; resources that are not listed are never evaluated).",
     "allowedValues": null
   },
   {
@@ -119,7 +119,7 @@
     "policy": "global-r27-r27-vm-approved-license",
     "row": "R27",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (virtual machine resource IDs; resources that are not listed are never evaluated).",
     "allowedValues": null
   },
   {
@@ -127,7 +127,7 @@
     "policy": "global-r27-r27-vmss-approved-license",
     "row": "R27",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (virtual machine scale set resource IDs; resources that are not listed are never evaluated).",
     "allowedValues": null
   },
   {
@@ -135,7 +135,7 @@
     "policy": "global-r28-sql-vm-ahb",
     "row": "R28",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (SQL virtual machine resource IDs; resources that are not listed are never evaluated).",
     "allowedValues": null
   },
   {
@@ -143,7 +143,7 @@
     "policy": "global-r29-sql-mi-ahb",
     "row": "R29",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (SQL managed instance resource IDs; resources that are not listed are never evaluated).",
     "allowedValues": null
   },
   {
@@ -151,7 +151,7 @@
     "policy": "global-r30-sql-database-ahb",
     "row": "R30",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (SQL database resource IDs; resources that are not listed are never evaluated).",
     "allowedValues": null
   },
   {
@@ -159,7 +159,7 @@
     "policy": "global-r30-sql-elastic-pool-ahb",
     "row": "R30",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (SQL elastic pool resource IDs; resources that are not listed are never evaluated).",
     "allowedValues": null
   },
   {
@@ -167,7 +167,7 @@
     "policy": "global-r31-resource-diagnostic-destination",
     "row": "R31",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (resource IDs; resources that are not listed are never evaluated); resourceTypes (resource types to evaluate, for example Microsoft.KeyVault/vaults); workspaceId (resource ID of the approved Log Analytics workspace); categoryGroup (log category group that must be enabled: audit or allLogs).",
     "allowedValues": null
   },
   {
@@ -175,7 +175,7 @@
     "policy": "global-r32-ama-virtualmachines",
     "row": "R32",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (virtual machine resource IDs; resources that are not listed are never evaluated); agentType (approved Azure Monitor Agent extension type: AzureMonitorWindowsAgent or AzureMonitorLinuxAgent).",
     "allowedValues": null
   },
   {
@@ -183,7 +183,7 @@
     "policy": "global-r32-ama-virtualmachinescalesets",
     "row": "R32",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (virtual machine scale set resource IDs; resources that are not listed are never evaluated); agentType (approved Azure Monitor Agent extension type: AzureMonitorWindowsAgent or AzureMonitorLinuxAgent).",
     "allowedValues": null
   },
   {
@@ -191,7 +191,7 @@
     "policy": "global-r32-ama-machines",
     "row": "R32",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (Azure Arc-enabled server resource IDs; resources that are not listed are never evaluated); agentType (approved Azure Monitor Agent extension type: AzureMonitorWindowsAgent or AzureMonitorLinuxAgent).",
     "allowedValues": null
   },
   {
@@ -199,7 +199,7 @@
     "policy": "global-r33-required-dcr-association",
     "row": "R33",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (virtual machine, scale set and Azure Arc-enabled server resource IDs; resources that are not listed are never evaluated); approvedDcrIds (resource IDs of the approved data collection rules; an association with any one satisfies the check).",
     "allowedValues": null
   },
   {
@@ -207,7 +207,7 @@
     "policy": "global-r34-defender-endpoint-integration",
     "row": "R34",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); settingName (Microsoft Defender for Cloud setting to check: WDATP or WDATP_UNIFIED_SOLUTION).",
     "allowedValues": null
   },
   {
@@ -215,7 +215,7 @@
     "policy": "global-r36-resource-parent-tag-consistency",
     "row": "R36",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (resource IDs; resources that are not listed are never evaluated).",
     "allowedValues": null
   },
   {
@@ -223,7 +223,7 @@
     "policy": "global-r36-resource-parent-tag-consistency",
     "row": "R36",
     "type": "String",
-    "description": "Reviewed inherited tag name",
+    "description": "Name of the tag whose value on each listed resource must match the same tag on its resource group. A missing or empty resource group tag is non-compliant.",
     "allowedValues": null
   },
   {
@@ -231,7 +231,7 @@
     "policy": "global-r25-service-health-alert-service-issues",
     "row": "R25",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); actionGroupIds (resource IDs of the action groups the alert must notify; all are required).",
     "allowedValues": null
   },
   {
@@ -239,7 +239,7 @@
     "policy": "global-r25-service-health-alert-planned-maintenance",
     "row": "R25",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); actionGroupIds (resource IDs of the action groups the alert must notify; all are required).",
     "allowedValues": null
   },
   {
@@ -247,7 +247,7 @@
     "policy": "global-r25-service-health-alert-health-advisories",
     "row": "R25",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); actionGroupIds (resource IDs of the action groups the alert must notify; all are required).",
     "allowedValues": null
   },
   {
@@ -255,7 +255,7 @@
     "policy": "global-r25-service-health-alert-security-advisories",
     "row": "R25",
     "type": "Object",
-    "description": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
+    "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); actionGroupIds (resource IDs of the action groups the alert must notify; all are required).",
     "allowedValues": null
   }
 ]

@@ -2,7 +2,7 @@
   "name": "global-r33-required-dcr-association",
   "properties": {
     "displayName": "Check machines have an association to an approved collection rule",
-    "description": "Check machines have an association to an approved collection rule. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed virtual machines, virtual machine scale sets and Azure Arc-enabled servers that have no association with one of the approved data collection rules. Rule contents and agent health are not checked. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -27,8 +27,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved machines and data collection rules",
+          "description": "Required object with the properties: resourceIds (virtual machine, scale set and Azure Arc-enabled server resource IDs; resources that are not listed are never evaluated); approvedDcrIds (resource IDs of the approved data collection rules; an association with any one satisfies the check)."
         },
         "schema": {
           "type": "object",

@@ -14,7 +14,7 @@
         "metadata": {
           "description": "The list of locations that can be specified when deploying resources.",
           "strongType": "location",
-          "displayName": "Allowed locations"
+          "displayName": "R01 - Allowed locations: Allowed locations"
         }
       },
       "r01_effect": {
@@ -26,7 +26,7 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R01 - Allowed locations: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
@@ -35,7 +35,7 @@
         "metadata": {
           "description": "The list of locations that resource groups can be created in.",
           "strongType": "location",
-          "displayName": "Allowed locations"
+          "displayName": "R02 - Allowed locations for resource groups: Allowed locations"
         }
       },
       "r02_effect": {
@@ -47,7 +47,7 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R02 - Allowed locations for resource groups: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
@@ -55,7 +55,7 @@
         "type": "Array",
         "metadata": {
           "description": "The list of resource types that cannot be deployed.",
-          "displayName": "Not allowed resource types",
+          "displayName": "R03 - Not allowed resource types: Not allowed resource types",
           "strongType": "resourceTypes"
         }
       },
@@ -68,14 +68,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R03 - Not allowed resource types: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "r04_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R04 - Audit for mandatory tags on resources: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -88,7 +88,7 @@
       "r04_mandatoryTags": {
         "type": "Array",
         "metadata": {
-          "displayName": "Array of mandatory tags",
+          "displayName": "R04 - Audit for mandatory tags on resources: Array of mandatory tags",
           "description": "Array of mandatory tags that must be present on the resource group. The array should contain semicolon separated list of the tag names."
         },
         "defaultValue": [
@@ -99,7 +99,7 @@
       "r05_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R05 - Audit for mandatory tags on resource groups: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -112,7 +112,7 @@
       "r05_mandatoryTags": {
         "type": "Array",
         "metadata": {
-          "displayName": "Array of mandatory tags",
+          "displayName": "R05 - Audit for mandatory tags on resource groups: Array of mandatory tags",
           "description": "Array of mandatory tags that must be present on the resource group. The array should contain semicolon separated list of the tag names."
         },
         "defaultValue": [
@@ -123,7 +123,7 @@
       "r06_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R06 - Audit mandatory tags on Subscriptions: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -136,7 +136,7 @@
       "r06_mandatoryTags": {
         "type": "Array",
         "metadata": {
-          "displayName": "Array of mandatory tags",
+          "displayName": "R06 - Audit mandatory tags on Subscriptions: Array of mandatory tags",
           "description": "Array of mandatory tag names that must be present on the subscription, for example [\"owner\", \"costcenter\"]."
         },
         "defaultValue": [
@@ -153,14 +153,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R08 - Secure transfer to storage accounts should be enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "r09_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R09 - Storage accounts should have the specified minimum TLS version: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -173,7 +173,7 @@
       "r09_minimumTlsVersion": {
         "type": "String",
         "metadata": {
-          "displayName": "Minimum TLS Version",
+          "displayName": "R09 - Storage accounts should have the specified minimum TLS version: Minimum TLS Version",
           "description": "Minimum version of TLS required to access data in this storage account"
         },
         "allowedValues": [
@@ -186,7 +186,7 @@
       "r10_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R10 - Storage account public access should allow trusted services: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -199,7 +199,7 @@
       "r11_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R11 - Key vaults should have soft delete enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -212,7 +212,7 @@
       "r12_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R12 - Key vaults should have deletion protection enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -225,7 +225,7 @@
       "r13_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R13 - Azure Key Vault should use RBAC permission model: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -238,7 +238,7 @@
       "r18_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R18 - An activity log alert should exist for specific Administrative operations: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -250,7 +250,7 @@
       "r18_operationName": {
         "type": "String",
         "metadata": {
-          "displayName": "Operation Name",
+          "displayName": "R18 - An activity log alert should exist for specific Administrative operations: Operation Name",
           "description": "Administrative Operation name for which activity log alert should be configured"
         },
         "allowedValues": [
@@ -269,7 +269,7 @@
       "r18_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "R18 - An activity log alert should exist for specific Administrative operations: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -308,14 +308,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R19 - Azure Defender for servers should be enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "r19_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "R19 - Azure Defender for servers should be enabled: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -354,14 +354,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R20 - Microsoft Defender for Containers should be enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "r20_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "R20 - Microsoft Defender for Containers should be enabled: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -400,14 +400,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R21 - Microsoft Defender for Storage should be enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "r21_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "R21 - Microsoft Defender for Storage should be enabled: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -446,14 +446,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R22 - Azure Defender for Key Vault should be enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "r22_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "R22 - Azure Defender for Key Vault should be enabled: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -492,14 +492,14 @@
           "Disabled"
         ],
         "metadata": {
-          "displayName": "Effect",
+          "displayName": "R23 - Azure Defender for Azure SQL Database servers should be enabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
       "r23_evaluationScope": {
         "type": "Object",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
+          "displayName": "R23 - Azure Defender for Azure SQL Database servers should be enabled: Explicit conditional resource applicability",
           "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
         },
         "schema": {
@@ -533,8 +533,8 @@
       "r24_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R24 - Audit subscription all Activity Log categories sent to Log Analytics: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -545,8 +545,8 @@
       "r24_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R24 - Audit subscription all Activity Log categories sent to Log Analytics: Approved subscriptions and Log Analytics workspace",
+          "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); workspaceId (resource ID of the approved Log Analytics workspace)."
         },
         "schema": {
           "type": "object",
@@ -575,8 +575,8 @@
       "r26_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R26 - Audit Azure Hybrid Benefit for Windows Server on virtual machines: Effect",
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -588,8 +588,8 @@
       "r26_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R26 - Audit Azure Hybrid Benefit for Windows Server on virtual machines: Approved virtual machines",
+          "description": "Required object with the properties: resourceIds (virtual machine resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",
@@ -613,8 +613,8 @@
       "r26_effect_fd2ae87": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R26 - Audit Azure Hybrid Benefit for Windows Server on virtual machine scale sets: Effect",
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -626,8 +626,8 @@
       "r26_profile_fd2ae87": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R26 - Audit Azure Hybrid Benefit for Windows Server on virtual machine scale sets: Approved virtual machine scale sets",
+          "description": "Required object with the properties: resourceIds (virtual machine scale set resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",
@@ -651,8 +651,8 @@
       "r27_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R27 - Audit Windows client BYOL licensing benefit on virtual machines: Effect",
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -664,8 +664,8 @@
       "r27_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R27 - Audit Windows client BYOL licensing benefit on virtual machines: Approved virtual machines",
+          "description": "Required object with the properties: resourceIds (virtual machine resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",
@@ -689,8 +689,8 @@
       "r27_effect_0ee5d7b": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R27 - Audit Windows client BYOL licensing benefit on virtual machine scale sets: Effect",
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -702,8 +702,8 @@
       "r27_profile_0ee5d7b": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R27 - Audit Windows client BYOL licensing benefit on virtual machine scale sets: Approved virtual machine scale sets",
+          "description": "Required object with the properties: resourceIds (virtual machine scale set resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",
@@ -727,8 +727,8 @@
       "r28_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R28 - Audit Azure Hybrid Benefit for SQL Server on Azure VMs: Effect",
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -740,8 +740,8 @@
       "r28_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R28 - Audit Azure Hybrid Benefit for SQL Server on Azure VMs: Approved SQL virtual machines",
+          "description": "Required object with the properties: resourceIds (SQL virtual machine resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",
@@ -765,8 +765,8 @@
       "r29_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R29 - Audit Azure Hybrid Benefit for Azure SQL Managed Instance: Effect",
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -778,8 +778,8 @@
       "r29_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R29 - Audit Azure Hybrid Benefit for Azure SQL Managed Instance: Approved SQL managed instances",
+          "description": "Required object with the properties: resourceIds (SQL managed instance resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",
@@ -803,8 +803,8 @@
       "r30_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R30 - Audit Azure Hybrid Benefit for Azure SQL Database: Effect",
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -816,8 +816,8 @@
       "r30_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R30 - Audit Azure Hybrid Benefit for Azure SQL Database: Approved SQL databases",
+          "description": "Required object with the properties: resourceIds (SQL database resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",
@@ -841,8 +841,8 @@
       "r30_effect_0e94e3a": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R30 - Audit Azure Hybrid Benefit for Azure SQL Database elastic pools: Effect",
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -854,8 +854,8 @@
       "r30_profile_0e94e3a": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R30 - Audit Azure Hybrid Benefit for Azure SQL Database elastic pools: Approved SQL elastic pools",
+          "description": "Required object with the properties: resourceIds (SQL elastic pool resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",
@@ -879,8 +879,8 @@
       "r31_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R31 - Check resource audit logs and approved Log Analytics destination: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -891,8 +891,8 @@
       "r31_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R31 - Check resource audit logs and approved Log Analytics destination: Approved resources and diagnostic destination",
+          "description": "Required object with the properties: resourceIds (resource IDs; resources that are not listed are never evaluated); resourceTypes (resource types to evaluate, for example Microsoft.KeyVault/vaults); workspaceId (resource ID of the approved Log Analytics workspace); categoryGroup (log category group that must be enabled: audit or allLogs)."
         },
         "schema": {
           "type": "object",
@@ -939,8 +939,8 @@
       "r32_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R32 - Check approved Azure Monitor Agent on virtualMachines: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -951,8 +951,8 @@
       "r32_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R32 - Check approved Azure Monitor Agent on virtualMachines: Approved virtual machines and agent type",
+          "description": "Required object with the properties: resourceIds (virtual machine resource IDs; resources that are not listed are never evaluated); agentType (approved Azure Monitor Agent extension type: AzureMonitorWindowsAgent or AzureMonitorLinuxAgent)."
         },
         "schema": {
           "type": "object",
@@ -984,8 +984,8 @@
       "r32_effect_1e65079": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R32 - Check approved Azure Monitor Agent on virtualMachineScaleSets: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -996,8 +996,8 @@
       "r32_profile_1e65079": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R32 - Check approved Azure Monitor Agent on virtualMachineScaleSets: Approved scale sets and agent type",
+          "description": "Required object with the properties: resourceIds (virtual machine scale set resource IDs; resources that are not listed are never evaluated); agentType (approved Azure Monitor Agent extension type: AzureMonitorWindowsAgent or AzureMonitorLinuxAgent)."
         },
         "schema": {
           "type": "object",
@@ -1029,8 +1029,8 @@
       "r32_effect_bd12d9a": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R32 - Check approved Azure Monitor Agent on machines: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -1041,8 +1041,8 @@
       "r32_profile_bd12d9a": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R32 - Check approved Azure Monitor Agent on machines: Approved Azure Arc-enabled servers and agent type",
+          "description": "Required object with the properties: resourceIds (Azure Arc-enabled server resource IDs; resources that are not listed are never evaluated); agentType (approved Azure Monitor Agent extension type: AzureMonitorWindowsAgent or AzureMonitorLinuxAgent)."
         },
         "schema": {
           "type": "object",
@@ -1074,8 +1074,8 @@
       "r33_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R33 - Check machines have an association to an approved collection rule: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -1086,8 +1086,8 @@
       "r33_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R33 - Check machines have an association to an approved collection rule: Approved machines and data collection rules",
+          "description": "Required object with the properties: resourceIds (virtual machine, scale set and Azure Arc-enabled server resource IDs; resources that are not listed are never evaluated); approvedDcrIds (resource IDs of the approved data collection rules; an association with any one satisfies the check)."
         },
         "schema": {
           "type": "object",
@@ -1121,8 +1121,8 @@
       "r34_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R34 - Check the approved Defender for Endpoint subscription integration setting: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -1133,8 +1133,8 @@
       "r34_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R34 - Check the approved Defender for Endpoint subscription integration setting: Approved subscriptions and Defender setting",
+          "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); settingName (Microsoft Defender for Cloud setting to check: WDATP or WDATP_UNIFIED_SOLUTION)."
         },
         "schema": {
           "type": "object",
@@ -1166,8 +1166,8 @@
       "r35_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R35 - Audit subscriptions have budget alert rules defined: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -1178,8 +1178,8 @@
       "r36_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R36 - Audit resource tag consistency against a nonempty resource-group tag: Effect",
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -1191,8 +1191,8 @@
       "r36_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R36 - Audit resource tag consistency against a nonempty resource-group tag: Approved resources",
+          "description": "Required object with the properties: resourceIds (resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",
@@ -1216,15 +1216,15 @@
       "r36_tagName": {
         "type": "String",
         "metadata": {
-          "displayName": "Reviewed inherited tag name",
-          "description": "Reviewed inherited tag name"
+          "displayName": "R36 - Audit resource tag consistency against a nonempty resource-group tag: Tag name to compare",
+          "description": "Name of the tag whose value on each listed resource must match the same tag on its resource group. A missing or empty resource group tag is non-compliant."
         }
       },
       "r25_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R25 - Audit subscription Service Health alerts are enabled for Service Issues: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -1235,8 +1235,8 @@
       "r25_profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R25 - Audit subscription Service Health alerts are enabled for Service Issues: Approved subscriptions and action groups",
+          "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); actionGroupIds (resource IDs of the action groups the alert must notify; all are required)."
         },
         "schema": {
           "type": "object",
@@ -1270,8 +1270,8 @@
       "r25_effect_1ed4de2": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R25 - Audit subscription Service Health alerts are enabled for Planned maintenance: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -1282,8 +1282,8 @@
       "r25_profile_1ed4de2": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R25 - Audit subscription Service Health alerts are enabled for Planned maintenance: Approved subscriptions and action groups",
+          "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); actionGroupIds (resource IDs of the action groups the alert must notify; all are required)."
         },
         "schema": {
           "type": "object",
@@ -1317,8 +1317,8 @@
       "r25_effect_6730d27": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R25 - Audit subscription Service Health alerts are enabled for Health advisories: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -1329,8 +1329,8 @@
       "r25_profile_6730d27": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R25 - Audit subscription Service Health alerts are enabled for Health advisories: Approved subscriptions and action groups",
+          "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); actionGroupIds (resource IDs of the action groups the alert must notify; all are required)."
         },
         "schema": {
           "type": "object",
@@ -1364,8 +1364,8 @@
       "r25_effect_c3c3bc1": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect"
+          "displayName": "R25 - Audit subscription Service Health alerts are enabled for Security advisories: Effect",
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -1376,8 +1376,8 @@
       "r25_profile_c3c3bc1": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "R25 - Audit subscription Service Health alerts are enabled for Security advisories: Approved subscriptions and action groups",
+          "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); actionGroupIds (resource IDs of the action groups the alert must notify; all are required)."
         },
         "schema": {
           "type": "object",

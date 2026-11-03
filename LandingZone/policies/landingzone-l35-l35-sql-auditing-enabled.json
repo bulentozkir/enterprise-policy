@@ -28,7 +28,8 @@
       "setting": {
         "type": "String",
         "metadata": {
-          "displayName": "Desired Auditing setting"
+          "displayName": "Desired Auditing setting",
+          "description": "Auditing state a SQL server must have to be compliant: enabled (default) or disabled. Servers whose auditing state differs are reported."
         },
         "defaultValue": "enabled",
         "allowedValues": [

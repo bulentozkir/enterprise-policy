@@ -2,7 +2,7 @@
   "name": "global-r29-sql-mi-ahb",
   "properties": {
     "displayName": "Audit Azure Hybrid Benefit for Azure SQL Managed Instance",
-    "description": "Audit Azure Hybrid Benefit for Azure SQL Managed Instance. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed Azure SQL Managed Instances that are not in an instance pool and do not use Azure Hybrid Benefit (licenseType BasePrice). Only instances in the approved resource ID list are evaluated; eligibility is never inferred. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -28,8 +28,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved SQL managed instances",
+          "description": "Required object with the properties: resourceIds (SQL managed instance resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",

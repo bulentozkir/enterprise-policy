@@ -2,7 +2,7 @@
   "name": "global-r24-subscription-activity-log-export",
   "properties": {
     "displayName": "Audit subscription all Activity Log categories sent to Log Analytics",
-    "description": "Audit subscription all Activity Log categories sent to Log Analytics. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed subscriptions whose Activity Log is not sent to the approved Log Analytics workspace with every category enabled. A subscription diagnostic setting is compliant when it targets the approved workspace and enables the allLogs category group or all eight Activity Log categories. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -27,8 +27,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved subscriptions and Log Analytics workspace",
+          "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); workspaceId (resource ID of the approved Log Analytics workspace)."
         },
         "schema": {
           "type": "object",
@@ -79,22 +79,53 @@
                 "equals": "[parameters('profile').workspaceId]"
               },
               {
-                "count": {
-                  "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
-                  "where": {
-                    "allOf": [
-                      {
-                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
-                        "equals": true
-                      },
-                      {
-                        "field": "Microsoft.Insights/diagnosticSettings/logs[*].categoryGroup",
-                        "equals": "allLogs"
+                "anyOf": [
+                  {
+                    "count": {
+                      "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                      "where": {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                            "equals": true
+                          },
+                          {
+                            "field": "Microsoft.Insights/diagnosticSettings/logs[*].categoryGroup",
+                            "equals": "allLogs"
+                          }
+                        ]
                       }
-                    ]
+                    },
+                    "greater": 0
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Insights/diagnosticSettings/logs[*]",
+                      "where": {
+                        "allOf": [
+                          {
+                            "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                            "equals": true
+                          },
+                          {
+                            "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                            "in": [
+                              "Administrative",
+                              "Security",
+                              "ServiceHealth",
+                              "Alert",
+                              "Recommendation",
+                              "Policy",
+                              "Autoscale",
+                              "ResourceHealth"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "equals": 8
                   }
-                },
-                "greater": 0
+                ]
               }
             ]
           },

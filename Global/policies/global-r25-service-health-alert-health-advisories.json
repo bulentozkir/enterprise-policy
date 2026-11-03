@@ -2,7 +2,7 @@
   "name": "global-r25-service-health-alert-health-advisories",
   "properties": {
     "displayName": "Audit subscription Service Health alerts are enabled for Health advisories",
-    "description": "Audit subscription Service Health alerts are enabled for Health advisories. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed subscriptions that have no enabled Service Health alert for ['ActionRequired', 'Informational']. The alert must be scoped to the subscription, use the ServiceHealth category, cover the event type (listed explicitly or because the alert has no event-type filter) and notify every required action group. Service and region filters are not evaluated. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -27,8 +27,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved subscriptions and action groups",
+          "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); actionGroupIds (resource IDs of the action groups the alert must notify; all are required)."
         },
         "schema": {
           "type": "object",
@@ -106,30 +106,116 @@
                 "greater": 0
               },
               {
-                "count": {
-                  "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
-                  "where": {
+                "anyOf": [
+                  {
                     "allOf": [
                       {
-                        "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
-                        "equals": "properties.incidentType"
+                        "anyOf": [
+                          {
+                            "count": {
+                              "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                              "where": {
+                                "allOf": [
+                                  {
+                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                                    "equals": "properties.incidentType"
+                                  },
+                                  {
+                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                                    "equals": "ActionRequired"
+                                  }
+                                ]
+                              }
+                            },
+                            "greater": 0
+                          },
+                          {
+                            "count": {
+                              "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].anyOf[*]",
+                              "where": {
+                                "allOf": [
+                                  {
+                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].anyOf[*].field",
+                                    "equals": "properties.incidentType"
+                                  },
+                                  {
+                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].anyOf[*].equals",
+                                    "equals": "ActionRequired"
+                                  }
+                                ]
+                              }
+                            },
+                            "greater": 0
+                          }
+                        ]
                       },
                       {
                         "anyOf": [
                           {
-                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
-                            "equals": "ActionRequired"
+                            "count": {
+                              "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                              "where": {
+                                "allOf": [
+                                  {
+                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                                    "equals": "properties.incidentType"
+                                  },
+                                  {
+                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                                    "equals": "Informational"
+                                  }
+                                ]
+                              }
+                            },
+                            "greater": 0
                           },
                           {
-                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
-                            "equals": "Informational"
+                            "count": {
+                              "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].anyOf[*]",
+                              "where": {
+                                "allOf": [
+                                  {
+                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].anyOf[*].field",
+                                    "equals": "properties.incidentType"
+                                  },
+                                  {
+                                    "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].anyOf[*].equals",
+                                    "equals": "Informational"
+                                  }
+                                ]
+                              }
+                            },
+                            "greater": 0
                           }
                         ]
                       }
                     ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "count": {
+                          "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                          "where": {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "properties.incidentType"
+                          }
+                        },
+                        "equals": 0
+                      },
+                      {
+                        "count": {
+                          "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].anyOf[*]",
+                          "where": {
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].anyOf[*].field",
+                            "equals": "properties.incidentType"
+                          }
+                        },
+                        "equals": 0
+                      }
+                    ]
                   }
-                },
-                "greater": 0
+                ]
               },
               {
                 "count": {

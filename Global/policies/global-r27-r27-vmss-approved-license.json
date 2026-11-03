@@ -2,7 +2,7 @@
   "name": "global-r27-r27-vmss-approved-license",
   "properties": {
     "displayName": "Audit Windows client BYOL licensing benefit on virtual machine scale sets",
-    "description": "Audit Windows client BYOL licensing benefit on virtual machine scale sets. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed virtual machine scale sets whose model does not use the Windows client BYOL licensing benefit (virtualMachineProfile.licenseType Windows_Client). Only scale sets in the approved resource ID list are evaluated; licensing eligibility is never inferred. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -28,8 +28,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved virtual machine scale sets",
+          "description": "Required object with the properties: resourceIds (virtual machine scale set resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",

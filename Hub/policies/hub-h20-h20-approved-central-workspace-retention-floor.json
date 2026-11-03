@@ -15,8 +15,8 @@
       "retentionInDays": {
         "type": "Integer",
         "metadata": {
-          "displayName": "retentionInDays",
-          "description": "retentionInDays"
+          "displayName": "Retention threshold in days (reported at or below)",
+          "description": "Workspaces whose retention is less than or equal to this number of days are reported (the rule uses lessOrEquals). To require at least N days, set N-1. The default of 179 comes from the community source and means at least 180 days; set your own approved minimum minus 1."
         },
         "defaultValue": 179
       },

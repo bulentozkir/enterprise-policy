@@ -2,7 +2,7 @@
   "name": "global-r34-defender-endpoint-integration",
   "properties": {
     "displayName": "Check the approved Defender for Endpoint subscription integration setting",
-    "description": "Check the approved Defender for Endpoint subscription integration setting. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed subscriptions where the selected Microsoft Defender for Cloud setting for Defender for Endpoint integration (WDATP or WDATP_UNIFIED_SOLUTION) is not enabled. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -27,8 +27,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved subscriptions and Defender setting",
+          "description": "Required object with the properties: resourceIds (subscription resource IDs (/subscriptions/<id>); resources that are not listed are never evaluated); settingName (Microsoft Defender for Cloud setting to check: WDATP or WDATP_UNIFIED_SOLUTION)."
         },
         "schema": {
           "type": "object",

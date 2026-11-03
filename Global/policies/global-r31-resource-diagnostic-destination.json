@@ -2,7 +2,7 @@
   "name": "global-r31-resource-diagnostic-destination",
   "properties": {
     "displayName": "Check resource audit logs and approved Log Analytics destination",
-    "description": "Check resource audit logs and approved Log Analytics destination. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed resources of the listed resource types that have no diagnostic setting sending the selected log category group (audit or allLogs) to the approved Log Analytics workspace. It does not prove log delivery. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
         },
         "allowedValues": [
           "AuditIfNotExists",
@@ -27,8 +27,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved resources and diagnostic destination",
+          "description": "Required object with the properties: resourceIds (resource IDs; resources that are not listed are never evaluated); resourceTypes (resource types to evaluate, for example Microsoft.KeyVault/vaults); workspaceId (resource ID of the approved Log Analytics workspace); categoryGroup (log category group that must be enabled: audit or allLogs)."
         },
         "schema": {
           "type": "object",

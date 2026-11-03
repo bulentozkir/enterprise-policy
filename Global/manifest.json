@@ -1281,7 +1281,8 @@
       "key": "subscription-activity-log-export",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/DataConnectorsAzureActivity.json",
       "limitations": [
-        "Checks subscription diagnostic-setting destination and that at least one enabled log entry uses categoryGroup 'allLogs', not log delivery, retention or Event Hub routes. categoryGroup is used instead of an enumerated category list so the check automatically covers any Activity Log category Microsoft adds in the future without requiring a policy update.",
+        "Checks the diagnostic setting's destination workspace and enabled log categories. It does not verify log delivery, retention or Event Hub and storage destinations.",
+        "A setting is compliant when it enables the allLogs category group (which automatically covers categories Microsoft adds later) or all eight explicit categories: Administrative, Security, ServiceHealth, Alert, Recommendation, Policy, Autoscale, ResourceHealth. A setting that lists categories explicitly must be updated when a new category is added.",
         "Checks subscription diagnostic-setting destination and that at least one enabled log entry uses categoryGroup 'allLogs', not log delivery, retention or Event Hub routes."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
@@ -1291,7 +1292,7 @@
       "name": "global-r24-subscription-activity-log-export",
       "file": "policies/global-r24-subscription-activity-log-export.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "cc7983719d5d90deab34ac20d3da6e4013638d2440848d0a66e95a8fcea50047",
+      "customDefinitionSha256": "8bd4fb8648f420d237221b2d205bdc31ff76456170b3242f7c7d14713d9eebae",
       "requiredParameters": [
         "profile"
       ]
@@ -1302,17 +1303,15 @@
       "key": "r26-vm-approved-license",
       "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing",
       "limitations": [
-        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
-        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
-        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
-        "VMSS checks the scale-set model, not per-instance rollout. Exclude host-licensed and service-managed nodes from eligibility."
+        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r26-r26-vm-approved-license",
       "file": "policies/global-r26-r26-vm-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "273f9cb2d7f7c906e4b0072aa1cd97797d57ad48f110f35d078f528d29da0c8c",
+      "customDefinitionSha256": "ef9ada0d8e409a8190df5c1e05c4c92ff7134c5859cbcb2dc3aaa7a85f47896c",
       "requiredParameters": [
         "profile"
       ]
@@ -1323,17 +1322,16 @@
       "key": "r26-vmss-approved-license",
       "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing",
       "limitations": [
-        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
-        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
-        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
-        "VMSS checks the scale-set model, not per-instance rollout. Exclude host-licensed and service-managed nodes from eligibility."
+        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
+        "Checks the scale-set model, not per-instance rollout state. Leave host-licensed and service-managed nodes (for example AKS node pools) out of the list."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r26-r26-vmss-approved-license",
       "file": "policies/global-r26-r26-vmss-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "a9bb668cb5d9f8777f117da7741efea47fb87017d6012f36e84b9022c68e50a3",
+      "customDefinitionSha256": "a7a711ca2870c3f26eac6c0ab398f64cdd8f60e1325fc854bc57490d4067c5bf",
       "requiredParameters": [
         "profile"
       ]
@@ -1344,17 +1342,15 @@
       "key": "r27-vm-approved-license",
       "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/windows-desktop-multitenant-hosting-deployment",
       "limitations": [
-        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
-        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
-        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
-        "VMSS checks the scale-set model, not per-instance rollout. Exclude host-licensed and service-managed nodes from eligibility."
+        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r27-r27-vm-approved-license",
       "file": "policies/global-r27-r27-vm-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "c5edf45425045eff865ead9dbd4907faefb45d1f548a919796a7cd9b32117bb0",
+      "customDefinitionSha256": "6202af3b4bef073d4e655851e7934718b58a335d1fd3fb1161cdc37401c21bf3",
       "requiredParameters": [
         "profile"
       ]
@@ -1365,17 +1361,16 @@
       "key": "r27-vmss-approved-license",
       "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/windows-desktop-multitenant-hosting-deployment",
       "limitations": [
-        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
-        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
-        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
-        "VMSS checks the scale-set model, not per-instance rollout. Exclude host-licensed and service-managed nodes from eligibility."
+        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
+        "Checks the scale-set model, not per-instance rollout state. Leave host-licensed and service-managed nodes (for example AKS node pools) out of the list."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r27-r27-vmss-approved-license",
       "file": "policies/global-r27-r27-vmss-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "1765cccc2b009df832c81502f3aa12f595f734a69d5de9d8bc5ffa65ff2a02e6",
+      "customDefinitionSha256": "eb7b00034f298ea047648b5f365e9206520a73c52d8cd1b497208ad44f6a4e42",
       "requiredParameters": [
         "profile"
       ]
@@ -1386,17 +1381,17 @@
       "key": "sql-vm-ahb",
       "source_url": "https://learn.microsoft.com/azure/azure-sql/virtual-machines/windows/licensing-model-azure-hybrid-benefit-ahb-change",
       "limitations": [
-        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
-        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
-        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
-        "Only registered SQL VM resources are visible. Unregistered SQL installations need separate inventory."
+        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
+        "Only registered SQL virtual machine resources are visible. Unregistered SQL installations need a separate inventory.",
+        "Leave DR replicas, free/development editions and centrally managed SQL Azure Hybrid Benefit scopes out of the list."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r28-sql-vm-ahb",
       "file": "policies/global-r28-sql-vm-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "eef96a9492ed7fa7dd5360524623b6894011c8862871b67559655046cb6f8224",
+      "customDefinitionSha256": "01fe2fff4c69301ee801ce23faef92c79fc9cdc70b88ac0ae1d1f8058cd50ddb",
       "requiredParameters": [
         "profile"
       ]
@@ -1407,17 +1402,17 @@
       "key": "sql-mi-ahb",
       "source_url": "https://learn.microsoft.com/azure/azure-sql/azure-hybrid-benefit",
       "limitations": [
-        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
-        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
-        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
-        "MI instance pools are excluded; their licensing must be governed at the pool."
+        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
+        "Instances in an instance pool are excluded by the rule; their licensing is governed at the pool.",
+        "Leave DR replicas, free/development editions and centrally managed SQL Azure Hybrid Benefit scopes out of the list."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r29-sql-mi-ahb",
       "file": "policies/global-r29-sql-mi-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "5d3f6b1745ce7704151490aa5c89c1f83ba57e4dc15d10fb131fef027abfd3b8",
+      "customDefinitionSha256": "a11dd84c813d2fe154505bcc48c95b1eaa1fa2658c880c162cd95d83c3102842",
       "requiredParameters": [
         "profile"
       ]
@@ -1428,18 +1423,17 @@
       "key": "sql-database-ahb",
       "source_url": "https://learn.microsoft.com/azure/azure-sql/azure-hybrid-benefit",
       "limitations": [
-        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
-        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
-        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
-        "Supply eligible provisioned-vCore targets only; exclude DTU, serverless, master and pooled child databases.",
-        "SQL SKU families are service eligibility checks, not OS/image release pins."
+        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
+        "DTU-based, serverless, master and elastic-pool child databases are excluded by the rule. Leave DR replicas and free/development editions out of the list.",
+        "The SQL service-tier checks are eligibility rules, not operating-system or image release pins."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r30-sql-database-ahb",
       "file": "policies/global-r30-sql-database-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "0868e8f222e34639a66a134982311d7e01b7c9e0f91f06a0394ad1c6426e12f0",
+      "customDefinitionSha256": "f1ad629165917fd9b3a655686244e78f16bb2a8167365fe7a71c732541e02942",
       "requiredParameters": [
         "profile"
       ]
@@ -1450,18 +1444,16 @@
       "key": "sql-elastic-pool-ahb",
       "source_url": "https://learn.microsoft.com/azure/azure-sql/azure-hybrid-benefit",
       "limitations": [
-        "Approved resource IDs are a software-asset-management decision, not inferred entitlement.",
-        "Exclude centrally managed SQL AHB scopes, unsupported service tiers, approved DR replicas and free/development editions from SQL eligibility inputs.",
-        "This checks resource metadata only. It never activates benefits, installs extensions, validates license capacity or changes billing.",
-        "Supply eligible provisioned-vCore targets only; exclude DTU, serverless, master and pooled child databases.",
-        "SQL SKU families are service eligibility checks, not OS/image release pins."
+        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
+        "The rule does not filter by purchasing model. List vCore-based pools only, because DTU-based pools do not support Azure Hybrid Benefit."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r30-sql-elastic-pool-ahb",
       "file": "policies/global-r30-sql-elastic-pool-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "270662c1274a73dd44a577393ad2d79fe965076e984d1e7b2f8db58d3bb9e362",
+      "customDefinitionSha256": "5bc3da383fe6f85d803d29c683915be991cfbebe0798019cc85c831751483355",
       "requiredParameters": [
         "profile"
       ]
@@ -1480,7 +1472,7 @@
       "name": "global-r31-resource-diagnostic-destination",
       "file": "policies/global-r31-resource-diagnostic-destination.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "03e170b0c44d5f127b64009d3df5f82bb6c450d1d046e6f239b5269a274a42f4",
+      "customDefinitionSha256": "4cad8ab0dac7af1c64b49eee22c7811a6a06bba298ccc7be580a7423bb27b5b0",
       "requiredParameters": [
         "profile"
       ]
@@ -1500,7 +1492,7 @@
       "name": "global-r32-ama-virtualmachines",
       "file": "policies/global-r32-ama-virtualmachines.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "0ef11444ba42009cfd50430a40d4d048f469207a5fb01cc49ba376a8c5a7d7e0",
+      "customDefinitionSha256": "80883460b94f1a2a1c28c2cdff6318e3b2de752828b78df461e483d4c5a2313c",
       "requiredParameters": [
         "profile"
       ]
@@ -1520,7 +1512,7 @@
       "name": "global-r32-ama-virtualmachinescalesets",
       "file": "policies/global-r32-ama-virtualmachinescalesets.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "cfef6b64b00eb627842c3d18b1ff1bc5ad5d7cf04652bfc8d5ef590dabb18a28",
+      "customDefinitionSha256": "8ee055bb49b013df5d85f73e87470a814ed4adf098372db941e2ed28c5fb0425",
       "requiredParameters": [
         "profile"
       ]
@@ -1540,7 +1532,7 @@
       "name": "global-r32-ama-machines",
       "file": "policies/global-r32-ama-machines.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "5d89f6f773db60209312d65d5aaf6178339cf1811c8fc7b674c3affed9052e48",
+      "customDefinitionSha256": "d14ecf79f2505353f1502c62e2463d3a8c126ebc6485270f0683625dfdf94c66",
       "requiredParameters": [
         "profile"
       ]
@@ -1558,7 +1550,7 @@
       "name": "global-r33-required-dcr-association",
       "file": "policies/global-r33-required-dcr-association.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "21e75b48bb46f1a0542c12680fd9cb9f024a9bdcdb3f922dfa7ad7e4d8abf721",
+      "customDefinitionSha256": "c82682e76b79f68493b9a18930373cc23f734b5a7ee23cd3ad03395dee41621c",
       "requiredParameters": [
         "profile"
       ]
@@ -1576,7 +1568,7 @@
       "name": "global-r34-defender-endpoint-integration",
       "file": "policies/global-r34-defender-endpoint-integration.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "4eb088475c7798988defee0588c4b7a53948e635e64bc5233b72434f11224443",
+      "customDefinitionSha256": "744b936554269d6a02c614703e89feece6facb865309ee7139a6a53e168cf1b7",
       "requiredParameters": [
         "profile"
       ]
@@ -1598,7 +1590,7 @@
       "name": "global-r35-subscription-budget-alert-rules",
       "file": "policies/global-r35-subscription-budget-alert-rules.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "dfbe79abaf794ba2078218253aed5de38524cdbbe4d0c6e41d725ed6bf23a7cb",
+      "customDefinitionSha256": "4afd2e526ad45e6a648ede8e7406c043d4c2e112155394019d725104560da5d7",
       "requiredParameters": []
     },
     {
@@ -1615,7 +1607,7 @@
       "name": "global-r36-resource-parent-tag-consistency",
       "file": "policies/global-r36-resource-parent-tag-consistency.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "9879c3ee0155508d2b01ebe49b7aed5155bf2a7e382ef390b93bb504ab175c21",
+      "customDefinitionSha256": "e2a04cdca90567af494dbe2fc2fdae7fafbf22385d8061d717cef1b2f596e527",
       "requiredParameters": [
         "profile",
         "tagName"
@@ -1627,15 +1619,15 @@
       "key": "service-health-alert-service-issues",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
       "limitations": [
-        "Checks enabled state, subscription scope, the ServiceHealth category condition, the incident-type condition and action-group association on the matching ActivityLogAlerts resource; it does not verify region/service filters or confirm notification delivery.",
-        "Policy field/field() alias references for Microsoft.Insights/ActivityLogAlerts condition.allOf[*] are a custom design, not sourced from an official Microsoft built-in policy; target-cloud alias support and Azure service acceptance have not been independently validated."
+        "Checks enabled state, subscription scope, the ServiceHealth category condition, event-type coverage and action-group association on the matching ActivityLogAlerts resource. It does not verify service or region filters or confirm notification delivery.",
+        "Event types are recognized when written as a direct incidentType condition or inside an anyOf group (the shapes produced by the portal, ARM templates and the CLI). An alert with no incidentType condition covers every event type and satisfies all four Service Health policies. Event types written with containsAny are not recognized."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r25-service-health-alert-service-issues",
       "file": "policies/global-r25-service-health-alert-service-issues.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "648f5f52b0be486d7fa788bb48bb6b112395e7891bcd30ceaa4c64eba1507d5b",
+      "customDefinitionSha256": "1f16cc8b91ce8273974ddce7e584e8eb8cf22c6e3ff6bbf312a5ca3d8b43b08c",
       "requiredParameters": [
         "profile"
       ]
@@ -1646,15 +1638,15 @@
       "key": "service-health-alert-planned-maintenance",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
       "limitations": [
-        "Checks enabled state, subscription scope, the ServiceHealth category condition, the incident-type condition and action-group association on the matching ActivityLogAlerts resource; it does not verify region/service filters or confirm notification delivery.",
-        "Policy field/field() alias references for Microsoft.Insights/ActivityLogAlerts condition.allOf[*] are a custom design, not sourced from an official Microsoft built-in policy; target-cloud alias support and Azure service acceptance have not been independently validated."
+        "Checks enabled state, subscription scope, the ServiceHealth category condition, event-type coverage and action-group association on the matching ActivityLogAlerts resource. It does not verify service or region filters or confirm notification delivery.",
+        "Event types are recognized when written as a direct incidentType condition or inside an anyOf group (the shapes produced by the portal, ARM templates and the CLI). An alert with no incidentType condition covers every event type and satisfies all four Service Health policies. Event types written with containsAny are not recognized."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r25-service-health-alert-planned-maintenance",
       "file": "policies/global-r25-service-health-alert-planned-maintenance.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "7fa5a51798bc1abb6bcefbe88012f9f8fc9518cfb11c8d176a39de311d0fc2b4",
+      "customDefinitionSha256": "8c51a056600ecf96b51f529c01b769565db2731a9c6394e175ef153972b41f70",
       "requiredParameters": [
         "profile"
       ]
@@ -1665,16 +1657,16 @@
       "key": "service-health-alert-health-advisories",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
       "limitations": [
-        "Checks enabled state, subscription scope, the ServiceHealth category condition, the incident-type condition and action-group association on the matching ActivityLogAlerts resource; it does not verify region/service filters or confirm notification delivery.",
-        "Audits for coverage of EITHER the ActionRequired or Informational incident type on the matching alert rule, not necessarily both together in a single rule; AuditIfNotExists evaluates each candidate alert rule independently and cannot prove aggregate coverage across multiple separate rules. Configure a single rule whose condition covers both incident types, or confirm both are covered operationally.",
-        "Policy field/field() alias references for Microsoft.Insights/ActivityLogAlerts condition.allOf[*] are a custom design, not sourced from an official Microsoft built-in policy; target-cloud alias support and Azure service acceptance have not been independently validated."
+        "Checks enabled state, subscription scope, the ServiceHealth category condition, event-type coverage and action-group association on the matching ActivityLogAlerts resource. It does not verify service or region filters or confirm notification delivery.",
+        "Event types are recognized when written as a direct incidentType condition or inside an anyOf group (the shapes produced by the portal, ARM templates and the CLI). An alert with no incidentType condition covers every event type and satisfies all four Service Health policies. Event types written with containsAny are not recognized.",
+        "Health advisories require both ActionRequired and Informational to be covered."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r25-service-health-alert-health-advisories",
       "file": "policies/global-r25-service-health-alert-health-advisories.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "e02a9b04e839bb08d6c1426b1e59ef1bf74feaee36ec2fca93e2493bc404bb97",
+      "customDefinitionSha256": "6a5f1923cad7a4e0ebff5c7a2b3fd3c1f92762fdcce00ada706f8f77d5c22c66",
       "requiredParameters": [
         "profile"
       ]
@@ -1685,15 +1677,15 @@
       "key": "service-health-alert-security-advisories",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
       "limitations": [
-        "Checks enabled state, subscription scope, the ServiceHealth category condition, the incident-type condition and action-group association on the matching ActivityLogAlerts resource; it does not verify region/service filters or confirm notification delivery.",
-        "Policy field/field() alias references for Microsoft.Insights/ActivityLogAlerts condition.allOf[*] are a custom design, not sourced from an official Microsoft built-in policy; target-cloud alias support and Azure service acceptance have not been independently validated."
+        "Checks enabled state, subscription scope, the ServiceHealth category condition, event-type coverage and action-group association on the matching ActivityLogAlerts resource. It does not verify service or region filters or confirm notification delivery.",
+        "Event types are recognized when written as a direct incidentType condition or inside an anyOf group (the shapes produced by the portal, ARM templates and the CLI). An alert with no incidentType condition covers every event type and satisfies all four Service Health policies. Event types written with containsAny are not recognized."
       ],
       "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
       "publishable": true,
       "name": "global-r25-service-health-alert-security-advisories",
       "file": "policies/global-r25-service-health-alert-security-advisories.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "0b81eda71775141e6b5533e7737f58c298d5f81003e2ab667a6c70a98146e3f3",
+      "customDefinitionSha256": "e4c64666529e13d101f0fedef6d4b5ca54e81c347b31ce2543cd8c711b5beecc",
       "requiredParameters": [
         "profile"
       ]

@@ -744,10 +744,10 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Platform/Management; central Log Analytics workspaces governed by an approved analytics-retention floor.",
-        "caveats": "Actual comparison is lessOrEquals (exclusive cutoff semantics); test below/at/above approved minimum. Workspace default retention is NOT a guarantee for per-table retention, long-term retention, Sentinel table rules, Basic/Auxiliary plans or immutable archiving; review these separately. Consider policy-specific 0/special service values before future Deny. No log deletion, settings change or remediation occurs. Optional community publication and tests required."
+        "caveats": "Actual comparison is lessOrEquals (exclusive cutoff semantics); test below/at/above approved minimum. Workspace default retention is NOT a guarantee for per-table retention, long-term retention, Sentinel table rules, Basic/Auxiliary plans or immutable archiving; review these separately. Consider policy-specific 0/special service values before future Deny. No log deletion, settings change or remediation occurs."
       },
       "limitations": [
-        "Actual comparison is lessOrEquals (exclusive cutoff semantics); test below/at/above approved minimum. Workspace default retention is NOT a guarantee for per-table retention, long-term retention, Sentinel table rules, Basic/Auxiliary plans or immutable archiving; review these separately. Consider policy-specific 0/special service values before future Deny. No log deletion, settings change or remediation occurs. Optional community publication and tests required.",
+        "Actual comparison is lessOrEquals (exclusive cutoff semantics); test below/at/above approved minimum. Workspace default retention is NOT a guarantee for per-table retention, long-term retention, Sentinel table rules, Basic/Auxiliary plans or immutable archiving; review these separately. Consider policy-specific 0/special service values before future Deny. No log deletion, settings change or remediation occurs.",
         "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
@@ -790,6 +790,11 @@
           "path": "/displayName",
           "reason": "User-requested rename from 'Deny change of retention days in Log Analytics workspace' to 'Audit change of retention days in Log Analytics workspace', with the description reworded to match. The definition identity, parameters and rule logic are unchanged: the effect already defaults to Audit and Deny stays available as a later enforcement option.",
           "category": "user-requested-redesign"
+        },
+        {
+          "path": "/parameters/retentionInDays/metadata",
+          "reason": "The source parameter text only repeated the name and did not explain the lessOrEquals cutoff. The rule is unchanged.",
+          "category": "semantic-fix"
         }
       ],
       "catalogName": "Audit change of retention days in Log Analytics workspace",
@@ -797,7 +802,7 @@
       "name": "hub-h20-h20-approved-central-workspace-retention-floor",
       "file": "policies/hub-h20-h20-approved-central-workspace-retention-floor.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "7052aa24e61fefb5c81241ac27d0ec21473f5a0331c1ce313c17d2eaf7efb3ef",
+      "customDefinitionSha256": "38ac377db1388e8c93e233c2f0a16e8f8fb68faa92fbd730c77dee49720f63e1",
       "requiredParameters": [
         "evaluationScope"
       ]
@@ -810,10 +815,10 @@
       "limitations": [
         "A child policy with no explicit DNS proxy setting fails even if a base policy enables it; Azure Policy cannot dereference a base-policy resource to calculate effective configuration.",
         "Does not validate DNS resolver IPs, routing, resolution, traffic use of the proxy, or firewall attachment.",
-        "NOT CREATED and NOT an existing deployable member. The referenced built-in 3f84c9b0-8b64-4208-98d4-6ada96bb49c3 is intentionally NOT recommended: it tests dnsSettings.enableProxy existence only and misses explicit false. Design a genuinely pure Audit definition using current verified dnsSettings.enableProxy aliases and effective inherited-policy behavior; detect false/missing, accept true, and test true/false/missing plus parent/child inheritance, supported tiers and API versions. Include no deployment template, mutation effect, operations or role details. Restrict to hubs whose approved DNS architecture requires Firewall DNS proxy. Any future Deny requires separately reviewed custom design/testing and explicitly supported effects."
+        "Evaluates only the Firewall Policies listed in profile.resourceIds. A missing or false dnsSettings.enableProxy is reported. A child policy with no explicit setting is reported even when its base policy enables DNS proxy, because Azure Policy cannot resolve inheritance. Does not validate DNS server addresses, routing or traffic use of the proxy."
       ],
       "scopeNotes": "Platform/Connectivity only. Supply approved hub Firewall Policy IDs. Empty target arrays are rejected by the required object parameter schema. Audit only; no deployment or permissions.",
-      "catalogName": "Proposed audit: selected Firewall Policies must enable DNS proxy",
+      "catalogName": "Selected hub Firewall Policies must explicitly enable DNS proxy",
       "applicability": "Conditional",
       "publishable": true,
       "name": "hub-h04-firewall-dns-proxy",
@@ -857,10 +862,10 @@
         "Requires explicit local mode: missing mode fails even when a base policy might supply effective IDPS configuration; parent inheritance cannot be resolved by this property check.",
         "Does not inspect signature overrides, bypass rules, TLS inspection, traffic inspection efficacy, firewall attachment, or IDPS operational telemetry.",
         "Premium/IDPS licensing and inspection design must already be approved; this audit enables no paid feature.",
-        "NOT CREATED and NOT an existing deployable built-in/member. Upstream Microsoft sample is a reference only: it labels itself BuiltIn but is absent from the collected built-in catalog, places parameters/policyRule outside properties, and only checks intrusionSystemMode absence (explicit Off can pass). Design a valid custom Audit definition with current verified aliases, Premium scoping, effective inheritance behavior and value-based Off/missing detection; test Alert, Deny, Off, missing, Standard and inherited policies before publishing. Any later Deny needs explicit custom design/test and allowedValues; Premium/IDPS cost and inspection requirements are conditional."
+        "Evaluates only the Firewall Policies listed in profile.resourceIds. A policy that is not Premium, or whose explicit intrusionDetection.mode is missing, Off or not an accepted mode, is reported. A child policy with no explicit mode is reported even when its base policy enables IDPS, because Azure Policy cannot resolve inheritance. Does not inspect signature overrides, bypass rules, TLS inspection or IDPS telemetry. Premium and IDPS licensing and inspection design must already be approved."
       ],
       "scopeNotes": "Platform/Connectivity; only explicitly approved policy IDs requiring Premium IDPS. A selected Standard policy fails; unselected Standard policies are outside coverage. Accepted modes and target IDs have no defaults and cannot be empty.",
-      "catalogName": "Proposed audit: Azure Firewall Premium IDPS must be enabled",
+      "catalogName": "Selected Premium Firewall Policies must explicitly enable approved IDPS mode",
       "applicability": "Conditional",
       "publishable": true,
       "name": "hub-h21-premium-firewall-idps",

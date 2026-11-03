@@ -2,7 +2,7 @@
   "name": "global-r28-sql-vm-ahb",
   "properties": {
     "displayName": "Audit Azure Hybrid Benefit for SQL Server on Azure VMs",
-    "description": "Audit Azure Hybrid Benefit for SQL Server on Azure VMs. Read-only custom check with required approved applicability inputs.",
+    "description": "Audits the listed SQL Server on Azure virtual machines (SQL virtual machine resources) whose SQL Server license type is not Azure Hybrid Benefit (AHUB). Only resources in the approved resource ID list are evaluated; eligibility is never inferred. Read-only: nothing is created or changed.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -16,7 +16,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Effect"
+          "description": "Audit (default) reports non-compliant resources. Deny can be selected later to block non-compliant changes; Disabled turns the policy off."
         },
         "allowedValues": [
           "Audit",
@@ -28,8 +28,8 @@
       "profile": {
         "type": "Object",
         "metadata": {
-          "displayName": "Required reviewed target resource IDs and control profile; no inferred eligibility.",
-          "description": "Required reviewed target resource IDs and control profile; no inferred eligibility."
+          "displayName": "Approved SQL virtual machines",
+          "description": "Required object with the properties: resourceIds (SQL virtual machine resource IDs; resources that are not listed are never evaluated)."
         },
         "schema": {
           "type": "object",
