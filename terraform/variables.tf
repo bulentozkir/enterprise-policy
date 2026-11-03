@@ -1,28 +1,20 @@
 variable "tenant_id" {
-  description = "Explicitly requested Entra tenant. Authentication is through the existing Azure CLI session."
+  description = "Entra tenant that owns the target management group. Authentication is through the existing Azure CLI session."
   type        = string
-  default     = "d24284e3-1ea5-4285-9b96-4d53f671284b"
 }
 
 variable "management_group_name" {
-  description = "Definition location only. No policies or initiatives are assigned."
+  description = "Name (ID, not display name) of the management group that holds the definitions and initiatives. No policies or initiatives are assigned."
   type        = string
-  default     = "contoso"
-
-  validation {
-    condition     = var.management_group_name == "contoso"
-    error_message = "This package targets only the explicitly requested ContosoRoot management group."
-  }
 }
 
 variable "subscription_id" {
-  description = "Provider authentication context; all created definitions remain at the management-group scope."
+  description = "Any subscription in the tenant, used only for provider authentication; all created definitions remain at the management-group scope."
   type        = string
-  default     = "a0fdc749-441a-43a5-8297-29192ed42f79"
 }
 
 variable "acknowledge_coverage_gaps" {
-  description = "Explicitly accept the documented Key Vault ARM-only coverage and certificate-expiry omission. Does not bypass missing-source checks."
+  description = "Set to true to accept the coverage gaps documented in catalog.json (controls that cannot be audited with a custom policy). Does not bypass missing-source checks."
   type        = bool
   default     = false
 }

@@ -1,0 +1,58 @@
+{
+  "createdUtc": "2026-11-03T11:09:46.207813+00:00",
+  "catalogRowsCovered": 91,
+  "sets": [
+    {
+      "set": "Global",
+      "catalogRows": 33,
+      "customDefinitions": 39,
+      "publishableDefinitions": 39,
+      "referenceOnly": 0,
+      "initiativeParameters": 74,
+      "requiredInputs": 31,
+      "effects": {
+        "Audit": 21,
+        "AuditIfNotExists": 18
+      },
+      "coverageGaps": 2
+    },
+    {
+      "set": "Hub",
+      "catalogRows": 15,
+      "customDefinitions": 15,
+      "publishableDefinitions": 15,
+      "referenceOnly": 0,
+      "initiativeParameters": 31,
+      "requiredInputs": 12,
+      "effects": {
+        "Audit": 14,
+        "AuditIfNotExists": 1
+      },
+      "coverageGaps": 0
+    },
+    {
+      "set": "LandingZone",
+      "catalogRows": 43,
+      "customDefinitions": 43,
+      "publishableDefinitions": 43,
+      "referenceOnly": 0,
+      "initiativeParameters": 142,
+      "requiredInputs": 26,
+      "effects": {
+        "AuditIfNotExists": 12,
+        "Audit": 31
+      },
+      "coverageGaps": 0
+    }
+  ],
+  "schemaSource": "https://raw.githubusercontent.com/Azure/azure-resource-manager-schemas/main/schemas/2020-09-01/Microsoft.Authorization.json",
+  "validation": [
+    "Official Microsoft.Authorization policy/initiative property schema",
+    "Custom types; policy/initiative parameter limits; default parameter values",
+    "Parameter references; audit-family defaults; no remediation/deployment details",
+    "Each of the 91 recommendation rows mapped to source files or an explicit unsupported-coverage gap",
+    "No OS/image release, offer/SKU selectors or request-API-version applicability gates"
+  ],
+  "azureServiceValidation": "Definitions and initiatives are deployed at management group contoso through Terraform AzAPI (API 2026-07-01); Azure accepted every definition and initiative, and live content was compared with this package.",
+  "unsupportedModes": "Unsupported KeyVault data-mode clones were removed and the interim ARM-only Key Vault expiry/rotation checks were later dropped by request. Certificate expiry (R17) and Service Health Billing updates (R25E) are explicit coverage gaps."
+}

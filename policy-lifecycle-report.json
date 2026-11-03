@@ -1,0 +1,1063 @@
+{
+  "checkedUtc": "2026-11-03T11:10:25.435931+00:00",
+  "sourceDocumentsChecked": 78,
+  "affectedCustomDefinitions": 0,
+  "retiredSources": [],
+  "checks": [
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Azure-Network-Security/master/Azure%20Firewall/Policy%20-%20Azure%20Policy%20Definitions/Policy%20-%20Enable%20IDPS%20in%20Azure%20Firewall%20Premium%20Policy/EnableIDPSInAzureFirewallPremiumPolicy-Full.json",
+      "displayName": "Enable IDPS in Azure Firewall Premium Policy",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h21-premium-firewall-idps",
+          "row": "H21"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Monitoring/deny-change-of-retention-days-in-log-analytics-workspace/azurepolicy.json",
+      "displayName": "Deny change of retention days in Log Analytics workspace",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h20-h20-approved-central-workspace-retention-floor",
+          "row": "H20"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Network/deny-bastion-shared-links/azurepolicy.json",
+      "displayName": "Deny Bastion Shared Links",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h19-h19-bastion-shareable-links-disabled",
+          "row": "H19"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Network/enforce-vnet-dns-servers/azurepolicy.json",
+      "displayName": "Enforce VNET DNS servers",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h17-h17-approved-custom-dns-on-hub-vnets",
+          "row": "H17"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Audit-Tags-Mandatory-Rg.json",
+      "displayName": "Audit for mandatory tags on resource groups",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r05-r05-required-resource-group-tags",
+          "row": "R05"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Audit-Tags-Mandatory.json",
+      "displayName": "Audit for mandatory tags on resources",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r04-r04-required-resource-tags",
+          "row": "R04"
+        },
+        {
+          "set": "Global",
+          "name": "global-r06-r06-audit-mandatory-tags-subscriptions",
+          "row": "R06"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deny-Subnet-Without-Nsg.json",
+      "displayName": "Subnets should have a Network Security Group",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l56-nat-gateway-subnet-association",
+          "row": "L56"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deny-Subnet-Without-Udr.json",
+      "displayName": "Subnets should have a User Defined Route",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l03-l03-inspection-path-route-table-association",
+          "row": "L03"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deny-UDR-With-Specific-NextHop.json",
+      "displayName": "User Defined Routes with 'Next Hop Type' set to 'Internet' or 'VirtualNetworkGateway' should be denied",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l04-l04-prohibited-udr-next-hop-types",
+          "row": "L04"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deny-VNET-Peering-To-Non-Approved-VNETs.json",
+      "displayName": "Deny vNet peering to non-approved vNets",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h16-h16-hub-specific-approved-peering-inventory",
+          "row": "H16"
+        },
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l05-l05-approved-workload-peering-destinations",
+          "row": "L05"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Budget.json",
+      "displayName": "Deploy a default budget on all subscriptions under the assigned scope",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r35-subscription-budget-alert-rules",
+          "row": "R35"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-VNET-HubSpoke.json",
+      "displayName": "Deploy Virtual Network with peering to the hub",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l49-corp-spoke-required-hub-peering",
+          "row": "L49"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/API%20Management/HTTPEnabled_AuditDeny.json",
+      "displayName": "API Management APIs should use only encrypted protocols",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l42-l42-apim-apis-use-encrypted-protocols",
+          "row": "L42"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/App%20Service/Authentication_functionapp_Audit.json",
+      "displayName": "Function apps should have authentication enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l41-l41-function-built-in-authentication",
+          "row": "L41"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/App%20Service/FunctionApp_AuditHTTP_Audit.json",
+      "displayName": "Function apps should only be accessible over HTTPS",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l30-l30-function-apps-require-https",
+          "row": "L30"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/App%20Service/RequireLatestTls_FunctionApp_Audit.json",
+      "displayName": "Function apps should use the latest TLS version",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l31-l31-function-app-minimum-tls-1-2",
+          "row": "L31"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/App%20Service/RequireLatestTls_WebApp_Audit.json",
+      "displayName": "App Service apps should use the latest TLS version",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l29-l29-web-app-minimum-tls-1-2",
+          "row": "L29"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/App%20Service/WebApp_PublicNetworkAccess_Audit.json",
+      "displayName": "App Service apps should disable public network access",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l27-l27-private-application-backends",
+          "row": "L27"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/App%20Service/Webapp_AuditHTTP_Audit.json",
+      "displayName": "App Service apps should only be accessible over HTTPS",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l28-l28-web-apps-require-https",
+          "row": "L28"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Azure%20Update%20Manager/AzUpdateMgmtCenter_AutoAssessmentMode_Audit.json",
+      "displayName": "Machines should be configured to periodically check for missing system updates",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l20-l20-periodic-update-assessment-configured",
+          "row": "L20"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Backup/VirtualMachines_EnableAzureBackup_Audit.json",
+      "displayName": "Azure Backup should be enabled for Virtual Machines",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l43-l43-vm-backup-protection-exists",
+          "row": "L43"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Container%20Registry/ACR_AdminAccountDisabled_AuditDeny.json",
+      "displayName": "Container registries should have local admin account disabled.",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l36-l36-disable-acr-admin-credentials",
+          "row": "L36"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Container%20Registry/ACR_AnonymousPullDisabled_AuditDeny.json",
+      "displayName": "Container registries should have anonymous authentication disabled.",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l37-l37-disable-anonymous-registry-pulls",
+          "row": "L37"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Container%20Registry/ACR_PublicNetworkAccess_AuditDeny.json",
+      "displayName": "Public network access should be disabled for Container registries",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l25-l25-private-only-container-registries",
+          "row": "L25"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/General/AllowedLocations_Deny.json",
+      "displayName": "Allowed locations",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r01-r01-approved-resource-regions",
+          "row": "R01"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/General/InvalidResourceTypes_Deny.json",
+      "displayName": "Not allowed resource types",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r03-r03-unapproved-or-retired-resource-types",
+          "row": "R03"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/General/ResourceGroupAllowedLocations_Deny.json",
+      "displayName": "Allowed locations for resource groups",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r02-r02-approved-resource-group-regions",
+          "row": "R02"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Key%20Vault/Recoverable_Audit.json",
+      "displayName": "Key vaults should have deletion protection enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r12-r12-key-vault-purge-protection",
+          "row": "R12"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Key%20Vault/Should_Use_RBAC.json",
+      "displayName": "Azure Key Vault should use RBAC permission model",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r13-r13-key-vault-rbac-authorization",
+          "row": "R13"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Key%20Vault/SoftDeleteMustBeEnabled_Audit.json",
+      "displayName": "Key vaults should have soft delete enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r11-r11-key-vault-soft-delete",
+          "row": "R11"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AKS_AAD_Integration_Audit.json",
+      "displayName": "Azure Kubernetes Service Clusters should enable Microsoft Entra ID integration",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l14-l14-microsoft-entra-cluster-integration",
+          "row": "L14"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AKS_AzurePolicyAddOn_Audit.json",
+      "displayName": "Azure Policy Add-on for Kubernetes service (AKS) should be installed and enabled on your clusters",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l06-l06-aks-policy-add-on-presence",
+          "row": "L06"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AKS_DisableLocalAccounts_Deny.json",
+      "displayName": "Azure Kubernetes Service Clusters should have local authentication methods disabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l15-l15-disable-aks-local-accounts",
+          "row": "L15"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AKS_PrivateCluster_Deny.json",
+      "displayName": "Azure Kubernetes Service Private Clusters should be enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l16-l16-private-aks-api",
+          "row": "L16"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AllowedHostPaths.json",
+      "displayName": "Kubernetes cluster pod hostPath volumes should only use allowed host paths",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l10-l10-restrict-hostpath-and-socket-mounts",
+          "row": "L10"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AllowedUsersGroups.json",
+      "displayName": "Kubernetes cluster pods and containers should only run with approved user and group IDs",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l11-l11-run-containers-as-nonroot",
+          "row": "L11"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/BlockHostNamespace.json",
+      "displayName": "Kubernetes cluster containers should not share host namespaces",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l09-l09-no-shared-host-pid-ipc-namespaces",
+          "row": "L09"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/ContainerAllowedCapabilities.json",
+      "displayName": "Kubernetes cluster containers should only use allowed capabilities",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l12-l12-restrict-linux-capabilities",
+          "row": "L12"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/ContainerNoPrivilege.json",
+      "displayName": "Kubernetes cluster should not allow privileged containers",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l07-l07-no-privileged-containers",
+          "row": "L07"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/ContainerNoPrivilegeEscalation.json",
+      "displayName": "Kubernetes clusters should not allow container privilege escalation",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l08-l08-no-privilege-escalation",
+          "row": "L08"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/HostNetworkPorts.json",
+      "displayName": "Kubernetes cluster pods should only use approved host network and port list",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l13-l13-restrict-host-networking-and-host-ports",
+          "row": "L13"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ActivityLog_AdministrativeOperations_Audit.json",
+      "displayName": "An activity log alert should exist for specific Administrative operations",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r18-r18-administrative-operation-alerts",
+          "row": "R18"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_HybridVM_DINE.json",
+      "displayName": "Configure Windows Arc-enabled machines to run Azure Monitor Agent",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r32-ama-machines",
+          "row": "R32"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_VMSS_DINE.json",
+      "displayName": "Configure Windows virtual machine scale sets to run Azure Monitor Agent using system-assigned managed identity",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r32-ama-virtualmachinescalesets",
+          "row": "R32"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_VM_DINE.json",
+      "displayName": "Configure Windows virtual machines to run Azure Monitor Agent using system-assigned managed identity",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r32-ama-virtualmachines",
+          "row": "R32"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_DCRA_Windows_DINE.json",
+      "displayName": "Configure Windows Machines to be associated with a Data Collection Rule or a Data Collection Endpoint",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r33-required-dcr-association",
+          "row": "R33"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/DataConnectorsAzureActivity.json",
+      "displayName": "Configure Azure Activity logs to stream to specified Log Analytics workspace",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r24-subscription-activity-log-export",
+          "row": "R24"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/LogAnalyticsWorkspaces_NetworkAccessEnabled_Deny.json",
+      "displayName": "Log Analytics workspaces should block log ingestion and querying from public networks",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h14-h14-private-only-central-log-analytics-access",
+          "row": "H14"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
+      "displayName": "Configure subscriptions to enable service health alert monitoring rule",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r25-service-health-alert-service-issues",
+          "row": "R25"
+        },
+        {
+          "set": "Global",
+          "name": "global-r25-service-health-alert-planned-maintenance",
+          "row": "R25"
+        },
+        {
+          "set": "Global",
+          "name": "global-r25-service-health-alert-health-advisories",
+          "row": "R25"
+        },
+        {
+          "set": "Global",
+          "name": "global-r25-service-health-alert-security-advisories",
+          "row": "R25"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/AzureFirewallPolicy_EnableThreatIntelligence_Audit.json",
+      "displayName": "Azure Firewall Policy should enable Threat Intelligence",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h01-h01-firewall-policy-threat-intelligence",
+          "row": "H01"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/AzureFirewall_EnableDNSProxy_Audit.json",
+      "displayName": "Azure Firewall Policy should have DNS Proxy Enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h04-firewall-dns-proxy",
+          "row": "H04"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/NetworkPublicIPNic_Deny.json",
+      "displayName": "Network interfaces should not have public IPs",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l54-audit-vm-nic-public-ip",
+          "row": "L54"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/NetworkWatcher_Enabled_Audit.json",
+      "displayName": "Network Watcher should be enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h11-h11-regional-network-watcher-presence",
+          "row": "H11"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/PrivateSubnetOnly_Audit.json",
+      "displayName": "Subnets should be private",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h12-h12-private-ordinary-platform-vm-subnets",
+          "row": "H12"
+        },
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l02-l02-explicit-outbound-connectivity",
+          "row": "L02"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/VPN-AzureAD-audit-deny-disable-policy.json",
+      "displayName": "VPN gateways should use only Azure Active Directory (Azure AD) authentication for point-to-site users",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h10-h10-entra-only-point-to-site-vpn-authentication",
+          "row": "H10"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/VirtualHubs_DeployedWithAzureFirewall_Audit.json",
+      "displayName": "Virtual Hubs should be protected with Azure Firewall",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h08-h08-firewall-association-on-secured-virtual-hubs",
+          "row": "H08"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/WAF_AppGatewayEnabled_Audit.json",
+      "displayName": "Web Application Firewall (WAF) should be enabled for Application Gateway",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h05-h05-waf-configuration-on-centrally-owned-application-gat",
+          "row": "H05"
+        },
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l46-l46-application-gateway-waf-presence",
+          "row": "L46"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/WAF_AppGatewayMode_Audit.json",
+      "displayName": "Web Application Firewall (WAF) should use the specified mode for Application Gateway",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Hub",
+          "name": "hub-h26-waf-policy-prevention-mode",
+          "row": "H26"
+        },
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l55-waf-policy-prevention-mode",
+          "row": "L55"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/PostgreSQL/FlexibleServers_EnableSSL_AINE.json",
+      "displayName": "Enforce SSL connection should be enabled for PostgreSQL flexible servers",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l39-l39-postgresql-secure-transport-required",
+          "row": "L39"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/PostgreSQL/FlexibleServers_MinTLS_AINE.json",
+      "displayName": "PostgreSQL flexible servers should be running TLS version 1.2 or newer",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l38-l38-postgresql-minimum-tls-1-2",
+          "row": "L38"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/GeoRedundant_SQLDatabase_AINE.json",
+      "displayName": "Long-term geo-redundant backup should be enabled for Azure SQL Databases",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l45-l45-sql-long-term-retention-enabled",
+          "row": "L45"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/PostgreSQL_FlexibleServers_DisablePublicNetworkAccess_Audit.json",
+      "displayName": "Public network access should be disabled for PostgreSQL flexible servers",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l26-l26-private-only-postgresql-networking",
+          "row": "L26"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SQL_DB_AuditServerADAdmins_Audit.json",
+      "displayName": "An Azure Active Directory administrator should be provisioned for SQL servers",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l33-l33-sql-microsoft-entra-administrator",
+          "row": "L33"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlServerAuditing_Audit.json",
+      "displayName": "Auditing on SQL server should be enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l35-l35-sql-auditing-enabled",
+          "row": "L35"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlServer_MiniumTLSVersion_Audit.json",
+      "displayName": "Azure SQL Database should be running TLS version 1.2 or newer",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l32-l32-sql-server-minimum-tls-1-2",
+          "row": "L32"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/SQL/SqlServer_PublicNetworkAccess_Audit.json",
+      "displayName": "Public network access on Azure SQL Database should be disabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l24-l24-private-only-sql-networking",
+          "row": "L24"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedDataSecurityOnSqlServers_Audit.json",
+      "displayName": "Azure Defender for Azure SQL Database servers should be enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r23-r23-defender-for-azure-sql-coverage",
+          "row": "R23"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedThreatProtectionOnContainers_Audit.json",
+      "displayName": "Microsoft Defender for Containers should be enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r20-r20-defender-for-containers-coverage",
+          "row": "R20"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedThreatProtectionOnKeyVaults_Audit.json",
+      "displayName": "Azure Defender for Key Vault should be enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r22-r22-defender-for-key-vault-coverage",
+          "row": "R22"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedThreatProtectionOnVM_Audit.json",
+      "displayName": "Azure Defender for servers should be enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r19-r19-defender-for-servers-coverage",
+          "row": "R19"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableIpRanges_KubernetesService_Audit.json",
+      "displayName": "Authorized IP ranges should be defined on Kubernetes Services",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l17-l17-authorized-ranges-on-public-aks-api",
+          "row": "L17"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_MissingSystemUpdatesV2_Audit.json",
+      "displayName": "System updates should be installed on your machines (powered by Update Center)",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l21-l21-missing-critical-security-updates",
+          "row": "L21"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_NetworkSecurityGroupsOnSubnets_Audit.json",
+      "displayName": "Subnets should be associated with a Network Security Group",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "LandingZone",
+          "name": "landingzone-l01-l01-workload-subnet-nsg-association",
+          "row": "L01"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_MDE_WDATP_DINE.json",
+      "displayName": "Configure Microsoft Defender for Endpoint integration settings with Microsoft Defender for Cloud (WDATP)",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r34-defender-endpoint-integration",
+          "row": "R34"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_Microsoft_Defender_For_Storage_Full_Audit.json",
+      "displayName": "Microsoft Defender for Storage should be enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r21-r21-defender-for-storage-coverage",
+          "row": "R21"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Storage/StorageAccountMinimumTLSVersion_Audit.json",
+      "displayName": "Storage accounts should have the specified minimum TLS version",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r09-r09-storage-minimum-tls",
+          "row": "R09"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Storage/Storage_AuditForHTTPSEnabled_Audit.json",
+      "displayName": "Secure transfer to storage accounts should be enabled",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r08-r08-storage-secure-transfer",
+          "row": "R08"
+        }
+      ]
+    },
+    {
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Tags/InheritTag_Add_Modify.json",
+      "displayName": "Inherit a tag from the resource group if missing",
+      "retiredOrDeprecated": false,
+      "reasons": [],
+      "members": [
+        {
+          "set": "Global",
+          "name": "global-r36-resource-parent-tag-consistency",
+          "row": "R36"
+        }
+      ]
+    }
+  ],
+  "interpretation": "Lifecycle flags and lifecycle-prefixed source titles identify retired/deprecated definitions. Active controls auditing retired resources are retained. External references that are not policy JSON do not constitute inherited policy lifecycle flags."
+}

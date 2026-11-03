@@ -1,8 +1,14 @@
+variables {
+  tenant_id             = "00000000-0000-0000-0000-000000000001"
+  subscription_id       = "00000000-0000-0000-0000-000000000002"
+  management_group_name = "test-mg"
+}
+
 mock_provider "azurerm" {
   mock_data "azurerm_client_config" {
     defaults = {
-      tenant_id       = "d24284e3-1ea5-4285-9b96-4d53f671284b"
-      subscription_id = "a0fdc749-441a-43a5-8297-29192ed42f79"
+      tenant_id       = "00000000-0000-0000-0000-000000000001"
+      subscription_id = "00000000-0000-0000-0000-000000000002"
     }
   }
 }
@@ -29,9 +35,9 @@ run "custom_definitions_only" {
     condition = alltrue([
       for definition in azapi_resource.custom :
       definition.body.properties.policyType == "Custom" &&
-      definition.parent_id == "/providers/Microsoft.Management/managementGroups/contoso"
+      definition.parent_id == "/providers/Microsoft.Management/managementGroups/test-mg"
     ])
-    error_message = "Every definition must be Custom and scoped to ContosoRoot."
+    error_message = "Every definition must be Custom and scoped to the target management group."
   }
   assert {
     condition = alltrue([

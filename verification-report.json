@@ -1,0 +1,67 @@
+{
+  "targetManagementGroup": "contoso",
+  "verificationScope": "Local source review, regression fixtures and alias checks against live Azure provider metadata, plus Azure acceptance and a canonical live comparison of the current 97-definition revision deployed on 2026-11-03. Not assigned-resource compliance evaluation.",
+  "customDefinitions": {
+    "Global": 39,
+    "Hub": 15,
+    "LandingZone": 43,
+    "total": 97
+  },
+  "initiatives": 3,
+  "policyDefaults": [
+    "Audit",
+    "AuditIfNotExists"
+  ],
+  "releaseIndependentApplicability": {
+    "osReleaseLists": false,
+    "imageOfferOrSkuSelectors": false,
+    "imageVersionSelectors": false,
+    "requestApiVersionGates": false,
+    "securityThresholdsPreserved": true,
+    "structuralApiSchemaProviderVersionsPreserved": true
+  },
+  "completed": [
+    "Policy and initiative property schemas",
+    "97 policy-rule schemas with documented current-construct compatibility",
+    "Required inputs, parameter types, allowed values and reference bindings",
+    "OS-family applicability and explicit-exception regression fixtures",
+    "Budget existence-condition and single-wildcard regression guards",
+    "WAF Prevention-mode, NAT gateway subnet association and public-IP DDoS plan regression fixtures",
+    "Independent semantic review of Global, Hub and LandingZone source",
+    "Alias references checked against the live Azure provider metadata and public catalog; Storage networkAcls.bypass, Microsoft.Insights ActivityLogAlerts/diagnosticSettings, publicIPAddresses ddosSettings, subnet natGateway and Application Gateway/Front Door WAF policySettings aliases confirmed",
+    "Seven Kubernetes template parameter contracts reviewed",
+    "Terraform initialization, validation and two mock-provider plan tests",
+    "Upstream lifecycle scan checked 78 source JSON documents; none is retired/deprecated",
+    "Azure accepted all 97 Custom definitions and the three initiatives; displayName, description, mode, policyRule and parameters match the package with 0 differences, initiative members and parameters match, and the postdeployment Terraform plan reports no changes",
+    "Parameter schemas are used only on Object parameters (Azure rejects a schema on any other type; H07 approvedPlanIds was corrected before deployment and a regression test now guards this)"
+  ],
+  "coverageLimitations": [
+    "Key Vault certificate-expiry row R17 has no equivalent supported custom management-plane policy and is not implemented.",
+    "Service Health Billing updates (R25E) cannot be audited: Billing notifications are not written to the subscription Activity Log, so no activity-log alert rule can exist for them."
+  ],
+  "deployment": {
+    "status": "deployed",
+    "scope": "/providers/Microsoft.Management/managementGroups/contoso",
+    "apiProvider": "Terraform AzAPI using stable Microsoft.Authorization API 2026-07-01",
+    "initiativeNames": [
+      "alz-global-custom-audit",
+      "alz-hub-custom-audit",
+      "alz-landingzone-custom-audit"
+    ],
+    "retiredPackagePolicies": 0,
+    "policyAssignmentsCreated": 0,
+    "workloadResourcesChanged": false,
+    "permissionsChanged": false,
+    "deployedOn": "2026-11-03",
+    "currentRevision": {
+      "customPolicyDefinitionsDeployed": 97,
+      "customInitiativesDeployed": 3,
+      "initiativeMembers": {
+        "Global": 39,
+        "Hub": 15,
+        "LandingZone": 43
+      },
+      "verification": "Live definitions equal the package (0 differences), initiative members and parameters match, orphaned definitions from earlier revisions were removed, and the Terraform plan reports no changes."
+    }
+  }
+}

@@ -56,7 +56,7 @@ resource "terraform_data" "source_catalog" {
     }
     precondition {
       condition     = var.acknowledge_coverage_gaps || length(local.coverage_gaps) == 0
-      error_message = "Review and explicitly accept documented Key Vault ARM-only coverage and the certificate-expiry omission. Unsupported clones are not deployed."
+      error_message = "Review the coverage gaps documented in catalog.json and set acknowledge_coverage_gaps=true to accept them. Unsupported controls are not deployed."
     }
     precondition {
       condition     = toset(keys(local.policies)) == local.expected_definition_names

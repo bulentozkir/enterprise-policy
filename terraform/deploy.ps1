@@ -7,7 +7,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $tenant = 'd24284e3-1ea5-4285-9b96-4d53f671284b'
 $subscription = 'a0fdc749-441a-43a5-8297-29192ed42f79'
-$scope = '/providers/Microsoft.Management/managementGroups/contoso'
+$managementGroup = 'contoso'
+$scope = "/providers/Microsoft.Management/managementGroups/$managementGroup"
 
 function Invoke-Native {
     param(
@@ -96,6 +97,9 @@ try {
     Invoke-Native -Command terraform -Arguments @($terraformDirectory, 'validate')
     Invoke-Native -Command terraform -Arguments @(
         $terraformDirectory, 'plan', '-input=false', "-out=$planPath",
+        "-var=tenant_id=$tenant",
+        "-var=subscription_id=$subscription",
+        "-var=management_group_name=$managementGroup",
         "-var=acknowledge_coverage_gaps=$($AcknowledgeCoverageGaps.IsPresent.ToString().ToLowerInvariant())",
         "-var=expected_principal_object_id=$principalObjectId"
     )

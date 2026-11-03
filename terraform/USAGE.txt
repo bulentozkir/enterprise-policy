@@ -46,8 +46,8 @@ the OneDrive-synced source folder. The provider lock file stays with source.
 Policy definitions and initiatives use Terraform AzAPI with stable ARM API
 2026-07-01; AzureRM is used only for the authentication-identity precondition.
 The AzureRM policy client calls a retired preview API and is not used for writes.
-recovery.auto.tfvars.json/imports.tf adopt this task's already-created resources
-without deleting them. Keep these records with the Terraform state.
+imports.tf can adopt already-existing package definitions into state through the
+existing_policy_imports variable (empty by default).
 
 AUTHENTICATION
 deploy.ps1 verifies the token principal and temporarily selects the provider
