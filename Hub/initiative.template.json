@@ -1270,17 +1270,7 @@
             "type": "Array",
             "metadata": {
               "displayName": "Approved DDoS protection plan resource IDs",
-              "description": "Required, nonempty list of approved DDoS Network Protection plan resource IDs. A public IP is approved only when ddosSettings.protectionMode is Enabled and ddosSettings.ddosProtectionPlan.id is in this list."
-            },
-            "schema": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-              }
+              "description": "Required list of full resource IDs of approved DDoS Network Protection plans. A public IP is approved only when ddosSettings.protectionMode is Enabled and ddosSettings.ddosProtectionPlan.id is in this list. An empty list reports every public IP."
             }
           },
           "acceptVirtualNetworkInherited": {
@@ -2060,17 +2050,7 @@
             "type": "Array",
             "metadata": {
               "displayName": "H07 - Audit all Public IPs require approved DDoS Network Protection: Approved DDoS protection plan resource IDs",
-              "description": "Required, nonempty list of approved DDoS Network Protection plan resource IDs. A public IP is approved only when ddosSettings.protectionMode is Enabled and ddosSettings.ddosProtectionPlan.id is in this list."
-            },
-            "schema": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-              }
+              "description": "Required list of full resource IDs of approved DDoS Network Protection plans. A public IP is approved only when ddosSettings.protectionMode is Enabled and ddosSettings.ddosProtectionPlan.id is in this list. An empty list reports every public IP."
             }
           },
           "h07_acceptVirtualNetworkInherited": {

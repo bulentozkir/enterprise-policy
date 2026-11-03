@@ -848,7 +848,7 @@
       "name": "hub-h07-public-ip-ddos-approved-plan",
       "file": "policies/hub-h07-public-ip-ddos-approved-plan.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "9cbb4b1c9a3cae8e954d2abd9458290cf38da14d19ec38b23224767705dc1011",
+      "customDefinitionSha256": "1a471b69aa189fae0ef3a5fea8abe1f8e2a9b1389c9899ad476ce5eac09e8182",
       "requiredParameters": [
         "approvedPlanIds"
       ]

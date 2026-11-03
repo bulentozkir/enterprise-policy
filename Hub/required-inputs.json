@@ -84,7 +84,7 @@
     "policy": "hub-h07-public-ip-ddos-approved-plan",
     "row": "H07",
     "type": "Array",
-    "description": "Required, nonempty list of approved DDoS Network Protection plan resource IDs. A public IP is approved only when ddosSettings.protectionMode is Enabled and ddosSettings.ddosProtectionPlan.id is in this list.",
+    "description": "Required list of full resource IDs of approved DDoS Network Protection plans. A public IP is approved only when ddosSettings.protectionMode is Enabled and ddosSettings.ddosProtectionPlan.id is in this list. An empty list reports every public IP.",
     "allowedValues": null
   },
   {
