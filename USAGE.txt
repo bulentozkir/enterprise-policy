@@ -24,8 +24,9 @@ Default effects are Audit or AuditIfNotExists. Policies contain no governed-reso
 deployment, modification, append, role grant or remediation instructions. The ARM
 templates define policy resources only. The source contains 75 Custom definitions
 (Global 23, Hub 12, LandingZone 40) and three initiatives defined for contoso.
-This revision has NOT been deployed to Azure. Historical verification of the
-previous 84- and 97-definition revisions does not validate these removals.
+This revision was deployed and verified at the Tenant Root Group on 2026-11-04
+(see terraform\USAGE.txt). Verification of the previous 84- and 97-definition
+revisions does not apply to it.
 Azure assigns Custom policyType when a definition is created. Standalone source
 files show Custom for clarity; request templates omit this read-only property.
 
@@ -133,9 +134,10 @@ Microsoft Entra integration. These audit-only checks do not change credentials.
 This is a breaking parameter-contract change. Azure does not support removing
 existing policy-definition parameters or changing their types in place. Use fresh
 or versioned definitions and a separately reviewed migration. Do not
-apply directly over an existing 84- or 97-definition deployment. Deleting deployed
-definitions requires separate migration review; deletion/replacement safeguards
-are deliberately unchanged.
+apply directly over an existing 84- or 97-definition deployment that has
+assignments. The unassigned 84-definition package at the Tenant Root Group was
+deleted at the owner's request before this revision was deployed; Terraform's
+deletion/replacement safeguards are deliberately unchanged.
 
 ADOPTION
 Review each manifest limitation, source derivative, required parameter and target

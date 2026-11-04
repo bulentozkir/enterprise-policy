@@ -56,22 +56,26 @@ or unspecified protection is reported for separate verification.
 Terraform definition creation needs no future assignment values, but assignments
 still require the destination pickers and dropdowns listed in required-inputs.json.
 
-The preceding simplified-input revision was deployed and verified at the requested
-tenant root management group on 2026-11-04: 84 definitions, three initiatives, zero
-live content differences and no Terraform drift. The unassigned previous Contoso
-package was retired, including the 13 definitions removed in that revision.
-The current 75-definition source removes R24, all four R25 variants, R34, H11/H20
-and L49, corrects and renames H07/L14, and uses default-true dropdowns. L49's remote-gateway
-and hub-selection inputs are removed entirely. L14 now checks that AKS local
+The current 75-definition revision (Global 23, Hub 12, LandingZone 40) and its three
+initiatives were deployed and verified at the requested tenant root management
+group on 2026-11-04: plan 79 to add / 0 change / 0 destroy (75 definitions,
+3 initiatives, 1 tracking resource), zero live content differences and no Terraform
+drift. The previous 84-definition deployment of this package was unassigned and,
+at the owner's request, was deleted first (3 initiatives, then 84 definitions);
+182 unrelated custom definitions and 12 other initiatives were not touched. The
+old Terraform state was kept in a state-backup folder beside the new state.
+The source removes R24, all four R25 variants, R34, H11/H20 and L49, corrects and
+renames H07/L14, and uses default-true dropdowns. L49's remote-gateway and
+hub-selection inputs are removed entirely. L14 now checks that AKS local
 accounts are disabled, not only that Microsoft Entra integration is present;
-L15 remains unchanged and overlaps this check. It has not been deployed, and these
-source changes have changed no Azure resources.
+L15 remains unchanged and overlaps this check. No assignments, exemptions or role
+assignments were created.
 Removing/renaming Azure Policy parameters or changing their types is not supported
 in place. Assignment values for dropdowns must be quoted strings, not Booleans.
-For other deployments, use a fresh target or a
-separately reviewed migration to versioned policy/initiative definitions; do not
-apply directly over an existing 84- or 97-definition package. Deleting deployed
-definitions requires migration review. prevent_destroy and the
+For other deployments that hold an earlier revision with assignments, use a fresh
+target or a separately reviewed migration to versioned policy/initiative
+definitions; do not apply directly over an existing 84- or 97-definition package.
+Deleting deployed definitions requires migration review. prevent_destroy and the
 deployment script's deletion guard are intentionally retained.
 
 State and provider files used by deploy.ps1 are stored under LOCALAPPDATA, not in

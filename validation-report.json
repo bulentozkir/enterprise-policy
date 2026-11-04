@@ -1,6 +1,6 @@
 {
-  "createdUtc": "2026-11-04T19:48:53.468530+00:00",
-  "validationStatus": "passed-local-checks-not-deployed",
+  "createdUtc": "2026-11-04T20:11:27.343893+00:00",
+  "validationStatus": "passed-local-and-azure-checks",
   "testResults": {
     "structuralValidation": "passed",
     "trueFalsePolicyDropdowns": 49,
@@ -24,7 +24,10 @@
     "liveAzureAliasAndResourceTypeCheck": "passed: no unknown aliases or resource types across 75 definitions (17 provider namespaces)",
     "upstreamRuleComparison": "passed: rules match their public upstream definitions except documented intentional changes",
     "upstreamLifecycleReport": "refreshed: 59 public sources, 0 retired or deprecated",
-    "armTemplateValidateAction": "passed for all three templates; note that this action does not check policy-rule language"
+    "armTemplateValidateAction": "passed for all three templates; note that this action does not check policy-rule language",
+    "azureDeploymentApply": "passed: 79 added, 0 changed, 0 destroyed",
+    "azureLiveContentComparison": "passed: 75 definitions and 3 initiatives, 0 differences",
+    "terraformDriftPlan": "passed: no changes"
   },
   "catalogRowsCovered": 91,
   "sets": [
@@ -78,5 +81,5 @@
     "No OS/image release applicability selectors or request-API-version gates",
     "Field aliases and resource types checked against live Azure provider metadata; rules re-compared with public upstream sources"
   ],
-  "azureServiceValidation": "The current 75-definition revision has not been deployed. Read-only ARM template validate actions succeeded for all three initiative templates, but that action does not check policy-rule language (a deliberately invalid probe also passed), so Azure Policy acceptance of the bool() expressions is unconfirmed until the definitions are created. Azure acceptance and zero-drift verification of the previous 84-definition revision on 2026-11-04 do not establish parity with the current source. No Azure resources were changed."
+  "azureServiceValidation": "Azure accepted all 75 definitions and three initiatives at the Tenant Root Group on 2026-11-04, including the bool() dropdown expressions that read-only ARM validation could not check. Live displayName, description, mode, policyRule, parameters and initiative members and bindings match source with zero differences, and Terraform reports no changes. The previous unassigned 84-definition deployment was deleted first at the owner's request. No policy assignments, exemptions or role assignments were created. Assigned-resource compliance was not evaluated."
 }

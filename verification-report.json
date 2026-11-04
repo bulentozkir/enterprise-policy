@@ -1,6 +1,6 @@
 {
-  "verificationScope": "Local structural, regression, renderer CLI, deployment-safeguard and Terraform mock-provider checks, plus a live read-only Azure alias/resource-type metadata check, of 75 definitions and three initiatives. This revision is not deployed; historical live verification is retained separately.",
-  "status": "passed-local-checks-not-deployed",
+  "verificationScope": "Local structural, regression, renderer CLI, deployment-safeguard and Terraform mock-provider checks; a live read-only Azure alias/resource-type metadata check; and Azure acceptance with a canonical live comparison of the 75 definitions and three initiatives deployed to the Tenant Root Group. Assigned-resource compliance was not evaluated.",
+  "status": "passed-local-and-azure-checks",
   "customDefinitions": {
     "Global": 23,
     "Hub": 12,
@@ -21,7 +21,11 @@
     "Policy review: every field alias and resource type in the 75 definitions exists in live Azure provider metadata; rules match their public upstream definitions except documented intentional changes; the upstream lifecycle report was refreshed (59 public sources, none retired or deprecated).",
     "Review fixes: R30 now excludes the master database by name; H07 and L14 definitions were renamed to match behavior; H04/H21 no longer refer to removed selections; audit-first H16/H19/L03/L04/L05 no longer say they deny; L04's next-hop dropdown is labeled as prohibited types; initiative descriptions match the dropdown contract; H21 accepted IDPS modes default to Alert and Deny so Hub has no required inputs.",
     "Known overlaps and trade-offs: L14 and L15 now apply the same rule; R26 and R27 are both enabled by default and each flags the other's valid Windows license type; L13 allows host networking by default as requested; H16/L05 flag every peering until approved vNets are selected.",
-    "Passed all 41 Python unit tests, all 11 mocked PowerShell deployment scenarios, both Terraform mock-provider tests, Terraform formatting and validation, and 13 renderer CLI scenarios (23/12/40 members; default true and explicit false remain strings; removed or Boolean inputs rejected). Whitespace validation passed; temporary outputs and provider data were cleaned."
+    "Passed all 41 Python unit tests, all 11 mocked PowerShell deployment scenarios, both Terraform mock-provider tests, Terraform formatting and validation, and 13 renderer CLI scenarios (23/12/40 members; default true and explicit false remain strings; removed or Boolean inputs rejected). Whitespace validation passed; temporary outputs and provider data were cleaned.",
+    "Deleted the previous unassigned package at the Tenant Root Group at the owner's request: 3 initiatives, then 84 definitions, 0 failures. Pre-checks confirmed the 84 live definitions equaled Terraform state and that no assignments, exemptions or other initiatives referenced them. 182 unrelated custom definitions and 12 other initiatives were untouched.",
+    "Backed up the old Terraform state, then deployed with terraform/deploy.ps1: plan 79 to add / 0 change / 0 destroy; apply 79 added. Azure accepted all definitions, including the bool() dropdown expressions.",
+    "Live comparison after deployment: 75 definitions and 3 initiatives (23/12/40 members) match source with zero differences in displayName, description, mode, policyRule, parameters, member ids and parameter bindings. A Terraform plan reports no changes.",
+    "No policy assignments, exemptions or role assignments were created; all 23 pre-existing assignments are unchanged and none references this package."
   ],
   "coverageLimitations": [
     {
@@ -232,9 +236,38 @@
     }
   ],
   "deployment": {
-    "status": "not-deployed",
-    "reason": "Local-only source changes remove definitions and parameters and change the L14 compliance predicate. Existing deletion/replacement safeguards remain enabled; deployment requires a separately reviewed migration.",
-    "azureResourcesChanged": false
+    "status": "deployed",
+    "scope": "/providers/Microsoft.Management/managementGroups/d24284e3-1ea5-4285-9b96-4d53f671284b",
+    "deployedOn": "2026-11-04",
+    "method": "terraform/deploy.ps1 -Apply (Terraform AzAPI, stable Microsoft.Authorization API 2026-07-01)",
+    "terraformPlan": "79 to add, 0 to change, 0 to destroy (75 definitions, 3 initiatives, 1 tracking resource)",
+    "terraformApply": "79 added, 0 changed, 0 destroyed",
+    "customPolicyDefinitionsDeployed": 75,
+    "customInitiativesDeployed": 3,
+    "initiativeMembers": {
+      "Global": 23,
+      "Hub": 12,
+      "LandingZone": 40
+    },
+    "liveContentDifferences": 0,
+    "terraformDriftPlanDetailedExitCode": 0,
+    "previousPackageDeletedFirst": {
+      "authorizedBy": "owner, explicit instruction that the previous deployment was never used",
+      "preDeleteChecks": "84 live definitions equaled Terraform state; no policy assignments, exemptions or other initiatives referenced them",
+      "initiativesDeleted": 3,
+      "definitionsDeleted": 84,
+      "failures": 0,
+      "unrelatedCustomDefinitionsUntouched": 182,
+      "unrelatedCustomInitiativesUntouched": 12,
+      "terraformStateBackedUp": true
+    },
+    "azureAcceptedBoolExpressions": true,
+    "policyAssignmentsCreated": 0,
+    "policyExemptionsCreated": 0,
+    "roleAssignmentsCreated": 0,
+    "workloadResourcesChanged": false,
+    "permissionsChanged": false,
+    "assignedResourceComplianceEvaluated": false
   },
   "previousSimplifiedInputVerification": {
     "verificationScope": "Local checks, Azure service acceptance and canonical live comparison of all 84 simplified-input definitions and three initiatives at tenant root. Assigned-resource compliance was not evaluated.",
