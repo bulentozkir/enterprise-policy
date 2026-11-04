@@ -34,6 +34,34 @@ locals {
   expected_definition_names = toset(flatten([
     for set_name in local.set_names : local.catalog.sets[set_name].publishable_definition_names
   ]))
+  parameter_specs = flatten(concat(
+    [for policy in values(local.policies) : values(policy.properties.parameters)],
+    [for initiative in values(local.initiatives) : values(initiative.properties.parameters)]
+  ))
+  simple_parameter_inputs = alltrue([
+    for spec in local.parameter_specs :
+    !can(spec.schema) && (
+      (
+        contains(["String", "Array"], spec.type) &&
+        (
+          contains(["location", "resourceTypes", "storageSkus", "vmSKUs", "existingResourceGroups"], try(spec.metadata.strongType, "")) ||
+          can(regex("^[A-Za-z][A-Za-z0-9.]+(/[A-Za-z][A-Za-z0-9]*)+$", try(spec.metadata.strongType, "")))
+        )
+      ) ||
+      (
+        contains(["String", "Array", "Integer", "Float", "DateTime"], spec.type) &&
+        length(try(spec.allowedValues, [])) > 0
+      ) ||
+      (
+        spec.type == "Array" &&
+        try(length(spec.defaultValue), 0) == 3 &&
+        alltrue(try([
+          for value in spec.defaultValue :
+          value == tostring(value) && trimspace(tostring(value)) != ""
+        ], [false]))
+      )
+    )
+  ])
 }
 
 data "azurerm_client_config" "current" {}
@@ -61,6 +89,10 @@ resource "terraform_data" "source_catalog" {
     precondition {
       condition     = toset(keys(local.policies)) == local.expected_definition_names
       error_message = "Policy files differ from catalog.json. Regenerate the reviewed source catalog before deployment."
+    }
+    precondition {
+      condition     = local.simple_parameter_inputs
+      error_message = "Policy and initiative parameters must be Portal pickers, fixed dropdowns or editable arrays with three default strings; true/false inputs must use String dropdowns, not Boolean text inputs."
     }
     precondition {
       condition = alltrue([

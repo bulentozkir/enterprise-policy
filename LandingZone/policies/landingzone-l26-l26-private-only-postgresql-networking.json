@@ -2,7 +2,7 @@
   "name": "landingzone-l26-l26-private-only-postgresql-networking",
   "properties": {
     "displayName": "Public network access should be disabled for PostgreSQL flexible servers",
-    "description": "Disabling the public network access property improves security by ensuring your Azure Database for PostgreSQL flexible servers can only be accessed from a private endpoint. This configuration strictly disables access from any public address space outside of Azure IP range and denies all logins that match IP based firewall rules.",
+    "description": "Require disabled public network access or a complete VNet-integrated configuration when the public-access property is omitted. Explicitly enabled public access is always reported. This check does not provision private endpoints or verify private connectivity. Enabled=true checks all matching in-scope resources; false skips the check.",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {
@@ -26,65 +26,25 @@
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
-      "evaluationScope": {
-        "type": "Object",
+      "enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
-            "count": {
-              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
-              "name": "evaluationScopeIncludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeIncludedPattern')]"
-              }
-            },
-            "greater": 0
-          },
-          {
-            "count": {
-              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
-              "name": "evaluationScopeExcludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeExcludedPattern')]"
-              }
-            },
-            "equals": 0
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
           },
           {
             "allOf": [
@@ -94,14 +54,6 @@
               },
               {
                 "anyOf": [
-                  {
-                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.delegatedSubnetResourceId",
-                    "exists": "true"
-                  },
-                  {
-                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.privateDnsZoneArmResourceId",
-                    "exists": "true"
-                  },
                   {
                     "allOf": [
                       {
@@ -113,18 +65,34 @@
                         "notEquals": "Disabled"
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "anyOf": [
-                  {
-                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.delegatedSubnetResourceId",
-                    "exists": "false"
                   },
                   {
-                    "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.privateDnsZoneArmResourceId",
-                    "exists": "false"
+                    "allOf": [
+                      {
+                        "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.publicNetworkAccess",
+                        "exists": "false"
+                      },
+                      {
+                        "anyOf": [
+                          {
+                            "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.delegatedSubnetResourceId",
+                            "exists": "false"
+                          },
+                          {
+                            "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.delegatedSubnetResourceId",
+                            "equals": ""
+                          },
+                          {
+                            "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.privateDnsZoneArmResourceId",
+                            "exists": "false"
+                          },
+                          {
+                            "field": "Microsoft.DBforPostgreSQL/flexibleServers/network.privateDnsZoneArmResourceId",
+                            "equals": ""
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }

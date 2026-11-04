@@ -1,8 +1,8 @@
 {
   "name": "landingzone-l45-l45-sql-long-term-retention-enabled",
   "properties": {
-    "displayName": "Long-term geo-redundant backup should be enabled for Azure SQL Databases",
-    "description": "This policy audits any Azure SQL Database with long-term geo-redundant backup not enabled.",
+    "displayName": "Long-term retention should be enabled for Azure SQL Databases",
+    "description": "Audit Azure SQL databases without a present, nonempty, nonzero weekly, monthly or yearly long-term retention duration. This check does not verify backup storage redundancy. Enabled=true checks all matching in-scope resources; false skips the check.",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {
@@ -25,65 +25,25 @@
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         }
       },
-      "evaluationScope": {
-        "type": "Object",
+      "enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
-            "count": {
-              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
-              "name": "evaluationScopeIncludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeIncludedPattern')]"
-              }
-            },
-            "greater": 0
-          },
-          {
-            "count": {
-              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
-              "name": "evaluationScopeExcludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeExcludedPattern')]"
-              }
-            },
-            "equals": 0
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
           },
           {
             "allOf": [
@@ -107,16 +67,61 @@
           "existenceCondition": {
             "anyOf": [
               {
-                "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/weeklyRetention",
-                "notEquals": "PT0S"
+                "allOf": [
+                  {
+                    "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/weeklyRetention",
+                    "exists": "true"
+                  },
+                  {
+                    "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/weeklyRetention",
+                    "notIn": [
+                      "",
+                      "PT0S",
+                      "P0W",
+                      "P0M",
+                      "P0Y",
+                      "P0D"
+                    ]
+                  }
+                ]
               },
               {
-                "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/monthlyRetention",
-                "notEquals": "PT0S"
+                "allOf": [
+                  {
+                    "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/monthlyRetention",
+                    "exists": "true"
+                  },
+                  {
+                    "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/monthlyRetention",
+                    "notIn": [
+                      "",
+                      "PT0S",
+                      "P0W",
+                      "P0M",
+                      "P0Y",
+                      "P0D"
+                    ]
+                  }
+                ]
               },
               {
-                "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/yearlyRetention",
-                "notEquals": "PT0S"
+                "allOf": [
+                  {
+                    "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/yearlyRetention",
+                    "exists": "true"
+                  },
+                  {
+                    "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/yearlyRetention",
+                    "notIn": [
+                      "",
+                      "PT0S",
+                      "P0W",
+                      "P0M",
+                      "P0Y",
+                      "P0D"
+                    ]
+                  }
+                ]
               }
             ]
           }

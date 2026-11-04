@@ -1,8 +1,8 @@
 {
   "name": "hub-h04-firewall-dns-proxy",
   "properties": {
-    "displayName": "Selected hub Firewall Policies must explicitly enable DNS proxy",
-    "description": "Audits missing and false DNS proxy values on explicitly selected Firewall Policies. Unlike the upstream presence-only check, an explicit false value is noncompliant. Inheritance is not resolved.",
+    "displayName": "Hub Firewall Policies must explicitly enable DNS proxy",
+    "description": "Audits Firewall Policies whose DNS proxy setting is missing or false. Unlike the upstream presence-only check, an explicit false value is noncompliant. Inheritance is not resolved. Enabled=true checks all matching in-scope resources; false skips the check.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -27,53 +27,43 @@
           "description": "Read-only evaluation."
         }
       },
-      "profile": {
-        "type": "Object",
+      "enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "Approved DNS-proxy targets",
-          "description": "Required, nonempty Firewall Policy resource IDs whose approved DNS architecture requires explicit DNS proxy configuration."
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-              }
-            }
-          }
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
-            "field": "type",
-            "equals": "Microsoft.Network/firewallPolicies"
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
           },
           {
-            "field": "id",
-            "in": "[parameters('profile')['resourceIds']]"
-          },
-          {
-            "anyOf": [
+            "allOf": [
               {
-                "field": "Microsoft.Network/firewallPolicies/dnsSettings.enableProxy",
-                "exists": "false"
+                "field": "type",
+                "equals": "Microsoft.Network/firewallPolicies"
               },
               {
-                "field": "Microsoft.Network/firewallPolicies/dnsSettings.enableProxy",
-                "notEquals": true
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Network/firewallPolicies/dnsSettings.enableProxy",
+                    "exists": "false"
+                  },
+                  {
+                    "field": "Microsoft.Network/firewallPolicies/dnsSettings.enableProxy",
+                    "notEquals": true
+                  }
+                ]
               }
             ]
           }

@@ -2,7 +2,7 @@
   "name": "landingzone-l12-l12-restrict-linux-capabilities",
   "properties": {
     "displayName": "Kubernetes cluster containers should only use allowed capabilities",
-    "description": "Restrict the capabilities to reduce the attack surface of containers in a Kubernetes cluster. This recommendation is part of CIS 5.2.8 and CIS 5.2.9 which are intended to improve the security of your Kubernetes environments. This policy is generally available for Kubernetes Service (AKS), and preview for Azure Arc enabled Kubernetes. For more information, see https://aka.ms/kubepolicydoc.",
+    "description": "Restrict the capabilities to reduce the attack surface of containers in a Kubernetes cluster. This recommendation is part of CIS 5.2.8 and CIS 5.2.9 which are intended to improve the security of your Kubernetes environments. This policy is generally available for Kubernetes Service (AKS), and preview for Azure Arc enabled Kubernetes. For more information, see https://aka.ms/kubepolicydoc. Enabled=true checks all matching in-scope resources; false skips the check.",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
     "metadata": {
@@ -27,12 +27,16 @@
         ]
       },
       "warn": {
-        "type": "Boolean",
+        "type": "String",
         "metadata": {
           "displayName": "Warn",
-          "description": "Whether or not to return warnings back to the user in the kubectl cli"
+          "description": "Whether or not to return warnings back to the user in the kubectl cli Select true or false; defaults to true."
         },
-        "defaultValue": false
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       },
       "effect": {
         "type": "String",
@@ -47,158 +51,137 @@
         ],
         "defaultValue": "Audit"
       },
-      "excludedNamespaces": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Namespace exclusions",
-          "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
-        },
-        "defaultValue": [
-          "kube-system",
-          "gatekeeper-system",
-          "azure-arc",
-          "azure-extensions-usage-system"
-        ]
-      },
-      "namespaces": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Namespace inclusions",
-          "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
-        },
-        "defaultValue": []
-      },
-      "labelSelector": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Kubernetes label selector",
-          "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
-        },
-        "defaultValue": {},
-        "schema": {
-          "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all resources.",
-          "type": "object",
-          "properties": {
-            "matchLabels": {
-              "description": "matchLabels is a map of {key,value} pairs.",
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              },
-              "minProperties": 1
-            },
-            "matchExpressions": {
-              "description": "matchExpressions is a list of values, a key, and an operator.",
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "key": {
-                    "description": "key is the label key that the selector applies to.",
-                    "type": "string"
-                  },
-                  "operator": {
-                    "description": "operator represents a key's relationship to a set of values.",
-                    "type": "string",
-                    "enum": [
-                      "In",
-                      "NotIn",
-                      "Exists",
-                      "DoesNotExist"
-                    ]
-                  },
-                  "values": {
-                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "required": [
-                  "key",
-                  "operator"
-                ],
-                "additionalProperties": false
-              },
-              "minItems": 1
-            }
-          },
-          "additionalProperties": false
-        }
-      },
       "allowedCapabilities": {
         "type": "Array",
         "metadata": {
           "displayName": "Allowed capabilities",
-          "description": "The list of capabilities that are allowed to be added to a container. Provide empty list as input to block everything."
+          "description": "Select capability names from the supported Linux capability catalog, including ALL."
         },
-        "defaultValue": []
+        "defaultValue": [],
+        "allowedValues": [
+          "*",
+          "ALL",
+          "AUDIT_CONTROL",
+          "AUDIT_READ",
+          "AUDIT_WRITE",
+          "BLOCK_SUSPEND",
+          "BPF",
+          "CHECKPOINT_RESTORE",
+          "CHOWN",
+          "DAC_OVERRIDE",
+          "DAC_READ_SEARCH",
+          "FOWNER",
+          "FSETID",
+          "IPC_LOCK",
+          "IPC_OWNER",
+          "KILL",
+          "LEASE",
+          "LINUX_IMMUTABLE",
+          "MAC_ADMIN",
+          "MAC_OVERRIDE",
+          "MKNOD",
+          "NET_ADMIN",
+          "NET_BIND_SERVICE",
+          "NET_BROADCAST",
+          "NET_RAW",
+          "PERFMON",
+          "SETFCAP",
+          "SETGID",
+          "SETPCAP",
+          "SETUID",
+          "SYS_ADMIN",
+          "SYS_BOOT",
+          "SYS_CHROOT",
+          "SYS_MODULE",
+          "SYS_NICE",
+          "SYS_PACCT",
+          "SYS_PTRACE",
+          "SYS_RAWIO",
+          "SYS_RESOURCE",
+          "SYS_TIME",
+          "SYS_TTY_CONFIG",
+          "SYSLOG",
+          "WAKE_ALARM"
+        ]
       },
       "requiredDropCapabilities": {
         "type": "Array",
         "metadata": {
           "displayName": "Required drop capabilities",
-          "description": "The list of capabilities that must be dropped by a container."
+          "description": "Select capability names from the supported Linux capability catalog, including ALL."
         },
-        "defaultValue": []
+        "defaultValue": [],
+        "allowedValues": [
+          "ALL",
+          "AUDIT_CONTROL",
+          "AUDIT_READ",
+          "AUDIT_WRITE",
+          "BLOCK_SUSPEND",
+          "BPF",
+          "CHECKPOINT_RESTORE",
+          "CHOWN",
+          "DAC_OVERRIDE",
+          "DAC_READ_SEARCH",
+          "FOWNER",
+          "FSETID",
+          "IPC_LOCK",
+          "IPC_OWNER",
+          "KILL",
+          "LEASE",
+          "LINUX_IMMUTABLE",
+          "MAC_ADMIN",
+          "MAC_OVERRIDE",
+          "MKNOD",
+          "NET_ADMIN",
+          "NET_BIND_SERVICE",
+          "NET_BROADCAST",
+          "NET_RAW",
+          "PERFMON",
+          "SETFCAP",
+          "SETGID",
+          "SETPCAP",
+          "SETUID",
+          "SYS_ADMIN",
+          "SYS_BOOT",
+          "SYS_CHROOT",
+          "SYS_MODULE",
+          "SYS_NICE",
+          "SYS_PACCT",
+          "SYS_PTRACE",
+          "SYS_RAWIO",
+          "SYS_RESOURCE",
+          "SYS_TIME",
+          "SYS_TTY_CONFIG",
+          "SYSLOG",
+          "WAKE_ALARM"
+        ]
       },
-      "excludedContainers": {
-        "type": "Array",
+      "enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "Containers exclusions",
-          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identify is the name of container. Use an empty list to apply this policy to all containers in all namespaces."
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "defaultValue": []
-      },
-      "excludedImages": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Image exclusions",
-          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
-        },
-        "defaultValue": []
-      },
-      "clusterScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Approved cluster tag selector",
-          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
-        },
-        "schema": {
-          "type": "object",
-          "required": [
-            "tagName",
-            "tagValue"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "tagName": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "^[^\\[\\]']+$"
-            },
-            "tagValue": {
-              "type": "string",
-              "minLength": 1
-            }
-          }
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
+          },
+          {
             "field": "type",
             "in": [
               "Microsoft.Kubernetes/connectedClusters",
               "Microsoft.ContainerService/managedClusters"
             ]
-          },
-          {
-            "field": "[concat('tags[', parameters('clusterScope').tagName, ']')]",
-            "equals": "[parameters('clusterScope').tagValue]"
           }
         ]
       },
@@ -206,7 +189,7 @@
         "effect": "[parameters('effect')]",
         "details": {
           "source": "[parameters('source')]",
-          "warn": "[parameters('warn')]",
+          "warn": "[bool(parameters('warn'))]",
           "templateInfo": {
             "sourceType": "Base64Encoded",
             "content": "YXBpVmVyc2lvbjogdGVtcGxhdGVzLmdhdGVrZWVwZXIuc2gvdjFiZXRhMQ0Ka2luZDogQ29uc3RyYWludFRlbXBsYXRlDQptZXRhZGF0YToNCiAgbmFtZTogazhzYXp1cmV2M2FsbG93ZWRjYXBhYmlsaXRpZXMNCnNwZWM6DQogIGNyZDoNCiAgICBzcGVjOg0KICAgICAgbmFtZXM6DQogICAgICAgIGtpbmQ6IEs4c0F6dXJlVjNBbGxvd2VkQ2FwYWJpbGl0aWVzDQogICAgICB2YWxpZGF0aW9uOg0KICAgICAgICAjIFNjaGVtYSBmb3IgdGhlIGBwYXJhbWV0ZXJzYCBmaWVsZA0KICAgICAgICBvcGVuQVBJVjNTY2hlbWE6DQogICAgICAgICAgcHJvcGVydGllczoNCiAgICAgICAgICAgIGFsbG93ZWRDYXBhYmlsaXRpZXM6DQogICAgICAgICAgICAgIHR5cGU6IGFycmF5DQogICAgICAgICAgICAgIGl0ZW1zOg0KICAgICAgICAgICAgICAgIHR5cGU6IHN0cmluZw0KICAgICAgICAgICAgcmVxdWlyZWREcm9wQ2FwYWJpbGl0aWVzOg0KICAgICAgICAgICAgICB0eXBlOiBhcnJheQ0KICAgICAgICAgICAgICBpdGVtczoNCiAgICAgICAgICAgICAgICB0eXBlOiBzdHJpbmcNCiAgICAgICAgICAgIGV4Y2x1ZGVkQ29udGFpbmVyczoNCiAgICAgICAgICAgICAgdHlwZTogYXJyYXkNCiAgICAgICAgICAgICAgaXRlbXM6DQogICAgICAgICAgICAgICAgdHlwZTogc3RyaW5nDQogICAgICAgICAgICBleGNsdWRlZEltYWdlczoNCiAgICAgICAgICAgICAgZGVzY3JpcHRpb246ID4tDQogICAgICAgICAgICAgICAgQW55IGNvbnRhaW5lciB0aGF0IHVzZXMgYW4gaW1hZ2UgdGhhdCBtYXRjaGVzIGFuIGVudHJ5IGluIHRoaXMgbGlzdCB3aWxsIGJlIGV4Y2x1ZGVkDQogICAgICAgICAgICAgICAgZnJvbSBlbmZvcmNlbWVudC4gUHJlZml4LW1hdGNoaW5nIGNhbiBiZSBzaWduaWZpZWQgd2l0aCBgKmAuIEZvciBleGFtcGxlOiBgbXktaW1hZ2UtKmAuDQogICAgICAgICAgICAgICAgSXQgaXMgcmVjb21tZW5kZWQgdGhhdCB1c2VycyB1c2UgdGhlIGZ1bGx5LXF1YWxpZmllZCBEb2NrZXIgaW1hZ2UgbmFtZSAoZS5nLiBzdGFydCB3aXRoIGEgZG9tYWluIG5hbWUpDQogICAgICAgICAgICAgICAgaW4gb3JkZXIgdG8gYXZvaWQgdW5leHBlY3RlZGx5IGV4Y2x1ZGluZyBpbWFnZXMgZnJvbSBhbiB1bnRydXN0ZWQgcmVwb3NpdG9yeS4NCiAgICAgICAgICAgICAgdHlwZTogYXJyYXkNCiAgICAgICAgICAgICAgaXRlbXM6DQogICAgICAgICAgICAgICAgdHlwZTogc3RyaW5nDQogIHRhcmdldHM6DQogICAgLSB0YXJnZXQ6IGFkbWlzc2lvbi5rOHMuZ2F0ZWtlZXBlci5zaA0KICAgICAgcmVnbzogfA0KICAgICAgICBwYWNrYWdlIGs4c2F6dXJldjNhbGxvd2VkY2FwYWJpbGl0aWVzDQoNCiAgICAgICAgaW1wb3J0IGRhdGEubGliLmV4Y2x1ZGVfY29udGFpbmVyX2ltYWdlLmlzX2V4Y2x1ZGVkDQoNCiAgICAgICAgdmlvbGF0aW9uW3sibXNnIjogbXNnfV0gew0KICAgICAgICAgIG5vdCBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMubm9kZVNlbGVjdG9yWyJrdWJlcm5ldGVzLmlvL29zIl0gPT0gIndpbmRvd3MiDQogICAgICAgICAgY29udGFpbmVyIDo9IGlucHV0X2NvbnRhaW5lcnNbX10NCiAgICAgICAgICBub3QgaW5wdXRfY29udGFpbmVyX2V4Y2x1ZGVkKGNvbnRhaW5lci5uYW1lKQ0KICAgICAgICAgIG5vdCBpc19leGNsdWRlZChjb250YWluZXIpDQogICAgICAgICAgaGFzX2Rpc2FsbG93ZWRfY2FwYWJpbGl0aWVzKGNvbnRhaW5lcikNCiAgICAgICAgICBtc2cgOj0gc3ByaW50ZigiY29udGFpbmVyIDwldj4gaGFzIGEgZGlzYWxsb3dlZCBjYXBhYmlsaXR5LiBBbGxvd2VkIGNhcGFiaWxpdGllcyBhcmUgJXYuIEZvciBtb3JlIGluZm9ybWF0aW9uLCB2aXNpdCBodHRwczovL2FrYS5tcy9ha3MvZGVwbG95bWVudC1zYWZlZ3VhcmRzIiwgW2NvbnRhaW5lci5uYW1lLCBnZXRfZGVmYXVsdChpbnB1dC5wYXJhbWV0ZXJzLCAiYWxsb3dlZENhcGFiaWxpdGllcyIsICJOT05FIildKQ0KICAgICAgICB9DQoNCiAgICAgICAgdmlvbGF0aW9uW3sibXNnIjogbXNnfV0gew0KICAgICAgICAgIG5vdCBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMubm9kZVNlbGVjdG9yWyJrdWJlcm5ldGVzLmlvL29zIl0gPT0gIndpbmRvd3MiDQogICAgICAgICAgY29udGFpbmVyIDo9IGlucHV0X2NvbnRhaW5lcnNbX10NCiAgICAgICAgICBub3QgaW5wdXRfY29udGFpbmVyX2V4Y2x1ZGVkKGNvbnRhaW5lci5uYW1lKQ0KICAgICAgICAgIG5vdCBpc19leGNsdWRlZChjb250YWluZXIpDQogICAgICAgICAgbWlzc2luZ19kcm9wX2NhcGFiaWxpdGllcyhjb250YWluZXIpDQogICAgICAgICAgbXNnIDo9IHNwcmludGYoImNvbnRhaW5lciA8JXY+IGlzIG5vdCBkcm9wcGluZyBhbGwgcmVxdWlyZWQgY2FwYWJpbGl0aWVzLiBDb250YWluZXIgbXVzdCBkcm9wIGFsbCBvZiAldiBvciBcIkFMTFwiLiBGb3IgbW9yZSBpbmZvcm1hdGlvbiwgdmlzaXQgaHR0cHM6Ly9ha2EubXMvYWtzL2RlcGxveW1lbnQtc2FmZWd1YXJkcyIsIFtjb250YWluZXIubmFtZSwgaW5wdXQucGFyYW1ldGVycy5yZXF1aXJlZERyb3BDYXBhYmlsaXRpZXNdKQ0KICAgICAgICB9DQoNCiAgICAgICAgaGFzX2Rpc2FsbG93ZWRfY2FwYWJpbGl0aWVzKGNvbnRhaW5lcikgew0KICAgICAgICAgIGFsbG93ZWQgOj0ge2MgfCBjIDo9IGxvd2VyKGlucHV0LnBhcmFtZXRlcnMuYWxsb3dlZENhcGFiaWxpdGllc1tfXSl9DQogICAgICAgICAgbm90IGFsbG93ZWRbIioiXQ0KICAgICAgICAgIGNhcGFiaWxpdGllcyA6PSB7YyB8IGMgOj0gbG93ZXIoY29udGFpbmVyLnNlY3VyaXR5Q29udGV4dC5jYXBhYmlsaXRpZXMuYWRkW19dKX0NCg0KICAgICAgICAgIGNvdW50KGNhcGFiaWxpdGllcyAtIGFsbG93ZWQpID4gMA0KICAgICAgICB9DQoNCiAgICAgICAgbWlzc2luZ19kcm9wX2NhcGFiaWxpdGllcyhjb250YWluZXIpIHsNCiAgICAgICAgICBtdXN0X2Ryb3AgOj0ge2MgfCBjIDo9IGxvd2VyKGlucHV0LnBhcmFtZXRlcnMucmVxdWlyZWREcm9wQ2FwYWJpbGl0aWVzW19dKX0NCiAgICAgICAgICBhbGwgOj0geyJhbGwifQ0KICAgICAgICAgIGRyb3BwZWQgOj0ge2MgfCBjIDo9IGxvd2VyKGNvbnRhaW5lci5zZWN1cml0eUNvbnRleHQuY2FwYWJpbGl0aWVzLmRyb3BbX10pfQ0KDQogICAgICAgICAgY291bnQobXVzdF9kcm9wIC0gZHJvcHBlZCkgPiAwDQogICAgICAgICAgY291bnQoYWxsIC0gZHJvcHBlZCkgPiAwDQogICAgICAgIH0NCg0KICAgICAgICBnZXRfZGVmYXVsdChvYmosIHBhcmFtLCBfKSA9IG91dCB7DQogICAgICAgICAgb3V0ID0gb2JqW3BhcmFtXQ0KICAgICAgICB9DQoNCiAgICAgICAgZ2V0X2RlZmF1bHQob2JqLCBwYXJhbSwgX2RlZmF1bHQpID0gb3V0IHsNCiAgICAgICAgICBub3Qgb2JqW3BhcmFtXQ0KICAgICAgICAgIG5vdCBvYmpbcGFyYW1dID09IGZhbHNlDQogICAgICAgICAgb3V0ID0gX2RlZmF1bHQNCiAgICAgICAgfQ0KICAgICAgICBpbnB1dF9jb250YWluZXJzW2NdIHsNCiAgICAgICAgICAgIGMgOj0gaW5wdXQucmV2aWV3Lm9iamVjdC5zcGVjLmNvbnRhaW5lcnNbX10NCiAgICAgICAgfQ0KICAgICAgICBpbnB1dF9jb250YWluZXJzW2NdIHsNCiAgICAgICAgICAgIGMgOj0gaW5wdXQucmV2aWV3Lm9iamVjdC5zcGVjLmluaXRDb250YWluZXJzW19dDQogICAgICAgIH0NCiAgICAgICAgaW5wdXRfY29udGFpbmVyc1tjXSB7DQogICAgICAgICAgYyA6PSBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMuZXBoZW1lcmFsQ29udGFpbmVyc1tfXQ0KICAgICAgICB9DQogICAgICAgIGlucHV0X2NvbnRhaW5lcl9leGNsdWRlZChmaWVsZCkgew0KICAgICAgICAgICAgZmllbGQgPT0gaW5wdXQucGFyYW1ldGVycy5leGNsdWRlZENvbnRhaW5lcnNbX10NCiAgICAgICAgfQ0KICAgICAgbGliczoNCiAgICAgICAgLSB8DQogICAgICAgICAgcGFja2FnZSBsaWIuZXhjbHVkZV9jb250YWluZXJfaW1hZ2UNCiAgICAgICAgICBpc19leGNsdWRlZChjb250YWluZXIpIHsNCiAgICAgICAgICAgICAgZXhjbHVkZV9pbWFnZXMgOj0gb2JqZWN0LmdldChvYmplY3QuZ2V0KGlucHV0LCAicGFyYW1ldGVycyIsIHt9KSwgImV4Y2x1ZGVkSW1hZ2VzIiwgW10pDQogICAgICAgICAgICAgIGltZyA6PSBjb250YWluZXIuaW1hZ2UNCiAgICAgICAgICAgICAgZXhjbHVzaW9uIDo9IGV4Y2x1ZGVfaW1hZ2VzW19dDQogICAgICAgICAgICAgIF9tYXRjaGVzX2V4Y2x1c2lvbihpbWcsIGV4Y2x1c2lvbikNCiAgICAgICAgICB9DQogICAgICAgICAgX21hdGNoZXNfZXhjbHVzaW9uKGltZywgZXhjbHVzaW9uKSB7DQogICAgICAgICAgICAgIG5vdCBlbmRzd2l0aChleGNsdXNpb24sICIqIikNCiAgICAgICAgICAgICAgZXhjbHVzaW9uID09IGltZw0KICAgICAgICAgIH0NCiAgICAgICAgICBfbWF0Y2hlc19leGNsdXNpb24oaW1nLCBleGNsdXNpb24pIHsNCiAgICAgICAgICAgICAgZW5kc3dpdGgoZXhjbHVzaW9uLCAiKiIpDQogICAgICAgICAgICAgIHByZWZpeCA6PSB0cmltX3N1ZmZpeChleGNsdXNpb24sICIqIikNCiAgICAgICAgICAgICAgc3RhcnRzd2l0aChpbWcsIHByZWZpeCkNCiAgICAgICAgICB9DQo="
@@ -217,14 +200,19 @@
           "kinds": [
             "Pod"
           ],
-          "excludedNamespaces": "[parameters('excludedNamespaces')]",
-          "namespaces": "[parameters('namespaces')]",
-          "labelSelector": "[parameters('labelSelector')]",
+          "excludedNamespaces": [
+            "kube-system",
+            "gatekeeper-system",
+            "azure-arc",
+            "azure-extensions-usage-system"
+          ],
+          "namespaces": [],
+          "labelSelector": {},
           "values": {
             "allowedCapabilities": "[parameters('allowedCapabilities')]",
             "requiredDropCapabilities": "[parameters('requiredDropCapabilities')]",
-            "excludedContainers": "[parameters('excludedContainers')]",
-            "excludedImages": "[parameters('excludedImages')]"
+            "excludedContainers": [],
+            "excludedImages": []
           }
         }
       }

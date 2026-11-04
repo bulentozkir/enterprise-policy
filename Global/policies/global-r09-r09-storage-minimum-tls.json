@@ -51,7 +51,7 @@
             "anyOf": [
               {
                 "field": "Microsoft.Storage/storageAccounts/minimumTlsVersion",
-                "notEquals": "[parameters('minimumTlsVersion')]"
+                "less": "[parameters('minimumTlsVersion')]"
               },
               {
                 "field": "Microsoft.Storage/storageAccounts/minimumTlsVersion",

@@ -15,29 +15,29 @@
         "R11",
         "R12",
         "R13",
-        "R18",
         "R19",
-        "R20",
-        "R21",
         "R22",
-        "R23",
-        "R24",
-        "R25",
         "R26",
         "R27",
         "R28",
         "R29",
         "R30",
-        "R31",
-        "R32",
-        "R33",
-        "R34",
-        "R35",
-        "R36"
+        "R33"
       ],
       "excluded_rows": [
         "R17",
-        "R25E"
+        "R25E",
+        "R18",
+        "R20",
+        "R21",
+        "R23",
+        "R31",
+        "R32",
+        "R35",
+        "R36",
+        "R24",
+        "R25",
+        "R34"
       ],
       "missing_rows": [],
       "coverage_gaps": [
@@ -54,6 +54,132 @@
           "control": "Service Health alert readiness \u2014 Billing updates",
           "reason": "Billing-type Service Health notifications are not recorded in the Azure subscription Activity Log (category=ServiceHealth); Microsoft's documentation states these notifications are visible only in the Azure Service Health portal/API, not the activity log. Because Microsoft.Insights/ActivityLogAlerts conditions evaluate activity-log events, there is no alias or data path by which a non-mutating Audit/AuditIfNotExists custom policy can verify a Billing-updates alert rule. Use Azure Service Health's native monitoring/notification configuration for this category instead of a custom Azure Policy audit.",
           "source": "https://learn.microsoft.com/azure/service-health/service-health-notifications-properties"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R18",
+          "control": "An activity log alert should exist for specific Administrative operations",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r18-r18-administrative-operation-alerts"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ActivityLog_AdministrativeOperations_Audit.json"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R20",
+          "control": "Microsoft Defender for Containers should be enabled",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r20-r20-defender-for-containers-coverage"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedThreatProtectionOnContainers_Audit.json"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R21",
+          "control": "Microsoft Defender for Storage should be enabled",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r21-r21-defender-for-storage-coverage"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_Microsoft_Defender_For_Storage_Full_Audit.json"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R23",
+          "control": "Azure Defender for Azure SQL Database servers should be enabled",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r23-r23-defender-for-azure-sql-coverage"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedDataSecurityOnSqlServers_Audit.json"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R31",
+          "control": "Check resource audit logs and approved Log Analytics destination",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r31-resource-diagnostic-destination"
+          ],
+          "source": "https://github.com/Azure/Community-Policy/tree/master/policyDefinitions/Storage/audit-diagnostic-setting-for-selected-resource-types"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R32",
+          "control": "Check approved Azure Monitor Agent on virtualMachines",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r32-ama-virtualmachines",
+            "global-r32-ama-virtualmachinescalesets",
+            "global-r32-ama-machines"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_VM_DINE.json"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R35",
+          "control": "Audit subscriptions have budget alert rules defined",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r35-subscription-budget-alert-rules"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Budget.json"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R36",
+          "control": "Audit resource tag consistency against a nonempty resource-group tag",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r36-resource-parent-tag-consistency"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Tags/InheritTag_Add_Modify.json"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R24",
+          "control": "Subscription activity log export",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r24-subscription-activity-log-export"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/DataConnectorsAzureActivity.json"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R25",
+          "control": "Service Health alert readiness",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r25-service-health-alert-service-issues",
+            "global-r25-service-health-alert-planned-maintenance",
+            "global-r25-service-health-alert-health-advisories",
+            "global-r25-service-health-alert-security-advisories"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json"
+        },
+        {
+          "set": "Global",
+          "rowKey": "R34",
+          "control": "Check the approved Defender for Endpoint subscription integration setting",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r34-defender-endpoint-integration"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_MDE_WDATP_DINE.json"
         },
         {
           "rows": [
@@ -77,17 +203,8 @@
         "global-r11-r11-key-vault-soft-delete",
         "global-r12-r12-key-vault-purge-protection",
         "global-r13-r13-key-vault-rbac-authorization",
-        "global-r18-r18-administrative-operation-alerts",
         "global-r19-r19-defender-for-servers-coverage",
-        "global-r20-r20-defender-for-containers-coverage",
-        "global-r21-r21-defender-for-storage-coverage",
         "global-r22-r22-defender-for-key-vault-coverage",
-        "global-r23-r23-defender-for-azure-sql-coverage",
-        "global-r24-subscription-activity-log-export",
-        "global-r25-service-health-alert-health-advisories",
-        "global-r25-service-health-alert-planned-maintenance",
-        "global-r25-service-health-alert-security-advisories",
-        "global-r25-service-health-alert-service-issues",
         "global-r26-r26-vm-approved-license",
         "global-r26-r26-vmss-approved-license",
         "global-r27-r27-vm-approved-license",
@@ -96,14 +213,7 @@
         "global-r29-sql-mi-ahb",
         "global-r30-sql-database-ahb",
         "global-r30-sql-elastic-pool-ahb",
-        "global-r31-resource-diagnostic-destination",
-        "global-r32-ama-machines",
-        "global-r32-ama-virtualmachines",
-        "global-r32-ama-virtualmachinescalesets",
-        "global-r33-required-dcr-association",
-        "global-r34-defender-endpoint-integration",
-        "global-r35-subscription-budget-alert-rules",
-        "global-r36-resource-parent-tag-consistency"
+        "global-r33-required-dcr-association"
       ]
     },
     "Hub": {
@@ -115,33 +225,65 @@
         "H07",
         "H08",
         "H10",
-        "H11",
         "H12",
         "H14",
         "H16",
-        "H17",
         "H19",
-        "H20",
         "H21",
         "H26"
       ],
-      "excluded_rows": [],
+      "excluded_rows": [
+        "H17",
+        "H20",
+        "H11"
+      ],
       "missing_rows": [],
-      "coverage_gaps": [],
+      "coverage_gaps": [
+        {
+          "set": "Hub",
+          "rowKey": "H17",
+          "control": "Enforce VNET DNS servers",
+          "reason": "Approved custom DNS server IP addresses are organization-specific strings. Azure Policy has no IP-address picker and no approved finite address catalog was supplied.",
+          "reasonCode": "unsupported-simple-input",
+          "removedDefinitions": [
+            "hub-h17-h17-approved-custom-dns-on-hub-vnets"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Network/enforce-vnet-dns-servers/azurepolicy.json"
+        },
+        {
+          "set": "Hub",
+          "rowKey": "H20",
+          "control": "Audit change of retention days in Log Analytics workspace",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "hub-h20-h20-approved-central-workspace-retention-floor"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Monitoring/deny-change-of-retention-days-in-log-analytics-workspace/azurepolicy.json"
+        },
+        {
+          "set": "Hub",
+          "rowKey": "H11",
+          "control": "Network Watcher should be enabled",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "hub-h11-h11-regional-network-watcher-presence"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/NetworkWatcher_Enabled_Audit.json"
+        }
+      ],
       "publishable_definition_names": [
         "hub-h01-h01-firewall-policy-threat-intelligence",
-        "hub-h04-firewall-dns-proxy",
         "hub-h05-h05-waf-configuration-on-centrally-owned-application-gat",
-        "hub-h07-public-ip-ddos-approved-plan",
         "hub-h08-h08-firewall-association-on-secured-virtual-hubs",
         "hub-h10-h10-entra-only-point-to-site-vpn-authentication",
-        "hub-h11-h11-regional-network-watcher-presence",
         "hub-h12-h12-private-ordinary-platform-vm-subnets",
         "hub-h14-h14-private-only-central-log-analytics-access",
         "hub-h16-h16-hub-specific-approved-peering-inventory",
-        "hub-h17-h17-approved-custom-dns-on-hub-vnets",
         "hub-h19-h19-bastion-shareable-links-disabled",
-        "hub-h20-h20-approved-central-workspace-retention-floor",
+        "hub-h04-firewall-dns-proxy",
+        "hub-h07-public-ip-ddos-protection-enabled",
         "hub-h21-premium-firewall-idps",
         "hub-h26-waf-policy-prevention-mode"
       ]
@@ -158,8 +300,6 @@
         "L07",
         "L08",
         "L09",
-        "L10",
-        "L11",
         "L12",
         "L13",
         "L14",
@@ -188,14 +328,51 @@
         "L43",
         "L45",
         "L46",
-        "L49",
         "L54",
         "L55",
         "L56"
       ],
-      "excluded_rows": [],
+      "excluded_rows": [
+        "L10",
+        "L11",
+        "L49"
+      ],
       "missing_rows": [],
-      "coverage_gaps": [],
+      "coverage_gaps": [
+        {
+          "set": "LandingZone",
+          "rowKey": "L10",
+          "control": "Kubernetes cluster pod hostPath volumes should only use allowed host paths",
+          "reason": "Host-path allowances require organization-specific Linux/Windows path prefixes and read-only flags in structured objects. No supported picker or finite path catalog represents these inputs.",
+          "reasonCode": "unsupported-simple-input",
+          "removedDefinitions": [
+            "landingzone-l10-l10-restrict-hostpath-and-socket-mounts"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AllowedHostPaths.json"
+        },
+        {
+          "set": "LandingZone",
+          "rowKey": "L11",
+          "control": "Kubernetes cluster pods and containers should only run with approved user and group IDs",
+          "reason": "The non-root user/group control requires organization-approved UID/GID ranges in structured objects. No supported picker or approved finite range catalog represents these inputs.",
+          "reasonCode": "unsupported-simple-input",
+          "removedDefinitions": [
+            "landingzone-l11-l11-run-containers-as-nonroot"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AllowedUsersGroups.json"
+        },
+        {
+          "set": "LandingZone",
+          "rowKey": "L49",
+          "control": "Selected Corp spokes must have a connected approved hub peering",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "landingzone-l49-corp-spoke-required-hub-peering"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-VNET-HubSpoke.json"
+        }
+      ],
       "publishable_definition_names": [
         "landingzone-l01-l01-workload-subnet-nsg-association",
         "landingzone-l02-l02-explicit-outbound-connectivity",
@@ -206,11 +383,9 @@
         "landingzone-l07-l07-no-privileged-containers",
         "landingzone-l08-l08-no-privilege-escalation",
         "landingzone-l09-l09-no-shared-host-pid-ipc-namespaces",
-        "landingzone-l10-l10-restrict-hostpath-and-socket-mounts",
-        "landingzone-l11-l11-run-containers-as-nonroot",
         "landingzone-l12-l12-restrict-linux-capabilities",
         "landingzone-l13-l13-restrict-host-networking-and-host-ports",
-        "landingzone-l14-l14-microsoft-entra-cluster-integration",
+        "landingzone-l14-aks-local-authentication-disabled",
         "landingzone-l15-l15-disable-aks-local-accounts",
         "landingzone-l16-l16-private-aks-api",
         "landingzone-l17-l17-authorized-ranges-on-public-aks-api",
@@ -236,10 +411,9 @@
         "landingzone-l43-l43-vm-backup-protection-exists",
         "landingzone-l45-l45-sql-long-term-retention-enabled",
         "landingzone-l46-l46-application-gateway-waf-presence",
-        "landingzone-l49-corp-spoke-required-hub-peering",
-        "landingzone-l54-audit-vm-nic-public-ip",
         "landingzone-l55-waf-policy-prevention-mode",
-        "landingzone-l56-nat-gateway-subnet-association"
+        "landingzone-l56-nat-gateway-subnet-association",
+        "landingzone-l54-audit-vm-nic-public-ip"
       ]
     }
   }

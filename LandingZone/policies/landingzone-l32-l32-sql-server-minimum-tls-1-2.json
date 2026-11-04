@@ -32,7 +32,11 @@
         "metadata": {
           "displayName": "Minimum TLS version",
           "description": "Transport-security baseline, not an OS/image release. The source security baseline is retained as the default. Use compatible approved values without weakening security; the source comparison operator remains unchanged."
-        }
+        },
+        "allowedValues": [
+          "1.2",
+          "1.3"
+        ]
       }
     },
     "policyRule": {

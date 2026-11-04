@@ -34,7 +34,11 @@
         "metadata": {
           "displayName": "Approved minimum TLS versions",
           "description": "Transport-security baseline, not an OS/image release. The source security baseline is retained as the default. Use compatible approved values without weakening security; the source comparison operator remains unchanged."
-        }
+        },
+        "allowedValues": [
+          "TLSV1.2",
+          "TLSV1.3"
+        ]
       }
     },
     "policyRule": {

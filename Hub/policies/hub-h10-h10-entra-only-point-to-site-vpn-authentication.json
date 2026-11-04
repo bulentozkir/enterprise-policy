@@ -2,7 +2,7 @@
   "name": "hub-h10-h10-entra-only-point-to-site-vpn-authentication",
   "properties": {
     "displayName": "VPN gateways should use only Azure Active Directory (Azure AD) authentication for point-to-site users",
-    "description": "Disabling local authentication methods improves security by ensuring that VPN Gateways use only Azure Active Directory identities for authentication. Learn more about Azure AD authentication at https://docs.microsoft.com/azure/vpn-gateway/openvpn-azure-ad-tenant",
+    "description": "Disabling local authentication methods improves security by ensuring that VPN Gateways use only Azure Active Directory identities for authentication. Learn more about Azure AD authentication at https://docs.microsoft.com/azure/vpn-gateway/openvpn-azure-ad-tenant Enabled=true checks all matching in-scope resources; false skips the check.",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {
@@ -26,65 +26,25 @@
         ],
         "defaultValue": "Audit"
       },
-      "evaluationScope": {
-        "type": "Object",
+      "enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
-            "count": {
-              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
-              "name": "evaluationScopeIncludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeIncludedPattern')]"
-              }
-            },
-            "greater": 0
-          },
-          {
-            "count": {
-              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
-              "name": "evaluationScopeExcludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeExcludedPattern')]"
-              }
-            },
-            "equals": 0
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
           },
           {
             "allOf": [
@@ -97,14 +57,24 @@
                 "exists": "true"
               },
               {
-                "count": {
-                  "field": "Microsoft.Network/virtualNetworkGateways/vpnClientConfiguration.vpnAuthenticationTypes[*]",
-                  "where": {
-                    "field": "Microsoft.Network/virtualNetworkGateways/vpnClientConfiguration.vpnAuthenticationTypes[*]",
-                    "notContains": "AAD"
+                "anyOf": [
+                  {
+                    "count": {
+                      "field": "Microsoft.Network/virtualNetworkGateways/vpnClientConfiguration.vpnAuthenticationTypes[*]"
+                    },
+                    "equals": 0
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Network/virtualNetworkGateways/vpnClientConfiguration.vpnAuthenticationTypes[*]",
+                      "where": {
+                        "field": "Microsoft.Network/virtualNetworkGateways/vpnClientConfiguration.vpnAuthenticationTypes[*]",
+                        "notEquals": "AAD"
+                      }
+                    },
+                    "greaterOrEquals": 1
                   }
-                },
-                "greaterOrEquals": 1
+                ]
               }
             ]
           }

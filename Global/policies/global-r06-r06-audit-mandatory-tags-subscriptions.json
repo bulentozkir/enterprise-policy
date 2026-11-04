@@ -29,11 +29,12 @@
         "type": "Array",
         "metadata": {
           "displayName": "Array of mandatory tags",
-          "description": "Array of mandatory tag names that must be present on the subscription, for example [\"owner\", \"costcenter\"]."
+          "description": "Editable array of required tag names. Replace owner, costcenter and environment with your approved names; you may add or remove entries. Supply at least one nonempty tag name."
         },
         "defaultValue": [
           "owner",
-          "costcenter"
+          "costcenter",
+          "environment"
         ]
       }
     },

@@ -2,7 +2,7 @@
   "name": "global-r33-required-dcr-association",
   "properties": {
     "displayName": "Check machines have an association to an approved collection rule",
-    "description": "Audits the listed virtual machines, virtual machine scale sets and Azure Arc-enabled servers that have no association with one of the approved data collection rules. Rule contents and agent health are not checked. Read-only: nothing is created or changed.",
+    "description": "Audits in-scope virtual machines, virtual machine scale sets and Azure Arc-enabled servers that have no association with one of the approved data collection rules. Rule contents and agent health are not checked. Read-only: nothing is created or changed. Enabled=true checks all matching in-scope resources; false skips the check.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -24,45 +24,34 @@
         ],
         "defaultValue": "AuditIfNotExists"
       },
-      "profile": {
-        "type": "Object",
+      "approvedDcrIds": {
+        "type": "Array",
         "metadata": {
-          "displayName": "Approved machines and data collection rules",
-          "description": "Required object with the properties: resourceIds (virtual machine, scale set and Azure Arc-enabled server resource IDs; resources that are not listed are never evaluated); approvedDcrIds (resource IDs of the approved data collection rules; an association with any one satisfies the check)."
-        },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds",
-            "approvedDcrIds"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            },
-            "approvedDcrIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            }
-          }
+          "displayName": "Approved data collection rules",
+          "strongType": "Microsoft.Insights/dataCollectionRules",
+          "description": "Select the approved existing destination(s). This policy creates or changes no resources."
         }
+      },
+      "enabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
+        },
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
+          {
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
+          },
           {
             "field": "type",
             "in": [
@@ -70,10 +59,6 @@
               "Microsoft.Compute/virtualMachineScaleSets",
               "Microsoft.HybridCompute/machines"
             ]
-          },
-          {
-            "field": "id",
-            "in": "[parameters('profile').resourceIds]"
           }
         ]
       },
@@ -83,7 +68,7 @@
           "type": "Microsoft.Insights/dataCollectionRuleAssociations",
           "existenceCondition": {
             "field": "Microsoft.Insights/dataCollectionRuleAssociations/dataCollectionRuleId",
-            "in": "[parameters('profile').approvedDcrIds]"
+            "in": "[parameters('approvedDcrIds')]"
           }
         }
       }

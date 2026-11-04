@@ -1,58 +1,82 @@
 {
-  "createdUtc": "2026-11-03T11:09:46.207813+00:00",
+  "createdUtc": "2026-11-04T19:48:53.468530+00:00",
+  "validationStatus": "passed-local-checks-not-deployed",
+  "testResults": {
+    "structuralValidation": "passed",
+    "trueFalsePolicyDropdowns": 49,
+    "trueFalseInitiativeDropdowns": 46,
+    "pythonUnitTestsPassed": 41,
+    "powerShellDeploymentScenariosPassed": 11,
+    "terraformMockTestsPassed": 2,
+    "pythonSyntaxChecksPassed": 2,
+    "rendererCliScenariosPassed": 13,
+    "rendererCliMemberCounts": {
+      "Global": 23,
+      "Hub": 12,
+      "LandingZone": 40
+    },
+    "rendererDefaultTrueAndExplicitFalse": "passed",
+    "rendererRejectsBooleanAndRemovedInputs": "passed",
+    "exactL14LocalAuthenticationLabel": "passed",
+    "terraformValidation": "passed",
+    "terraformFormatting": "passed",
+    "gitDiffWhitespace": "passed",
+    "liveAzureAliasAndResourceTypeCheck": "passed: no unknown aliases or resource types across 75 definitions (17 provider namespaces)",
+    "upstreamRuleComparison": "passed: rules match their public upstream definitions except documented intentional changes",
+    "upstreamLifecycleReport": "refreshed: 59 public sources, 0 retired or deprecated",
+    "armTemplateValidateAction": "passed for all three templates; note that this action does not check policy-rule language"
+  },
   "catalogRowsCovered": 91,
   "sets": [
     {
       "set": "Global",
       "catalogRows": 33,
-      "customDefinitions": 39,
-      "publishableDefinitions": 39,
+      "customDefinitions": 23,
+      "publishableDefinitions": 23,
       "referenceOnly": 0,
-      "initiativeParameters": 74,
-      "requiredInputs": 31,
+      "initiativeParameters": 39,
+      "requiredInputs": 4,
       "effects": {
-        "Audit": 21,
-        "AuditIfNotExists": 18
+        "Audit": 20,
+        "AuditIfNotExists": 3
       },
-      "coverageGaps": 2
+      "coverageGaps": 13
     },
     {
       "set": "Hub",
       "catalogRows": 15,
-      "customDefinitions": 15,
-      "publishableDefinitions": 15,
+      "customDefinitions": 12,
+      "publishableDefinitions": 12,
       "referenceOnly": 0,
-      "initiativeParameters": 31,
-      "requiredInputs": 12,
+      "initiativeParameters": 22,
+      "requiredInputs": 0,
       "effects": {
-        "Audit": 14,
-        "AuditIfNotExists": 1
+        "Audit": 12
       },
-      "coverageGaps": 0
+      "coverageGaps": 3
     },
     {
       "set": "LandingZone",
       "catalogRows": 43,
-      "customDefinitions": 43,
-      "publishableDefinitions": 43,
+      "customDefinitions": 40,
+      "publishableDefinitions": 40,
       "referenceOnly": 0,
-      "initiativeParameters": 142,
-      "requiredInputs": 26,
+      "initiativeParameters": 84,
+      "requiredInputs": 0,
       "effects": {
-        "AuditIfNotExists": 12,
-        "Audit": 31
+        "AuditIfNotExists": 11,
+        "Audit": 29
       },
-      "coverageGaps": 0
+      "coverageGaps": 3
     }
   ],
-  "schemaSource": "https://raw.githubusercontent.com/Azure/azure-resource-manager-schemas/main/schemas/2020-09-01/Microsoft.Authorization.json",
   "validation": [
-    "Official Microsoft.Authorization policy/initiative property schema",
-    "Custom types; policy/initiative parameter limits; default parameter values",
-    "Parameter references; audit-family defaults; no remediation/deployment details",
-    "Each of the 91 recommendation rows mapped to source files or an explicit unsupported-coverage gap",
-    "No OS/image release, offer/SKU selectors or request-API-version applicability gates"
+    "Portal picker, fixed dropdown or editable array with three default strings; all true/false inputs are String dropdowns defaulting to true, with bool() rule consumers",
+    "Policy/initiative references, ARM template parity, defaults and required inputs",
+    "Manifest digests and Terraform catalog row coverage",
+    "Audit-family defaults; no remediation or workload deployment details",
+    "No OS/image release applicability selectors or request-API-version gates",
+    "Field aliases and resource types checked against live Azure provider metadata; rules re-compared with public upstream sources"
   ],
-  "azureServiceValidation": "Definitions and initiatives are deployed at management group contoso through Terraform AzAPI (API 2026-07-01); Azure accepted every definition and initiative, and live content was compared with this package.",
-  "unsupportedModes": "Unsupported KeyVault data-mode clones were removed and the interim ARM-only Key Vault expiry/rotation checks were later dropped by request. Certificate expiry (R17) and Service Health Billing updates (R25E) are explicit coverage gaps."
+  "azureServiceValidation": "The current 75-definition revision has not been deployed. Read-only ARM template validate actions succeeded for all three initiative templates, but that action does not check policy-rule language (a deliberately invalid probe also passed), so Azure Policy acceptance of the bool() expressions is unconfirmed until the definitions are created. Azure acceptance and zero-drift verification of the previous 84-definition revision on 2026-11-04 do not establish parity with the current source. No Azure resources were changed."
 }

@@ -1,26 +1,13 @@
 import argparse
-from copy import deepcopy
 import json
 from pathlib import Path
 import re
 import sys
 
-import jsonschema
+from policy_inputs import valid_type, validate_parameter_spec, validate_parameter_value
 
 
 ROOT = Path(__file__).parent
-
-
-def valid_type(value, kind):
-    return {
-        "String": isinstance(value, str),
-        "DateTime": isinstance(value, str),
-        "Array": isinstance(value, list),
-        "Object": isinstance(value, dict),
-        "Boolean": isinstance(value, bool),
-        "Integer": isinstance(value, int) and not isinstance(value, bool),
-        "Float": isinstance(value, (int, float)) and not isinstance(value, bool),
-    }[kind]
 
 
 def materialize(set_name, management_group, supplied):
@@ -34,6 +21,7 @@ def materialize(set_name, management_group, supplied):
     params = {}
     missing = []
     for name, spec in definitions.items():
+        validate_parameter_spec(name, spec)
         if name in supplied:
             if not isinstance(supplied[name], dict) or set(supplied[name]) != {"value"}:
                 raise ValueError(f"{name}: expected an object containing only 'value'")
@@ -43,17 +31,7 @@ def materialize(set_name, management_group, supplied):
         else:
             missing.append(name)
             continue
-        if not valid_type(value, spec["type"]):
-            raise ValueError(f"{name}: expected {spec['type']}, got {type(value).__name__}")
-        if "allowedValues" in spec:
-            values = value if spec["type"] == "Array" else [value]
-            if not all(item in spec["allowedValues"] for item in values):
-                raise ValueError(f"{name}: value is not one of {spec['allowedValues']!r}")
-        if "schema" in spec:
-            try:
-                jsonschema.Draft201909Validator(spec["schema"]).validate(value)
-            except jsonschema.ValidationError as error:
-                raise ValueError(f"{name}: {error.message}") from error
+        validate_parameter_value(name, spec, value)
         params[name] = {"value": value}
     if missing:
         raise ValueError(
@@ -88,6 +66,8 @@ def main():
     supplied = {}
     if args.parameters:
         supplied = json.loads(args.parameters.read_text(encoding="utf-8-sig"))
+        if not isinstance(supplied, dict):
+            parser.error("The parameters input must be an object.")
         supplied = supplied.get("parameters", supplied)
         if not isinstance(supplied, dict):
             parser.error("The parameters input must be an object.")

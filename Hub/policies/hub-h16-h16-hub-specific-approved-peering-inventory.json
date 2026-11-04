@@ -1,8 +1,8 @@
 {
   "name": "hub-h16-h16-hub-specific-approved-peering-inventory",
   "properties": {
-    "displayName": "Deny vNet peering to non-approved vNets",
-    "description": "This policy denies the creation of vNet Peerings to non-approved vNets under the assigned scope.",
+    "displayName": "vNet peerings should only connect to approved vNets",
+    "description": "Audits virtual network peerings whose remote virtual network is not in the approved list; an empty list reports every peering. Audit by default; Deny can be selected for enforcement. Enabled=true checks all matching in-scope resources; false skips the check.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -30,69 +30,30 @@
         "type": "Array",
         "metadata": {
           "displayName": "Allowed vNets to peer with",
-          "description": "Array of allowed vNets that can be peered with. Must be entered using their resource ID. Example: /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}"
+          "description": "Select existing virtual networks approved as peering destinations. An empty selection approves no peers.",
+          "strongType": "Microsoft.Network/virtualNetworks"
         },
         "defaultValue": []
       },
-      "evaluationScope": {
-        "type": "Object",
+      "enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
-            "count": {
-              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
-              "name": "evaluationScopeIncludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeIncludedPattern')]"
-              }
-            },
-            "greater": 0
-          },
-          {
-            "count": {
-              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
-              "name": "evaluationScopeExcludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeExcludedPattern')]"
-              }
-            },
-            "equals": 0
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
           },
           {
             "anyOf": [

@@ -2,7 +2,7 @@
   "name": "alz-hub-custom-audit",
   "properties": {
     "displayName": "ALZ Hub - custom audit policies",
-    "description": "Custom audit-first source package. Required organizational inputs and scope exclusions must be supplied before assignment. No remediation effects.",
+    "description": "Custom audit-first policies with Portal pickers, fixed-choice dropdowns and editable arrays with three defaults. True/false inputs are String dropdowns that default to true. No remediation effects.",
     "policyType": "Custom",
     "metadata": {
       "category": "ALZ custom audit",
@@ -35,39 +35,17 @@
         ],
         "defaultValue": "Audit"
       },
-      "h05_evaluationScope": {
-        "type": "Object",
+      "h05_enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "H05 - Web Application Firewall (WAF) should be enabled for Application Gateway: Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "H05 - Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       },
       "h08_effect": {
         "type": "String",
@@ -82,39 +60,17 @@
         ],
         "defaultValue": "Audit"
       },
-      "h08_evaluationScope": {
-        "type": "Object",
+      "h08_enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "H08 - Virtual Hubs should be protected with Azure Firewall: Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "H08 - Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       },
       "h10_effect": {
         "type": "String",
@@ -129,59 +85,17 @@
         ],
         "defaultValue": "Audit"
       },
-      "h10_evaluationScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "H10 - VPN gateways should use only Azure Active Directory (Azure AD) authentication for point-to-site users: Explicit conditi...",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-        },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "h11_effect": {
+      "h10_enabled": {
         "type": "String",
-        "defaultValue": "AuditIfNotExists",
+        "metadata": {
+          "displayName": "H10 - Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
+        },
+        "defaultValue": "true",
         "allowedValues": [
-          "AuditIfNotExists",
-          "Disabled"
-        ],
-        "metadata": {
-          "displayName": "H11 - Network Watcher should be enabled: Effect",
-          "description": "Start in audit mode. Only effects supported by the source definition are available."
-        }
-      },
-      "h11_resourceGroupName": {
-        "type": "String",
-        "metadata": {
-          "displayName": "H11 - Network Watcher should be enabled: NetworkWatcher resource group name",
-          "description": "Name of the resource group of NetworkWatcher, such as NetworkWatcherRG. This is the resource group where the Network Watchers are located."
-        },
-        "defaultValue": "NetworkWatcherRG"
+          "true",
+          "false"
+        ]
       },
       "h12_effect": {
         "type": "String",
@@ -209,44 +123,22 @@
         ],
         "defaultValue": "Audit"
       },
-      "h14_evaluationScope": {
-        "type": "Object",
+      "h14_enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "H14 - Log Analytics workspaces should block log ingestion and querying from public networks: Explicit conditional resource ap...",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
+          "displayName": "H14 - Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       },
       "h16_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "H16 - Deny vNet peering to non-approved vNets: Effect",
+          "displayName": "H16 - vNet peerings should only connect to approved vNets: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -259,103 +151,28 @@
       "h16_allowedVnets": {
         "type": "Array",
         "metadata": {
-          "displayName": "H16 - Deny vNet peering to non-approved vNets: Allowed vNets to peer with",
-          "description": "Array of allowed vNets that can be peered with. Must be entered using their resource ID. Example: /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}"
+          "displayName": "H16 - vNet peerings should only connect to approved vNets: Allowed vNets to peer with",
+          "description": "Select existing virtual networks approved as peering destinations. An empty selection approves no peers.",
+          "strongType": "Microsoft.Network/virtualNetworks"
         },
         "defaultValue": []
       },
-      "h16_evaluationScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "H16 - Deny vNet peering to non-approved vNets: Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-        },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "h17_servers": {
-        "type": "Array",
-        "metadata": {
-          "description": "The list of DNS servers to enforce exclusive existance of.",
-          "displayName": "H17 - Enforce VNET DNS servers: DNS Servers list"
-        }
-      },
-      "h17_effect": {
+      "h16_enabled": {
         "type": "String",
         "metadata": {
-          "displayName": "H17 - Enforce VNET DNS servers: Effect",
-          "description": "Start in audit mode. Only effects supported by the source definition are available."
+          "displayName": "H16 - Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
+        "defaultValue": "true",
         "allowedValues": [
-          "Audit",
-          "Deny",
-          "Disabled"
-        ],
-        "defaultValue": "Audit"
-      },
-      "h17_evaluationScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "H17 - Enforce VNET DNS servers: Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-        },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
+          "true",
+          "false"
+        ]
       },
       "h19_effect": {
         "type": "String",
         "metadata": {
-          "displayName": "H19 - Deny Bastion Shared Links: Effect",
+          "displayName": "H19 - Bastion Shareable Links should be disabled: Effect",
           "description": "Start in audit mode. Only effects supported by the source definition are available."
         },
         "allowedValues": [
@@ -365,94 +182,17 @@
         ],
         "defaultValue": "Audit"
       },
-      "h19_evaluationScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "H19 - Deny Bastion Shared Links: Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-        },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "h20_retentionInDays": {
-        "type": "Integer",
-        "metadata": {
-          "displayName": "H20 - Audit change of retention days in Log Analytics workspace: Retention threshold in days (reported at or below)",
-          "description": "Workspaces whose retention is less than or equal to this number of days are reported (the rule uses lessOrEquals). To require at least N days, set N-1. The default of 179 comes from the community source and means at least 180 days; set your own approved minimum minus 1."
-        },
-        "defaultValue": 179
-      },
-      "h20_effect": {
+      "h19_enabled": {
         "type": "String",
         "metadata": {
-          "displayName": "H20 - Audit change of retention days in Log Analytics workspace: Effect",
-          "description": "Start in audit mode. Only effects supported by the source definition are available."
+          "displayName": "H19 - Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
+        "defaultValue": "true",
         "allowedValues": [
-          "Audit",
-          "Deny",
-          "Disabled"
-        ],
-        "defaultValue": "Audit"
-      },
-      "h20_evaluationScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "H20 - Audit change of retention days in Log Analytics workspace: Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-        },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
+          "true",
+          "false"
+        ]
       },
       "h04_effect": {
         "type": "String",
@@ -462,35 +202,21 @@
         ],
         "defaultValue": "Audit",
         "metadata": {
-          "displayName": "H04 - Selected hub Firewall Policies must explicitly enable DNS proxy: Effect",
+          "displayName": "H04 - Hub Firewall Policies must explicitly enable DNS proxy: Effect",
           "description": "Read-only evaluation."
         }
       },
-      "h04_profile": {
-        "type": "Object",
+      "h04_enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "H04 - Selected hub Firewall Policies must explicitly enable DNS proxy: Approved DNS-proxy targets",
-          "description": "Required, nonempty Firewall Policy resource IDs whose approved DNS architecture requires explicit DNS proxy configuration."
+          "displayName": "H04 - Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-              }
-            }
-          }
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       },
       "h07_effect": {
         "type": "String",
@@ -500,27 +226,8 @@
         ],
         "defaultValue": "Audit",
         "metadata": {
-          "displayName": "H07 - Audit all Public IPs require approved DDoS Network Protection: Effect",
+          "displayName": "H07 - Audit Public IP addresses without DDoS protection enabled: Effect",
           "description": "Read-only evaluation."
-        }
-      },
-      "h07_approvedPlanIds": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "H07 - Audit all Public IPs require approved DDoS Network Protection: Approved DDoS protection plan resource IDs",
-          "description": "Required list of full resource IDs of approved DDoS Network Protection plans. A public IP is approved only when ddosSettings.protectionMode is Enabled and ddosSettings.ddosProtectionPlan.id is in this list. An empty list reports every public IP."
-        }
-      },
-      "h07_acceptVirtualNetworkInherited": {
-        "type": "Boolean",
-        "allowedValues": [
-          true,
-          false
-        ],
-        "defaultValue": false,
-        "metadata": {
-          "displayName": "H07 - Audit all Public IPs require approved DDoS Network Protection: Accept virtual-network-inherited protection",
-          "description": "When true, public IPs whose protectionMode is VirtualNetworkInherited (or omitted) are not reported, because the plan association is on the virtual network and cannot be read from the public IP. The default false reports them."
         }
       },
       "h21_effect": {
@@ -531,48 +238,36 @@
         ],
         "defaultValue": "Audit",
         "metadata": {
-          "displayName": "H21 - Selected Premium Firewall Policies must explicitly enable approved IDPS mode: Effect",
+          "displayName": "H21 - Premium Firewall Policies must explicitly enable approved IDPS mode: Effect",
           "description": "Read-only evaluation; the IDPS traffic mode is a separate configuration."
         }
       },
-      "h21_profile": {
-        "type": "Object",
+      "h21_acceptedModes": {
+        "type": "Array",
         "metadata": {
-          "displayName": "H21 - Selected Premium Firewall Policies must explicitly enable approved IDPS mode: Approved Premium policies and IDPS modes",
-          "description": "Required nonempty policy IDs and accepted IDPS modes. Accept Alert, Deny, or both according to approved inspection architecture."
+          "displayName": "H21 - Accepted modes",
+          "description": "Select the explicit IDPS modes accepted as compliant. Defaults to both modes."
         },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds",
-            "acceptedModes"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-              }
-            },
-            "acceptedModes": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "enum": [
-                  "Alert",
-                  "Deny"
-                ]
-              }
-            }
-          }
-        }
+        "allowedValues": [
+          "Alert",
+          "Deny"
+        ],
+        "defaultValue": [
+          "Alert",
+          "Deny"
+        ]
+      },
+      "h21_enabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "H21 - Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
+        },
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       },
       "h26_effect": {
         "type": "String",
@@ -605,8 +300,8 @@
           "effect": {
             "value": "[parameters('h05_effect')]"
           },
-          "evaluationScope": {
-            "value": "[parameters('h05_evaluationScope')]"
+          "enabled": {
+            "value": "[parameters('h05_enabled')]"
           }
         }
       },
@@ -617,8 +312,8 @@
           "effect": {
             "value": "[parameters('h08_effect')]"
           },
-          "evaluationScope": {
-            "value": "[parameters('h08_evaluationScope')]"
+          "enabled": {
+            "value": "[parameters('h08_enabled')]"
           }
         }
       },
@@ -629,20 +324,8 @@
           "effect": {
             "value": "[parameters('h10_effect')]"
           },
-          "evaluationScope": {
-            "value": "[parameters('h10_evaluationScope')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "hub-h11-h11-regional-network-watcher-presence",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h11-h11-regional-network-watcher-presence",
-        "parameters": {
-          "effect": {
-            "value": "[parameters('h11_effect')]"
-          },
-          "resourceGroupName": {
-            "value": "[parameters('h11_resourceGroupName')]"
+          "enabled": {
+            "value": "[parameters('h10_enabled')]"
           }
         }
       },
@@ -662,8 +345,8 @@
           "effect": {
             "value": "[parameters('h14_effect')]"
           },
-          "evaluationScope": {
-            "value": "[parameters('h14_evaluationScope')]"
+          "enabled": {
+            "value": "[parameters('h14_enabled')]"
           }
         }
       },
@@ -677,23 +360,8 @@
           "allowedVnets": {
             "value": "[parameters('h16_allowedVnets')]"
           },
-          "evaluationScope": {
-            "value": "[parameters('h16_evaluationScope')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "hub-h17-h17-approved-custom-dns-on-hub-vnets",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h17-h17-approved-custom-dns-on-hub-vnets",
-        "parameters": {
-          "servers": {
-            "value": "[parameters('h17_servers')]"
-          },
-          "effect": {
-            "value": "[parameters('h17_effect')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('h17_evaluationScope')]"
+          "enabled": {
+            "value": "[parameters('h16_enabled')]"
           }
         }
       },
@@ -704,23 +372,8 @@
           "effect": {
             "value": "[parameters('h19_effect')]"
           },
-          "evaluationScope": {
-            "value": "[parameters('h19_evaluationScope')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "hub-h20-h20-approved-central-workspace-retention-floor",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h20-h20-approved-central-workspace-retention-floor",
-        "parameters": {
-          "retentionInDays": {
-            "value": "[parameters('h20_retentionInDays')]"
-          },
-          "effect": {
-            "value": "[parameters('h20_effect')]"
-          },
-          "evaluationScope": {
-            "value": "[parameters('h20_evaluationScope')]"
+          "enabled": {
+            "value": "[parameters('h19_enabled')]"
           }
         }
       },
@@ -731,23 +384,17 @@
           "effect": {
             "value": "[parameters('h04_effect')]"
           },
-          "profile": {
-            "value": "[parameters('h04_profile')]"
+          "enabled": {
+            "value": "[parameters('h04_enabled')]"
           }
         }
       },
       {
-        "policyDefinitionReferenceId": "hub-h07-public-ip-ddos-approved-plan",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h07-public-ip-ddos-approved-plan",
+        "policyDefinitionReferenceId": "hub-h07-public-ip-ddos-protection-enabled",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/hub-h07-public-ip-ddos-protection-enabled",
         "parameters": {
           "effect": {
             "value": "[parameters('h07_effect')]"
-          },
-          "approvedPlanIds": {
-            "value": "[parameters('h07_approvedPlanIds')]"
-          },
-          "acceptVirtualNetworkInherited": {
-            "value": "[parameters('h07_acceptVirtualNetworkInherited')]"
           }
         }
       },
@@ -758,8 +405,11 @@
           "effect": {
             "value": "[parameters('h21_effect')]"
           },
-          "profile": {
-            "value": "[parameters('h21_profile')]"
+          "acceptedModes": {
+            "value": "[parameters('h21_acceptedModes')]"
+          },
+          "enabled": {
+            "value": "[parameters('h21_enabled')]"
           }
         }
       },

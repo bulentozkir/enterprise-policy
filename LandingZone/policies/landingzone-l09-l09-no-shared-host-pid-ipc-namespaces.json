@@ -27,12 +27,16 @@
         ]
       },
       "warn": {
-        "type": "Boolean",
+        "type": "String",
         "metadata": {
           "displayName": "Warn",
-          "description": "Whether or not to return warnings back to the user in the kubectl cli"
+          "description": "Whether or not to return warnings back to the user in the kubectl cli Select true or false; defaults to true."
         },
-        "defaultValue": false
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       },
       "effect": {
         "type": "String",
@@ -47,134 +51,32 @@
         ],
         "defaultValue": "Audit"
       },
-      "excludedNamespaces": {
-        "type": "Array",
+      "enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "Namespace exclusions",
-          "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "defaultValue": [
-          "kube-system",
-          "gatekeeper-system",
-          "azure-arc",
-          "azure-extensions-usage-system"
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
         ]
-      },
-      "namespaces": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Namespace inclusions",
-          "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
-        },
-        "defaultValue": []
-      },
-      "labelSelector": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Kubernetes label selector",
-          "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
-        },
-        "defaultValue": {},
-        "schema": {
-          "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all resources.",
-          "type": "object",
-          "properties": {
-            "matchLabels": {
-              "description": "matchLabels is a map of {key,value} pairs.",
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              },
-              "minProperties": 1
-            },
-            "matchExpressions": {
-              "description": "matchExpressions is a list of values, a key, and an operator.",
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "key": {
-                    "description": "key is the label key that the selector applies to.",
-                    "type": "string"
-                  },
-                  "operator": {
-                    "description": "operator represents a key's relationship to a set of values.",
-                    "type": "string",
-                    "enum": [
-                      "In",
-                      "NotIn",
-                      "Exists",
-                      "DoesNotExist"
-                    ]
-                  },
-                  "values": {
-                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "required": [
-                  "key",
-                  "operator"
-                ],
-                "additionalProperties": false
-              },
-              "minItems": 1
-            }
-          },
-          "additionalProperties": false
-        }
-      },
-      "excludedImages": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Image exclusions",
-          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
-        },
-        "defaultValue": []
-      },
-      "clusterScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Approved cluster tag selector",
-          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
-        },
-        "schema": {
-          "type": "object",
-          "required": [
-            "tagName",
-            "tagValue"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "tagName": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "^[^\\[\\]']+$"
-            },
-            "tagValue": {
-              "type": "string",
-              "minLength": 1
-            }
-          }
-        }
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
+          },
+          {
             "field": "type",
             "in": [
               "Microsoft.Kubernetes/connectedClusters",
               "Microsoft.ContainerService/managedClusters"
             ]
-          },
-          {
-            "field": "[concat('tags[', parameters('clusterScope').tagName, ']')]",
-            "equals": "[parameters('clusterScope').tagValue]"
           }
         ]
       },
@@ -182,7 +84,7 @@
         "effect": "[parameters('effect')]",
         "details": {
           "source": "[parameters('source')]",
-          "warn": "[parameters('warn')]",
+          "warn": "[bool(parameters('warn'))]",
           "templateInfo": {
             "sourceType": "Base64Encoded",
             "content": "YXBpVmVyc2lvbjogdGVtcGxhdGVzLmdhdGVrZWVwZXIuc2gvdjFiZXRhMQ0Ka2luZDogQ29uc3RyYWludFRlbXBsYXRlDQptZXRhZGF0YToNCiAgbmFtZTogazhzYXp1cmV2M2Jsb2NraG9zdG5hbWVzcGFjZQ0Kc3BlYzoNCiAgY3JkOg0KICAgIHNwZWM6DQogICAgICBuYW1lczoNCiAgICAgICAga2luZDogSzhzQXp1cmVWM0Jsb2NrSG9zdE5hbWVzcGFjZQ0KICAgICAgdmFsaWRhdGlvbjoNCiAgICAgICAgIyBTY2hlbWEgZm9yIHRoZSBgcGFyYW1ldGVyc2AgZmllbGQNCiAgICAgICAgb3BlbkFQSVYzU2NoZW1hOg0KICAgICAgICAgIHByb3BlcnRpZXM6DQogICAgICAgICAgICBleGNsdWRlZEltYWdlczoNCiAgICAgICAgICAgICAgZGVzY3JpcHRpb246ID4tDQogICAgICAgICAgICAgICAgQW55IGNvbnRhaW5lciB0aGF0IHVzZXMgYW4gaW1hZ2UgdGhhdCBtYXRjaGVzIGFuIGVudHJ5IGluIHRoaXMgbGlzdCB3aWxsIGJlIGV4Y2x1ZGVkDQogICAgICAgICAgICAgICAgZnJvbSBlbmZvcmNlbWVudC4gUHJlZml4LW1hdGNoaW5nIGNhbiBiZSBzaWduaWZpZWQgd2l0aCBgKmAuIEZvciBleGFtcGxlOiBgbXktaW1hZ2UtKmAuDQogICAgICAgICAgICAgICAgSXQgaXMgcmVjb21tZW5kZWQgdGhhdCB1c2VycyB1c2UgdGhlIGZ1bGx5LXF1YWxpZmllZCBEb2NrZXIgaW1hZ2UgbmFtZSAoZS5nLiBzdGFydCB3aXRoIGEgZG9tYWluIG5hbWUpDQogICAgICAgICAgICAgICAgaW4gb3JkZXIgdG8gYXZvaWQgdW5leHBlY3RlZGx5IGV4Y2x1ZGluZyBpbWFnZXMgZnJvbSBhbiB1bnRydXN0ZWQgcmVwb3NpdG9yeS4NCiAgICAgICAgICAgICAgdHlwZTogYXJyYXkNCiAgICAgICAgICAgICAgaXRlbXM6DQogICAgICAgICAgICAgICAgdHlwZTogc3RyaW5nDQogIHRhcmdldHM6DQogICAgLSB0YXJnZXQ6IGFkbWlzc2lvbi5rOHMuZ2F0ZWtlZXBlci5zaA0KICAgICAgcmVnbzogfA0KICAgICAgICBwYWNrYWdlIGs4c2F6dXJldjNibG9ja2hvc3RuYW1lc3BhY2UNCiAgICAgICAgaW1wb3J0IGRhdGEubGliLmV4Y2x1ZGVfY29udGFpbmVyX2ltYWdlLmlzX2V4Y2x1ZGVkDQoNCiAgICAgICAgdmlvbGF0aW9uW3sibXNnIjogbXNnLCAiZGV0YWlscyI6IHt9fV0gew0KICAgICAgICAgICAgbm90IGlucHV0LnJldmlldy5vYmplY3Quc3BlYy5ub2RlU2VsZWN0b3JbImt1YmVybmV0ZXMuaW8vb3MiXSA9PSAid2luZG93cyINCiAgICAgICAgICAgIGNvbnRhaW5lcnMgOj0gaW5wdXRfY29udGFpbmVyc1tfXQ0KICAgICAgICAgICAgbm90IGlzX2V4Y2x1ZGVkKGNvbnRhaW5lcnMpDQogICAgICAgICAgICBpbnB1dF9zaGFyZV9ob3N0bmFtZXNwYWNlKGlucHV0LnJldmlldy5vYmplY3QpDQogICAgICAgICAgICBtc2cgOj0gc3ByaW50ZigiU2hhcmluZyB0aGUgaG9zdCBuYW1lc3BhY2UgaXMgbm90IGFsbG93ZWQ6ICV2LiBGb3IgbW9yZSBpbmZvcm1hdGlvbiwgdmlzaXQgaHR0cHM6Ly9ha2EubXMvYWtzL2RlcGxveW1lbnQtc2FmZWd1YXJkcyIsIFtpbnB1dC5yZXZpZXcub2JqZWN0Lm1ldGFkYXRhLm5hbWVdKQ0KICAgICAgICB9DQoNCiAgICAgICAgaW5wdXRfc2hhcmVfaG9zdG5hbWVzcGFjZShvKSB7DQogICAgICAgICAgICBvLnNwZWMuaG9zdFBJRA0KICAgICAgICB9DQogICAgICAgIGlucHV0X3NoYXJlX2hvc3RuYW1lc3BhY2Uobykgew0KICAgICAgICAgICAgby5zcGVjLmhvc3RJUEMNCiAgICAgICAgfQ0KICAgICAgICBpbnB1dF9zaGFyZV9ob3N0bmFtZXNwYWNlKG8pIHsNCiAgICAgICAgICAgIG8uc3BlYy5ob3N0TmV0d29yaw0KICAgICAgICB9DQogICAgICAgIGlucHV0X2NvbnRhaW5lcnNbY10gew0KICAgICAgICAgICAgYyA6PSBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMuY29udGFpbmVyc1tfXQ0KICAgICAgICB9DQogICAgICAgIGlucHV0X2NvbnRhaW5lcnNbY10gew0KICAgICAgICAgICAgYyA6PSBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMuaW5pdENvbnRhaW5lcnNbX10NCiAgICAgICAgfQ0KICAgICAgICBpbnB1dF9jb250YWluZXJzW2NdIHsNCiAgICAgICAgICAgIGMgOj0gaW5wdXQucmV2aWV3Lm9iamVjdC5zcGVjLmVwaGVtZXJhbENvbnRhaW5lcnNbX10NCiAgICAgICAgfQ0KICAgICAgbGliczoNCiAgICAgICAgLSB8DQogICAgICAgICAgcGFja2FnZSBsaWIuZXhjbHVkZV9jb250YWluZXJfaW1hZ2UNCiAgICAgICAgICBpc19leGNsdWRlZChjb250YWluZXIpIHsNCiAgICAgICAgICAgICAgZXhjbHVkZV9pbWFnZXMgOj0gb2JqZWN0LmdldChvYmplY3QuZ2V0KGlucHV0LCAicGFyYW1ldGVycyIsIHt9KSwgImV4Y2x1ZGVkSW1hZ2VzIiwgW10pDQogICAgICAgICAgICAgIGltZyA6PSBjb250YWluZXIuaW1hZ2UNCiAgICAgICAgICAgICAgZXhjbHVzaW9uIDo9IGV4Y2x1ZGVfaW1hZ2VzW19dDQogICAgICAgICAgICAgIF9tYXRjaGVzX2V4Y2x1c2lvbihpbWcsIGV4Y2x1c2lvbikNCiAgICAgICAgICB9DQogICAgICAgICAgX21hdGNoZXNfZXhjbHVzaW9uKGltZywgZXhjbHVzaW9uKSB7DQogICAgICAgICAgICAgIG5vdCBlbmRzd2l0aChleGNsdXNpb24sICIqIikNCiAgICAgICAgICAgICAgZXhjbHVzaW9uID09IGltZw0KICAgICAgICAgIH0NCiAgICAgICAgICBfbWF0Y2hlc19leGNsdXNpb24oaW1nLCBleGNsdXNpb24pIHsNCiAgICAgICAgICAgICAgZW5kc3dpdGgoZXhjbHVzaW9uLCAiKiIpDQogICAgICAgICAgICAgIHByZWZpeCA6PSB0cmltX3N1ZmZpeChleGNsdXNpb24sICIqIikNCiAgICAgICAgICAgICAgc3RhcnRzd2l0aChpbWcsIHByZWZpeCkNCiAgICAgICAgICB9DQo="
@@ -193,11 +95,16 @@
           "kinds": [
             "Pod"
           ],
-          "excludedNamespaces": "[parameters('excludedNamespaces')]",
-          "namespaces": "[parameters('namespaces')]",
-          "labelSelector": "[parameters('labelSelector')]",
+          "excludedNamespaces": [
+            "kube-system",
+            "gatekeeper-system",
+            "azure-arc",
+            "azure-extensions-usage-system"
+          ],
+          "namespaces": [],
+          "labelSelector": {},
           "values": {
-            "excludedImages": "[parameters('excludedImages')]"
+            "excludedImages": []
           }
         }
       }

@@ -1,11 +1,45 @@
 {
   "set": "LandingZone",
   "catalogRows": 43,
-  "customDefinitions": 43,
-  "publishableDefinitions": 43,
+  "customDefinitions": 40,
+  "publishableDefinitions": 40,
   "referenceOnlyDefinitions": 0,
-  "initiativeParameters": 142,
-  "coverageGaps": [],
+  "initiativeParameters": 84,
+  "coverageGaps": [
+    {
+      "set": "LandingZone",
+      "rowKey": "L10",
+      "control": "Kubernetes cluster pod hostPath volumes should only use allowed host paths",
+      "reason": "Host-path allowances require organization-specific Linux/Windows path prefixes and read-only flags in structured objects. No supported picker or finite path catalog represents these inputs.",
+      "reasonCode": "unsupported-simple-input",
+      "removedDefinitions": [
+        "landingzone-l10-l10-restrict-hostpath-and-socket-mounts"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AllowedHostPaths.json"
+    },
+    {
+      "set": "LandingZone",
+      "rowKey": "L11",
+      "control": "Kubernetes cluster pods and containers should only run with approved user and group IDs",
+      "reason": "The non-root user/group control requires organization-approved UID/GID ranges in structured objects. No supported picker or approved finite range catalog represents these inputs.",
+      "reasonCode": "unsupported-simple-input",
+      "removedDefinitions": [
+        "landingzone-l11-l11-run-containers-as-nonroot"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AllowedUsersGroups.json"
+    },
+    {
+      "set": "LandingZone",
+      "rowKey": "L49",
+      "control": "Selected Corp spokes must have a connected approved hub peering",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "landingzone-l49-corp-spoke-required-hub-peering"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-VNET-HubSpoke.json"
+    }
+  ],
   "policies": [
     {
       "set": "LandingZone",
@@ -68,7 +102,7 @@
       "name": "landingzone-l01-l01-workload-subnet-nsg-association",
       "file": "policies/landingzone-l01-l01-workload-subnet-nsg-association.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "ed3b9ef8e2d6e5a57f13a58f112db6e858ff612eedffd20dda903b9a14ad9598",
+      "customDefinitionSha256": "0eb87c351611e6a091091b8476a829dae8e027cfe9038f3a0fbebfb0216a1009",
       "requiredParameters": []
     },
     {
@@ -132,7 +166,7 @@
       "name": "landingzone-l02-l02-explicit-outbound-connectivity",
       "file": "policies/landingzone-l02-l02-explicit-outbound-connectivity.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "25286b51a28eed708515094522a39a0d46ae84996725a134605e54d77b00c118",
+      "customDefinitionSha256": "81241efd95b28fe0d7ff510e5cc1d5b08a18bd4eb6b42fa1e6d635e05fcb8a38",
       "requiredParameters": []
     },
     {
@@ -145,11 +179,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Corp child; workload subnets requiring inspected egress",
-        "caveats": "Association only; does not validate routes or next-hop appliance IP. Exempt service subnets only where documented; not universal for Online or NAT-only designs."
+        "caveats": "Association only; does not validate routes or next-hop appliance IP. Exempt service subnets only where documented; not universal for Online or NAT-only designs.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Association only; does not validate routes or next-hop appliance IP. Exempt service subnets only where documented; not universal for Online or NAT-only designs.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -220,6 +255,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Subnets should have a User Defined Route",
@@ -227,10 +272,14 @@
       "name": "landingzone-l03-l03-inspection-path-route-table-association",
       "file": "policies/landingzone-l03-l03-inspection-path-route-table-association.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "0250017a541b7848755d17fee3d8e671768eefd666b8684d3de7271b6a241325",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "496b29f59080ccd1e1527b945a7ec679f0757b1983e7f755bf721e77118e5fa7",
+      "requiredParameters": [],
+      "fixedRuleDefaults": {
+        "excludedSubnets": [
+          "AzureBastionSubnet",
+          "RouteServerSubnet"
+        ]
+      }
     },
     {
       "set": "LandingZone",
@@ -242,11 +291,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Corp child; inspected workload route tables",
-        "caveats": "excludedDestinations is actually the prohibited nextHopType list. Does not prove a default route exists or validate approved appliance IPs; gateway/transit architectures may legitimately require exceptions."
+        "caveats": "excludedDestinations is actually the prohibited nextHopType list. Does not prove a default route exists or validate approved appliance IPs; gateway/transit architectures may legitimately require exceptions.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "excludedDestinations is actually the prohibited nextHopType list. Does not prove a default route exists or validate approved appliance IPs; gateway/transit architectures may legitimately require exceptions.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -317,17 +367,25 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
-      "catalogName": "User Defined Routes with 'Next Hop Type' set to 'Internet' or 'VirtualNetworkGateway' should be denied",
+      "catalogName": "User Defined Routes should not use prohibited 'Next Hop Type' values",
       "applicability": "Conditional",
       "name": "landingzone-l04-l04-prohibited-udr-next-hop-types",
       "file": "policies/landingzone-l04-l04-prohibited-udr-next-hop-types.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "cfef9c39531acf52a6e8851ea339e87ad2409e5f07828d1189838af7365cb64a",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "88366067d43b5b6b8e91feb4c5c81e2fd7b997fa20d418d2fc326621eb0ad576",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -339,11 +397,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Corp child; governed workload VNets",
-        "caveats": "An empty allowedVnets audits every peering. Supply approved hub/transit/exception resource IDs; do not constrain all Online designs to hub-only peering."
+        "caveats": "An empty allowedVnets audits every peering. Supply approved hub/transit/exception resource IDs; do not constrain all Online designs to hub-only peering.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "An empty allowedVnets audits every peering. Supply approved hub/transit/exception resource IDs; do not constrain all Online designs to hub-only peering.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -414,17 +473,25 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
-      "catalogName": "Deny vNet peering to non-approved vNets",
+      "catalogName": "vNet peerings should only connect to approved vNets",
       "applicability": "Conditional",
       "name": "landingzone-l05-l05-approved-workload-peering-destinations",
       "file": "policies/landingzone-l05-l05-approved-workload-peering-destinations.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "9084fba4843498487d24f80ecbc2c81406d669e8110f9e6b77f12ff138c1ce21",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "fe7b62ead03172bd61502f1e97e6c0312f2ea281d2b407c0c240307bb46b1336",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -436,11 +503,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; AKS clusters",
-        "caveats": "Audit-only alternative; never installs the add-on. Pod evaluation requires an already enabled, healthy add-on. No Deny supported."
+        "caveats": "Audit-only alternative; never installs the add-on. Pod evaluation requires an already enabled, healthy add-on. No Deny supported.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Audit-only alternative; never installs the add-on. Pod evaluation requires an already enabled, healthy add-on. No Deny supported.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -486,6 +554,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Azure Policy Add-on for Kubernetes service (AKS) should be installed and enabled on your clusters",
@@ -493,10 +571,8 @@
       "name": "landingzone-l06-l06-aks-policy-add-on-presence",
       "file": "policies/landingzone-l06-l06-aks-policy-add-on-presence.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "11ec3ed130bccb06e16ff65b437ed4ca4fcbd81d7f5e54bbdc22504ef56cd34d",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "740d4f73541898ac30e446e22c375d0120a5913482d0769a500f272e615035b0",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -508,14 +584,16 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; opted-in AKS workload clusters/namespaces",
-        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny."
+        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
-        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
-        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
+        "All matching clusters in the assignment scope are evaluated when enabled=true; no tag selector is required. The source defaults for system-namespace exclusions, empty namespace/label/container/image selectors, and (where applicable) an empty host-port allowlist are fixed rule values, not assignment inputs.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
       "transformations": [
         {
@@ -579,6 +657,16 @@
         {
           "category": "provider-mode-targeting",
           "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Kubernetes cluster should not allow privileged containers",
@@ -591,10 +679,20 @@
       "name": "landingzone-l07-l07-no-privileged-containers",
       "file": "policies/landingzone-l07-l07-no-privileged-containers.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "518e424c128764fff7e800fb61b4ad18aa6c462641f389ab46b681fbe9c27ede",
-      "requiredParameters": [
-        "clusterScope"
-      ]
+      "customDefinitionSha256": "fbc71fc6758c55b6084f9fa5fee02892c062e438e16a2ff7a41bf37a40837a86",
+      "requiredParameters": [],
+      "fixedRuleDefaults": {
+        "excludedNamespaces": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ],
+        "namespaces": [],
+        "labelSelector": {},
+        "excludedContainers": [],
+        "excludedImages": []
+      }
     },
     {
       "set": "LandingZone",
@@ -606,14 +704,16 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; opted-in AKS workload clusters/namespaces",
-        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny."
+        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
-        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
-        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
+        "All matching clusters in the assignment scope are evaluated when enabled=true; no tag selector is required. The source defaults for system-namespace exclusions, empty namespace/label/container/image selectors, and (where applicable) an empty host-port allowlist are fixed rule values, not assignment inputs.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
       "transformations": [
         {
@@ -677,6 +777,16 @@
         {
           "category": "provider-mode-targeting",
           "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Kubernetes clusters should not allow container privilege escalation",
@@ -689,10 +799,20 @@
       "name": "landingzone-l08-l08-no-privilege-escalation",
       "file": "policies/landingzone-l08-l08-no-privilege-escalation.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "25f9b3fa470e3039f452fb6c0493af6cc3961ec98003ac388b50e788e4c3751f",
-      "requiredParameters": [
-        "clusterScope"
-      ]
+      "customDefinitionSha256": "f68998a5f25c43440237e56037a5118cc4e3d6d9b736bd0e57ba1f24cac14c27",
+      "requiredParameters": [],
+      "fixedRuleDefaults": {
+        "excludedNamespaces": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ],
+        "namespaces": [],
+        "labelSelector": {},
+        "excludedContainers": [],
+        "excludedImages": []
+      }
     },
     {
       "set": "LandingZone",
@@ -704,14 +824,16 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; opted-in AKS workload clusters/namespaces",
-        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny."
+        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
-        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
-        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
+        "All matching clusters in the assignment scope are evaluated when enabled=true; no tag selector is required. The source defaults for system-namespace exclusions, empty namespace/label/container/image selectors, and (where applicable) an empty host-port allowlist are fixed rule values, not assignment inputs.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
       "transformations": [
         {
@@ -775,6 +897,16 @@
         {
           "category": "provider-mode-targeting",
           "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Kubernetes cluster containers should not share host namespaces",
@@ -787,256 +919,19 @@
       "name": "landingzone-l09-l09-no-shared-host-pid-ipc-namespaces",
       "file": "policies/landingzone-l09-l09-no-shared-host-pid-ipc-namespaces.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "9934f06b87261f3d6d0a4a2c0c6c99481456261bc522d4cb441929459bc27b91",
-      "requiredParameters": [
-        "clusterScope"
-      ]
-    },
-    {
-      "set": "LandingZone",
-      "rowKey": "L10",
-      "key": "l10-restrict-hostpath-and-socket-mounts",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AllowedHostPaths.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/098fc59e-46c7-4d99-9b16-64990e543d75",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "Landing Zones; opted-in AKS workload clusters/namespaces",
-        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny."
-      },
-      "limitations": [
-        "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
-        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
-        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/allowedHostPaths/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/windowsAllowedHostPaths/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/excludedImages/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/then/details/templateInfo/url",
-          "reason": "Move the complete versioned template URL to a required compatible-template input.",
-          "category": "kubernetes-template-parameterization",
-          "parameterName": "constraintTemplateUrl"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        },
-        {
-          "category": "provider-mode-targeting",
-          "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
-        }
-      ],
-      "catalogName": "Kubernetes cluster pod hostPath volumes should only use allowed host paths",
-      "applicability": "Conditional",
-      "templateAsset": {
-        "file": "templates/l10.yaml",
-        "source": "https://store.policy.core.windows.net/kubernetes/allowed-host-paths/v5/template.yaml",
-        "sha256": "e631a885b3d70afef8527e5a7f0949fde52ae53047c4ceb7748d8ad46d8cf7c6"
-      },
-      "name": "landingzone-l10-l10-restrict-hostpath-and-socket-mounts",
-      "file": "policies/landingzone-l10-l10-restrict-hostpath-and-socket-mounts.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "52bee0863648f3477cf0b508e7271d90dbe838659464573e5e7468e050bcd952",
-      "requiredParameters": [
-        "clusterScope"
-      ]
-    },
-    {
-      "set": "LandingZone",
-      "rowKey": "L11",
-      "key": "l11-run-containers-as-nonroot",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AllowedUsersGroups.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/f06ddb64-5fa3-4b77-b166-acb36f7f6042",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "Landing Zones; opted-in AKS workload clusters/namespaces",
-        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny. This audits manifests; it does not rewrite user/group IDs."
-      },
-      "limitations": [
-        "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny. This audits manifests; it does not rewrite user/group IDs.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
-        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
-        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/runAsUserRule/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/runAsUserRanges/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/runAsGroupRule/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/runAsGroupRanges/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/supplementalGroupsRule/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/supplementalGroupsRanges/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/fsGroupRule/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/fsGroupRanges/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/excludedImages/metadata/portalReview",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/then/details/templateInfo/url",
-          "reason": "Move the complete versioned template URL to a required compatible-template input.",
-          "category": "kubernetes-template-parameterization",
-          "parameterName": "constraintTemplateUrl"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        },
-        {
-          "category": "provider-mode-targeting",
-          "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
-        }
-      ],
-      "catalogName": "Kubernetes cluster pods and containers should only run with approved user and group IDs",
-      "applicability": "Conditional",
-      "templateAsset": {
-        "file": "templates/l11.yaml",
-        "source": "https://store.policy.core.windows.net/kubernetes/allowed-users-groups/v3/template.yaml",
-        "sha256": "843968ca39d957d642e4d370050c163fe926274f13f0133b5714ba521cc3ad28"
-      },
-      "name": "landingzone-l11-l11-run-containers-as-nonroot",
-      "file": "policies/landingzone-l11-l11-run-containers-as-nonroot.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "82a209ac76ed150dee2e8ea14db13ac3344b6036f2cb3c567cc3e93f907ef6e5",
-      "requiredParameters": [
-        "clusterScope"
-      ]
+      "customDefinitionSha256": "5f6f54064e6f1d877d45a927dbf3aab23a909c138231ff78ec2e2c0dd7cfd70d",
+      "requiredParameters": [],
+      "fixedRuleDefaults": {
+        "excludedNamespaces": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ],
+        "namespaces": [],
+        "labelSelector": {},
+        "excludedImages": []
+      }
     },
     {
       "set": "LandingZone",
@@ -1048,14 +943,16 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; opted-in AKS workload clusters/namespaces",
-        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny."
+        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
-        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
-        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
+        "All matching clusters in the assignment scope are evaluated when enabled=true; no tag selector is required. The source defaults for system-namespace exclusions, empty namespace/label/container/image selectors, and (where applicable) an empty host-port allowlist are fixed rule values, not assignment inputs.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
       "transformations": [
         {
@@ -1129,6 +1026,16 @@
         {
           "category": "provider-mode-targeting",
           "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Kubernetes cluster containers should only use allowed capabilities",
@@ -1141,10 +1048,20 @@
       "name": "landingzone-l12-l12-restrict-linux-capabilities",
       "file": "policies/landingzone-l12-l12-restrict-linux-capabilities.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "34a1984997c6c74e2cd25469341fda366a428b6fa62473b94ec004b3805ad8d2",
-      "requiredParameters": [
-        "clusterScope"
-      ]
+      "customDefinitionSha256": "4ca51b692e9197d8bf6dafc36668c07695e59d53ed61d3fa3179f674566603ef",
+      "requiredParameters": [],
+      "fixedRuleDefaults": {
+        "excludedNamespaces": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ],
+        "namespaces": [],
+        "labelSelector": {},
+        "excludedContainers": [],
+        "excludedImages": []
+      }
     },
     {
       "set": "LandingZone",
@@ -1156,14 +1073,16 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; opted-in AKS workload clusters/namespaces",
-        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny."
+        "caveats": "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Microsoft.Kubernetes.Data; no add-on installation or pod mutation. Preserve platform namespace exclusions; validate on Linux workloads before any Deny.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
-        "Kubernetes.Data rejects ARM id targeting. This rule selects clusters using a required existing tag name/value, with no tag mutation. Untagged or differently tagged clusters are not evaluated. Namespace and component label selectors remain.",
-        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions."
+        "All matching clusters in the assignment scope are evaluated when enabled=true; no tag selector is required. The source defaults for system-namespace exclusions, empty namespace/label/container/image selectors, and (where applicable) an empty host-port allowlist are fixed rule values, not assignment inputs.",
+        "The reviewed compatible Gatekeeper template is embedded as Base64Encoded and also stored as readable YAML. No external version-pinned template URL or assignment-time template URL is needed. Protocol API versions in the ConstraintTemplate are structural, not OS/image release restrictions.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
       "transformations": [
         {
@@ -1237,6 +1156,16 @@
         {
           "category": "provider-mode-targeting",
           "reason": "Replaced unsupported Kubernetes.Data id conditions with supported explicit cluster tag selection."
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Kubernetes cluster pods should only use approved host network and port list",
@@ -1249,28 +1178,40 @@
       "name": "landingzone-l13-l13-restrict-host-networking-and-host-ports",
       "file": "policies/landingzone-l13-l13-restrict-host-networking-and-host-ports.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "75776460a910c66c37eb9d4b05197fe379d9ca85d8462c78a20f1c614673a538",
-      "requiredParameters": [
-        "clusterScope"
-      ]
+      "customDefinitionSha256": "faf8e1795e94e4bab8c9cae2a2ee3e8146bf630c5d15e12feacbae7f4296d40b",
+      "requiredParameters": [],
+      "fixedRuleDefaults": {
+        "excludedNamespaces": [
+          "kube-system",
+          "gatekeeper-system",
+          "azure-arc",
+          "azure-extensions-usage-system"
+        ],
+        "namespaces": [],
+        "labelSelector": {},
+        "excludedImages": [],
+        "allowedHostPorts": []
+      }
     },
     {
       "set": "LandingZone",
       "rowKey": "L14",
-      "key": "l14-microsoft-entra-cluster-integration",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AKS_AAD_Integration_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/450d2877-ebea-41e8-b00c-e286317d21bf",
+      "key": "l14-aks-local-authentication-disabled",
+      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AKS_DisableLocalAccounts_Deny.json",
+      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/993c2fcd-2b29-49d2-9eb0-df2c3a730c32",
       "publishable": true,
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; AKS clusters",
-        "caveats": "Audits managedCluster.aadProfile only; does not grant RBAC permissions. No Deny supported."
+        "caveats": "Audits disableLocalAccounts != true, including missing values; Microsoft Entra integration alone does not satisfy this check. Read-only and Audit/Disabled only; does not change credentials or grant RBAC permissions.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
-        "Audits managedCluster.aadProfile only; does not grant RBAC permissions. No Deny supported.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Audits disableLocalAccounts != true, including missing values; Microsoft Entra integration alone does not satisfy this check. Read-only and Audit/Disabled only; does not change credentials or grant RBAC permissions.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
+        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either.",
+        "Replaces L14's previous Entra-integration presence check at the user's request. The retained L15 local-account control now overlaps L14; L14 no longer independently audits Microsoft Entra integration. The definition was renamed to match this behavior."
       ],
       "transformations": [
         {
@@ -1319,17 +1260,30 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
+        },
+        {
+          "path": "/policyRule/if",
+          "category": "local-authentication-audit",
+          "reason": "Reuse the verified AKS local-account predicate from L15: audit managed clusters unless disableLocalAccounts is true. Preserve the default-true enabled dropdown and Audit-only behavior."
         }
       ],
-      "catalogName": "Azure Kubernetes Service Clusters should enable Microsoft Entra ID integration",
+      "catalogName": "Azure Kubernetes Service Clusters should not use Local Authentication",
       "applicability": "Conditional",
-      "name": "landingzone-l14-l14-microsoft-entra-cluster-integration",
-      "file": "policies/landingzone-l14-l14-microsoft-entra-cluster-integration.json",
+      "name": "landingzone-l14-aks-local-authentication-disabled",
+      "file": "policies/landingzone-l14-aks-local-authentication-disabled.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "69bce1267268d917c0f1aaafd2aa06b2f9d79f88593a8882de66748eb88f14df",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "48530a33053cdade0316960110c50f05576219084b2b0f2e0a669ebd450fef4b",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -1341,11 +1295,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; Entra-integrated AKS clusters",
-        "caveats": "Require tested Entra access and recovery procedures before disabling accounts. This audit does not change credentials; no Deny supported."
+        "caveats": "Require tested Entra access and recovery procedures before disabling accounts. This audit does not change credentials; no Deny supported.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Require tested Entra access and recovery procedures before disabling accounts. This audit does not change credentials; no Deny supported.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -1396,6 +1351,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Azure Kubernetes Service Clusters should have local authentication methods disabled",
@@ -1403,10 +1368,8 @@
       "name": "landingzone-l15-l15-disable-aks-local-accounts",
       "file": "policies/landingzone-l15-l15-disable-aks-local-accounts.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "d969af2f5d44a048e01a4eaa2dcad1382ce1097c8e24f2e6e1ac9ed1764bcf01",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "00eabb5cf7097ac14df3d2ea01cb65656206607b7cc019b0c4969c431fba232c",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -1418,11 +1381,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Corp child; AKS private-control-plane workloads",
-        "caveats": "Architecture-dependent; not required for every Online cluster. Private API DNS and operator connectivity must already be designed. No Deny supported."
+        "caveats": "Architecture-dependent; not required for every Online cluster. Private API DNS and operator connectivity must already be designed. No Deny supported.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Architecture-dependent; not required for every Online cluster. Private API DNS and operator connectivity must already be designed. No Deny supported.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -1473,6 +1437,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Azure Kubernetes Service Private Clusters should be enabled",
@@ -1480,10 +1454,8 @@
       "name": "landingzone-l16-l16-private-aks-api",
       "file": "policies/landingzone-l16-l16-private-aks-api.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "6cc7f6ea9f145f7c3b85e344bdb3368d4b43dd0663cb20d11689e6624c8440d1",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "cedc6e6085e1e182dbdec0f22ff20d77377f3359812f615157175a3ffee1159e",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -1495,11 +1467,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; approved public-API AKS clusters",
-        "caveats": "Definition checks that authorizedIPRanges exists and skips private clusters; it does not validate specific approved CIDRs or reject a broad/empty existing array. No Deny supported."
+        "caveats": "Definition requires a nonempty authorizedIPRanges array and skips private clusters; it does not validate specific approved CIDRs or reject a broad existing range. No Deny supported.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
-        "Definition checks that authorizedIPRanges exists and skips private clusters; it does not validate specific approved CIDRs or reject a broad/empty existing array. No Deny supported.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Definition requires a nonempty authorizedIPRanges array and skips private clusters; it does not validate specific approved CIDRs or reject a broad existing range. No Deny supported.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -1545,6 +1518,21 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/policyRule",
+          "reason": "Require at least one authorized IP range on public AKS API endpoints; continue excluding private clusters without introducing organization-specific CIDR inputs.",
+          "category": "functional-review"
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Authorized IP ranges should be defined on Kubernetes Services",
@@ -1552,10 +1540,8 @@
       "name": "landingzone-l17-l17-authorized-ranges-on-public-aks-api",
       "file": "policies/landingzone-l17-l17-authorized-ranges-on-public-aks-api.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "642c4f5906d01c02d66c56a0ad4c19986104b0bbbea60a8e05626faed3da1959",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "46a70b01881863ed814885c652498c1feff7a0c121d0864eb8062ef60ab45384",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -1587,6 +1573,11 @@
           "parametersAdded": [
             "excludedResourceIds"
           ]
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
         }
       ],
       "catalogName": "Machines should be configured to periodically check for missing system updates",
@@ -1594,7 +1585,7 @@
       "name": "landingzone-l20-l20-periodic-update-assessment-configured",
       "file": "policies/landingzone-l20-l20-periodic-update-assessment-configured.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "8a2d18a1c1a896560fe277b9acd03b9a5b91718b341cd9b46a68d58254fdeefe",
+      "customDefinitionSha256": "5c1af1246045fb79bb4065b0c6568e9b595e6ee524a71aa89c11116cba695e04",
       "requiredParameters": []
     },
     {
@@ -1607,11 +1598,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; machines with existing update assessment coverage, excluding AKS-managed resource groups",
-        "caveats": "Assessment-backed Microsoft.Security signal; requires existing Update Manager/Defender assessment coverage. Missing telemetry is not proof of patch compliance. No onboarding, guest assignment, installation or patching; no Deny supported."
+        "caveats": "Assessment-backed Microsoft.Security signal; requires existing Update Manager/Defender assessment coverage. Missing telemetry is not proof of patch compliance. No onboarding, guest assignment, installation or patching; no Deny supported.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Assessment-backed Microsoft.Security signal; requires existing Update Manager/Defender assessment coverage. Missing telemetry is not proof of patch compliance. No onboarding, guest assignment, installation or patching; no Deny supported.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -1657,6 +1649,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "System updates should be installed on your machines (powered by Update Center)",
@@ -1664,10 +1666,8 @@
       "name": "landingzone-l21-l21-missing-critical-security-updates",
       "file": "policies/landingzone-l21-l21-missing-critical-security-updates.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "8c4b9bd2a1242d27ec631d06e8c3266f9e20b55f3083e4ed77bc2c820d8fc47b",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "d083cbce52118271fac04a4803f69fecf134f0b8fab19f86b13f3c0ffb69bedd",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -1679,11 +1679,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Corp child; private-only SQL logical servers",
-        "caveats": "Actual resource is Microsoft.Sql/servers, despite the display name. Service endpoints/firewall-only designs are not equivalent to publicNetworkAccess=Disabled; confirm private connectivity first."
+        "caveats": "Actual resource is Microsoft.Sql/servers, despite the display name. Service endpoints/firewall-only designs are not equivalent to publicNetworkAccess=Disabled; confirm private connectivity first.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Actual resource is Microsoft.Sql/servers, despite the display name. Service endpoints/firewall-only designs are not equivalent to publicNetworkAccess=Disabled; confirm private connectivity first.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -1729,6 +1730,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Public network access on Azure SQL Database should be disabled",
@@ -1736,10 +1747,8 @@
       "name": "landingzone-l24-l24-private-only-sql-networking",
       "file": "policies/landingzone-l24-l24-private-only-sql-networking.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "330a40b36652b80270f4d9e228c9ec6be10b95354fd2f0e1a2853df4ac215059",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "d810a4d872dc53bcf627bbfd9981ffec1e307f2c7f47a01e4630a00a73475edb",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -1751,11 +1760,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Corp child; private-only ACR workloads",
-        "caveats": "Premium/private-link capability, build agents, AKS image pulls and DNS require review. Not universal for approved public-distribution registries."
+        "caveats": "Premium/private-link capability, build agents, AKS image pulls and DNS require review. Not universal for approved public-distribution registries.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Premium/private-link capability, build agents, AKS image pulls and DNS require review. Not universal for approved public-distribution registries.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -1801,6 +1811,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Public network access should be disabled for Container registries",
@@ -1808,10 +1828,8 @@
       "name": "landingzone-l25-l25-private-only-container-registries",
       "file": "policies/landingzone-l25-l25-private-only-container-registries.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "a0dd3576add2c395f29d01a678ee81a712bbd3b798f7b8fb8908bbef8f0c6e4c",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "2c1bfa1a787500f098f2cfa822d152704295553f7db9a678186f73499a82f140",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -1823,11 +1841,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Corp child; private-only PostgreSQL flexible servers",
-        "caveats": "Review public/private network mode and existing private DNS/access before hardening; do not require new private endpoints on every VNet-integrated or Online server."
+        "caveats": "Review public/private network mode and existing private DNS/access before hardening; do not require new private endpoints on every VNet-integrated or Online server.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Review public/private network mode and existing private DNS/access before hardening; do not require new private endpoints on every VNet-integrated or Online server.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -1873,6 +1892,21 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/policyRule",
+          "reason": "Report explicit public access and missing private configuration, while accepting complete VNet integration when publicNetworkAccess is omitted.",
+          "category": "functional-review"
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Public network access should be disabled for PostgreSQL flexible servers",
@@ -1880,10 +1914,8 @@
       "name": "landingzone-l26-l26-private-only-postgresql-networking",
       "file": "policies/landingzone-l26-l26-private-only-postgresql-networking.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "51cf3d8da176d1941352e865c395f94c980c255084bf193164069b14fd807f9d",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "afc56a531075066937b65195b652b5f129b70ebb698eb6a992fe5da758204b68",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -1895,11 +1927,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Corp child; private backend App Service/Function sites",
-        "caveats": "This definition targets Microsoft.Web/sites, including Function apps, and excludes App Service Environment sites. Keep public ingress allowed for approved Online applications; no blanket private endpoint requirement."
+        "caveats": "This definition targets Microsoft.Web/sites, including Function apps, and excludes App Service Environment sites. Keep public ingress allowed for approved Online applications; no blanket private endpoint requirement.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "This definition targets Microsoft.Web/sites, including Function apps, and excludes App Service Environment sites. Keep public ingress allowed for approved Online applications; no blanket private endpoint requirement.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -1945,6 +1978,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "App Service apps should disable public network access",
@@ -1952,10 +1995,8 @@
       "name": "landingzone-l27-l27-private-application-backends",
       "file": "policies/landingzone-l27-l27-private-application-backends.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "87008b6dbdf66073a28e46fed7e8b9561cdde4a830ce59c01e10e617d5ce778d",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "fcbd25bb67ffa42d07e30b721aaa0ed10f43e8022f40cc95136fd5af76463dd5",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -2018,7 +2059,7 @@
       "name": "landingzone-l28-l28-web-apps-require-https",
       "file": "policies/landingzone-l28-l28-web-apps-require-https.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "80e59357eea4bcaed3ef4f97f4b4415766d957ade091fa4fc9fb689278f0b992",
+      "customDefinitionSha256": "e67870200816ccdbddd871038e0c4317d6d2200f1143a1ed8da0ce7d38cc175d",
       "requiredParameters": []
     },
     {
@@ -2084,6 +2125,11 @@
           "parameterName": "minimumTlsVersion",
           "field": "Microsoft.Web/sites/config/minTlsVersion",
           "operator": "greaterOrEquals"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
         }
       ],
       "catalogName": "App Service apps should use the latest TLS version",
@@ -2091,7 +2137,7 @@
       "name": "landingzone-l29-l29-web-app-minimum-tls-1-2",
       "file": "policies/landingzone-l29-l29-web-app-minimum-tls-1-2.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "5f9e3fe0e8136fb7392bd3c465624aef3905fb570e85014fefa9ee2062622ade",
+      "customDefinitionSha256": "c19643c928b7a26f177c6f214a245b9bf16bfeefe092e867563d07863264f48a",
       "requiredParameters": []
     },
     {
@@ -2155,7 +2201,7 @@
       "name": "landingzone-l30-l30-function-apps-require-https",
       "file": "policies/landingzone-l30-l30-function-apps-require-https.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "baa5c4119393a49f8b8ca246fe3195555fe6c7c4aba772969ef98756d3f7f486",
+      "customDefinitionSha256": "c1561c2206477223e9be8c6fa0989bcc5d5247f064dd25564eb581553fb511d7",
       "requiredParameters": []
     },
     {
@@ -2221,6 +2267,11 @@
           "parameterName": "minimumTlsVersion",
           "field": "Microsoft.Web/sites/config/minTlsVersion",
           "operator": "greaterOrEquals"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
         }
       ],
       "catalogName": "Function apps should use the latest TLS version",
@@ -2228,7 +2279,7 @@
       "name": "landingzone-l31-l31-function-app-minimum-tls-1-2",
       "file": "policies/landingzone-l31-l31-function-app-minimum-tls-1-2.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "ac0ea559e5db7bb061e36baacd6a5db6893b6b04150fe593494a96cd2ab5f8e9",
+      "customDefinitionSha256": "76e23dc57629f0f9782f5286a1fa3f4b1bff89dfb19f29fdb373061f9593bac2",
       "requiredParameters": []
     },
     {
@@ -2299,6 +2350,11 @@
           "path": "/policyRule/if/allOf/1/anyOf",
           "reason": "Report minimalTlsVersion 'None'. The upstream string comparison 'less' sorts 'None' after '1.2', so servers with no enforced minimum TLS version were treated as compliant.",
           "category": "semantic-fix"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
         }
       ],
       "catalogName": "Azure SQL Database should be running TLS version 1.2 or newer",
@@ -2306,7 +2362,7 @@
       "name": "landingzone-l32-l32-sql-server-minimum-tls-1-2",
       "file": "policies/landingzone-l32-l32-sql-server-minimum-tls-1-2.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "5ca346dbb5ea497cbcd68ac7e861c366d26147669b46caff6776489f4370eeb2",
+      "customDefinitionSha256": "998631af7355c8cf81a752206db7832e29ca8c767dfb69f346d660796311e943",
       "requiredParameters": []
     },
     {
@@ -2319,11 +2375,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; SQL logical servers adopting Microsoft Entra authentication",
-        "caveats": "Exact definition name retains Azure Active Directory terminology. Checks administrator presence, not Entra-only enforcement; Entra-only migration is separate. No Deny supported."
+        "caveats": "Exact definition name retains Azure Active Directory terminology. Checks administrator presence, not Entra-only enforcement; Entra-only migration is separate. No Deny supported.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Exact definition name retains Azure Active Directory terminology. Checks administrator presence, not Entra-only enforcement; Entra-only migration is separate. No Deny supported.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -2369,6 +2426,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "An Azure Active Directory administrator should be provisioned for SQL servers",
@@ -2376,10 +2443,8 @@
       "name": "landingzone-l33-l33-sql-microsoft-entra-administrator",
       "file": "policies/landingzone-l33-l33-sql-microsoft-entra-administrator.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "9175025711b04c28f1646173cedfde107abb915669d9561d6c8c6c9f8e023f22",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "8ca3cb843ab753c65825a03ee25174d59b9658fa34e93f64045686d7a78bc71b",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -2447,7 +2512,7 @@
       "name": "landingzone-l35-l35-sql-auditing-enabled",
       "file": "policies/landingzone-l35-l35-sql-auditing-enabled.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "aff6c08f550f1228050282c543d57730ccda0a7af5d0f2127ca8e9fbe9986f3f",
+      "customDefinitionSha256": "73de493f35f2299767ce103cc16cff2fdf91ca4e1021d7b01f6050dfc566c318",
       "requiredParameters": []
     },
     {
@@ -2511,7 +2576,7 @@
       "name": "landingzone-l36-l36-disable-acr-admin-credentials",
       "file": "policies/landingzone-l36-l36-disable-acr-admin-credentials.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "d7172a72695ab02fcae50bbb74ecbc7fe6e631431de3a57d9d88a6fb79576d4d",
+      "customDefinitionSha256": "2a0301e970e1beb3de419c3518b59d124d018964b0f184c68d7237eb4008b94d",
       "requiredParameters": []
     },
     {
@@ -2575,7 +2640,7 @@
       "name": "landingzone-l37-l37-disable-anonymous-registry-pulls",
       "file": "policies/landingzone-l37-l37-disable-anonymous-registry-pulls.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "3b2bc76c1c4b278a83bd6c7aee00e7f91437366c727da3917b7823523e823a40",
+      "customDefinitionSha256": "4739923516d4766c96740e02f62521cc9ecd675a3789fd3f4ab6499cab1a5ef5",
       "requiredParameters": []
     },
     {
@@ -2641,6 +2706,11 @@
           "parameterName": "approvedMinimumTlsVersions",
           "field": "Microsoft.DBforPostgreSQL/flexibleServers/configurations/value",
           "operator": "in"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
         }
       ],
       "catalogName": "PostgreSQL flexible servers should be running TLS version 1.2 or newer",
@@ -2648,7 +2718,7 @@
       "name": "landingzone-l38-l38-postgresql-minimum-tls-1-2",
       "file": "policies/landingzone-l38-l38-postgresql-minimum-tls-1-2.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "f12abb9526fdeda1f383982af03ddcabd8e231d497b83682a15ff2a60639a9dd",
+      "customDefinitionSha256": "f1462502eaeb740e0336c89d66f7edfcd528782dfb30f063ebe2a49435176b06",
       "requiredParameters": []
     },
     {
@@ -2712,7 +2782,7 @@
       "name": "landingzone-l39-l39-postgresql-secure-transport-required",
       "file": "policies/landingzone-l39-l39-postgresql-secure-transport-required.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "ea356c0ce08b2f2e3b5921a4acdb164fc4a1527c11b822bb44e86da927992e6f",
+      "customDefinitionSha256": "c979ad279ebe349d997045c05c344e54b65f804bcb6d913c156235fb8d2a101c",
       "requiredParameters": []
     },
     {
@@ -2725,11 +2795,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; HTTP Function apps using App Service Authentication",
-        "caveats": "Conditional for HTTP apps using App Service Authentication. Event-triggered functions, application-level auth and APIM-authenticated designs need review/exemptions. This older definition checks siteAuthEnabled, not every authsettingsV2/routing scenario; no Deny."
+        "caveats": "Conditional for HTTP apps using App Service Authentication. Event-triggered functions, application-level auth and APIM-authenticated designs need review/exemptions. This older definition checks siteAuthEnabled, not every authsettingsV2/routing scenario; no Deny.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Conditional for HTTP apps using App Service Authentication. Event-triggered functions, application-level auth and APIM-authenticated designs need review/exemptions. This older definition checks siteAuthEnabled, not every authsettingsV2/routing scenario; no Deny.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -2775,6 +2846,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Function apps should have authentication enabled",
@@ -2782,10 +2863,8 @@
       "name": "landingzone-l41-l41-function-built-in-authentication",
       "file": "policies/landingzone-l41-l41-function-built-in-authentication.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "05f85aa54ea15b4e42bf7aff97f8ac0e6c7c86f87d4a929151f946e047b22d61",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "25ddc03ce44b3c78aa7f36b45352f31cc693ff30d0b53eb68e6d5e0aaefc5047",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -2848,7 +2927,7 @@
       "name": "landingzone-l42-l42-apim-apis-use-encrypted-protocols",
       "file": "policies/landingzone-l42-l42-apim-apis-use-encrypted-protocols.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "6e3add949288032b544da9b5ddd916a07efcf90a323df7655b04359f8d0808a4",
+      "customDefinitionSha256": "8e37846a4118049dc2f2fd1e13e48a5894315d1355d0b397ee21758b27ca234d",
       "requiredParameters": []
     },
     {
@@ -2861,11 +2940,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; backup-required stateful VMs; exclude AKS-managed resource groups and documented ephemeral/service-managed VMs",
-        "caveats": "AuditIfNotExists checks backup protected-item existence, not backup success, recovery-point age, retention or restore testing. Built-in excludes certain Databricks/OpenShift VMs; review other managed-service exceptions. No deployment, extension installation or Deny."
+        "caveats": "AuditIfNotExists checks backup protected-item existence, not backup success, recovery-point age, retention or restore testing. Built-in excludes certain Databricks/OpenShift VMs; review other managed-service exceptions. No deployment, extension installation or Deny.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "AuditIfNotExists checks backup protected-item existence, not backup success, recovery-point age, retention or restore testing. Built-in excludes certain Databricks/OpenShift VMs; review other managed-service exceptions. No deployment, extension installation or Deny.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -2911,6 +2991,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Azure Backup should be enabled for Virtual Machines",
@@ -2918,10 +3008,8 @@
       "name": "landingzone-l43-l43-vm-backup-protection-exists",
       "file": "policies/landingzone-l43-l43-vm-backup-protection-exists.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "88990ff47c2f59a303e98366434fe30a1b03d5726120dfb2903f0627c9d68e7a",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "e908e0fcd9ec9d89926ada7a2022ade0fb7b55fd66468cc30b31ea7cfab5b7df",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -2933,11 +3021,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; SQL databases with long-term retention requirements",
-        "caveats": "Despite 'geo-redundant' in its exact name, this rule only checks nonzero weekly/monthly/yearly LTR; it does not validate backup storage redundancy, minimum retention, job success or restore readiness. Excludes master; no deployment or Deny."
+        "caveats": "Despite 'geo-redundant' in its exact name, this rule only checks nonzero weekly/monthly/yearly LTR; it does not validate backup storage redundancy, minimum retention, job success or restore readiness. Excludes master; no deployment or Deny.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Despite 'geo-redundant' in its exact name, this rule only checks nonzero weekly/monthly/yearly LTR; it does not validate backup storage redundancy, minimum retention, job success or restore readiness. Excludes master; no deployment or Deny.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -2983,6 +3072,21 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/policyRule",
+          "reason": "Require a present nonempty, nonzero SQL long-term retention duration and clarify that backup redundancy is not evaluated.",
+          "category": "functional-review"
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Long-term geo-redundant backup should be enabled for Azure SQL Databases",
@@ -2990,10 +3094,8 @@
       "name": "landingzone-l45-l45-sql-long-term-retention-enabled",
       "file": "policies/landingzone-l45-l45-sql-long-term-retention-enabled.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "d807d48f151b30effef2d841a9693cc9006e70dfe24d45a000c1163380c7f2c6",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "2629252a1022ee343ff98145dc602f5ba25962b56b3cde52c5128ab498b93ce3",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -3005,11 +3107,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "Landing Zones; workload-owned Application Gateway ingress requiring WAF; shared platform/hub ingress excluded",
-        "caveats": "This exact rule checks configuration/policy presence only, despite 'enabled' in the display name; disabled inline WAF can pass. It does not verify prevention mode, managed rule sets, policy contents or listener-specific WAF coverage. Does not cover Front Door. The platform initiative uses the same definition for shared-hub ingress only; ownership scopes are intentionally disjoint."
+        "caveats": "This exact rule checks configuration/policy presence only, despite 'enabled' in the display name; disabled inline WAF can pass. It does not verify prevention mode, managed rule sets, policy contents or listener-specific WAF coverage. Does not cover Front Door. The platform initiative uses the same definition for shared-hub ingress only; ownership scopes are intentionally disjoint.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "This exact rule checks configuration/policy presence only, despite 'enabled' in the display name; disabled inline WAF can pass. It does not verify prevention mode, managed rule sets, policy contents or listener-specific WAF coverage. Does not cover Front Door. The platform initiative uses the same definition for shared-hub ingress only; ownership scopes are intentionally disjoint.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -3055,6 +3158,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Web Application Firewall (WAF) should be enabled for Application Gateway",
@@ -3062,31 +3175,8 @@
       "name": "landingzone-l46-l46-application-gateway-waf-presence",
       "file": "policies/landingzone-l46-l46-application-gateway-waf-presence.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "3cd70d284f4ec6047453b526151aa526bdd52b6129a4a7b6b8465ad3da01a13b",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "LandingZone",
-      "rowKey": "L49",
-      "key": "corp-spoke-required-hub-peering",
-      "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-VNET-HubSpoke.json",
-      "limitations": [
-        "Requires at least one compliant spoke-to-approved-hub peering; this is not merely an allowlist of already-existing peerings.",
-        "Connected is a provider-reported status and can be transiently noncompliant during provisioning or repair.",
-        "Does not audit the reverse hub-to-spoke resource, hub gateway-transit settings, forwarded traffic, route tables, effective reachability, or unapproved additional peerings.",
-        "vWAN and isolated spokes are excluded only by explicit approved target inventory; no resource-tag heuristic is assumed."
-      ],
-      "scopeNotes": "Landing Zones/Corp, traditional hub-spoke target VNet IDs only. Child enumeration is under each selected spoke and accepts approved remote IDs without dereferencing their subscription. Reverse peering needs a separate scope/control.",
-      "publishable": true,
-      "name": "landingzone-l49-corp-spoke-required-hub-peering",
-      "file": "policies/landingzone-l49-corp-spoke-required-hub-peering.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "043e917c5e05e5cdd85c94b3b7fd1af3631cc7691af041799fbdd24ad084318a",
-      "requiredParameters": [
-        "profile"
-      ]
+      "customDefinitionSha256": "83b6bea41dc23eefff2cb54e9468a403b5e667c422167048e4f2ce159d2ba523",
+      "requiredParameters": []
     },
     {
       "set": "LandingZone",
@@ -3105,7 +3195,7 @@
       "name": "landingzone-l55-waf-policy-prevention-mode",
       "file": "policies/landingzone-l55-waf-policy-prevention-mode.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "7ff04f2be2af81531eb30d767b792c30f391be2cd427087fd6693bcd9d0560e8",
+      "customDefinitionSha256": "c342b96bdff11bb2235d0700bd2e4d70809008c3470c00c5b0d1671dc03a38b1",
       "requiredParameters": []
     },
     {
@@ -3125,7 +3215,7 @@
       "name": "landingzone-l56-nat-gateway-subnet-association",
       "file": "policies/landingzone-l56-nat-gateway-subnet-association.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "058012d8e236a20f5b866152f4ee649a7066e2600ee0f63e957e69e8cd938cd9",
+      "customDefinitionSha256": "5d1d0829d03c4288cc8c4466a784148b9a801f47e0d7de3d0f367ae0bc4dc138",
       "requiredParameters": []
     },
     {
@@ -3147,8 +3237,27 @@
       "name": "landingzone-l54-audit-vm-nic-public-ip",
       "file": "policies/landingzone-l54-audit-vm-nic-public-ip.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "b2b10a9dc151b327655d4816456a85fc8ec6abb81775e0b2bd7ec1553b86b547",
-      "requiredParameters": []
+      "customDefinitionSha256": "27247c375ba528c93c03d60e4dec4548b49f65da943ca7ec74b34e6c14503c2f",
+      "requiredParameters": [],
+      "transformations": [
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        }
+      ]
     }
-  ]
+  ],
+  "parameterContract": {
+    "allowedInputs": [
+      "String true/false dropdown (default true)",
+      "metadata.strongType Portal picker",
+      "allowedValues dropdown",
+      "editable Array with three default strings"
+    ],
+    "freeFormScalarInputs": false,
+    "freeFormObjectInputs": false,
+    "conditionalScopeDefault": "true",
+    "scopeBehavior": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
+  }
 }

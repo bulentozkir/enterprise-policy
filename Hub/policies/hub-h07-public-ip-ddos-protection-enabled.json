@@ -1,0 +1,49 @@
+{
+  "name": "hub-h07-public-ip-ddos-protection-enabled",
+  "properties": {
+    "displayName": "Audit Public IP addresses without DDoS protection enabled",
+    "description": "Audits each public IP address whose DDoS protection mode is not Enabled. DDoS IP Protection is accepted without requiring a DDoS protection plan. Inherited or unspecified protection is reported for separate verification. Read-only; it does not enable protection or associate plans.",
+    "policyType": "Custom",
+    "mode": "All",
+    "metadata": {
+      "category": "Network",
+      "version": "1.0.0",
+      "designRow": "H07",
+      "sourceVerifiedOn": "2026-11-03",
+      "source": "https://learn.microsoft.com/azure/ddos-protection/manage-ddos-ip-protection-portal",
+      "catalogRow": "H07",
+      "packageSet": "Hub"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Read-only evaluation."
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/publicIPAddresses"
+          },
+          {
+            "field": "Microsoft.Network/publicIPAddresses/ddosSettings.protectionMode",
+            "notEquals": "Enabled"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

@@ -1,11 +1,9 @@
 ALZ POLICY DEFINITIONS - TERRAFORM
 
-Target Entra tenant:
-  d24284e3-1ea5-4285-9b96-4d53f671284b
-Target management group:
-  contoso (ContosoRoot)
-Provider subscription context:
-  a0fdc749-441a-43a5-8297-29192ed42f79
+Provide the target explicitly with -TenantId, -SubscriptionId and
+-ManagementGroupName. For a tenant root deployment, the management-group name is
+the tenant ID. -ExpectedUserPrincipalName must match the existing Azure CLI user.
+The subscription is used only for authentication, not as the deployment scope.
 
 Creates custom policy definitions and exactly three initiatives: Global, Hub,
 LandingZone. It creates NO policy assignments, role assignments, managed identities,
@@ -13,21 +11,22 @@ remediation jobs, or workload resources. Definitions alone do not enforce policy
 
 Use the existing Azure CLI authentication for the requested tenant. An Edge portal
 session alone is not Terraform authentication. The account needs Resource Policy
-Contributor or equivalent permissions on ContosoRoot. Reader and
+Contributor or equivalent permissions on the target management group. Reader and
 Entra directory administrator roles alone do not grant Azure Policy write access.
-The script does not change sign-in, default subscriptions, permissions, or roles.
+The script does not change sign-in, permissions, or roles. It restores any
+temporary provider-subscription selection when the run finishes.
 
 Plan only:
-  .\deploy.ps1
+  .\deploy.ps1 -TenantId <TENANT_ID> -SubscriptionId <SUBSCRIPTION_ID> -ManagementGroupName <MANAGEMENT_GROUP_NAME> -ExpectedUserPrincipalName <USER_UPN> -AcknowledgeCoverageGaps
 Plan, inspect for unexpected resource types/deletions, then apply:
-  .\deploy.ps1 -Apply
+  Use the same target arguments and add -Apply.
 
 The supplied source catalog must be complete before plan/apply. Missing definitions
 are hard failures; empty initiatives and partial deployments are not substituted.
-Unsupported Key Vault data-mode clones were removed. Three fresh ARM-only checks
-have narrower object coverage; certificate-expiry auditing is an explicit omission.
-After reviewing those documented limitations, accept them with:
-  .\deploy.ps1 -Apply -AcknowledgeCoverageGaps
+The catalog records the Key Vault certificate-expiry and Service Health billing
+limitations, the requested removals (R18/R20/R21/R23/R24/R25/R31/R32/R34/R35/R36, H11/H20 and L49), and the
+H17/L10/L11 address/path/range omissions. After reviewing all gaps, accept them with:
+  -AcknowledgeCoverageGaps
 This switch NEVER bypasses the missing-source guard.
 
 Do not run apply until catalog.json reports no missing rows and policy/initiative
@@ -36,13 +35,49 @@ Terraform syntax validation; an Azure API import may report additional alias/rul
 constraints. Existing Azure definitions must be imported into Terraform state before
 management, not overwritten blindly. prevent_destroy rejects deletion/replacement.
 
-Policy defaults remain Audit/AuditIfNotExists; future assignment parameters are
-promoted individually into each initiative. Required OS/image/support profiles and
-organizational IDs have no guessed values. Terraform definition creation does not
-need future assignment input values, but assignments will require them.
+There are 75 definitions (Global 23, Hub 12, LandingZone 40) and three initiatives.
+Policy defaults remain Audit/AuditIfNotExists. Prefer Portal pickers, fixed-choice
+dropdowns; no Boolean text boxes, free-form objects or scalar text. All true/false
+inputs are String dropdowns with choices "true"/"false" and default "true".
+Rules convert them with bool(), including Kubernetes Boolean values. Editable arrays have
+three replaceable defaults: R04/R05/R06 mandatoryTags start with owner, costcenter,
+environment and are not restricted to these names or to three entries.
+Conditional enabled switches default to "true"; "true" evaluates all matching
+resources within the assignment scope and "false" skips. Global r26_enabled controls
+both Windows VM/VMSS Hybrid Benefit checks without selecting VMs. Confirm licensing
+eligibility before assigning and select "false" for ineligible scopes. R26/R27 require
+separate eligible scopes; disable the inapplicable check. Use assignment exclusions
+or exemptions for exceptions. All other true/false inputs also default to "true",
+including L13 allowHostNetwork; host ports remain disallowed.
+Target-resource and exception selection inputs are removed; resource pickers remain
+only for necessary destinations and peer networks. H07 checks each
+Public IP's DDoS protectionMode: Enabled passes without requiring a plan. Inherited
+or unspecified protection is reported for separate verification.
+Terraform definition creation needs no future assignment values, but assignments
+still require the destination pickers and dropdowns listed in required-inputs.json.
+
+The preceding simplified-input revision was deployed and verified at the requested
+tenant root management group on 2026-11-04: 84 definitions, three initiatives, zero
+live content differences and no Terraform drift. The unassigned previous Contoso
+package was retired, including the 13 definitions removed in that revision.
+The current 75-definition source removes R24, all four R25 variants, R34, H11/H20
+and L49, corrects and renames H07/L14, and uses default-true dropdowns. L49's remote-gateway
+and hub-selection inputs are removed entirely. L14 now checks that AKS local
+accounts are disabled, not only that Microsoft Entra integration is present;
+L15 remains unchanged and overlaps this check. It has not been deployed, and these
+source changes have changed no Azure resources.
+Removing/renaming Azure Policy parameters or changing their types is not supported
+in place. Assignment values for dropdowns must be quoted strings, not Booleans.
+For other deployments, use a fresh target or a
+separately reviewed migration to versioned policy/initiative definitions; do not
+apply directly over an existing 84- or 97-definition package. Deleting deployed
+definitions requires migration review. prevent_destroy and the
+deployment script's deletion guard are intentionally retained.
 
 State and provider files used by deploy.ps1 are stored under LOCALAPPDATA, not in
-the OneDrive-synced source folder. The provider lock file stays with source.
+the source folder. The runtime key includes both tenant and management-group name,
+so changing management groups cannot accidentally reuse another target's state.
+The provider lock file stays with source.
 Policy definitions and initiatives use Terraform AzAPI with stable ARM API
 2026-07-01; AzureRM is used only for the authentication-identity precondition.
 The AzureRM policy client calls a retired preview API and is not used for writes.
@@ -50,6 +85,16 @@ imports.tf can adopt already-existing package definitions into state through the
 existing_policy_imports variable (empty by default).
 
 AUTHENTICATION
-deploy.ps1 verifies the token principal and temporarily selects the provider
+deploy.ps1 verifies the requested user, tenant, enabled subscription, management
+group, effective write permissions and token principal. Permission checks use
+authenticated az rest calls without manually constructing authorization headers.
+The script temporarily selects the provider
 subscription for tenant-token acquisition. It restores the previous CLI subscription
 after the run. Tokens are held in memory only, never written into source or state.
+
+LOCAL VALIDATION
+  python validate.py
+  python -m unittest discover -s tests -p "test_policy*.py"
+  pwsh -NoProfile -File .\tests\deploy.tests.ps1
+  terraform -chdir=terraform test -no-color
+Run these commands from the repository root, not the terraform folder.

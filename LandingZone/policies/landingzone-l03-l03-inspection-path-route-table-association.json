@@ -2,7 +2,7 @@
   "name": "landingzone-l03-l03-inspection-path-route-table-association",
   "properties": {
     "displayName": "Subnets should have a User Defined Route",
-    "description": "This policy denies the creation of a subnet without a User Defined Route (UDR).",
+    "description": "Audits subnets without a User Defined Route (route table association). AzureBastionSubnet and RouteServerSubnet are excluded. Audit by default; Deny can be selected for enforcement. Enabled=true checks all matching in-scope resources; false skips the check.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -26,76 +26,25 @@
         ],
         "defaultValue": "Audit"
       },
-      "excludedSubnets": {
-        "type": "Array",
+      "enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "Excluded Subnets",
-          "description": "Array of subnet names that are excluded from this policy"
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "defaultValue": [
-          "AzureBastionSubnet",
-          "RouteServerSubnet"
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
         ]
-      },
-      "evaluationScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Explicit conditional resource applicability",
-          "description": "Required applicability decision: includedResourceIdPatterns must contain at least one approved ARM resource-ID pattern; excludedResourceIdPatterns must be supplied and may be empty. Each pattern is exact or uses at most one '*' wildcard, following Policy like semantics. No resource IDs or default scope are assumed. Patterns filter resources already within the assignment scope and never expand that scope."
-        },
-        "schema": {
-          "type": "object",
-          "properties": {
-            "includedResourceIdPatterns": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            },
-            "excludedResourceIdPatterns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^[^*]*(\\*[^*]*)?$"
-              }
-            }
-          },
-          "required": [
-            "includedResourceIdPatterns",
-            "excludedResourceIdPatterns"
-          ],
-          "additionalProperties": false
-        }
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
-            "count": {
-              "value": "[parameters('evaluationScope').includedResourceIdPatterns]",
-              "name": "evaluationScopeIncludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeIncludedPattern')]"
-              }
-            },
-            "greater": 0
-          },
-          {
-            "count": {
-              "value": "[parameters('evaluationScope').excludedResourceIdPatterns]",
-              "name": "evaluationScopeExcludedPattern",
-              "where": {
-                "field": "id",
-                "like": "[current('evaluationScopeExcludedPattern')]"
-              }
-            },
-            "equals": 0
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
           },
           {
             "anyOf": [
@@ -116,7 +65,10 @@
                           },
                           {
                             "field": "Microsoft.Network/virtualNetworks/subnets[*].name",
-                            "notIn": "[parameters('excludedSubnets')]"
+                            "notIn": [
+                              "AzureBastionSubnet",
+                              "RouteServerSubnet"
+                            ]
                           }
                         ]
                       }
@@ -133,7 +85,10 @@
                   },
                   {
                     "field": "name",
-                    "notIn": "[parameters('excludedSubnets')]"
+                    "notIn": [
+                      "AzureBastionSubnet",
+                      "RouteServerSubnet"
+                    ]
                   },
                   {
                     "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",

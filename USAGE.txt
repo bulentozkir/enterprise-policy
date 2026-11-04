@@ -1,7 +1,8 @@
 ALZ CUSTOM AUDIT SOURCE PACKAGES
 
-The Global, Hub and LandingZone folders cover the 91 recommendation rows authored
-for the three-sheet workbook. These files are source definitions, not assignments.
+The Global, Hub and LandingZone folders account for the 91 recommendation rows
+authored for the three-sheet workbook, through policies or documented coverage gaps.
+These files are source definitions, not assignments.
 Some recommendation rows require more than one resource-specific policy.
 
 CONTENTS OF EACH SET
@@ -16,14 +17,15 @@ SCOPE AND SAFETY
 The requested definition location is the ALZ intermediate root contoso. Create definitions where the
 assignment scopes can reference them. Global assignments are inherited by Hub and
 LandingZone. Child Audit does not override an inherited Deny. Hub Connectivity,
-Management and Identity controls have different target scopes; use their required
-target inputs or scoped assignments, not a blanket effect change.
+Management and Identity controls have different target scopes; use reviewed assignment
+scopes, exclusions and exemptions, not a blanket effect change.
 
 Default effects are Audit or AuditIfNotExists. Policies contain no governed-resource
 deployment, modification, append, role grant or remediation instructions. The ARM
-templates define policy resources only. The 97 Custom definitions (Global 39, Hub 15, LandingZone 43) and three
-initiatives are defined for contoso; no assignments or workload resources were created. Azure holds this exact
-revision (deployed 2026-11-03): 97 definitions, three initiatives, no differences from the package.
+templates define policy resources only. The source contains 75 Custom definitions
+(Global 23, Hub 12, LandingZone 40) and three initiatives defined for contoso.
+This revision has NOT been deployed to Azure. Historical verification of the
+previous 84- and 97-definition revisions does not validate these removals.
 Azure assigns Custom policyType when a definition is created. Standalone source
 files show Custom for clarity; request templates omit this read-only property.
 
@@ -39,12 +41,17 @@ Periodic assessment uses resource type and Windows/Linux OS-family fields only;
 there is no supported-image comparison profile to maintain as new releases arrive.
 OS-family matching does not certify Update Manager support for every appliance,
 custom image or client OS. Record approved unsupported/service-managed exceptions
-explicitly through excludedResourceIds, not OS release filters.
+through assignment exclusions or exemptions, not OS release filters.
 Kubernetes ConstraintTemplates are embedded as Base64Encoded content with readable
 copies in LandingZone\templates. No external version-pinned implementation URLs or
 template-URL assignment inputs are used. Structural template API versions remain.
-Kubernetes.Data selects clusters by a required existing tag name/value because that
-mode does not support ARM id field filters. Untagged clusters are not evaluated.
+Kubernetes.Data uses a default-true dropdown and evaluates matching clusters in the
+assignment scope, without ARM id filters or a tag selector. Existing system-namespace
+exclusions and empty namespace/label/container/image selectors are fixed rule values.
+The host-network/port policy retains its empty host-port allowlist (no allowed ports).
+All true/false choices default to "true", including Kubernetes warn,
+forcePrivilegeEscalationToBeFalse and allowHostNetwork.
+L13 therefore permits host networking by default, while host ports remain restricted.
 Required API/schema/content versions remain structural protocol information.
 Security thresholds such as minimum TLS are parameters with safe defaults; flexibility
 does not mean all protocol versions are compliant.
@@ -70,15 +77,71 @@ AuditIfNotExists for the initial rollout. No resource IDs or licensing eligibili
 were guessed. Run, substituting your actual definition-location MG name and paths:
   python render.py Global --management-group contoso --parameters YOUR_INPUTS.json --output RENDERED_DIRECTORY
 
-The renderer checks required types/allowed values and materializes concrete custom
-definition IDs. It also checks Object parameter schemas, including nonempty scope
-selections. It uses Python's jsonschema package (already
-present in the authoring environment). It makes no Azure calls or assignments.
+The renderer checks the simple-input contract, required types, allowed values and
+nonempty required selections, and materializes concrete custom definition IDs.
+It uses only the Python standard library and makes no Azure calls or assignments.
+Portal strongType metadata supplies picker choices; local validation does not prove
+that a selected resource exists or that the current identity can access it.
+
+SIMPLE INPUTS
+Prefer a supported Portal strongType picker or finite allowedValues dropdown.
+True/false inputs use type String, allowedValues ["true", "false"] and defaultValue
+"true". Rules use bool() so Kubernetes values and resource comparisons stay Boolean.
+No Boolean text boxes or free-form scalar String or Object inputs remain. Editable
+arrays are allowed when supplied with three replaceable default strings.
+R04/R05/R06 each default mandatoryTags to ["owner", "costcenter", "environment"].
+Replace these with your approved tag names, add entries, or shorten the list;
+at least one nonempty tag name is required. There is no fixed tag-name dropdown.
+TLS versions and Linux capabilities use fixed choices. Destination workspaces,
+DCRs and peer VNets use pickers.
+Target-resource/exception selectors are not exposed; use assignment exclusions or
+exemptions. Resource pickers remain only for necessary configuration references.
+
+Conditional enabled switches default to "true". "true" evaluates every matching
+resource in the assignment scope; "false" skips the check. Global r26_enabled is
+shared by the Windows VM and VMSS Hybrid Benefit checks. For example:
+  {"r26_enabled": {"value": "true"}}
+Use quoted JSON strings "true"/"false", not Boolean literals. This setting does not
+enable Hybrid Benefit on resources or establish license entitlement. Confirm
+eligibility throughout the scope before assigning; select "false" for ineligible
+scopes and exclude or exempt exceptions.
+R26 (Windows Server) and R27 (Windows client) need separate eligible scopes; do not
+enable their incompatible license requirements on the same Windows resources;
+both now default to "true", so disable the inapplicable check for each scope.
+
+H07 checks every Public IP's ddosSettings.protectionMode individually. Enabled
+passes with or without a DDoS plan; no approved-plan input is required. Disabled,
+inherited and unspecified modes are reported. Inherited virtual-network coverage
+requires separate verification; the policy does not infer it from a plan selection.
+
+R18/R20/R21/R23/R24/R25/R31/R32/R34/R35/R36 were removed by request, including
+all four R25 and all three R32 definitions and all associated initiative parameters
+and references. H11, H20 and L49 and all their parameters are also removed.
+There is no L49 remote-gateway text input or hub-selection requirement.
+R04/R05/R06
+remain as editable required-tag arrays. H17 custom DNS server addresses, L10
+host-path allowances and L11 UID/GID ranges remain excluded without an approved
+address/path/range catalog. Their manifest entries are explicit coverage gaps.
+R17 and R25E remain the two service limitations.
+
+L14 now audits AKS local authentication: disableLocalAccounts must be true.
+Microsoft Entra integration alone does not satisfy this check. The assignment
+label is "L14 - Azure Kubernetes Service Clusters should not use Local Authentication".
+L15 remains unchanged and overlaps this check; L14 no longer separately audits
+Microsoft Entra integration. These audit-only checks do not change credentials.
+
+This is a breaking parameter-contract change. Azure does not support removing
+existing policy-definition parameters or changing their types in place. Use fresh
+or versioned definitions and a separately reviewed migration. Do not
+apply directly over an existing 84- or 97-definition deployment. Deleting deployed
+definitions requires separate migration review; deletion/replacement safeguards
+are deliberately unchanged.
 
 ADOPTION
 Review each manifest limitation, source derivative, required parameter and target
 scope. In particular, SQL Hybrid Benefit checks are conditional on independently
-verified eligibility and exclude centrally managed licensing scopes. Private access,
+verified eligibility throughout the assignment scope and exclude centrally managed
+licensing scopes using assignment exclusions or exemptions. Private access,
 paid telemetry, Premium firewall and backup profiles are conditional design choices.
 Do not configure AKS-managed VMSS resources through unsupported Compute interfaces.
 
@@ -86,15 +149,19 @@ Local validation checks JSON/property schemas, references, parameter bindings,
 default effects and catalog-row coverage. It is not Azure service-side policy
 validation or a compliance evaluation. Before adoption, validate/import at an isolated
 ALZ test management group, test compliant/noncompliant fixtures and supported service
-APIs, and pilot assignment scope. The current revision's definitions and initiatives
-were accepted by Azure with live member counts matching source and no Terraform
-changes (see verification-report.json).
+APIs, and pilot assignment scope. Historical Azure acceptance belongs to the previous revision; this revision needs
+new service-side validation (see verification-report.json).
 No assignments or assigned-resource compliance evaluations have been performed.
+
+Run the local regression fixtures with:
+  python -m unittest discover -s tests -p "test_policy*.py"
 
 UPSTREAM SOURCES AND LICENSES
 Sources are recorded per definition in manifest.json. Source definitions came from
 Microsoft Azure policy, ALZ, Azure community-policy and AMBA public repositories,
 discovered through the four requested catalogs. Their MIT notices are in LICENSES.txt.
-The current upstream lifecycle inspection is in policy-lifecycle-report.json.
+The upstream lifecycle inspection in policy-lifecycle-report.json was rerun on
+2026-11-04 for the current 75-definition revision (59 public source documents,
+none retired or deprecated).
 No retired/deprecated source definitions are included. Active policies governing
 retired resource types are not themselves retired and remain in the catalog.

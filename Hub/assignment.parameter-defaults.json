@@ -1,5 +1,5 @@
 {
-  "description": "Defaults only; incomplete until all required-inputs.json values are supplied.",
+  "description": "Defaults only; supply all required picker/dropdown inputs. All true/false dropdowns default to the string true.",
   "parameters": {
     "h01_effect": {
       "value": "Audit"
@@ -7,17 +7,20 @@
     "h05_effect": {
       "value": "Audit"
     },
+    "h05_enabled": {
+      "value": "true"
+    },
     "h08_effect": {
       "value": "Audit"
+    },
+    "h08_enabled": {
+      "value": "true"
     },
     "h10_effect": {
       "value": "Audit"
     },
-    "h11_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "h11_resourceGroupName": {
-      "value": "NetworkWatcherRG"
+    "h10_enabled": {
+      "value": "true"
     },
     "h12_effect": {
       "value": "Audit"
@@ -25,35 +28,44 @@
     "h14_effect": {
       "value": "Audit"
     },
+    "h14_enabled": {
+      "value": "true"
+    },
     "h16_effect": {
       "value": "Audit"
     },
     "h16_allowedVnets": {
       "value": []
     },
-    "h17_effect": {
-      "value": "Audit"
+    "h16_enabled": {
+      "value": "true"
     },
     "h19_effect": {
       "value": "Audit"
     },
-    "h20_retentionInDays": {
-      "value": 179
-    },
-    "h20_effect": {
-      "value": "Audit"
+    "h19_enabled": {
+      "value": "true"
     },
     "h04_effect": {
       "value": "Audit"
     },
+    "h04_enabled": {
+      "value": "true"
+    },
     "h07_effect": {
       "value": "Audit"
     },
-    "h07_acceptVirtualNetworkInherited": {
-      "value": false
-    },
     "h21_effect": {
       "value": "Audit"
+    },
+    "h21_acceptedModes": {
+      "value": [
+        "Alert",
+        "Deny"
+      ]
+    },
+    "h21_enabled": {
+      "value": "true"
     },
     "h26_effect": {
       "value": "Audit"

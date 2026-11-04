@@ -1,13 +1,19 @@
 [CmdletBinding()]
 param(
+    [Parameter(Mandatory)][guid]$TenantId,
+    [Parameter(Mandatory)][guid]$SubscriptionId,
+    [Parameter(Mandatory)]
+    [ValidatePattern('^[A-Za-z0-9_.()-]{1,90}$')]
+    [string]$ManagementGroupName,
+    [Parameter(Mandatory)][ValidateNotNullOrEmpty()][string]$ExpectedUserPrincipalName,
     [switch]$Apply,
     [switch]$AcknowledgeCoverageGaps
 )
 
 $ErrorActionPreference = 'Stop'
-$tenant = 'd24284e3-1ea5-4285-9b96-4d53f671284b'
-$subscription = 'a0fdc749-441a-43a5-8297-29192ed42f79'
-$managementGroup = 'contoso'
+$tenant = $TenantId.ToString()
+$subscription = $SubscriptionId.ToString()
+$managementGroup = $ManagementGroupName
 $scope = "/providers/Microsoft.Management/managementGroups/$managementGroup"
 
 function Invoke-Native {
@@ -34,34 +40,49 @@ $coverageGaps = @(
     foreach ($set in 'Global', 'Hub', 'LandingZone') { $catalog.sets.$set.coverage_gaps }
 )
 if ($coverageGaps.Count -gt 0 -and -not $AcknowledgeCoverageGaps) {
-    throw 'Review the documented Key Vault ARM-only coverage and certificate-expiry omission; explicitly acknowledge these limitations.'
+    throw 'Review all coverage gaps in catalog.json, including controls removed because they require free-form inputs; pass -AcknowledgeCoverageGaps to accept them.'
 }
 
 $accountJson = & az account show --subscription $subscription --output json
 if ($LASTEXITCODE -ne 0) { throw 'Azure CLI authentication is required for the specified tenant.' }
 $account = $accountJson | ConvertFrom-Json
 if ($account.tenantId -ne $tenant) { throw 'The provider subscription belongs to a different tenant.' }
-
-$authenticationJson = & az account get-access-token --subscription $subscription --resource 'https://management.azure.com/' --output json
-if ($LASTEXITCODE -ne 0) { throw 'Unable to acquire the existing Azure CLI session for the target tenant.' }
-$authentication = $authenticationJson | ConvertFrom-Json
-$payload = $authentication.accessToken.Split('.')[1].Replace('-', '+').Replace('_', '/')
-$payload = $payload.PadRight($payload.Length + ((4 - $payload.Length % 4) % 4), '=')
-$claims = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($payload)) | ConvertFrom-Json
-if ($claims.tid -ne $tenant -or [string]::IsNullOrWhiteSpace($claims.oid)) {
-    throw 'The acquired ARM session does not match the target tenant or has no principal identity.'
+if ($account.id -ne $subscription -or $account.state -ne 'Enabled') {
+    throw 'The provider subscription is not the requested enabled subscription.'
 }
-$principalObjectId = $claims.oid
+if ($account.user.type -ne 'user' -or $account.user.name -ne $ExpectedUserPrincipalName) {
+    throw 'Azure CLI is not authenticated as the requested user. Sign in with the intended account before retrying.'
+}
+
+$group = Invoke-Native -Command az -Arguments @(
+    'account', 'management-group', 'show', '--name', $managementGroup, '--output', 'json'
+) | ConvertFrom-Json
+if ($group.id -ne $scope) { throw 'Azure returned a different management-group scope.' }
+
 try {
-    $permissions = Invoke-RestMethod -Method Get `
-        -Uri "https://management.azure.com$scope/providers/Microsoft.Authorization/permissions?api-version=2022-04-01" `
-        -Headers @{ Authorization = "Bearer $($authentication.accessToken)" }
+    $authenticationJson = Invoke-Native -Command az -Arguments @(
+        'account', 'get-access-token', '--subscription', $subscription,
+        '--resource', 'https://management.azure.com/', '--output', 'json'
+    )
+    $authentication = $authenticationJson | ConvertFrom-Json
+    $payload = $authentication.accessToken.Split('.')[1].Replace('-', '+').Replace('_', '/')
+    $payload = $payload.PadRight($payload.Length + ((4 - $payload.Length % 4) % 4), '=')
+    $claims = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($payload)) | ConvertFrom-Json
+    if ($claims.tid -ne $tenant -or [string]::IsNullOrWhiteSpace($claims.oid)) {
+        throw 'The acquired ARM session does not match the target tenant or has no principal identity.'
+    }
+    $principalObjectId = $claims.oid
 } finally {
     $authenticationJson = $null
     $authentication = $null
     $payload = $null
     $claims = $null
 }
+$permissions = Invoke-Native -Command az -Arguments @(
+    'rest', '--method', 'GET', '--url',
+    "https://management.azure.com$scope/providers/Microsoft.Authorization/permissions?api-version=2022-04-01",
+    '--output', 'json'
+) | ConvertFrom-Json
 if ($permissions.nextLink) {
     throw 'Effective permissions are paged; verify the complete permission set before proceeding.'
 }
@@ -78,8 +99,8 @@ foreach ($required in @(
     if (-not $permitted) { throw "Missing $required at $scope. No elevation or role changes will be attempted." }
 }
 
-# Keep Terraform state/provider files out of the OneDrive-synced source directory.
-$runtime = Join-Path $env:LOCALAPPDATA "MicrosoftScout\Terraform\ALZ-$tenant"
+# Isolate state by tenant and management group, outside the source directory.
+$runtime = Join-Path $env:LOCALAPPDATA "MicrosoftScout\Terraform\ALZ-$tenant-$managementGroup"
 New-Item -ItemType Directory -Path $runtime -Force | Out-Null
 $oldData = $env:TF_DATA_DIR
 $env:TF_DATA_DIR = Join-Path $runtime 'data'
@@ -127,7 +148,7 @@ try {
         Invoke-Native -Command terraform -Arguments @($terraformDirectory, 'apply', '-input=false', '-auto-approve', $planPath)
         Invoke-Native -Command terraform -Arguments @($terraformDirectory, 'output')
     } else {
-        Write-Output "Plan saved to $planPath. Use -Apply to create only the reviewed definitions and initiatives."
+        Write-Output "Plan saved to $planPath for $scope. Use the same target arguments with -Apply to deploy the reviewed definitions and initiatives."
     }
 } finally {
     $env:TF_DATA_DIR = $oldData

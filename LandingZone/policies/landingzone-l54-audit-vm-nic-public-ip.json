@@ -2,7 +2,7 @@
   "name": "landingzone-l54-audit-vm-nic-public-ip",
   "properties": {
     "displayName": "Audit public IP attachments to regular VM network interfaces",
-    "description": "Audits network interfaces with a public IP on any IP configuration, except explicitly approved appliance NICs. Application Gateway and Azure Firewall frontend IPs are not NIC resources and are unaffected. Audit is the default; Deny is available for a later approved rollout. Does not remove existing public IPs or cover VMSS instance public-IP configuration.",
+    "description": "Audits network interfaces with a public IP on any IP configuration, except assignment exclusions or exemptions. Application Gateway and Azure Firewall frontend IPs are not NIC resources and are unaffected. Audit is the default; Deny is available for a later approved rollout. Does not remove existing public IPs or cover VMSS instance public-IP configuration.",
     "policyType": "Custom",
     "mode": "Indexed",
     "metadata": {
@@ -25,14 +25,6 @@
           "Disabled"
         ],
         "defaultValue": "Audit"
-      },
-      "excludedNetworkInterfaceIds": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Approved appliance network interface IDs",
-          "description": "Explicit resource IDs of NIC-based network appliances allowed to use public IPs. No resource tags or names automatically grant an exception."
-        },
-        "defaultValue": []
       }
     },
     "policyRule": {
@@ -41,10 +33,6 @@
           {
             "field": "type",
             "equals": "Microsoft.Network/networkInterfaces"
-          },
-          {
-            "field": "id",
-            "notIn": "[parameters('excludedNetworkInterfaceIds')]"
           },
           {
             "not": {

@@ -2,7 +2,7 @@
   "name": "landingzone-l13-l13-restrict-host-networking-and-host-ports",
   "properties": {
     "displayName": "Kubernetes cluster pods should only use approved host network and port list",
-    "description": "Restrict pod access to the host network and the allowable host ports in a Kubernetes cluster. This recommendation is part of CIS 5.2.4 which is intended to improve the security of your Kubernetes environments and aligns with Pod Security Standards (PSS) for hostPorts. This policy is generally available for Kubernetes Service (AKS), and preview for Azure Arc enabled Kubernetes. For more information, see https://aka.ms/kubepolicydoc.",
+    "description": "Restrict pod access to the host network and the allowable host ports in a Kubernetes cluster. This recommendation is part of CIS 5.2.4 which is intended to improve the security of your Kubernetes environments and aligns with Pod Security Standards (PSS) for hostPorts. This policy is generally available for Kubernetes Service (AKS), and preview for Azure Arc enabled Kubernetes. For more information, see https://aka.ms/kubepolicydoc. Enabled=true checks all matching in-scope resources; false skips the check.",
     "policyType": "Custom",
     "mode": "Microsoft.Kubernetes.Data",
     "metadata": {
@@ -27,12 +27,16 @@
         ]
       },
       "warn": {
-        "type": "Boolean",
+        "type": "String",
         "metadata": {
           "displayName": "Warn",
-          "description": "Whether or not to return warnings back to the user in the kubectl cli"
+          "description": "Whether or not to return warnings back to the user in the kubectl cli Select true or false; defaults to true."
         },
-        "defaultValue": false
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       },
       "effect": {
         "type": "String",
@@ -47,150 +51,44 @@
         ],
         "defaultValue": "Audit"
       },
-      "excludedNamespaces": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Namespace exclusions",
-          "description": "List of Kubernetes namespaces to exclude from policy evaluation. System namespaces \"kube-system\", \"gatekeeper-system\" and \"azure-arc\" are always excluded by design. \"azure-extensions-usage-system\" is optional to remove."
-        },
-        "defaultValue": [
-          "kube-system",
-          "gatekeeper-system",
-          "azure-arc",
-          "azure-extensions-usage-system"
-        ]
-      },
-      "namespaces": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Namespace inclusions",
-          "description": "List of Kubernetes namespaces to only include in policy evaluation. An empty list means the policy is applied to all resources in all namespaces."
-        },
-        "defaultValue": []
-      },
-      "labelSelector": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Kubernetes label selector",
-          "description": "Label query to select Kubernetes resources for policy evaluation. An empty label selector matches all Kubernetes resources."
-        },
-        "defaultValue": {},
-        "schema": {
-          "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all resources.",
-          "type": "object",
-          "properties": {
-            "matchLabels": {
-              "description": "matchLabels is a map of {key,value} pairs.",
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              },
-              "minProperties": 1
-            },
-            "matchExpressions": {
-              "description": "matchExpressions is a list of values, a key, and an operator.",
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "key": {
-                    "description": "key is the label key that the selector applies to.",
-                    "type": "string"
-                  },
-                  "operator": {
-                    "description": "operator represents a key's relationship to a set of values.",
-                    "type": "string",
-                    "enum": [
-                      "In",
-                      "NotIn",
-                      "Exists",
-                      "DoesNotExist"
-                    ]
-                  },
-                  "values": {
-                    "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "required": [
-                  "key",
-                  "operator"
-                ],
-                "additionalProperties": false
-              },
-              "minItems": 1
-            }
-          },
-          "additionalProperties": false
-        }
-      },
       "allowHostNetwork": {
-        "type": "Boolean",
+        "type": "String",
         "metadata": {
           "displayName": "Allow host network usage",
-          "description": "Set this value to true if pod is allowed to use host network otherwise false."
+          "description": "Set this value to true if pod is allowed to use host network otherwise false. Select true or false; defaults to true."
         },
-        "defaultValue": false
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       },
-      "allowedHostPorts": {
-        "type": "Array",
+      "enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "Allowed host ports list",
-          "description": "The list of specific host ports that pods are allowed to use in the host network namespace. Can include individual ports (e.g., '80') or port ranges (e.g., '3000-5000'). Empty list means no host ports are allowed. Note that port 0 is not allowed according to Pod Security Standards."
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
         },
-        "defaultValue": []
-      },
-      "excludedImages": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Image exclusions",
-          "description": "The list of InitContainers and Containers to exclude from policy evaluation. The identifier is the image of container. Prefix-matching can be signified with `*`. For example: `myregistry.azurecr.io/istio:*`. It is recommended that users use the fully-qualified Docker image name (e.g. start with a domain name) in order to avoid unexpectedly exempting images from an untrusted repository."
-        },
-        "defaultValue": []
-      },
-      "clusterScope": {
-        "type": "Object",
-        "metadata": {
-          "displayName": "Approved cluster tag selector",
-          "description": "Select clusters by an existing approved tag. Kubernetes.Data does not permit ARM id field conditions. Assignment scope and namespace/label selectors apply as well. This policy does not create the tag."
-        },
-        "schema": {
-          "type": "object",
-          "required": [
-            "tagName",
-            "tagValue"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "tagName": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "^[^\\[\\]']+$"
-            },
-            "tagValue": {
-              "type": "string",
-              "minLength": 1
-            }
-          }
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
+          },
+          {
             "field": "type",
             "in": [
               "Microsoft.Kubernetes/connectedClusters",
               "Microsoft.ContainerService/managedClusters"
             ]
-          },
-          {
-            "field": "[concat('tags[', parameters('clusterScope').tagName, ']')]",
-            "equals": "[parameters('clusterScope').tagValue]"
           }
         ]
       },
@@ -198,7 +96,7 @@
         "effect": "[parameters('effect')]",
         "details": {
           "source": "[parameters('source')]",
-          "warn": "[parameters('warn')]",
+          "warn": "[bool(parameters('warn'))]",
           "templateInfo": {
             "sourceType": "Base64Encoded",
             "content": "YXBpVmVyc2lvbjogdGVtcGxhdGVzLmdhdGVrZWVwZXIuc2gvdjFiZXRhMQ0Ka2luZDogQ29uc3RyYWludFRlbXBsYXRlDQptZXRhZGF0YToNCiAgbmFtZTogazhzYXp1cmV2NWhvc3RuZXR3b3JraW5ncG9ydHMNCnNwZWM6DQogIGNyZDoNCiAgICBzcGVjOg0KICAgICAgbmFtZXM6DQogICAgICAgIGtpbmQ6IEs4c0F6dXJlVjVIb3N0TmV0d29ya2luZ1BvcnRzDQogICAgICB2YWxpZGF0aW9uOg0KICAgICAgICAjIFNjaGVtYSBmb3IgdGhlIGBwYXJhbWV0ZXJzYCBmaWVsZA0KICAgICAgICBvcGVuQVBJVjNTY2hlbWE6DQogICAgICAgICAgcHJvcGVydGllczoNCiAgICAgICAgICAgIGFsbG93SG9zdE5ldHdvcms6DQogICAgICAgICAgICAgIHR5cGU6IGJvb2xlYW4NCiAgICAgICAgICAgIGFsbG93ZWRIb3N0UG9ydHM6DQogICAgICAgICAgICAgIHR5cGU6IGFycmF5DQogICAgICAgICAgICAgIGl0ZW1zOg0KICAgICAgICAgICAgICAgIHR5cGU6IHN0cmluZw0KICAgICAgICAgICAgZXhjbHVkZWRJbWFnZXM6DQogICAgICAgICAgICAgIGRlc2NyaXB0aW9uOiA+LQ0KICAgICAgICAgICAgICAgIEFueSBjb250YWluZXIgdGhhdCB1c2VzIGFuIGltYWdlIHRoYXQgbWF0Y2hlcyBhbiBlbnRyeSBpbiB0aGlzIGxpc3Qgd2lsbCBiZSBleGNsdWRlZA0KICAgICAgICAgICAgICAgIGZyb20gZW5mb3JjZW1lbnQuIFByZWZpeC1tYXRjaGluZyBjYW4gYmUgc2lnbmlmaWVkIHdpdGggYCpgLiBGb3IgZXhhbXBsZTogYG15LWltYWdlLSpgLg0KICAgICAgICAgICAgICAgIEl0IGlzIHJlY29tbWVuZGVkIHRoYXQgdXNlcnMgdXNlIHRoZSBmdWxseS1xdWFsaWZpZWQgRG9ja2VyIGltYWdlIG5hbWUgKGUuZy4gc3RhcnQgd2l0aCBhIGRvbWFpbiBuYW1lKQ0KICAgICAgICAgICAgICAgIGluIG9yZGVyIHRvIGF2b2lkIHVuZXhwZWN0ZWRseSBleGNsdWRpbmcgaW1hZ2VzIGZyb20gYW4gdW50cnVzdGVkIHJlcG9zaXRvcnkuDQogICAgICAgICAgICAgIHR5cGU6IGFycmF5DQogICAgICAgICAgICAgIGl0ZW1zOg0KICAgICAgICAgICAgICAgIHR5cGU6IHN0cmluZw0KICB0YXJnZXRzOg0KICAgIC0gdGFyZ2V0OiBhZG1pc3Npb24uazhzLmdhdGVrZWVwZXIuc2gNCiAgICAgIHJlZ286IHwNCiAgICAgICAgcGFja2FnZSBrOHNhenVyZXY1aG9zdG5ldHdvcmtpbmdwb3J0cw0KDQogICAgICAgIGRlZmF1bHQgVkFMSURfUE9SVF9SQU5HRSA9ICJbMC05XSstWzAtOV0rIg0KDQogICAgICAgIGltcG9ydCBkYXRhLmxpYi5leGNsdWRlX2NvbnRhaW5lcl9pbWFnZS5pc19leGNsdWRlZA0KDQogICAgICAgIHZpb2xhdGlvblt7Im1zZyI6IG1zZywgImRldGFpbHMiOiB7fX1dIHsNCiAgICAgICAgICAgIGNvbnRhaW5lciA6PSBpbnB1dF9jb250YWluZXJzW19dDQogICAgICAgICAgICBub3QgaXNfZXhjbHVkZWQoY29udGFpbmVyKQ0KICAgICAgICAgICAgaW5wdXRfc2hhcmVfaG9zdG5ldHdvcmsoY29udGFpbmVyKQ0KICAgICAgICAgICAgbXNnIDo9IHNwcmludGYoIlRoZSBzcGVjaWZpZWQgaG9zdE5ldHdvcmsgYW5kIGhvc3RQb3J0IGFyZSBub3QgYWxsb3dlZCwgcG9kOiAldiwgY29udGFpbmVyOiAldi4gQWxsb3dlZCB2YWx1ZXM6ICV2LiBGb3IgbW9yZSBpbmZvcm1hdGlvbiwgdmlzaXQgaHR0cHM6Ly9ha2EubXMvYWtzL2RlcGxveW1lbnQtc2FmZWd1YXJkcyIsIFtpbnB1dC5yZXZpZXcub2JqZWN0Lm1ldGFkYXRhLm5hbWUsIGNvbnRhaW5lci5uYW1lLCBpbnB1dC5wYXJhbWV0ZXJzXSkNCiAgICAgICAgfQ0KDQogICAgICAgICMgaG9zdE5ldHdvcmsgaXMgYSBMaW51eCBwb2QgY29uY2VwdCB0aGF0IGlzIG5vdCBhcHBsaWNhYmxlIHRvIFdpbmRvd3MgcG9kcywNCiAgICAgICAgIyBzbyB0aGUgaG9zdE5ldHdvcmsgY2hlY2sgaXMgb25seSBlbmZvcmNlZCBmb3Igbm9uLVdpbmRvd3MgcG9kcy4NCiAgICAgICAgaW5wdXRfc2hhcmVfaG9zdG5ldHdvcmsoXykgew0KICAgICAgICAgICAgbm90IGlucHV0LnBhcmFtZXRlcnMuYWxsb3dIb3N0TmV0d29yaw0KICAgICAgICAgICAgbm90IGlucHV0LnJldmlldy5vYmplY3Quc3BlYy5ub2RlU2VsZWN0b3JbImt1YmVybmV0ZXMuaW8vb3MiXSA9PSAid2luZG93cyINCiAgICAgICAgICAgIGlucHV0LnJldmlldy5vYmplY3Quc3BlYy5ob3N0TmV0d29yaw0KICAgICAgICB9DQoNCiAgICAgICAgIyBob3N0UG9ydCBpcyBob25vcmVkIG9uIFdpbmRvd3Mgbm9kZXMgdGhyb3VnaCBITlMgcG9ydCBtYXBwaW5nLCBzbyB0aGUNCiAgICAgICAgIyBob3N0UG9ydCBjaGVjayBtdXN0IGJlIGVuZm9yY2VkIGZvciBldmVyeSBwb2QgcmVnYXJkbGVzcyBvZiB0aGUgT1Mgbm9kZQ0KICAgICAgICAjIHNlbGVjdG9yLiBUaGUgY2FsbGVyLWNvbnRyb2xsZWQgbm9kZVNlbGVjdG9yIG11c3Qgbm90IHNraXAgdGhpcyBjaGVjay4NCiAgICAgICAgaW5wdXRfc2hhcmVfaG9zdG5ldHdvcmsoY29udGFpbmVyKSB7DQogICAgICAgICAgICBob3N0UG9ydCA6PSBjb250YWluZXIucG9ydHNbX10uaG9zdFBvcnQNCiAgICAgICAgICAgIG5vdCBhbGxvd2VkX2hvc3RfcG9ydChob3N0UG9ydCkNCiAgICAgICAgfQ0KDQogICAgICAgICMgUG9ydCBtdXN0IGJlIGluIHRoZSBhbGxvd2VkIGxpc3Qgb3Igd2l0aGluIGFuIGFsbG93ZWQgcmFuZ2UNCiAgICAgICAgYWxsb3dlZF9ob3N0X3BvcnQocG9ydCkgew0KICAgICAgICAgICAgcG9ydCAhPSAwICAjIFBvcnQgMCBpcyBub3QgYWxsb3dlZCBhY2NvcmRpbmcgdG8gUG9kIFNlY3VyaXR5IFN0YW5kYXJkcw0KICAgICAgICAgICAgZm9ybWF0X2ludChwb3J0LCAxMCwgcG9ydHN0cikNCiAgICAgICAgICAgIGFsbG93ZWRQb3J0IDo9IGlucHV0LnBhcmFtZXRlcnMuYWxsb3dlZEhvc3RQb3J0c1tfXQ0KICAgICAgICAgICAgd2l0aGluX3BvcnRfcmFuZ2UocG9ydHN0ciwgYWxsb3dlZFBvcnQpDQogICAgICAgIH0NCg0KICAgICAgICAjIENoZWNrIGlmIHBvcnQgaXMgd2l0aGluIGEgcmFuZ2UgbGlrZSAiMTAwMC0yMDAwIg0KICAgICAgICB3aXRoaW5fcG9ydF9yYW5nZShwb3J0c3RyLCBhbGxvd2VkUG9ydCkgew0KICAgICAgICAgICAgcmVnZXgubWF0Y2goVkFMSURfUE9SVF9SQU5HRSwgYWxsb3dlZFBvcnQpDQogICAgICAgICAgICBhbGxvd2VkUG9ydFJhbmdlIDo9IHNwbGl0KGFsbG93ZWRQb3J0LCAiLSIpDQogICAgICAgICAgICB0b19udW1iZXIocG9ydHN0cikgPj0gdG9fbnVtYmVyKGFsbG93ZWRQb3J0UmFuZ2VbMF0pDQogICAgICAgICAgICB0b19udW1iZXIocG9ydHN0cikgPD0gdG9fbnVtYmVyKGFsbG93ZWRQb3J0UmFuZ2VbMV0pDQogICAgICAgIH0NCg0KICAgICAgICAjIENoZWNrIGlmIHBvcnQgbWF0Y2hlcyBleGFjdGx5IChmb3IgaW5kaXZpZHVhbCBwb3J0cykNCiAgICAgICAgd2l0aGluX3BvcnRfcmFuZ2UocG9ydHN0ciwgYWxsb3dlZFBvcnQpIHsNCiAgICAgICAgICAgIG5vdCByZWdleC5tYXRjaChWQUxJRF9QT1JUX1JBTkdFLCBhbGxvd2VkUG9ydCkNCiAgICAgICAgICAgIHBvcnRzdHIgPT0gYWxsb3dlZFBvcnQNCiAgICAgICAgfQ0KDQogICAgICAgIGlucHV0X2NvbnRhaW5lcnNbY10gew0KICAgICAgICAgICAgYyA6PSBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMuY29udGFpbmVyc1tfXQ0KICAgICAgICB9DQoNCiAgICAgICAgaW5wdXRfY29udGFpbmVyc1tjXSB7DQogICAgICAgICAgICBjIDo9IGlucHV0LnJldmlldy5vYmplY3Quc3BlYy5pbml0Q29udGFpbmVyc1tfXQ0KICAgICAgICB9DQoNCiAgICAgICAgaW5wdXRfY29udGFpbmVyc1tjXSB7DQogICAgICAgICAgYyA6PSBpbnB1dC5yZXZpZXcub2JqZWN0LnNwZWMuZXBoZW1lcmFsQ29udGFpbmVyc1tfXQ0KICAgICAgICB9DQogICAgICBsaWJzOg0KICAgICAgICAtIHwNCiAgICAgICAgICBwYWNrYWdlIGxpYi5leGNsdWRlX2NvbnRhaW5lcl9pbWFnZQ0KICAgICAgICAgIGlzX2V4Y2x1ZGVkKGNvbnRhaW5lcikgew0KICAgICAgICAgICAgICBleGNsdWRlX2ltYWdlcyA6PSBvYmplY3QuZ2V0KG9iamVjdC5nZXQoaW5wdXQsICJwYXJhbWV0ZXJzIiwge30pLCAiZXhjbHVkZWRJbWFnZXMiLCBbXSkNCiAgICAgICAgICAgICAgaW1nIDo9IGNvbnRhaW5lci5pbWFnZQ0KICAgICAgICAgICAgICBleGNsdXNpb24gOj0gZXhjbHVkZV9pbWFnZXNbX10NCiAgICAgICAgICAgICAgX21hdGNoZXNfZXhjbHVzaW9uKGltZywgZXhjbHVzaW9uKQ0KICAgICAgICAgIH0NCiAgICAgICAgICBfbWF0Y2hlc19leGNsdXNpb24oaW1nLCBleGNsdXNpb24pIHsNCiAgICAgICAgICAgICAgbm90IGVuZHN3aXRoKGV4Y2x1c2lvbiwgIioiKQ0KICAgICAgICAgICAgICBleGNsdXNpb24gPT0gaW1nDQogICAgICAgICAgfQ0KICAgICAgICAgIF9tYXRjaGVzX2V4Y2x1c2lvbihpbWcsIGV4Y2x1c2lvbikgew0KICAgICAgICAgICAgICBlbmRzd2l0aChleGNsdXNpb24sICIqIikNCiAgICAgICAgICAgICAgcHJlZml4IDo9IHRyaW1fc3VmZml4KGV4Y2x1c2lvbiwgIioiKQ0KICAgICAgICAgICAgICBzdGFydHN3aXRoKGltZywgcHJlZml4KQ0KICAgICAgICAgIH0="
@@ -209,13 +107,18 @@
           "kinds": [
             "Pod"
           ],
-          "excludedNamespaces": "[parameters('excludedNamespaces')]",
-          "namespaces": "[parameters('namespaces')]",
-          "labelSelector": "[parameters('labelSelector')]",
+          "excludedNamespaces": [
+            "kube-system",
+            "gatekeeper-system",
+            "azure-arc",
+            "azure-extensions-usage-system"
+          ],
+          "namespaces": [],
+          "labelSelector": {},
           "values": {
-            "allowHostNetwork": "[parameters('allowHostNetwork')]",
-            "allowedHostPorts": "[parameters('allowedHostPorts')]",
-            "excludedImages": "[parameters('excludedImages')]"
+            "allowHostNetwork": "[bool(parameters('allowHostNetwork'))]",
+            "allowedHostPorts": [],
+            "excludedImages": []
           }
         }
       }

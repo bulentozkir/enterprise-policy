@@ -1,0 +1,67 @@
+{
+  "name": "landingzone-l14-aks-local-authentication-disabled",
+  "properties": {
+    "displayName": "Azure Kubernetes Service Clusters should not use Local Authentication",
+    "description": "Audits AKS clusters unless local accounts are disabled (disableLocalAccounts=true). Microsoft Entra ID integration alone does not disable local authentication. Read-only; does not change cluster authentication, credentials or RBAC. Enabled=true checks all matching in-scope resources; false skips the check.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
+      "category": "Kubernetes",
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AKS_DisableLocalAccounts_Deny.json",
+      "sourcePolicyId": "/providers/Microsoft.Authorization/policyDefinitions/993c2fcd-2b29-49d2-9eb0-df2c3a730c32",
+      "catalogRow": "L14",
+      "packageSet": "LandingZone"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Start in audit mode. Only effects supported by the source definition are available."
+        }
+      },
+      "enabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
+        },
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
+          },
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.ContainerService/managedClusters"
+              },
+              {
+                "field": "Microsoft.ContainerService/managedClusters/disableLocalAccounts",
+                "notEquals": true
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

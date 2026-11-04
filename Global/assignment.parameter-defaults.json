@@ -1,5 +1,5 @@
 {
-  "description": "Defaults only; incomplete until all required-inputs.json values are supplied.",
+  "description": "Defaults only; supply all required picker/dropdown inputs. All true/false dropdowns default to the string true.",
   "parameters": {
     "r01_effect": {
       "value": "Audit"
@@ -16,7 +16,8 @@
     "r04_mandatoryTags": {
       "value": [
         "owner",
-        "costcenter"
+        "costcenter",
+        "environment"
       ]
     },
     "r05_effect": {
@@ -25,7 +26,8 @@
     "r05_mandatoryTags": {
       "value": [
         "owner",
-        "costcenter"
+        "costcenter",
+        "environment"
       ]
     },
     "r06_effect": {
@@ -34,7 +36,8 @@
     "r06_mandatoryTags": {
       "value": [
         "owner",
-        "costcenter"
+        "costcenter",
+        "environment"
       ]
     },
     "r08_effect": {
@@ -58,29 +61,23 @@
     "r13_effect": {
       "value": "Audit"
     },
-    "r18_effect": {
-      "value": "AuditIfNotExists"
-    },
     "r19_effect": {
       "value": "AuditIfNotExists"
     },
-    "r20_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "r21_effect": {
-      "value": "AuditIfNotExists"
+    "r19_enabled": {
+      "value": "true"
     },
     "r22_effect": {
       "value": "AuditIfNotExists"
     },
-    "r23_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "r24_effect": {
-      "value": "AuditIfNotExists"
+    "r22_enabled": {
+      "value": "true"
     },
     "r26_effect": {
       "value": "Audit"
+    },
+    "r26_enabled": {
+      "value": "true"
     },
     "r26_effect_fd2ae87": {
       "value": "Audit"
@@ -88,56 +85,38 @@
     "r27_effect": {
       "value": "Audit"
     },
+    "r27_enabled": {
+      "value": "true"
+    },
     "r27_effect_0ee5d7b": {
       "value": "Audit"
     },
     "r28_effect": {
       "value": "Audit"
     },
+    "r28_enabled": {
+      "value": "true"
+    },
     "r29_effect": {
       "value": "Audit"
+    },
+    "r29_enabled": {
+      "value": "true"
     },
     "r30_effect": {
       "value": "Audit"
     },
+    "r30_enabled": {
+      "value": "true"
+    },
     "r30_effect_0e94e3a": {
       "value": "Audit"
-    },
-    "r31_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "r32_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "r32_effect_1e65079": {
-      "value": "AuditIfNotExists"
-    },
-    "r32_effect_bd12d9a": {
-      "value": "AuditIfNotExists"
     },
     "r33_effect": {
       "value": "AuditIfNotExists"
     },
-    "r34_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "r35_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "r36_effect": {
-      "value": "Audit"
-    },
-    "r25_effect": {
-      "value": "AuditIfNotExists"
-    },
-    "r25_effect_1ed4de2": {
-      "value": "AuditIfNotExists"
-    },
-    "r25_effect_6730d27": {
-      "value": "AuditIfNotExists"
-    },
-    "r25_effect_c3c3bc1": {
-      "value": "AuditIfNotExists"
+    "r33_enabled": {
+      "value": "true"
     }
   }
 }

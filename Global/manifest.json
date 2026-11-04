@@ -1,10 +1,10 @@
 {
   "set": "Global",
   "catalogRows": 33,
-  "customDefinitions": 39,
-  "publishableDefinitions": 39,
+  "customDefinitions": 23,
+  "publishableDefinitions": 23,
   "referenceOnlyDefinitions": 0,
-  "initiativeParameters": 74,
+  "initiativeParameters": 39,
   "coverageGaps": [
     {
       "set": "Global",
@@ -19,6 +19,132 @@
       "control": "Service Health alert readiness \u2014 Billing updates",
       "reason": "Billing-type Service Health notifications are not recorded in the Azure subscription Activity Log (category=ServiceHealth); Microsoft's documentation states these notifications are visible only in the Azure Service Health portal/API, not the activity log. Because Microsoft.Insights/ActivityLogAlerts conditions evaluate activity-log events, there is no alias or data path by which a non-mutating Audit/AuditIfNotExists custom policy can verify a Billing-updates alert rule. Use Azure Service Health's native monitoring/notification configuration for this category instead of a custom Azure Policy audit.",
       "source": "https://learn.microsoft.com/azure/service-health/service-health-notifications-properties"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R18",
+      "control": "An activity log alert should exist for specific Administrative operations",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r18-r18-administrative-operation-alerts"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ActivityLog_AdministrativeOperations_Audit.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R20",
+      "control": "Microsoft Defender for Containers should be enabled",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r20-r20-defender-for-containers-coverage"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedThreatProtectionOnContainers_Audit.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R21",
+      "control": "Microsoft Defender for Storage should be enabled",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r21-r21-defender-for-storage-coverage"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_Microsoft_Defender_For_Storage_Full_Audit.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R23",
+      "control": "Azure Defender for Azure SQL Database servers should be enabled",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r23-r23-defender-for-azure-sql-coverage"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedDataSecurityOnSqlServers_Audit.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R31",
+      "control": "Check resource audit logs and approved Log Analytics destination",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r31-resource-diagnostic-destination"
+      ],
+      "source": "https://github.com/Azure/Community-Policy/tree/master/policyDefinitions/Storage/audit-diagnostic-setting-for-selected-resource-types"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R32",
+      "control": "Check approved Azure Monitor Agent on virtualMachines",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r32-ama-virtualmachines",
+        "global-r32-ama-virtualmachinescalesets",
+        "global-r32-ama-machines"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_VM_DINE.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R35",
+      "control": "Audit subscriptions have budget alert rules defined",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r35-subscription-budget-alert-rules"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Budget.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R36",
+      "control": "Audit resource tag consistency against a nonempty resource-group tag",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r36-resource-parent-tag-consistency"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Tags/InheritTag_Add_Modify.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R24",
+      "control": "Subscription activity log export",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r24-subscription-activity-log-export"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/DataConnectorsAzureActivity.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R25",
+      "control": "Service Health alert readiness",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r25-service-health-alert-service-issues",
+        "global-r25-service-health-alert-planned-maintenance",
+        "global-r25-service-health-alert-health-advisories",
+        "global-r25-service-health-alert-security-advisories"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R34",
+      "control": "Check the approved Defender for Endpoint subscription integration setting",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r34-defender-endpoint-integration"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_MDE_WDATP_DINE.json"
     }
   ],
   "policies": [
@@ -83,7 +209,7 @@
       "name": "global-r01-r01-approved-resource-regions",
       "file": "policies/global-r01-r01-approved-resource-regions.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "cbc9d121896b50895bace12423513f905afdbeff32a51b697ca7b9ddb3429136",
+      "customDefinitionSha256": "a58ec4de369782f02a9defe3deccfefe88ef82a925dfbeb2c31227f259faf8ff",
       "requiredParameters": [
         "listOfAllowedLocations"
       ]
@@ -149,7 +275,7 @@
       "name": "global-r02-r02-approved-resource-group-regions",
       "file": "policies/global-r02-r02-approved-resource-group-regions.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "e81880607a2bb1c48c92666419a5da9db0f724545623c6835abadc3925ea8ba9",
+      "customDefinitionSha256": "969fc7326dd516b58339493fe794269dea086472032ea71b805d1a8d0333005c",
       "requiredParameters": [
         "listOfAllowedLocations"
       ]
@@ -215,7 +341,7 @@
       "name": "global-r03-r03-unapproved-or-retired-resource-types",
       "file": "policies/global-r03-r03-unapproved-or-retired-resource-types.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "7ccfff2eb860c14171e55a6a2021df695acd5c99df6e89db091d1e1220ae38af",
+      "customDefinitionSha256": "72667f11fc5c5b0dac73fc0aa42d48bcbbf168f013ce415e9e70705921c30b16",
       "requiredParameters": [
         "listOfResourceTypesNotAllowed"
       ]
@@ -304,6 +430,11 @@
           "reason": "Canonical source-supported effects and catalog audit-first default.",
           "category": "effect-normalization",
           "parameterName": "effect"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
         }
       ],
       "catalogName": "Audit for mandatory tags on resources",
@@ -311,7 +442,7 @@
       "name": "global-r04-r04-required-resource-tags",
       "file": "policies/global-r04-r04-required-resource-tags.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "fba975530857b2a561dafdedb392930e3ec01cc9f1779da6b92206c0bc8d2fb5",
+      "customDefinitionSha256": "96adea510b00518cec8b3ec3445ecb3949fa8e84062a65d220c9252411057d86",
       "requiredParameters": []
     },
     {
@@ -413,6 +544,16 @@
           "reason": "Canonical source-supported effects and catalog audit-first default.",
           "category": "effect-normalization",
           "parameterName": "effect"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/policyRule",
+          "reason": "Guard resourceGroup().tags lookups with if(contains(...)) in a value expression; Azure disallows current() in field accessors and property access on field() results.",
+          "category": "functional-review"
         }
       ],
       "catalogName": "Audit for mandatory tags on resource groups",
@@ -420,7 +561,7 @@
       "name": "global-r05-r05-required-resource-group-tags",
       "file": "policies/global-r05-r05-required-resource-group-tags.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "2b6a592b41a9d074a4867323479a13e822766afb870b39963e471113c68294b8",
+      "customDefinitionSha256": "708cd3347eff0758e396265a67f9e562a04cf759a8964bf6356c63426ac84809",
       "requiredParameters": []
     },
     {
@@ -462,6 +603,11 @@
           "path": "/properties",
           "reason": "User-requested redesign: replaced the single-tag-with-allowed-values logic (tagName/allowedTagValues/evaluationScope) with the mandatory-tags presence pattern (mandatoryTags array), matching R04/R05. Renamed the definition identity because Azure Policy does not permit removing parameters from an existing custom definition; the prior definition is retired rather than mutated in place.",
           "category": "user-requested-redesign"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
         }
       ],
       "catalogName": "Audit mandatory tags on Subscriptions",
@@ -469,7 +615,7 @@
       "name": "global-r06-r06-audit-mandatory-tags-subscriptions",
       "file": "policies/global-r06-r06-audit-mandatory-tags-subscriptions.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "bdad1737b78080b6d9dbeccdc4b7172356f93130fbbab01f643572c9d660e269",
+      "customDefinitionSha256": "2508b4ebcdf75dd523eb30b2d60345b30d01608b33de7b0f927a970fff828b28",
       "requiredParameters": []
     },
     {
@@ -539,7 +685,7 @@
       "name": "global-r08-r08-storage-secure-transfer",
       "file": "policies/global-r08-r08-storage-secure-transfer.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "2505ec7798a8137a499edc72664f62b7a296bf437d5e449afefad6af33fdf191",
+      "customDefinitionSha256": "91620c179c021a683142be135178f8999b74a77552e53d5a1b05b7a870f8065a",
       "requiredParameters": []
     },
     {
@@ -597,6 +743,11 @@
           "reason": "Canonical source-supported effects and catalog audit-first default.",
           "category": "effect-normalization",
           "parameterName": "effect"
+        },
+        {
+          "path": "/policyRule",
+          "reason": "Compare the configured TLS version with the selected minimum using ordered comparison, accepting stronger supported versions.",
+          "category": "functional-review"
         }
       ],
       "catalogName": "Storage accounts should have the specified minimum TLS version",
@@ -604,7 +755,7 @@
       "name": "global-r09-r09-storage-minimum-tls",
       "file": "policies/global-r09-r09-storage-minimum-tls.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "c48309dca756be1e8ea35428d9fad7b431913d213516b844fb15464def4cad55",
+      "customDefinitionSha256": "ecf67b961786fd6958dbc9238ce0dd1354763f91868e7ed32c98d4a5a860a4d1",
       "requiredParameters": []
     },
     {
@@ -641,7 +792,7 @@
       "name": "global-r10-r10-storage-trusted-services-access",
       "file": "policies/global-r10-r10-storage-trusted-services-access.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "99eae9cfeba47843f9aa86afa4975b168c7f9942fc7aeaee122fec4611233656",
+      "customDefinitionSha256": "c1319cb0692444536583bfb88a7473a88fe6790da069d6abf4e4e72ede7c44f5",
       "requiredParameters": []
     },
     {
@@ -705,7 +856,7 @@
       "name": "global-r11-r11-key-vault-soft-delete",
       "file": "policies/global-r11-r11-key-vault-soft-delete.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "4a7da42cfe8cd4a8e039ce46cf7d497d22c34813430757e0cd25dfb3111fff32",
+      "customDefinitionSha256": "30947e5003a0d2bf68051025616d52f70a47eebfe2530faed746d204ea1207b0",
       "requiredParameters": []
     },
     {
@@ -775,7 +926,7 @@
       "name": "global-r12-r12-key-vault-purge-protection",
       "file": "policies/global-r12-r12-key-vault-purge-protection.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "0555ef2012b2551332a115f9f43549e52d65bb96c2b06b59a202903b03857d60",
+      "customDefinitionSha256": "08788abb0e38871f644aabea0f156253159a529758bd803d243047c94481bf5c",
       "requiredParameters": []
     },
     {
@@ -839,81 +990,8 @@
       "name": "global-r13-r13-key-vault-rbac-authorization",
       "file": "policies/global-r13-r13-key-vault-rbac-authorization.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "2fae020a63c5e35d5bc23bd65a9ddb21c9580fbea26bea40db6e399d184022cc",
+      "customDefinitionSha256": "b3c476dd97bdbbb366db68e37f4830e9f5c01df307e231c789128e318a30b285",
       "requiredParameters": []
-    },
-    {
-      "set": "Global",
-      "rowKey": "R18",
-      "key": "r18-administrative-operation-alerts",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ActivityLog_AdministrativeOperations_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/b954148f-4c11-4c38-8221-be76711e194a",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
-        "caveats": "Checks alert configuration, not delivery, action-group routing or notification receipt. Allowed operations are limited to the definition's SQL firewall and NSG operations; it does not cover arbitrary policy-assignment changes. This does not create alert rules."
-      },
-      "limitations": [
-        "Checks alert configuration, not delivery, action-group routing or notification receipt. Allowed operations are limited to the definition's SQL firewall and NSG operations; it does not cover arbitrary policy-assignment changes. This does not create alert rules.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "An activity log alert should exist for specific Administrative operations",
-      "applicability": "Conditional",
-      "name": "global-r18-r18-administrative-operation-alerts",
-      "file": "policies/global-r18-r18-administrative-operation-alerts.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "15a203ab452838239e2a2f77f134bbf3e1ccf0267b91f964ab876e4e969d78f1",
-      "requiredParameters": [
-        "operationName",
-        "evaluationScope"
-      ]
     },
     {
       "set": "Global",
@@ -925,11 +1003,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
-        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health."
+        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -975,6 +1054,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Azure Defender for servers should be enabled",
@@ -982,154 +1071,8 @@
       "name": "global-r19-r19-defender-for-servers-coverage",
       "file": "policies/global-r19-r19-defender-for-servers-coverage.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "4ac7ec71c9582c89e4d7c2118551f78359be94fb128edf679bffdf7ad5c8d6c0",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R20",
-      "key": "r20-defender-for-containers-coverage",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedThreatProtectionOnContainers_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/1c988dd6-ade4-430f-a608-2a3e5b0a6d38",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
-        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health."
-      },
-      "limitations": [
-        "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "Microsoft Defender for Containers should be enabled",
-      "applicability": "Conditional",
-      "name": "global-r20-r20-defender-for-containers-coverage",
-      "file": "policies/global-r20-r20-defender-for-containers-coverage.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "617cf1747b7aaf4a041493d617b871049e7d31dfde1aef44aef535ed16794ecd",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R21",
-      "key": "r21-defender-for-storage-coverage",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_Microsoft_Defender_For_Storage_Full_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/640d2586-54d2-465f-877f-9ffc1d2109f4",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
-        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health."
-      },
-      "limitations": [
-        "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "Microsoft Defender for Storage should be enabled",
-      "applicability": "Conditional",
-      "name": "global-r21-r21-defender-for-storage-coverage",
-      "file": "policies/global-r21-r21-defender-for-storage-coverage.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "33bc711323936eb952745165b5add7f278d7ea6ec8f7c08a0ddcba257c9b49fc",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
+      "customDefinitionSha256": "72ba3ec61af3cd8af8eea8243fb272327c756d637db22e1d548fc572cedb3b97",
+      "requiredParameters": []
     },
     {
       "set": "Global",
@@ -1141,11 +1084,12 @@
       "scopeNotes": {
         "applicability": "Conditional",
         "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
-        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health."
+        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
+        "parameterApplicability": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       },
       "limitations": [
         "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
         "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
         "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
       ],
@@ -1191,6 +1135,16 @@
           "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
           "category": "conditional-scope-filter",
           "parameterName": "evaluationScope"
+        },
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
         }
       ],
       "catalogName": "Azure Defender for Key Vault should be enabled",
@@ -1198,104 +1152,8 @@
       "name": "global-r22-r22-defender-for-key-vault-coverage",
       "file": "policies/global-r22-r22-defender-for-key-vault-coverage.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "2004ad4745fd3f4feae0862f0ca6ed6388914b5c9fb16ec0ca31de6223a779f3",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R23",
-      "key": "r23-defender-for-azure-sql-coverage",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedDataSecurityOnSqlServers_Audit.json",
-      "source_id": "/providers/Microsoft.Authorization/policyDefinitions/7fe3b40f-802b-4cdd-8bd4-fd799c948cc2",
-      "publishable": true,
-      "scopeNotes": {
-        "applicability": "Conditional",
-        "scope": "ALZ intermediate root; inherited by Platform and Landing Zones",
-        "caveats": "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health."
-      },
-      "limitations": [
-        "Conditional paid-service posture. This audit does not enable Defender, install agents or change pricing; policy compliance is not proof of end-to-end sensor health.",
-        "Conditional applicability requires an explicit evaluationScope object: at least one included resource-ID pattern and an explicit excluded-pattern array. Inclusion and exclusion are conjoined with the original condition, never substituted for it. Patterns use Policy like semantics (at most one '*') and cannot widen the assignment scope.",
-        "policyType=Custom is an output classification, not a writable Azure Policy property; omit policyType from definition-create/update request bodies.",
-        "Policy field/field() alias references are preserved from the public source, not invented from REST property paths. Target-cloud alias support and Azure service acceptance have not been independently validated; local structural checks do not prove either."
-      ],
-      "transformations": [
-        {
-          "path": "/policyType",
-          "reason": "Create a standalone Custom definition instead of retaining the upstream type.",
-          "category": "custom-clone"
-        },
-        {
-          "path": "/version",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/versions",
-          "reason": "Omit non-writable or source-version properties.",
-          "category": "property-removal"
-        },
-        {
-          "path": "/sourceEnvelope/id",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/sourceEnvelope/name",
-          "reason": "Do not retain built-in/source ARM identifiers in live properties.",
-          "category": "source-envelope-removal"
-        },
-        {
-          "path": "/metadata/version",
-          "reason": "Keep upstream provenance and built-in lifecycle/portal metadata outside the live custom definition.",
-          "category": "metadata-removal"
-        },
-        {
-          "path": "/parameters/effect",
-          "reason": "Canonical source-supported effects and catalog audit-first default.",
-          "category": "effect-normalization",
-          "parameterName": "effect"
-        },
-        {
-          "path": "/policyRule/if",
-          "reason": "Conjoin required conditional resource-ID inclusion/exclusion filters with the unchanged original condition.",
-          "category": "conditional-scope-filter",
-          "parameterName": "evaluationScope"
-        }
-      ],
-      "catalogName": "Azure Defender for Azure SQL Database servers should be enabled",
-      "applicability": "Conditional",
-      "name": "global-r23-r23-defender-for-azure-sql-coverage",
-      "file": "policies/global-r23-r23-defender-for-azure-sql-coverage.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "9159899c542ea33a16da492735e45dbd9d77658719b650d0266e848619af7d95",
-      "requiredParameters": [
-        "evaluationScope"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R24",
-      "key": "subscription-activity-log-export",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/DataConnectorsAzureActivity.json",
-      "limitations": [
-        "Checks the diagnostic setting's destination workspace and enabled log categories. It does not verify log delivery, retention or Event Hub and storage destinations.",
-        "A setting is compliant when it enables the allLogs category group (which automatically covers categories Microsoft adds later) or all eight explicit categories: Administrative, Security, ServiceHealth, Alert, Recommendation, Policy, Autoscale, ResourceHealth. A setting that lists categories explicitly must be updated when a new category is added.",
-        "Checks subscription diagnostic-setting destination and that at least one enabled log entry uses categoryGroup 'allLogs', not log delivery, retention or Event Hub routes."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "catalogName": "Audit subscription all Activity Log categories sent to Log Analytics",
-      "applicability": "Baseline",
-      "name": "global-r24-subscription-activity-log-export",
-      "file": "policies/global-r24-subscription-activity-log-export.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "8bd4fb8648f420d237221b2d205bdc31ff76456170b3242f7c7d14713d9eebae",
-      "requiredParameters": [
-        "profile"
-      ]
+      "customDefinitionSha256": "e2eb0128dd6e988ddbd8ab57c73e6d4a91aa4756acf771533eaabace3ffb7df3",
+      "requiredParameters": []
     },
     {
       "set": "Global",
@@ -1303,17 +1161,28 @@
       "key": "r26-vm-approved-license",
       "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing",
       "limitations": [
-        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
-        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing."
+        "Enable only after confirming licensing eligibility throughout the assignment scope. Licensing entitlement is never inferred.",
+        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "scopeNotes": "Global/intermediate root; Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
       "publishable": true,
       "name": "global-r26-r26-vm-approved-license",
       "file": "policies/global-r26-r26-vm-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "ef9ada0d8e409a8190df5c1e05c4c92ff7134c5859cbcb2dc3aaa7a85f47896c",
-      "requiredParameters": [
-        "profile"
+      "customDefinitionSha256": "53c083cb399ffe14bc87ebc44ea7b6174e70306337f8de504c06f0b371a34dc2",
+      "requiredParameters": [],
+      "transformations": [
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
+        }
       ]
     },
     {
@@ -1322,18 +1191,29 @@
       "key": "r26-vmss-approved-license",
       "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing",
       "limitations": [
-        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Enable only after confirming licensing eligibility throughout the assignment scope. Licensing entitlement is never inferred.",
         "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
-        "Checks the scale-set model, not per-instance rollout state. Leave host-licensed and service-managed nodes (for example AKS node pools) out of the list."
+        "Checks the scale-set model, not per-instance rollout state. Leave host-licensed and service-managed nodes (for example AKS node pools) outside the assignment scope or explicitly exempted.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "scopeNotes": "Global/intermediate root; Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
       "publishable": true,
       "name": "global-r26-r26-vmss-approved-license",
       "file": "policies/global-r26-r26-vmss-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "a7a711ca2870c3f26eac6c0ab398f64cdd8f60e1325fc854bc57490d4067c5bf",
-      "requiredParameters": [
-        "profile"
+      "customDefinitionSha256": "b284efcefb260c777f8e2d44a0b33a3d4f87c9bd2925d72b310483f573cb6d71",
+      "requiredParameters": [],
+      "transformations": [
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
+        }
       ]
     },
     {
@@ -1342,17 +1222,28 @@
       "key": "r27-vm-approved-license",
       "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/windows-desktop-multitenant-hosting-deployment",
       "limitations": [
-        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
-        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing."
+        "Enable only after confirming licensing eligibility throughout the assignment scope. Licensing entitlement is never inferred.",
+        "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "scopeNotes": "Global/intermediate root; Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
       "publishable": true,
       "name": "global-r27-r27-vm-approved-license",
       "file": "policies/global-r27-r27-vm-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "6202af3b4bef073d4e655851e7934718b58a335d1fd3fb1161cdc37401c21bf3",
-      "requiredParameters": [
-        "profile"
+      "customDefinitionSha256": "a37f2d1cf3344ca47cd007472b4e50cbb77516f0b7a79bda34fcb4a6f1b6ac4a",
+      "requiredParameters": [],
+      "transformations": [
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
+        }
       ]
     },
     {
@@ -1361,18 +1252,29 @@
       "key": "r27-vmss-approved-license",
       "source_url": "https://learn.microsoft.com/azure/virtual-machines/windows/windows-desktop-multitenant-hosting-deployment",
       "limitations": [
-        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Enable only after confirming licensing eligibility throughout the assignment scope. Licensing entitlement is never inferred.",
         "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
-        "Checks the scale-set model, not per-instance rollout state. Leave host-licensed and service-managed nodes (for example AKS node pools) out of the list."
+        "Checks the scale-set model, not per-instance rollout state. Leave host-licensed and service-managed nodes (for example AKS node pools) outside the assignment scope or explicitly exempted.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "scopeNotes": "Global/intermediate root; Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
       "publishable": true,
       "name": "global-r27-r27-vmss-approved-license",
       "file": "policies/global-r27-r27-vmss-approved-license.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "eb7b00034f298ea047648b5f365e9206520a73c52d8cd1b497208ad44f6a4e42",
-      "requiredParameters": [
-        "profile"
+      "customDefinitionSha256": "0dd8977e0548f1d761f128a6977e2fe01a829f898318f00482f5b0bce0045167",
+      "requiredParameters": [],
+      "transformations": [
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
+        }
       ]
     },
     {
@@ -1381,19 +1283,30 @@
       "key": "sql-vm-ahb",
       "source_url": "https://learn.microsoft.com/azure/azure-sql/virtual-machines/windows/licensing-model-azure-hybrid-benefit-ahb-change",
       "limitations": [
-        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Enable only after confirming licensing eligibility throughout the assignment scope. Licensing entitlement is never inferred.",
         "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
         "Only registered SQL virtual machine resources are visible. Unregistered SQL installations need a separate inventory.",
-        "Leave DR replicas, free/development editions and centrally managed SQL Azure Hybrid Benefit scopes out of the list."
+        "Leave DR replicas, free/development editions and centrally managed SQL Azure Hybrid Benefit scopes outside the assignment scope or explicitly exempted.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "scopeNotes": "Global/intermediate root; Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
       "publishable": true,
       "name": "global-r28-sql-vm-ahb",
       "file": "policies/global-r28-sql-vm-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "01fe2fff4c69301ee801ce23faef92c79fc9cdc70b88ac0ae1d1f8058cd50ddb",
-      "requiredParameters": [
-        "profile"
+      "customDefinitionSha256": "3d8ee5cc42c2f963dcbc0b7367d318aee9ec0f4cf332961cf66f3bab34610c93",
+      "requiredParameters": [],
+      "transformations": [
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
+        }
       ]
     },
     {
@@ -1402,19 +1315,30 @@
       "key": "sql-mi-ahb",
       "source_url": "https://learn.microsoft.com/azure/azure-sql/azure-hybrid-benefit",
       "limitations": [
-        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Enable only after confirming licensing eligibility throughout the assignment scope. Licensing entitlement is never inferred.",
         "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
         "Instances in an instance pool are excluded by the rule; their licensing is governed at the pool.",
-        "Leave DR replicas, free/development editions and centrally managed SQL Azure Hybrid Benefit scopes out of the list."
+        "Leave DR replicas, free/development editions and centrally managed SQL Azure Hybrid Benefit scopes outside the assignment scope or explicitly exempted.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "scopeNotes": "Global/intermediate root; Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
       "publishable": true,
       "name": "global-r29-sql-mi-ahb",
       "file": "policies/global-r29-sql-mi-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "a11dd84c813d2fe154505bcc48c95b1eaa1fa2658c880c162cd95d83c3102842",
-      "requiredParameters": [
-        "profile"
+      "customDefinitionSha256": "45c54c50218956eadcb23eef04fa7446b961c8ef9348d46a06ad7eebed20cb24",
+      "requiredParameters": [],
+      "transformations": [
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
+        }
       ]
     },
     {
@@ -1423,19 +1347,30 @@
       "key": "sql-database-ahb",
       "source_url": "https://learn.microsoft.com/azure/azure-sql/azure-hybrid-benefit",
       "limitations": [
-        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Enable only after confirming licensing eligibility throughout the assignment scope. Licensing entitlement is never inferred.",
         "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
-        "DTU-based, serverless, master and elastic-pool child databases are excluded by the rule. Leave DR replicas and free/development editions out of the list.",
-        "The SQL service-tier checks are eligibility rules, not operating-system or image release pins."
+        "DTU-based, serverless, master and elastic-pool child databases are excluded by the rule. Leave DR replicas and free/development editions outside the assignment scope or explicitly exempted.",
+        "The SQL service-tier checks are eligibility rules, not operating-system or image release pins.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "scopeNotes": "Global/intermediate root; Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
       "publishable": true,
       "name": "global-r30-sql-database-ahb",
       "file": "policies/global-r30-sql-database-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "f1ad629165917fd9b3a655686244e78f16bb2a8167365fe7a71c732541e02942",
-      "requiredParameters": [
-        "profile"
+      "customDefinitionSha256": "a5ad0c045529203bf61bfb3b545abb5e110d9a1e370149506894735dc57604e2",
+      "requiredParameters": [],
+      "transformations": [
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
+        }
       ]
     },
     {
@@ -1444,97 +1379,29 @@
       "key": "sql-elastic-pool-ahb",
       "source_url": "https://learn.microsoft.com/azure/azure-sql/azure-hybrid-benefit",
       "limitations": [
-        "Only resources in the approved resource ID list are evaluated. The list is a software-asset-management decision; licensing entitlement is never inferred.",
+        "Enable only after confirming licensing eligibility throughout the assignment scope. Licensing entitlement is never inferred.",
         "Checks the license-type property only. It never enables the benefit, validates license capacity or changes billing.",
-        "The rule does not filter by purchasing model. List vCore-based pools only, because DTU-based pools do not support Azure Hybrid Benefit."
+        "The rule does not filter by purchasing model. List vCore-based pools only, because DTU-based pools do not support Azure Hybrid Benefit.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "scopeNotes": "Global/intermediate root; Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
       "publishable": true,
       "name": "global-r30-sql-elastic-pool-ahb",
       "file": "policies/global-r30-sql-elastic-pool-ahb.json",
       "defaultEffect": "Audit",
-      "customDefinitionSha256": "5bc3da383fe6f85d803d29c683915be991cfbebe0798019cc85c831751483355",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R31",
-      "key": "resource-diagnostic-destination",
-      "source_url": "https://github.com/Azure/Community-Policy/tree/master/policyDefinitions/Storage/audit-diagnostic-setting-for-selected-resource-types",
-      "limitations": [
-        "Checks a required category group at an approved workspace; does not force unsupported metrics.",
-        "Supports category-group-capable resources only, not every diagnostics resource or Event Hub destination. It does not prove delivery."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "name": "global-r31-resource-diagnostic-destination",
-      "file": "policies/global-r31-resource-diagnostic-destination.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "4cad8ab0dac7af1c64b49eee22c7811a6a06bba298ccc7be580a7423bb27b5b0",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R32",
-      "key": "ama-virtualmachines",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_VM_DINE.json",
-      "limitations": [
-        "Reviewed target IDs must exclude unsupported images and AKS/service-managed nodes; OS/image releases are not embedded.",
-        "Checks publisher, extension type and successful provisioning, not a running heartbeat, handler version or protected settings.",
-        "Separate references are required for Windows and Linux agent profiles when both are in use."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "name": "global-r32-ama-virtualmachines",
-      "file": "policies/global-r32-ama-virtualmachines.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "80883460b94f1a2a1c28c2cdff6318e3b2de752828b78df461e483d4c5a2313c",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R32",
-      "key": "ama-virtualmachinescalesets",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_VMSS_DINE.json",
-      "limitations": [
-        "Reviewed target IDs must exclude unsupported images and AKS/service-managed nodes; OS/image releases are not embedded.",
-        "Checks publisher, extension type and successful provisioning, not a running heartbeat, handler version or protected settings.",
-        "Separate references are required for Windows and Linux agent profiles when both are in use."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "name": "global-r32-ama-virtualmachinescalesets",
-      "file": "policies/global-r32-ama-virtualmachinescalesets.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "8ee055bb49b013df5d85f73e87470a814ed4adf098372db941e2ed28c5fb0425",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R32",
-      "key": "ama-machines",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_HybridVM_DINE.json",
-      "limitations": [
-        "Reviewed target IDs must exclude unsupported images and AKS/service-managed nodes; OS/image releases are not embedded.",
-        "Checks publisher, extension type and successful provisioning, not a running heartbeat, handler version or protected settings.",
-        "Separate references are required for Windows and Linux agent profiles when both are in use."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "name": "global-r32-ama-machines",
-      "file": "policies/global-r32-ama-machines.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "d14ecf79f2505353f1502c62e2463d3a8c126ebc6485270f0683625dfdf94c66",
-      "requiredParameters": [
-        "profile"
+      "customDefinitionSha256": "589ca635bc21eeb6c76785d4480ab1054947e4e5f83d058c5bc6fa4f54c29d07",
+      "requiredParameters": [],
+      "transformations": [
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
+        }
       ]
     },
     {
@@ -1543,152 +1410,42 @@
       "key": "required-dcr-association",
       "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_DCRA_Windows_DINE.json",
       "limitations": [
-        "DCE-only associations do not satisfy the DCR check. Does not verify rule contents, AMA health or actual collection."
+        "DCE-only associations do not satisfy the DCR check. Does not verify rule contents, AMA health or actual collection.",
+        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
       ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
+      "scopeNotes": "Global/intermediate root; Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
       "publishable": true,
       "name": "global-r33-required-dcr-association",
       "file": "policies/global-r33-required-dcr-association.json",
       "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "c82682e76b79f68493b9a18930373cc23f734b5a7ee23cd3ad03395dee41621c",
+      "customDefinitionSha256": "2a5a721c7fd7314987a6bcd18c007221f96c91c7e613a0c2c99cf9fe6b884cfe",
       "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R34",
-      "key": "defender-endpoint-integration",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_MDE_WDATP_DINE.json",
-      "limitations": [
-        "Use one reviewed setting profile per reference. Does not onboard endpoints or prove runtime sensor health."
+        "approvedDcrIds"
       ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "name": "global-r34-defender-endpoint-integration",
-      "file": "policies/global-r34-defender-endpoint-integration.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "744b936554269d6a02c614703e89feece6facb865309ee7139a6a53e168cf1b7",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R35",
-      "key": "subscription-budget-alert-rules",
-      "source_url": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Budget.json",
-      "limitations": [
-        "Adapted from the existence check of the ALZ Deploy-Budget policy; audit only, with no deployment, role or remediation content.",
-        "Azure Policy exposes a budget's alert rules only as one object property (Microsoft.Consumption/budgets/notifications). The check confirms that a subscription-scope Cost budget has that property present; it cannot count alert rules, verify thresholds, recipients or action groups, or detect an empty object.",
-        "Only budgets at subscription scope are considered; budgets at resource-group, management-group or billing scope do not satisfy it.",
-        "Subscriptions that cannot host Cost Management budgets are reported as non-compliant; exclude them with assignment exclusions (notScopes).",
-        "Does not create budgets, send notifications, cap spending or validate alert delivery."
-      ],
-      "scopeNotes": "Global/intermediate root; Baseline: evaluates every subscription under the assignment scope. Use assignment exclusions for subscriptions that cannot have budgets.",
-      "publishable": true,
-      "name": "global-r35-subscription-budget-alert-rules",
-      "file": "policies/global-r35-subscription-budget-alert-rules.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "4afd2e526ad45e6a648ede8e7406c043d4c2e112155394019d725104560da5d7",
-      "requiredParameters": []
-    },
-    {
-      "set": "Global",
-      "rowKey": "R36",
-      "key": "resource-parent-tag-consistency",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Tags/InheritTag_Add_Modify.json",
-      "limitations": [
-        "A missing or empty parent tag is noncompliant rather than silently accepting an empty expected value.",
-        "Select only taggable resource-group resources. Approved resource-specific overrides must be omitted from the target profile."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "name": "global-r36-resource-parent-tag-consistency",
-      "file": "policies/global-r36-resource-parent-tag-consistency.json",
-      "defaultEffect": "Audit",
-      "customDefinitionSha256": "e2a04cdca90567af494dbe2fc2fdae7fafbf22385d8061d717cef1b2f596e527",
-      "requiredParameters": [
-        "profile",
-        "tagName"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R25",
-      "key": "service-health-alert-service-issues",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
-      "limitations": [
-        "Checks enabled state, subscription scope, the ServiceHealth category condition, event-type coverage and action-group association on the matching ActivityLogAlerts resource. It does not verify service or region filters or confirm notification delivery.",
-        "Event types are recognized when written as a direct incidentType condition or inside an anyOf group (the shapes produced by the portal, ARM templates and the CLI). An alert with no incidentType condition covers every event type and satisfies all four Service Health policies. Event types written with containsAny are not recognized."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "name": "global-r25-service-health-alert-service-issues",
-      "file": "policies/global-r25-service-health-alert-service-issues.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "1f16cc8b91ce8273974ddce7e584e8eb8cf22c6e3ff6bbf312a5ca3d8b43b08c",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R25",
-      "key": "service-health-alert-planned-maintenance",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
-      "limitations": [
-        "Checks enabled state, subscription scope, the ServiceHealth category condition, event-type coverage and action-group association on the matching ActivityLogAlerts resource. It does not verify service or region filters or confirm notification delivery.",
-        "Event types are recognized when written as a direct incidentType condition or inside an anyOf group (the shapes produced by the portal, ARM templates and the CLI). An alert with no incidentType condition covers every event type and satisfies all four Service Health policies. Event types written with containsAny are not recognized."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "name": "global-r25-service-health-alert-planned-maintenance",
-      "file": "policies/global-r25-service-health-alert-planned-maintenance.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "8c51a056600ecf96b51f529c01b769565db2731a9c6394e175ef153972b41f70",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R25",
-      "key": "service-health-alert-health-advisories",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
-      "limitations": [
-        "Checks enabled state, subscription scope, the ServiceHealth category condition, event-type coverage and action-group association on the matching ActivityLogAlerts resource. It does not verify service or region filters or confirm notification delivery.",
-        "Event types are recognized when written as a direct incidentType condition or inside an anyOf group (the shapes produced by the portal, ARM templates and the CLI). An alert with no incidentType condition covers every event type and satisfies all four Service Health policies. Event types written with containsAny are not recognized.",
-        "Health advisories require both ActionRequired and Informational to be covered."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "name": "global-r25-service-health-alert-health-advisories",
-      "file": "policies/global-r25-service-health-alert-health-advisories.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "6a5f1923cad7a4e0ebff5c7a2b3fd3c1f92762fdcce00ada706f8f77d5c22c66",
-      "requiredParameters": [
-        "profile"
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R25",
-      "key": "service-health-alert-security-advisories",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json",
-      "limitations": [
-        "Checks enabled state, subscription scope, the ServiceHealth category condition, event-type coverage and action-group association on the matching ActivityLogAlerts resource. It does not verify service or region filters or confirm notification delivery.",
-        "Event types are recognized when written as a direct incidentType condition or inside an anyOf group (the shapes produced by the portal, ARM templates and the CLI). An alert with no incidentType condition covers every event type and satisfies all four Service Health policies. Event types written with containsAny are not recognized."
-      ],
-      "scopeNotes": "Global/intermediate root; approved resource IDs or subscription IDs are explicit required inputs.",
-      "publishable": true,
-      "name": "global-r25-service-health-alert-security-advisories",
-      "file": "policies/global-r25-service-health-alert-security-advisories.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "e4c64666529e13d101f0fedef6d4b5ca54e81c347b31ce2543cd8c711b5beecc",
-      "requiredParameters": [
-        "profile"
+      "transformations": [
+        {
+          "path": "/parameters",
+          "category": "simple-assignment-inputs",
+          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
+        },
+        {
+          "path": "/parameters",
+          "category": "true-false-dropdown",
+          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
+        }
       ]
     }
-  ]
+  ],
+  "parameterContract": {
+    "allowedInputs": [
+      "String true/false dropdown (default true)",
+      "metadata.strongType Portal picker",
+      "allowedValues dropdown",
+      "editable Array with three default strings"
+    ],
+    "freeFormScalarInputs": false,
+    "freeFormObjectInputs": false,
+    "conditionalScopeDefault": "true",
+    "scopeBehavior": "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
+  }
 }

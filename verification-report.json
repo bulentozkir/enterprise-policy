@@ -1,67 +1,356 @@
 {
-  "targetManagementGroup": "contoso",
-  "verificationScope": "Local source review, regression fixtures and alias checks against live Azure provider metadata, plus Azure acceptance and a canonical live comparison of the current 97-definition revision deployed on 2026-11-03. Not assigned-resource compliance evaluation.",
+  "verificationScope": "Local structural, regression, renderer CLI, deployment-safeguard and Terraform mock-provider checks, plus a live read-only Azure alias/resource-type metadata check, of 75 definitions and three initiatives. This revision is not deployed; historical live verification is retained separately.",
+  "status": "passed-local-checks-not-deployed",
   "customDefinitions": {
-    "Global": 39,
-    "Hub": 15,
-    "LandingZone": 43,
-    "total": 97
+    "Global": 23,
+    "Hub": 12,
+    "LandingZone": 40,
+    "total": 75
   },
   "initiatives": 3,
   "policyDefaults": [
     "Audit",
     "AuditIfNotExists"
   ],
-  "releaseIndependentApplicability": {
-    "osReleaseLists": false,
-    "imageOfferOrSkuSelectors": false,
-    "imageVersionSelectors": false,
-    "requestApiVersionGates": false,
-    "securityThresholdsPreserved": true,
-    "structuralApiSchemaProviderVersionsPreserved": true
-  },
   "completed": [
-    "Policy and initiative property schemas",
-    "97 policy-rule schemas with documented current-construct compatibility",
-    "Required inputs, parameter types, allowed values and reference bindings",
-    "OS-family applicability and explicit-exception regression fixtures",
-    "Budget existence-condition and single-wildcard regression guards",
-    "WAF Prevention-mode, NAT gateway subnet association and public-IP DDoS plan regression fixtures",
-    "Independent semantic review of Global, Hub and LandingZone source",
-    "Alias references checked against the live Azure provider metadata and public catalog; Storage networkAcls.bypass, Microsoft.Insights ActivityLogAlerts/diagnosticSettings, publicIPAddresses ddosSettings, subnet natGateway and Application Gateway/Front Door WAF policySettings aliases confirmed",
-    "Seven Kubernetes template parameter contracts reviewed",
-    "Terraform initialization, validation and two mock-provider plan tests",
-    "Upstream lifecycle scan checked 78 source JSON documents; none is retired/deprecated",
-    "Azure accepted all 97 Custom definitions and the three initiatives; displayName, description, mode, policyRule and parameters match the package with 0 differences, initiative members and parameters match, and the postdeployment Terraform plan reports no changes",
-    "Parameter schemas are used only on Object parameters (Azure rejects a schema on any other type; H07 approvedPlanIds was corrected before deployment and a regression test now guards this)"
+    "Validated all 75 definitions and three initiatives, their bindings, ARM-template parity, defaults, required inputs, manifest digests, Kubernetes assets and Terraform catalog row coverage.",
+    "Removed H11 and L49 definitions, initiative members, six initiative parameters, defaults and ARM resources; retained explicit removal records. L49's remote-gateway and hub-selection inputs are absent, and LandingZone now needs no required assignment inputs.",
+    "Changed L14 to the exact requested no-local-authentication label and the verified local-account predicate already used by L15. Entra integration alone does not pass; L15 remains unchanged and now overlaps L14.",
+    "Preserved all previous requested removals, H07 per-Public-IP protection without a mandatory plan, and all 49 policy/46 initiative default-true String dropdowns with bool() consumers.",
+    "Preserved deployment deletion/replacement safeguards. No Azure resources were changed.",
+    "Policy review: every field alias and resource type in the 75 definitions exists in live Azure provider metadata; rules match their public upstream definitions except documented intentional changes; the upstream lifecycle report was refreshed (59 public sources, none retired or deprecated).",
+    "Review fixes: R30 now excludes the master database by name; H07 and L14 definitions were renamed to match behavior; H04/H21 no longer refer to removed selections; audit-first H16/H19/L03/L04/L05 no longer say they deny; L04's next-hop dropdown is labeled as prohibited types; initiative descriptions match the dropdown contract; H21 accepted IDPS modes default to Alert and Deny so Hub has no required inputs.",
+    "Known overlaps and trade-offs: L14 and L15 now apply the same rule; R26 and R27 are both enabled by default and each flags the other's valid Windows license type; L13 allows host networking by default as requested; H16/L05 flag every peering until approved vNets are selected.",
+    "Passed all 41 Python unit tests, all 11 mocked PowerShell deployment scenarios, both Terraform mock-provider tests, Terraform formatting and validation, and 13 renderer CLI scenarios (23/12/40 members; default true and explicit false remain strings; removed or Boolean inputs rejected). Whitespace validation passed; temporary outputs and provider data were cleaned."
   ],
   "coverageLimitations": [
-    "Key Vault certificate-expiry row R17 has no equivalent supported custom management-plane policy and is not implemented.",
-    "Service Health Billing updates (R25E) cannot be audited: Billing notifications are not written to the subscription Activity Log, so no activity-log alert rule can exist for them."
+    {
+      "set": "Global",
+      "rowKey": "R17",
+      "control": "Key Vault certificate expiry runway",
+      "reason": "Key Vault certificates are data-plane objects. No equivalent management-plane certificate inventory/expiry aliases are exposed for a custom All/Indexed policy. Changing Microsoft.KeyVault.Data to All would not provide equivalent coverage. The unsupported clone is removed; use the supported built-in certificate-expiry control or a separately authorized data-plane certificate-monitoring process.",
+      "source": "https://learn.microsoft.com/azure/governance/policy/concepts/definition-structure-basics"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R25E",
+      "control": "Service Health alert readiness \u2014 Billing updates",
+      "reason": "Billing-type Service Health notifications are not recorded in the Azure subscription Activity Log (category=ServiceHealth); Microsoft's documentation states these notifications are visible only in the Azure Service Health portal/API, not the activity log. Because Microsoft.Insights/ActivityLogAlerts conditions evaluate activity-log events, there is no alias or data path by which a non-mutating Audit/AuditIfNotExists custom policy can verify a Billing-updates alert rule. Use Azure Service Health's native monitoring/notification configuration for this category instead of a custom Azure Policy audit.",
+      "source": "https://learn.microsoft.com/azure/service-health/service-health-notifications-properties"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R18",
+      "control": "An activity log alert should exist for specific Administrative operations",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r18-r18-administrative-operation-alerts"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ActivityLog_AdministrativeOperations_Audit.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R20",
+      "control": "Microsoft Defender for Containers should be enabled",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r20-r20-defender-for-containers-coverage"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedThreatProtectionOnContainers_Audit.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R21",
+      "control": "Microsoft Defender for Storage should be enabled",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r21-r21-defender-for-storage-coverage"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_Microsoft_Defender_For_Storage_Full_Audit.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R23",
+      "control": "Azure Defender for Azure SQL Database servers should be enabled",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r23-r23-defender-for-azure-sql-coverage"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/ASC_EnableAdvancedDataSecurityOnSqlServers_Audit.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R31",
+      "control": "Check resource audit logs and approved Log Analytics destination",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r31-resource-diagnostic-destination"
+      ],
+      "source": "https://github.com/Azure/Community-Policy/tree/master/policyDefinitions/Storage/audit-diagnostic-setting-for-selected-resource-types"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R32",
+      "control": "Check approved Azure Monitor Agent on virtualMachines",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r32-ama-virtualmachines",
+        "global-r32-ama-virtualmachinescalesets",
+        "global-r32-ama-machines"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_Agent_Windows_VM_DINE.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R35",
+      "control": "Audit subscriptions have budget alert rules defined",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r35-subscription-budget-alert-rules"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-Budget.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R36",
+      "control": "Audit resource tag consistency against a nonempty resource-group tag",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r36-resource-parent-tag-consistency"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Tags/InheritTag_Add_Modify.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R24",
+      "control": "Subscription activity log export",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r24-subscription-activity-log-export"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/DataConnectorsAzureActivity.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R25",
+      "control": "Service Health alert readiness",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r25-service-health-alert-service-issues",
+        "global-r25-service-health-alert-planned-maintenance",
+        "global-r25-service-health-alert-health-advisories",
+        "global-r25-service-health-alert-security-advisories"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/ServiceHealthSubscriptionLevelAlertRules_DINE.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R34",
+      "control": "Check the approved Defender for Endpoint subscription integration setting",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r34-defender-endpoint-integration"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_MDE_WDATP_DINE.json"
+    },
+    {
+      "set": "Hub",
+      "rowKey": "H17",
+      "control": "Enforce VNET DNS servers",
+      "reason": "Approved custom DNS server IP addresses are organization-specific strings. Azure Policy has no IP-address picker and no approved finite address catalog was supplied.",
+      "reasonCode": "unsupported-simple-input",
+      "removedDefinitions": [
+        "hub-h17-h17-approved-custom-dns-on-hub-vnets"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Network/enforce-vnet-dns-servers/azurepolicy.json"
+    },
+    {
+      "set": "Hub",
+      "rowKey": "H20",
+      "control": "Audit change of retention days in Log Analytics workspace",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "hub-h20-h20-approved-central-workspace-retention-floor"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/Community-Policy/master/policyDefinitions/Monitoring/deny-change-of-retention-days-in-log-analytics-workspace/azurepolicy.json"
+    },
+    {
+      "set": "Hub",
+      "rowKey": "H11",
+      "control": "Network Watcher should be enabled",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "hub-h11-h11-regional-network-watcher-presence"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Network/NetworkWatcher_Enabled_Audit.json"
+    },
+    {
+      "set": "LandingZone",
+      "rowKey": "L10",
+      "control": "Kubernetes cluster pod hostPath volumes should only use allowed host paths",
+      "reason": "Host-path allowances require organization-specific Linux/Windows path prefixes and read-only flags in structured objects. No supported picker or finite path catalog represents these inputs.",
+      "reasonCode": "unsupported-simple-input",
+      "removedDefinitions": [
+        "landingzone-l10-l10-restrict-hostpath-and-socket-mounts"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AllowedHostPaths.json"
+    },
+    {
+      "set": "LandingZone",
+      "rowKey": "L11",
+      "control": "Kubernetes cluster pods and containers should only run with approved user and group IDs",
+      "reason": "The non-root user/group control requires organization-approved UID/GID ranges in structured objects. No supported picker or approved finite range catalog represents these inputs.",
+      "reasonCode": "unsupported-simple-input",
+      "removedDefinitions": [
+        "landingzone-l11-l11-run-containers-as-nonroot"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Kubernetes/AllowedUsersGroups.json"
+    },
+    {
+      "set": "LandingZone",
+      "rowKey": "L49",
+      "control": "Selected Corp spokes must have a connected approved hub peering",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "landingzone-l49-corp-spoke-required-hub-peering"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/src/resources/Microsoft.Authorization/policyDefinitions/Deploy-VNET-HubSpoke.json"
+    }
   ],
   "deployment": {
-    "status": "deployed",
-    "scope": "/providers/Microsoft.Management/managementGroups/contoso",
-    "apiProvider": "Terraform AzAPI using stable Microsoft.Authorization API 2026-07-01",
-    "initiativeNames": [
-      "alz-global-custom-audit",
-      "alz-hub-custom-audit",
-      "alz-landingzone-custom-audit"
+    "status": "not-deployed",
+    "reason": "Local-only source changes remove definitions and parameters and change the L14 compliance predicate. Existing deletion/replacement safeguards remain enabled; deployment requires a separately reviewed migration.",
+    "azureResourcesChanged": false
+  },
+  "previousSimplifiedInputVerification": {
+    "verificationScope": "Local checks, Azure service acceptance and canonical live comparison of all 84 simplified-input definitions and three initiatives at tenant root. Assigned-resource compliance was not evaluated.",
+    "status": "passed-local-and-azure-checks",
+    "customDefinitions": {
+      "Global": 29,
+      "Hub": 14,
+      "LandingZone": 41,
+      "total": 84
+    },
+    "completed": [
+      "Validated all 84 custom definitions and three initiatives against the picker/dropdown/Boolean contract with editable string arrays containing three replaceable defaults.",
+      "Verified initiative bindings, assignment defaults, required inputs, manifest digests, ARM-template parity, template assets and Terraform catalog coverage.",
+      "Confirmed R18/R20/R21/R23/R31/R32/R35/R36 and every variant are absent from active policies, initiatives, parameters, defaults and required inputs; manifests retain explicit removal reasons.",
+      "Passed 27 Python unit tests, including R26 true/false assignment-scope behavior, editable R04/R05/R06 tag arrays, six policy-rule regressions and two Azure expression-syntax guards.",
+      "Reviewed all 84 retained definitions and corrected six compliance predicates: R05 missing tags, R09 TLS minimum, H10 VPN authentication, L17 AKS authorized ranges, L26 PostgreSQL networking and L45 SQL long-term retention.",
+      "Passed 11 mocked PowerShell deployment scenarios covering target identity, permission checks and plan safety guards.",
+      "Terraform formatting and validation passed; both mock-provider plan tests executed and passed.",
+      "Rendered all three initiatives through the CLI with member counts 29/14/41; confirmed a true R26 Boolean, manually replaced four-item R05/R06 arrays and rejection of non-object parameter inputs.",
+      "Whitespace validation passed. Generated Python caches and renderer smoke-test outputs were cleaned up.",
+      "Azure accepted all 84 definitions and three initiatives at tenant root. Live rules, parameters and members match source with zero differences; the final Terraform plan reports no changes.",
+      "Verified existing root policy assignments and RBAC assignments were unchanged.",
+      "Retired the unassigned previous Contoso package: 97 duplicate/obsolete definitions and three initiatives, including all 13 definitions deleted locally. Verified none of those old package resources remain.",
+      "Removed all 23 enumerated completed root ARM deployment-history records without deleting their deployed resources."
     ],
-    "retiredPackagePolicies": 0,
-    "policyAssignmentsCreated": 0,
-    "workloadResourcesChanged": false,
-    "permissionsChanged": false,
-    "deployedOn": "2026-11-03",
-    "currentRevision": {
-      "customPolicyDefinitionsDeployed": 97,
+    "deployment": {
+      "status": "deployed",
+      "scope": "/providers/Microsoft.Management/managementGroups/d24284e3-1ea5-4285-9b96-4d53f671284b",
+      "deployedOn": "2026-11-04",
+      "customPolicyDefinitionsDeployed": 84,
       "customInitiativesDeployed": 3,
       "initiativeMembers": {
-        "Global": 39,
-        "Hub": 15,
-        "LandingZone": 43
+        "Global": 29,
+        "Hub": 14,
+        "LandingZone": 41
       },
-      "verification": "Live definitions equal the package (0 differences), initiative members and parameters match, orphaned definitions from earlier revisions were removed, and the Terraform plan reports no changes."
+      "liveContentDifferences": 0,
+      "terraformPlanDetailedExitCode": 0,
+      "obsoletePoliciesDeleted": 13,
+      "previousScope": "/providers/Microsoft.Management/managementGroups/contoso",
+      "previousDefinitionsRetired": 97,
+      "previousInitiativesRetired": 3,
+      "rootDeploymentHistoryRecordsDeleted": 23,
+      "policyAssignmentsCreated": 0,
+      "workloadResourcesChanged": false,
+      "permissionsChanged": false
+    }
+  },
+  "previousRevisionVerification": {
+    "targetManagementGroup": "contoso",
+    "verificationScope": "Local source review, regression fixtures and alias checks against live Azure provider metadata, plus Azure acceptance and a canonical live comparison of the current 97-definition revision deployed on 2026-11-03. Not assigned-resource compliance evaluation.",
+    "customDefinitions": {
+      "Global": 39,
+      "Hub": 15,
+      "LandingZone": 43,
+      "total": 97
+    },
+    "initiatives": 3,
+    "policyDefaults": [
+      "Audit",
+      "AuditIfNotExists"
+    ],
+    "releaseIndependentApplicability": {
+      "osReleaseLists": false,
+      "imageOfferOrSkuSelectors": false,
+      "imageVersionSelectors": false,
+      "requestApiVersionGates": false,
+      "securityThresholdsPreserved": true,
+      "structuralApiSchemaProviderVersionsPreserved": true
+    },
+    "completed": [
+      "Policy and initiative property schemas",
+      "97 policy-rule schemas with documented current-construct compatibility",
+      "Required inputs, parameter types, allowed values and reference bindings",
+      "OS-family applicability and explicit-exception regression fixtures",
+      "Budget existence-condition and single-wildcard regression guards",
+      "WAF Prevention-mode, NAT gateway subnet association and public-IP DDoS plan regression fixtures",
+      "Independent semantic review of Global, Hub and LandingZone source",
+      "Alias references checked against the live Azure provider metadata and public catalog; Storage networkAcls.bypass, Microsoft.Insights ActivityLogAlerts/diagnosticSettings, publicIPAddresses ddosSettings, subnet natGateway and Application Gateway/Front Door WAF policySettings aliases confirmed",
+      "Seven Kubernetes template parameter contracts reviewed",
+      "Terraform initialization, validation and two mock-provider plan tests",
+      "Upstream lifecycle scan checked 78 source JSON documents; none is retired/deprecated",
+      "Azure accepted all 97 Custom definitions and the three initiatives; displayName, description, mode, policyRule and parameters match the package with 0 differences, initiative members and parameters match, and the postdeployment Terraform plan reports no changes",
+      "Parameter schemas are used only on Object parameters (Azure rejects a schema on any other type; H07 approvedPlanIds was corrected before deployment and a regression test now guards this)"
+    ],
+    "coverageLimitations": [
+      "Key Vault certificate-expiry row R17 has no equivalent supported custom management-plane policy and is not implemented.",
+      "Service Health Billing updates (R25E) cannot be audited: Billing notifications are not written to the subscription Activity Log, so no activity-log alert rule can exist for them."
+    ],
+    "deployment": {
+      "status": "retired",
+      "retiredOn": "2026-11-04",
+      "retiredDefinitions": 97,
+      "retiredInitiatives": 3,
+      "scope": "/providers/Microsoft.Management/managementGroups/contoso",
+      "apiProvider": "Terraform AzAPI using stable Microsoft.Authorization API 2026-07-01",
+      "initiativeNames": [
+        "alz-global-custom-audit",
+        "alz-hub-custom-audit",
+        "alz-landingzone-custom-audit"
+      ],
+      "retiredPackagePolicies": 0,
+      "policyAssignmentsCreated": 0,
+      "workloadResourcesChanged": false,
+      "permissionsChanged": false,
+      "deployedOn": "2026-11-03",
+      "currentRevision": {
+        "customPolicyDefinitionsDeployed": 97,
+        "customInitiativesDeployed": 3,
+        "initiativeMembers": {
+          "Global": 39,
+          "Hub": 15,
+          "LandingZone": 43
+        },
+        "verification": "Live definitions equal the package (0 differences), initiative members and parameters match, orphaned definitions from earlier revisions were removed, and the Terraform plan reports no changes."
+      }
     }
   }
 }

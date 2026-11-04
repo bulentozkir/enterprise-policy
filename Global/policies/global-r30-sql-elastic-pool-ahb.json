@@ -2,7 +2,7 @@
   "name": "global-r30-sql-elastic-pool-ahb",
   "properties": {
     "displayName": "Audit Azure Hybrid Benefit for Azure SQL Database elastic pools",
-    "description": "Audits the listed Azure SQL Database elastic pools that do not use Azure Hybrid Benefit (licenseType BasePrice). Only pools in the approved resource ID list are evaluated; eligibility is never inferred. Read-only: nothing is created or changed.",
+    "description": "Audits in-scope Azure SQL Database elastic pools that do not use Azure Hybrid Benefit (licenseType BasePrice). Enabled=true checks all matching in-scope resources; false skips. Confirm licensing eligibility independently.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -25,35 +25,26 @@
         ],
         "defaultValue": "Audit"
       },
-      "profile": {
-        "type": "Object",
+      "enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "Approved SQL elastic pools",
-          "description": "Required object with the properties: resourceIds (SQL elastic pool resource IDs; resources that are not listed are never evaluated)."
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Enable only after independently confirming licensing eligibility throughout the scope. Exclude centrally managed licensing scopes and other ineligible resources; entitlement is not inferred. Select true or false; defaults to true."
         },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            }
-          }
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
+          {
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
+          },
           {
             "allOf": [
               {
@@ -61,14 +52,10 @@
                 "equals": "Microsoft.Sql/servers/elasticPools"
               },
               {
-                "field": "id",
-                "in": "[parameters('profile').resourceIds]"
+                "field": "Microsoft.Sql/servers/elasticpools/licenseType",
+                "notEquals": "BasePrice"
               }
             ]
-          },
-          {
-            "field": "Microsoft.Sql/servers/elasticpools/licenseType",
-            "notEquals": "BasePrice"
           }
         ]
       },

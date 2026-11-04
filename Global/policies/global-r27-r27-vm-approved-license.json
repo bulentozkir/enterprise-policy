@@ -2,7 +2,7 @@
   "name": "global-r27-r27-vm-approved-license",
   "properties": {
     "displayName": "Audit Windows client BYOL licensing benefit on virtual machines",
-    "description": "Audits the listed virtual machines that do not use the Windows client BYOL licensing benefit (licenseType Windows_Client). Only virtual machines in the approved resource ID list are evaluated; licensing eligibility is never inferred. Read-only: nothing is created or changed.",
+    "description": "Audits in-scope virtual machines that do not use the Windows client BYOL licensing benefit (licenseType Windows_Client). Enabled=true checks all matching in-scope resources; false skips. Confirm licensing eligibility independently.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -25,35 +25,30 @@
         ],
         "defaultValue": "Audit"
       },
-      "profile": {
-        "type": "Object",
+      "enabled": {
+        "type": "String",
         "metadata": {
-          "displayName": "Approved virtual machines",
-          "description": "Required object with the properties: resourceIds (virtual machine resource IDs; resources that are not listed are never evaluated)."
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Enable only after independently confirming licensing eligibility throughout the scope. Exclude centrally managed licensing scopes and other ineligible resources; entitlement is not inferred. Select true or false; defaults to true."
         },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
-            }
-          }
-        }
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
+          {
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
+          },
+          {
+            "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+            "equals": "Windows"
+          },
           {
             "allOf": [
               {
@@ -61,14 +56,10 @@
                 "equals": "Microsoft.Compute/virtualMachines"
               },
               {
-                "field": "id",
-                "in": "[parameters('profile').resourceIds]"
+                "field": "Microsoft.Compute/virtualMachines/licenseType",
+                "notEquals": "Windows_Client"
               }
             ]
-          },
-          {
-            "field": "Microsoft.Compute/virtualMachines/licenseType",
-            "notEquals": "Windows_Client"
           }
         ]
       },

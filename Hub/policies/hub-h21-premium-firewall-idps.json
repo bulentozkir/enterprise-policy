@@ -1,8 +1,8 @@
 {
   "name": "hub-h21-premium-firewall-idps",
   "properties": {
-    "displayName": "Selected Premium Firewall Policies must explicitly enable approved IDPS mode",
-    "description": "Audits selected Firewall Policies if the policy is not Premium or its explicit intrusionDetection.mode is missing, Off, or outside the required accepted Alert/Deny modes. Uses the real intrusionDetection.mode alias, not the malformed reference rule.",
+    "displayName": "Premium Firewall Policies must explicitly enable approved IDPS mode",
+    "description": "Audits Firewall Policies that are not Premium or whose explicit intrusionDetection.mode is missing, Off, or outside the accepted Alert/Deny modes. Base-policy inheritance is not resolved. Enabled=true checks all matching in-scope resources; false skips the check.",
     "policyType": "Custom",
     "mode": "All",
     "metadata": {
@@ -27,70 +27,62 @@
           "description": "Read-only evaluation; the IDPS traffic mode is a separate configuration."
         }
       },
-      "profile": {
-        "type": "Object",
+      "acceptedModes": {
+        "type": "Array",
         "metadata": {
-          "displayName": "Approved Premium policies and IDPS modes",
-          "description": "Required nonempty policy IDs and accepted IDPS modes. Accept Alert, Deny, or both according to approved inspection architecture."
+          "displayName": "Accepted modes",
+          "description": "Select the explicit IDPS modes accepted as compliant. Defaults to both modes."
         },
-        "schema": {
-          "type": "object",
-          "required": [
-            "resourceIds",
-            "acceptedModes"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "resourceIds": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/[^/]+/.+$"
-              }
-            },
-            "acceptedModes": {
-              "type": "array",
-              "minItems": 1,
-              "uniqueItems": true,
-              "items": {
-                "type": "string",
-                "enum": [
-                  "Alert",
-                  "Deny"
-                ]
-              }
-            }
-          }
-        }
+        "allowedValues": [
+          "Alert",
+          "Deny"
+        ],
+        "defaultValue": [
+          "Alert",
+          "Deny"
+        ]
+      },
+      "enabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Enable check throughout assignment scope",
+          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
+        },
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ]
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
-            "field": "type",
-            "equals": "Microsoft.Network/firewallPolicies"
+            "value": "[bool(parameters('enabled'))]",
+            "equals": true
           },
           {
-            "field": "id",
-            "in": "[parameters('profile')['resourceIds']]"
-          },
-          {
-            "anyOf": [
+            "allOf": [
               {
-                "field": "Microsoft.Network/firewallPolicies/sku.tier",
-                "notEquals": "Premium"
+                "field": "type",
+                "equals": "Microsoft.Network/firewallPolicies"
               },
               {
-                "field": "Microsoft.Network/firewallPolicies/intrusionDetection.mode",
-                "exists": "false"
-              },
-              {
-                "field": "Microsoft.Network/firewallPolicies/intrusionDetection.mode",
-                "notIn": "[parameters('profile')['acceptedModes']]"
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Network/firewallPolicies/sku.tier",
+                    "notEquals": "Premium"
+                  },
+                  {
+                    "field": "Microsoft.Network/firewallPolicies/intrusionDetection.mode",
+                    "exists": "false"
+                  },
+                  {
+                    "field": "Microsoft.Network/firewallPolicies/intrusionDetection.mode",
+                    "notIn": "[parameters('acceptedModes')]"
+                  }
+                ]
               }
             ]
           }
