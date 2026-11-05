@@ -1,6 +1,6 @@
 {
-  "verificationScope": "Local structural checks of 74 definitions and three initiatives after removing R33 and all related assignment inputs. This revision has not been deployed; the prior 75-definition deployment and verification are retained separately as historical evidence.",
-  "status": "passed-structural-checks-not-deployed",
+  "verificationScope": "Local structural, regression, renderer CLI, deployment-safeguard and Terraform mock-provider checks of 74 definitions and three initiatives after removing R33 and all related assignment inputs. This revision has not been deployed; the prior 75-definition deployment and verification are retained separately as historical evidence.",
+  "status": "passed-local-checks-not-deployed",
   "customDefinitions": {
     "Global": 22,
     "Hub": 12,
@@ -16,7 +16,10 @@
     "Removed the R33 definition file, initiative member and all three initiative inputs, assignment defaults, required-DCR selection and ARM resource/dependency; retained the explicit user-requested-removal coverage gap.",
     "Validated all 74 definitions and three initiatives, remaining input bindings, ARM-template parity, defaults, required inputs, manifest digests, Kubernetes assets and Terraform catalog row coverage.",
     "Global now requires only the R01/R02/R03 selections. The 48 policy and 45 initiative true/false dropdowns still default to the string true.",
-    "Filtered the lifecycle report to the 58 retained public sources without rerunning upstream checks. Deployment safeguards, prior removals, unrelated definitions and live Azure resources are unchanged."
+    "Filtered the lifecycle report to the 58 retained public sources without rerunning upstream checks. Deployment safeguards, prior removals, unrelated definitions and live Azure resources are unchanged.",
+    "Passed all 42 Python unit tests, all 11 mocked PowerShell deployment scenarios and both Terraform mock-provider tests; Terraform formatting and validation passed.",
+    "Passed 10 actual renderer CLI scenarios: member counts 22/12/40, all 45 initiative dropdowns defaulting to string true and preserving explicit string false, all three R33 inputs rejected, and only the three remaining Global selections required.",
+    "Parsed the changed Python test file without syntax errors. Whitespace validation passed; temporary renderer outputs were cleaned."
   ],
   "coverageLimitations": [
     {

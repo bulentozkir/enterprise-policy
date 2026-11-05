@@ -1,10 +1,25 @@
 {
   "createdUtc": "2026-11-05T07:28:37.107529+00:00",
-  "validationStatus": "passed-structural-checks-not-deployed",
+  "validationStatus": "passed-local-checks-not-deployed",
   "testResults": {
     "structuralValidation": "passed",
     "trueFalsePolicyDropdowns": 48,
-    "trueFalseInitiativeDropdowns": 45
+    "trueFalseInitiativeDropdowns": 45,
+    "pythonUnitTestsPassed": 42,
+    "powerShellDeploymentScenariosPassed": 11,
+    "terraformMockTestsPassed": 2,
+    "pythonSyntaxChecksPassed": 1,
+    "rendererCliScenariosPassed": 10,
+    "rendererCliMemberCounts": {
+      "Global": 22,
+      "Hub": 12,
+      "LandingZone": 40
+    },
+    "rendererDefaultTrueAndExplicitFalse": "passed",
+    "rendererRejectsRemovedR33Inputs": "passed",
+    "terraformValidation": "passed",
+    "terraformFormatting": "passed",
+    "gitDiffWhitespace": "passed"
   },
   "catalogRowsCovered": 91,
   "sets": [
