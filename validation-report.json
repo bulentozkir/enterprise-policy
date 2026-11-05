@@ -1,49 +1,26 @@
 {
-  "createdUtc": "2026-11-04T20:11:27.343893+00:00",
-  "validationStatus": "passed-local-and-azure-checks",
+  "createdUtc": "2026-11-05T07:28:37.107529+00:00",
+  "validationStatus": "passed-structural-checks-not-deployed",
   "testResults": {
     "structuralValidation": "passed",
-    "trueFalsePolicyDropdowns": 49,
-    "trueFalseInitiativeDropdowns": 46,
-    "pythonUnitTestsPassed": 41,
-    "powerShellDeploymentScenariosPassed": 11,
-    "terraformMockTestsPassed": 2,
-    "pythonSyntaxChecksPassed": 2,
-    "rendererCliScenariosPassed": 13,
-    "rendererCliMemberCounts": {
-      "Global": 23,
-      "Hub": 12,
-      "LandingZone": 40
-    },
-    "rendererDefaultTrueAndExplicitFalse": "passed",
-    "rendererRejectsBooleanAndRemovedInputs": "passed",
-    "exactL14LocalAuthenticationLabel": "passed",
-    "terraformValidation": "passed",
-    "terraformFormatting": "passed",
-    "gitDiffWhitespace": "passed",
-    "liveAzureAliasAndResourceTypeCheck": "passed: no unknown aliases or resource types across 75 definitions (17 provider namespaces)",
-    "upstreamRuleComparison": "passed: rules match their public upstream definitions except documented intentional changes",
-    "upstreamLifecycleReport": "refreshed: 59 public sources, 0 retired or deprecated",
-    "armTemplateValidateAction": "passed for all three templates; note that this action does not check policy-rule language",
-    "azureDeploymentApply": "passed: 79 added, 0 changed, 0 destroyed",
-    "azureLiveContentComparison": "passed: 75 definitions and 3 initiatives, 0 differences",
-    "terraformDriftPlan": "passed: no changes"
+    "trueFalsePolicyDropdowns": 48,
+    "trueFalseInitiativeDropdowns": 45
   },
   "catalogRowsCovered": 91,
   "sets": [
     {
       "set": "Global",
       "catalogRows": 33,
-      "customDefinitions": 23,
-      "publishableDefinitions": 23,
+      "customDefinitions": 22,
+      "publishableDefinitions": 22,
       "referenceOnly": 0,
-      "initiativeParameters": 39,
-      "requiredInputs": 4,
+      "initiativeParameters": 36,
+      "requiredInputs": 3,
       "effects": {
         "Audit": 20,
-        "AuditIfNotExists": 3
+        "AuditIfNotExists": 2
       },
-      "coverageGaps": 13
+      "coverageGaps": 14
     },
     {
       "set": "Hub",
@@ -78,8 +55,7 @@
     "Policy/initiative references, ARM template parity, defaults and required inputs",
     "Manifest digests and Terraform catalog row coverage",
     "Audit-family defaults; no remediation or workload deployment details",
-    "No OS/image release applicability selectors or request-API-version gates",
-    "Field aliases and resource types checked against live Azure provider metadata; rules re-compared with public upstream sources"
+    "No OS/image release applicability selectors or request-API-version gates"
   ],
-  "azureServiceValidation": "Azure accepted all 75 definitions and three initiatives at the Tenant Root Group on 2026-11-04, including the bool() dropdown expressions that read-only ARM validation could not check. Live displayName, description, mode, policyRule, parameters and initiative members and bindings match source with zero differences, and Terraform reports no changes. The previous unassigned 84-definition deployment was deleted first at the owner's request. No policy assignments, exemptions or role assignments were created. Assigned-resource compliance was not evaluated."
+  "azureServiceValidation": "The current 74-definition source removes R33 and its three initiative inputs and has not been deployed. The 75-definition revision was deployed and verified at the Tenant Root Group on 2026-11-04; that historical verification does not establish parity with the current source. No Azure resources were changed for this removal."
 }

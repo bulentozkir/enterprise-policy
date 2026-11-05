@@ -21,8 +21,7 @@
         "R27",
         "R28",
         "R29",
-        "R30",
-        "R33"
+        "R30"
       ],
       "excluded_rows": [
         "R17",
@@ -37,7 +36,8 @@
         "R36",
         "R24",
         "R25",
-        "R34"
+        "R34",
+        "R33"
       ],
       "missing_rows": [],
       "coverage_gaps": [
@@ -182,6 +182,17 @@
           "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_MDE_WDATP_DINE.json"
         },
         {
+          "set": "Global",
+          "rowKey": "R33",
+          "control": "Check machines have an association to an approved collection rule",
+          "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+          "reasonCode": "user-requested-removal",
+          "removedDefinitions": [
+            "global-r33-required-dcr-association"
+          ],
+          "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_DCRA_Windows_DINE.json"
+        },
+        {
           "rows": [
             "R14",
             "R15",
@@ -212,8 +223,7 @@
         "global-r28-sql-vm-ahb",
         "global-r29-sql-mi-ahb",
         "global-r30-sql-database-ahb",
-        "global-r30-sql-elastic-pool-ahb",
-        "global-r33-required-dcr-association"
+        "global-r30-sql-elastic-pool-ahb"
       ]
     },
     "Hub": {

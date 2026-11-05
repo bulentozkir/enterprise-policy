@@ -8,11 +8,11 @@ from validate import PARAMETER, validate, walk
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SETS = {"Global": 23, "Hub": 12, "LandingZone": 40}
+SETS = {"Global": 22, "Hub": 12, "LandingZone": 40}
 REMOVED_ROWS = {"Global": set(), "Hub": {"H17"}, "LandingZone": {"L10", "L11"}}
 REQUESTED_REMOVALS = {
     "Global": {
-        "R18", "R20", "R21", "R23", "R24", "R25", "R31", "R32", "R34", "R35", "R36",
+        "R18", "R20", "R21", "R23", "R24", "R25", "R31", "R32", "R33", "R34", "R35", "R36",
     },
     "Hub": {"H11", "H20"},
     "LandingZone": {"L49"},
@@ -130,10 +130,10 @@ class ParameterContractTests(unittest.TestCase):
 class PackageTests(unittest.TestCase):
     def test_all_package_contracts(self):
         result = validate()
-        self.assertEqual(result["sourceDefinitions"], 75)
-        self.assertEqual(result["publishableDefinitions"], 75)
+        self.assertEqual(result["sourceDefinitions"], 74)
+        self.assertEqual(result["publishableDefinitions"], 74)
         self.assertEqual(result["catalogRows"], 91)
-        self.assertEqual(result["explicitCoverageGaps"], 19)
+        self.assertEqual(result["explicitCoverageGaps"], 20)
 
     def test_removed_controls_are_explicit_gaps_and_not_members(self):
         for group, expected in SETS.items():
@@ -236,6 +236,9 @@ class PackageTests(unittest.TestCase):
             ("Global", "r25_actionGroupIds_1ed4de2", ["old-action-group"]),
             ("Global", "r25_actionGroupIds_6730d27", ["old-action-group"]),
             ("Global", "r25_actionGroupIds_c3c3bc1", ["old-action-group"]),
+            ("Global", "r33_effect", "AuditIfNotExists"),
+            ("Global", "r33_enabled", "true"),
+            ("Global", "r33_approvedDcrIds", ["old-dcr"]),
             ("Global", "r34_settingName", "WDATP"),
             ("Hub", "h20_effect", "Audit"),
             ("Hub", "h20_enabled", "true"),
@@ -298,8 +301,24 @@ class PackageTests(unittest.TestCase):
                     if isinstance(value, str):
                         for name in dropdowns.intersection(PARAMETER.findall(value)):
                             self.assertEqual(value, f"[bool(parameters('{name}'))]", (path.name, pointer))
-        self.assertEqual(policy_count, 49)
-        self.assertEqual(initiative_count, 46)
+        self.assertEqual(policy_count, 48)
+        self.assertEqual(initiative_count, 45)
+
+    def test_global_required_inputs_no_longer_include_r33(self):
+        definitions = read_json(ROOT / "Global" / "initiative.json")["properties"]["parameters"]
+        required = read_json(ROOT / "Global" / "required-inputs.json")
+        self.assertEqual({item["parameter"] for item in required}, {
+            "r01_listOfAllowedLocations",
+            "r02_listOfAllowedLocations",
+            "r03_listOfResourceTypesNotAllowed",
+        })
+        supplied = {
+            item["parameter"]: {"value": selected_value(definitions[item["parameter"]])}
+            for item in required
+        }
+        initiative, parameters = materialize("Global", "test-mg", supplied)
+        self.assertEqual(len(initiative["properties"]["policyDefinitions"]), 22)
+        self.assertFalse(any(name.startswith("r33_") for name in parameters))
 
     def test_l14_label_and_rule_check_disabled_local_authentication(self):
         props = read_json(

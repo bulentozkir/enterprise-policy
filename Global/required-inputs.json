@@ -25,14 +25,5 @@
     "description": "The list of resource types that cannot be deployed.",
     "allowedValues": null,
     "strongType": "resourceTypes"
-  },
-  {
-    "parameter": "r33_approvedDcrIds",
-    "policy": "global-r33-required-dcr-association",
-    "row": "R33",
-    "type": "Array",
-    "description": "Select the approved existing destination(s). This policy creates or changes no resources.",
-    "allowedValues": null,
-    "strongType": "Microsoft.Insights/dataCollectionRules"
   }
 ]

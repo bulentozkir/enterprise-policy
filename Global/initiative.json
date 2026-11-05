@@ -449,38 +449,6 @@
           "Disabled"
         ],
         "defaultValue": "Audit"
-      },
-      "r33_effect": {
-        "type": "String",
-        "metadata": {
-          "displayName": "R33 - Check machines have an association to an approved collection rule: Effect",
-          "description": "AuditIfNotExists (default) reports non-compliant resources; Disabled turns the policy off. No deployment or modification effect is available."
-        },
-        "allowedValues": [
-          "AuditIfNotExists",
-          "Disabled"
-        ],
-        "defaultValue": "AuditIfNotExists"
-      },
-      "r33_approvedDcrIds": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "R33 - Approved data collection rules",
-          "strongType": "Microsoft.Insights/dataCollectionRules",
-          "description": "Select the approved existing destination(s). This policy creates or changes no resources."
-        }
-      },
-      "r33_enabled": {
-        "type": "String",
-        "metadata": {
-          "displayName": "R33 - Enable check throughout assignment scope",
-          "description": "True checks every matching resource within the assignment scope; false skips the check. Use assignment exclusions or exemptions for exceptions. Select true or false; defaults to true."
-        },
-        "defaultValue": "true",
-        "allowedValues": [
-          "true",
-          "false"
-        ]
       }
     },
     "policyDefinitions": [
@@ -730,21 +698,6 @@
           },
           "enabled": {
             "value": "[parameters('r30_enabled')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "global-r33-required-dcr-association",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/global-r33-required-dcr-association",
-        "parameters": {
-          "effect": {
-            "value": "[parameters('r33_effect')]"
-          },
-          "approvedDcrIds": {
-            "value": "[parameters('r33_approvedDcrIds')]"
-          },
-          "enabled": {
-            "value": "[parameters('r33_enabled')]"
           }
         }
       }

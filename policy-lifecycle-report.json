@@ -1,6 +1,6 @@
 {
   "checkedUtc": "2026-11-04T19:42:39.660338+00:00",
-  "sourceDocumentsChecked": 59,
+  "sourceDocumentsChecked": 58,
   "affectedCustomDefinitions": 0,
   "retiredSources": [],
   "checks": [
@@ -462,19 +462,6 @@
       ]
     },
     {
-      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_DCRA_Windows_DINE.json",
-      "displayName": "Configure Windows Machines to be associated with a Data Collection Rule or a Data Collection Endpoint",
-      "retiredOrDeprecated": false,
-      "reasons": [],
-      "members": [
-        {
-          "set": "Global",
-          "name": "global-r33-required-dcr-association",
-          "row": "R33"
-        }
-      ]
-    },
-    {
       "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/LogAnalyticsWorkspaces_NetworkAccessEnabled_Deny.json",
       "displayName": "Log Analytics workspaces should block log ingestion and querying from public networks",
       "retiredOrDeprecated": false,
@@ -802,5 +789,6 @@
       ]
     }
   ],
-  "interpretation": "Lifecycle flags and lifecycle-prefixed source titles identify retired/deprecated definitions. Active controls auditing retired resources are retained. External references that are not policy JSON do not constitute inherited policy lifecycle flags."
+  "interpretation": "Lifecycle flags and lifecycle-prefixed source titles identify retired/deprecated definitions. Active controls auditing retired resources are retained. External references that are not policy JSON do not constitute inherited policy lifecycle flags. Membership was filtered after local R33 removal; checkedUtc still records the original upstream inspection, not a new scan.",
+  "membershipUpdatedUtc": "2026-11-05T07:28:34.472241+00:00"
 }

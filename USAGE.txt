@@ -22,11 +22,12 @@ scopes, exclusions and exemptions, not a blanket effect change.
 
 Default effects are Audit or AuditIfNotExists. Policies contain no governed-resource
 deployment, modification, append, role grant or remediation instructions. The ARM
-templates define policy resources only. The source contains 75 Custom definitions
-(Global 23, Hub 12, LandingZone 40) and three initiatives defined for contoso.
-This revision was deployed and verified at the Tenant Root Group on 2026-11-04
-(see terraform\USAGE.txt). Verification of the previous 84- and 97-definition
-revisions does not apply to it.
+templates define policy resources only. The source contains 74 Custom definitions
+(Global 22, Hub 12, LandingZone 40) and three initiatives defined for contoso.
+The preceding 75-definition revision was deployed and verified at the Tenant Root
+Group on 2026-11-04 (see terraform\USAGE.txt). The current R33 removal is local
+only and has not been deployed. Historical deployment verification does not
+establish parity with this changed source.
 Azure assigns Custom policyType when a definition is created. Standalone source
 files show Custom for clarity; request templates omit this read-only property.
 
@@ -93,8 +94,8 @@ arrays are allowed when supplied with three replaceable default strings.
 R04/R05/R06 each default mandatoryTags to ["owner", "costcenter", "environment"].
 Replace these with your approved tag names, add entries, or shorten the list;
 at least one nonempty tag name is required. There is no fixed tag-name dropdown.
-TLS versions and Linux capabilities use fixed choices. Destination workspaces,
-DCRs and peer VNets use pickers.
+TLS versions and Linux capabilities use fixed choices. Approved peer VNets use
+pickers; the R33 DCR picker is removed.
 Target-resource/exception selectors are not exposed; use assignment exclusions or
 exemptions. Resource pickers remain only for necessary configuration references.
 
@@ -115,9 +116,11 @@ passes with or without a DDoS plan; no approved-plan input is required. Disabled
 inherited and unspecified modes are reported. Inherited virtual-network coverage
 requires separate verification; the policy does not infer it from a plan selection.
 
-R18/R20/R21/R23/R24/R25/R31/R32/R34/R35/R36 were removed by request, including
+R18/R20/R21/R23/R24/R25/R31/R32/R33/R34/R35/R36 were removed by request, including
 all four R25 and all three R32 definitions and all associated initiative parameters
 and references. H11, H20 and L49 and all their parameters are also removed.
+R33's definition file and effect/enabled/approved-DCR inputs are removed. Global
+requires only the three R01/R02/R03 selections.
 There is no L49 remote-gateway text input or hub-selection requirement.
 R04/R05/R06
 remain as editable required-tag arrays. H17 custom DNS server addresses, L10
@@ -138,6 +141,8 @@ apply directly over an existing 84- or 97-definition deployment that has
 assignments. The unassigned 84-definition package at the Tenant Root Group was
 deleted at the owner's request before this revision was deployed; Terraform's
 deletion/replacement safeguards are deliberately unchanged.
+Removing R33 from the existing 75-definition deployment requires a separately
+reviewed migration; this source change has not altered that deployment.
 
 ADOPTION
 Review each manifest limitation, source derivative, required parameter and target
@@ -162,8 +167,9 @@ UPSTREAM SOURCES AND LICENSES
 Sources are recorded per definition in manifest.json. Source definitions came from
 Microsoft Azure policy, ALZ, Azure community-policy and AMBA public repositories,
 discovered through the four requested catalogs. Their MIT notices are in LICENSES.txt.
-The upstream lifecycle inspection in policy-lifecycle-report.json was rerun on
-2026-11-04 for the current 75-definition revision (59 public source documents,
-none retired or deprecated).
+The upstream lifecycle inspection in policy-lifecycle-report.json was run on
+2026-11-04 for the previous 75-definition revision. After local R33 removal, the
+report retains the 58 relevant public sources (none retired or deprecated in
+that inspection); upstream checks have not been rerun.
 No retired/deprecated source definitions are included. Active policies governing
 retired resource types are not themselves retired and remain in the catalog.

@@ -24,8 +24,8 @@ run "custom_definitions_only" {
   }
 
   assert {
-    condition     = length(azapi_resource.custom) == 75
-    error_message = "Expected 75 Custom definitions after requested removals and retaining editable required-tag arrays."
+    condition     = length(azapi_resource.custom) == 74
+    error_message = "Expected 74 Custom definitions after requested removals and retaining editable required-tag arrays."
   }
   assert {
     condition     = length(azapi_resource.initiative) == 3
@@ -47,8 +47,8 @@ run "custom_definitions_only" {
     error_message = "Every definition must default to an audit-family effect."
   }
   assert {
-    condition     = length(azapi_resource.initiative["Global"].body.properties.policyDefinitions) == 23
-    error_message = "Global must reference 23 implemented Custom definitions."
+    condition     = length(azapi_resource.initiative["Global"].body.properties.policyDefinitions) == 22
+    error_message = "Global must reference 22 implemented Custom definitions."
   }
   assert {
     condition     = length(azapi_resource.initiative["Hub"].body.properties.policyDefinitions) == 12
@@ -67,7 +67,7 @@ run "custom_definitions_only" {
       length([
         for spec in local.parameter_specs : spec
         if try(jsonencode(spec.allowedValues) == jsonencode(["true", "false"]), false)
-      ]) == 95 &&
+      ]) == 93 &&
       alltrue([
         for spec in local.parameter_specs :
         spec.type != "Boolean" &&
@@ -77,7 +77,7 @@ run "custom_definitions_only" {
         )
       ])
     )
-    error_message = "All 49 policy and 46 initiative true/false inputs must be String dropdowns defaulting to true."
+    error_message = "All 48 policy and 45 initiative true/false inputs must be String dropdowns defaulting to true."
   }
   assert {
     condition = alltrue([
@@ -118,8 +118,9 @@ run "custom_definitions_only" {
   }
   assert {
     condition = alltrue([
-      for row in ["R18", "R20", "R21", "R23", "R24", "R25", "R31", "R32", "R34", "R35", "R36"] :
+      for row in ["R18", "R20", "R21", "R23", "R24", "R25", "R31", "R32", "R33", "R34", "R35", "R36"] :
       !contains(local.catalog.sets.Global.covered_rows, row) &&
+      contains(local.catalog.sets.Global.excluded_rows, row) &&
       alltrue([
         for name in keys(local.policies) : !startswith(name, "global-${lower(row)}-")
       ]) &&

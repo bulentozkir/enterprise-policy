@@ -1,10 +1,10 @@
 {
   "set": "Global",
   "catalogRows": 33,
-  "customDefinitions": 23,
-  "publishableDefinitions": 23,
+  "customDefinitions": 22,
+  "publishableDefinitions": 22,
   "referenceOnlyDefinitions": 0,
-  "initiativeParameters": 39,
+  "initiativeParameters": 36,
   "coverageGaps": [
     {
       "set": "Global",
@@ -145,6 +145,17 @@
         "global-r34-defender-endpoint-integration"
       ],
       "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Security%20Center/MDC_MDE_WDATP_DINE.json"
+    },
+    {
+      "set": "Global",
+      "rowKey": "R33",
+      "control": "Check machines have an association to an approved collection rule",
+      "reason": "Removed from the source package and initiatives at the user's explicit request; no replacement policy is substituted.",
+      "reasonCode": "user-requested-removal",
+      "removedDefinitions": [
+        "global-r33-required-dcr-association"
+      ],
+      "source": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_DCRA_Windows_DINE.json"
     }
   ],
   "policies": [
@@ -1391,37 +1402,6 @@
       "defaultEffect": "Audit",
       "customDefinitionSha256": "589ca635bc21eeb6c76785d4480ab1054947e4e5f83d058c5bc6fa4f54c29d07",
       "requiredParameters": [],
-      "transformations": [
-        {
-          "path": "/parameters",
-          "category": "simple-assignment-inputs",
-          "reason": "Prefer Portal pickers and finite dropdowns; replace target-selection objects with assignment-scope switches. True/false inputs use String dropdowns defaulting to true. Required-tag arrays remain editable with three replaceable defaults."
-        },
-        {
-          "path": "/parameters",
-          "category": "true-false-dropdown",
-          "reason": "Use String dropdowns with choices true/false and default true for every true/false input. Convert each policy-rule consumer with bool() so comparisons and Kubernetes values remain Boolean."
-        }
-      ]
-    },
-    {
-      "set": "Global",
-      "rowKey": "R33",
-      "key": "required-dcr-association",
-      "source_url": "https://raw.githubusercontent.com/Azure/azure-policy/master/built-in-policies/policyDefinitions/Monitoring/AzureMonitor_DCRA_Windows_DINE.json",
-      "limitations": [
-        "DCE-only associations do not satisfy the DCR check. Does not verify rule contents, AMA health or actual collection.",
-        "Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists."
-      ],
-      "scopeNotes": "Global/intermediate root; Enabled by default: enabled=\"true\" evaluates every matching resource within the assignment scope; enabled=\"false\" skips the check. Use assignment exclusions or exemptions for exceptions, not per-policy target-resource lists.",
-      "publishable": true,
-      "name": "global-r33-required-dcr-association",
-      "file": "policies/global-r33-required-dcr-association.json",
-      "defaultEffect": "AuditIfNotExists",
-      "customDefinitionSha256": "2a5a721c7fd7314987a6bcd18c007221f96c91c7e613a0c2c99cf9fe6b884cfe",
-      "requiredParameters": [
-        "approvedDcrIds"
-      ],
       "transformations": [
         {
           "path": "/parameters",
